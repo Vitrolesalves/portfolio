@@ -5,7 +5,7 @@
 <head><script>(function(){try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}try{var of=window.fetch;if(of){window.fetch=function(u){try{var s=(typeof u==="string")?u:((u&&u.url)||"");if(/^https?:\/\//i.test(s))return of.apply(this,arguments);return Promise.resolve(new Response("[]",{status:200,headers:{"Content-Type":"application/json"}}));}catch(e){return of.apply(this,arguments);}};}}catch(e){}var M={"/home/": "home.html", "/torre-controle/": "torre-controle.html", "/torre-controle/auditoria/": "auditoria.html", "/chamados/": "chamados.html", "/dashboard/": "dashboard.html", "/financeiro/": "financeiro.html", "/gestao-qualidade/": "qualidade.html", "/gestao-salas/": "gestao-salas.html", "/calendario-reservas/": "calendario-reservas.html", "/controle-acessos/": "controle-acessos.html", "/implantacoes-fluxo/": "implantacoes.html", "/implantacoes-gpsvista/": "implantacoes-sistemicas.html", "/relatorios/": "relatorios.html", "/planner/": "planner.html", "/gerenciar-regionais/": "gerenciar-regionais.html", "/estatisticas-acesso/": "estatisticas-acesso.html", "/novidades/": "novidades.html", "/calendario-2026/": "calendario-2026.html", "/controle-chips/": "controle-chips.html", "/ajuda/": "ajuda.html", "/psicossocial/": "psicossocial.html", "/psicossocial/sra/": "psicossocial-sra.html", "/desativacao-cr/": "desativacao-cr.html", "/desmobilizacoes-fluxo/": "desmobilizacoes.html", "/livro-ocorrencia-pdf/": "livro-pdf.html", "/explorer/": "explorer.html", "/links-importantes/": "links-importantes.html", "/depara-aprova/": "depara-aprova.html", "/controle-ordens/": "controle-ordens.html", "/portaria-base/": "portaria-base.html", "/cracha/": "cracha.html", "/qr-generator/": "qr-generator.html", "/etiquetas/": "etiquetas.html", "/livro-ata/": "livro-ata.html"};var dir=location.pathname.replace(/[^\/]*$/,"");function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}try{var d=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(d&&d.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return d.get.call(this);},set:function(v){d.set.call(this,res(v));}});}}catch(e){}try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário de Reservas - FLOW</title>
+    <title>DparAprova</title>
     <meta name="application-name" content="FLOW">
     <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
     <meta name="theme-color" content="#1e3a5f">
@@ -752,46 +752,157 @@
 
     
 <style>
-    /* =========================================
-       CLASSES PADRÃO DO SISTEMA (DARK GRADIENT)
-       ========================================= */
-    .calendario-icon {
+    /* DparAprova: chat de IA para cruzar certificados com manuais de
+       cliente e NRs. */
+
+    .dpa-page { padding: 1.25rem 1.5rem 3rem; max-width: 980px; margin: 0 auto; }
+
+    .dpa-banner {
+        display: flex; align-items: flex-start; gap: .6rem;
+        background: var(--amber-faint); border: 1px solid #fde68a;
+        color: #92400e; border-radius: var(--r-md);
+        padding: .65rem .9rem; font-size: .82rem; font-weight: 500;
+        margin-bottom: 1.1rem; line-height: 1.45;
+    }
+
+    .dpa-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+    .dpa-icon {
         width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
         display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
     }
-    .calendario-title {
-        background: linear-gradient(to right, #1A2A45, #2A4570) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        color: transparent !important; /* Fallback essencial */
-        display: inline-block;
-        text-transform: uppercase;
-        font-size: 26px;
-        font-weight: bold;
-        margin: 0;
-        line-height: 1.2;
+    .dpa-title {
+        background: linear-gradient(to right, #1A2A45, #2A4570);
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        font-size: 26px; font-weight: bold; margin: 0; text-transform: uppercase;
     }
-    
-    .bg-gradient-padrao {
-        background: linear-gradient(135deg, #1e293b, #334155) !important;
-        color: white !important;
-        border: none !important;
-        transition: all 0.2s ease-in-out;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    .dpa-sub { color: var(--gray-500); font-size: .88rem; margin-top: .25rem; max-width: 680px; }
+
+    .dpa-manual-row {
+        display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem;
+        background: #fff; border: 1px solid var(--gray-200); border-radius: var(--r-lg);
+        box-shadow: var(--shadow-sm); padding: .7rem .9rem;
     }
-    
-    .bg-gradient-padrao:hover {
-        background: linear-gradient(135deg, #0f172a, #1e293b) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    .dpa-manual-row label { font-size: .78rem; font-weight: 700; color: var(--gray-600); white-space: nowrap; }
+    .dpa-manual-row select {
+        flex: 1; border: 1px solid var(--gray-200); border-radius: 8px;
+        padding: .45rem .7rem; font-size: .82rem; font-family: var(--f); background: #fff;
+    }
+    .dpa-manual-row select:focus { outline: none; border-color: var(--navy); }
+
+    .dpa-chat-container {
+        display: flex; flex-direction: column; height: 560px;
+        background: #F8FAFC; border: 1px solid var(--gray-200);
+        border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden;
     }
 
-    .focus-padrao:focus {
-        border-color: #1e293b !important;
-        box-shadow: 0 0 0 2px rgba(30, 41, 59, 0.2) !important;
-        outline: none !important;
+    .dpa-chat-messages { flex: 1; padding: 1.25rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+
+    .dpa-chat-message {
+        max-width: 82%; padding: .75rem 1rem; border-radius: .5rem;
+        font-size: .85rem; line-height: 1.5; white-space: pre-wrap;
     }
+    .dpa-chat-message.assistant { background: #fff; border: 1px solid var(--gray-200); color: var(--gray-900); align-self: flex-start; border-top-left-radius: 0; }
+    .dpa-chat-message.user { background: var(--navy); color: #fff; align-self: flex-end; border-top-right-radius: 0; }
+
+    .dpa-thinking { background: #F1F5F9 !important; border: 1px dashed #CBD5E1 !important; color: #475569 !important; display: flex; align-items: center; gap: .25rem; font-style: italic; }
+    .dpa-loading-dots { animation: dpa-blink 1.4s infinite both; font-weight: bold; }
+    @keyframes dpa-blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
+
+    .dpa-chat-presets { display: flex; gap: .5rem; padding: .5rem 1rem; background: #F1F5F9; flex-wrap: wrap; border-top: 1px solid var(--gray-200); }
+    .dpa-preset-btn {
+        background: #fff; border: 1px solid #CBD5E1; padding: .35rem .65rem; font-size: .75rem;
+        border-radius: .25rem; cursor: pointer; color: #475569; font-weight: 500; transition: all .2s; font-family: var(--f);
+    }
+    .dpa-preset-btn:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+    .dpa-chat-input-area { background: #fff; border-top: 1px solid var(--gray-200); padding: .75rem 1rem; display: flex; gap: .75rem; }
+    .dpa-chat-input { flex: 1; border: 1px solid #CBD5E1; border-radius: .375rem; padding: .5rem .85rem; font-size: .85rem; font-family: var(--f); }
+    .dpa-chat-input:focus { outline: none; border-color: var(--navy); }
+    .dpa-send-btn {
+        border: 0; background: var(--navy); color: #fff; border-radius: .375rem;
+        padding: 0 1rem; font-size: .85rem; cursor: pointer;
+    }
+    .dpa-send-btn:hover { background: var(--navy-dark, #111e33); }
+
+    /* Analise de certificado (upload + resultado) */
+    .dpa-card {
+        background: #fff; border: 1px solid var(--gray-200); border-radius: var(--r-lg);
+        box-shadow: var(--shadow-sm); padding: 1rem 1.1rem; margin-bottom: 1.1rem;
+    }
+    .dpa-card h2 { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin: 0 0 .8rem; }
+
+    .dpa-dropzone {
+        border: 2px dashed var(--gray-200); border-radius: var(--r-md); padding: 1.1rem .9rem;
+        text-align: center; cursor: pointer; transition: all .15s; background: #F8FAFC;
+        margin-bottom: .9rem;
+    }
+    .dpa-dropzone:hover, .dpa-dropzone.dragover { border-color: var(--navy); background: var(--navy-faint); }
+    .dpa-dropzone .dpa-dz-label { font-size: .8rem; font-weight: 700; color: var(--gray-600); }
+    .dpa-dropzone .dpa-dz-hint { font-size: .74rem; color: var(--gray-400); margin-top: .3rem; }
+    .dpa-dropzone i { font-size: 1.3rem; color: var(--gray-400); }
+
+    .dpa-anexos-lista { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .9rem; }
+    .dpa-anexo-item {
+        display: flex; align-items: center; gap: .5rem; background: #F8FAFC;
+        border: 1px solid var(--gray-200); border-radius: 8px; padding: .45rem .7rem; font-size: .8rem;
+    }
+    .dpa-anexo-item i.fa-file-lines { color: var(--navy); }
+    .dpa-anexo-nome { flex: 1; color: var(--gray-700); word-break: break-all; }
+    .dpa-anexo-remover {
+        border: 0; background: none; color: var(--gray-400); cursor: pointer; font-size: .85rem;
+        padding: .1rem .35rem; line-height: 1;
+    }
+    .dpa-anexo-remover:hover { color: #991b1b; }
+
+    .dpa-analyze-btn {
+        border: 0; background: var(--navy); color: #fff; border-radius: 8px;
+        padding: .65rem 1.2rem; font-size: .85rem; font-weight: 700; cursor: pointer;
+        display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .dpa-analyze-btn:hover { background: var(--navy-dark, #111e33); }
+    .dpa-analyze-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    .dpa-results { display: none; }
+    .dpa-status-row { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
+    .dpa-status-badge {
+        display: inline-block; padding: .3rem .7rem; border-radius: 999px;
+        font-size: .76rem; font-weight: 800; text-transform: uppercase; letter-spacing: .03em;
+    }
+    .dpa-status-badge.conforme { background: #dcfce7; color: #166534; }
+    .dpa-status-badge.nao_conforme { background: #fee2e2; color: #991b1b; }
+    .dpa-status-badge.pendente { background: #fef3c7; color: #92400e; }
+    .dpa-status-badge.analise_parcial { background: var(--gray-100); color: var(--gray-600); }
+
+    .dpa-resumo { font-size: .84rem; color: var(--gray-700); line-height: 1.55; margin-bottom: 1rem; }
+    .dpa-secao-ref { font-size: .76rem; color: var(--gray-400); margin-bottom: 1rem; }
+
+    .dpa-table-wrap { overflow-x: auto; margin-bottom: 1.1rem; }
+    .dpa-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+    .dpa-table th, .dpa-table td { border: 1px solid var(--gray-200); padding: .5rem .6rem; text-align: left; vertical-align: top; }
+    .dpa-table th { background: #F8FAFC; font-weight: 700; color: var(--gray-600); white-space: nowrap; }
+
+    .dpa-cell-conforme { color: #166534; font-weight: 600; }
+    .dpa-cell-nao-conforme { color: #991b1b; font-weight: 600; }
+    .dpa-cell-nao-consta { color: var(--gray-400); font-style: italic; }
+    .dpa-cell-nao-verificavel { color: #92400e; font-style: italic; }
+
+    .dpa-crit-badge { padding: .2rem .55rem; border-radius: 999px; font-size: .72rem; font-weight: 700; white-space: nowrap; }
+    .dpa-crit-alta { background: #fee2e2; color: #991b1b; }
+    .dpa-crit-media-alta { background: #ffedd5; color: #9a3412; }
+    .dpa-crit-media { background: #fef3c7; color: #92400e; }
+    .dpa-crit-recomendacao { background: var(--navy-faint); color: var(--navy); }
+
+    .dpa-alerta-tecnico {
+        display: flex; gap: .55rem; background: var(--amber-faint); border: 1px solid #fde68a;
+        color: #92400e; border-radius: var(--r-md); padding: .6rem .8rem; font-size: .8rem; line-height: 1.5;
+    }
+
+    .dpa-action-row { display: flex; align-items: center; gap: .6rem; margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--gray-200); }
+    .dpa-btn-reprovar { border: 0; background: #991b1b; color: #fff; border-radius: 8px; padding: .65rem 1.2rem; font-size: .85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: .5rem; }
+    .dpa-btn-reprovar:hover { background: #7f1d1d; }
+    .dpa-decisao-badge { font-size: .78rem; font-weight: 700; padding: .35rem .7rem; border-radius: 999px; }
+    .dpa-decisao-badge.aprovado { background: #dcfce7; color: #166534; }
+    .dpa-decisao-badge.reprovado { background: #fee2e2; color: #991b1b; }
 </style>
 
 </head>
@@ -801,12 +912,12 @@
     mobileOpen: false,
     geradores: false,
     acompanhamento: false,
-    gestaoReservas: true,
+    gestaoReservas: false,
     auditoria: false,
     projetos: false,
     psico: false,
     gestaoAVista: false,
-    deparaAprova: false
+    deparaAprova: true
 }">
 
     <div class="shell">
@@ -937,7 +1048,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) gestaoReservas = !gestaoReservas"
-                        class="nav-link active"
+                        class="nav-link "
                         :class="{ 'expanded': gestaoReservas && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -974,7 +1085,7 @@
                         
                         
                         <a href="calendario-reservas.html"
-                            class="nav-sub-link active">
+                            class="nav-sub-link ">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -1104,7 +1215,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) deparaAprova = !deparaAprova"
-                        class="nav-link "
+                        class="nav-link active"
                         :class="{ 'expanded': deparaAprova && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1120,7 +1231,7 @@
                         x-transition:enter-start="opacity-0 -translate-y-1"
                         x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
                         <a href="depara-aprova.html"
-                            class="nav-sub-link ">
+                            class="nav-sub-link active">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -1415,7 +1526,7 @@
                     </svg>
                 </button>
 
-                <span class="topbar-title">FLOW</span>
+                <span class="topbar-title">DparAprova — Validação de Certificados</span>
 
                 <div class="topbar-right">
                     
@@ -1448,7 +1559,7 @@
                     
 
                     <form method="post" action="/logout/">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="N0NF9WOJ0q2Kf3nCilm2TtXxATnL4DgwdMYQWGqwfyKBYHqYod2s6rPV8eJRkM5W">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1466,195 +1577,102 @@
                 
 
                 
-<div class="space-y-6">
-    <div class="border-b pb-4">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="calendario-icon"><i class="fas fa-calendar-check"></i></div>
-                <div>
-                    <h1 class="calendario-title mb-0">Calendário de Reservas</h1>
-                    <p class="text-muted-foreground mb-0">Visualize e gerencie as reservas de salas</p>
-                </div>
-            </div>
-            <button onclick="abrirHistorico()" class="px-4 py-2 bg-gradient-padrao rounded-lg flex items-center gap-2">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                Histórico
+<div class="dpa-page">
+
+    <div class="dpa-banner">
+        <i class="fas fa-triangle-exclamation" style="margin-top:.15rem;"></i>
+        <span>
+            4 manuais oficiais já estão carregados (Heineken, KraftHeinz, Softys e Yara) — selecione
+            o cliente abaixo pra usar o conteúdo real deles. Se não for nenhum desses, use o modo
+            "NR Geral" pra avaliar direto pelo texto oficial da Norma Regulamentadora (gov.br). Fora
+            disso, a IA não inventa regra de NR: ela só avalia com base nos critérios que você mesmo
+            descrever.
+        </span>
+    </div>
+
+    <div class="dpa-header">
+        <div class="dpa-icon"><i class="fas fa-shield-alt"></i></div>
+        <div>
+            <h1 class="dpa-title">Validação de Certificado</h1>
+            <p class="dpa-sub">
+                Envie a frente e o verso do certificado pra IA comparar com o manual oficial do cliente
+                e montar o parecer de conformidade em tabela — ou use o chat pra tirar dúvidas pontuais.
+            </p>
+        </div>
+    </div>
+
+    <div class="dpa-manual-row">
+        <label for="dpa-cliente"><i class="fas fa-book"></i> Cliente / Manual de referência</label>
+        <select id="dpa-cliente">
+            <option value="">Nenhum (sem manual cadastrado, só o que você descrever no chat)</option>
+            
+            <option value="heineken">Heineken Brasil</option>
+            
+            <option value="kraftheinz">KraftHeinz</option>
+            
+            <option value="softys">Softys (Gesterner)</option>
+            
+            <option value="yara">Yara</option>
+            
+            <option value="nr_geral">NR Geral (sem manual de cliente)</option>
+            
+        </select>
+    </div>
+
+    <div class="dpa-card">
+        <h2><i class="fas fa-file-circle-check"></i> Analisar Certificado</h2>
+        <div class="dpa-dropzone" id="dpa-dz-anexos">
+            <input type="file" id="dpa-file-anexos" accept=".jpg,.jpeg,.png,.webp,.pdf" multiple hidden>
+            <i class="fas fa-file-arrow-up"></i>
+            <div class="dpa-dz-label">Anexar documentos do certificado</div>
+            <div class="dpa-dz-hint">Clique ou arraste (JPG, PNG ou PDF, até 15MB cada) — pode anexar quantos precisar</div>
+        </div>
+        <div class="dpa-anexos-lista" id="dpa-anexos-lista"></div>
+        <button class="dpa-analyze-btn" id="dpa-analyze-btn" onclick="dpaAnalisarCertificado()">
+            <i class="fas fa-magnifying-glass"></i> Iniciar Análise
+        </button>
+    </div>
+
+    <div class="dpa-card dpa-results" id="dpa-results">
+        <h2><i class="fas fa-clipboard-list"></i> Resultado da Análise</h2>
+        <div class="dpa-status-row">
+            <span class="dpa-status-badge" id="dpa-status-badge"></span>
+            <span class="dpa-secao-ref" id="dpa-secao-ref"></span>
+        </div>
+        <p class="dpa-resumo" id="dpa-resumo"></p>
+        <div id="dpa-tabela-programatica-wrap"></div>
+        <div id="dpa-tabela-dados-gerais-wrap"></div>
+        <div id="dpa-tabela-pendencias-wrap"></div>
+        <div id="dpa-alerta-tecnico-wrap"></div>
+
+        <div class="dpa-action-row" id="dpa-decisao-row">
+            <button class="dpa-analyze-btn" id="dpa-aprovar-btn" onclick="dpaAprovarCertificado()">
+                <i class="fas fa-check"></i> Aprovar
             </button>
+            <button class="dpa-btn-reprovar" id="dpa-reprovar-btn" onclick="dpaReprovarCertificado()">
+                <i class="fas fa-xmark"></i> Reprovar
+            </button>
+            <span class="dpa-decisao-badge" id="dpa-decisao-badge" style="display:none;"></span>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg border shadow-sm p-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label for="unidade" class="block text-sm font-medium mb-1">Unidade</label>
-                <select id="unidade" 
-                        class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-                    <option value="">Todas as unidades</option>
-                    
-                </select>
-            </div>
-            <div>
-                <label for="sala" class="block text-sm font-medium mb-1">Sala</label>
-                <select id="sala" 
-                        class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-                    <option value="">Todas as salas</option>
-                </select>
-            </div>
-            <div>
-                <label for="mes" class="block text-sm font-medium mb-1">Mês</label>
-                <input type="month" 
-                       id="mes" 
-                       class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-            </div>
+    <div class="dpa-chat-container">
+        <div class="dpa-chat-messages" id="dpaChatMessages">
+            <div class="dpa-chat-message assistant">Olá! Sou o assistente do DparAprova. Escolha um cliente na lista acima (já tenho o manual oficial dele carregado) e me pergunte sobre um tipo de certificado — eu busco a seção certa do manual e monto o parecer de conformidade (OK ou NÃO OK) com base nela. Se o cliente não estiver na lista, me diga as regras e cole o conteúdo do certificado que eu sigo por aí.</div>
+        </div>
+        <div class="dpa-chat-presets">
+            <button class="dpa-preset-btn" onclick="dpaSendPreset('Como funciona a validação de certificados aqui?')">Como funciona?</button>
+            <button class="dpa-preset-btn" onclick="dpaSendPreset('Me ajuda a montar os criterios de um certificado de treinamento de NR-12')">Montar critérios de NR-12</button>
+            <button class="dpa-preset-btn" onclick="dpaSendPreset('Quero simular uma analise de certificado agora')">Simular análise</button>
+            <button class="dpa-preset-btn ms-auto text-danger" onclick="dpaClearChat()">Limpar Chat</button>
+        </div>
+        <div class="dpa-chat-input-area">
+            <input type="text" class="dpa-chat-input" id="dpaChatInput" placeholder="Descreva as regras ou cole o certificado aqui..." onkeypress="dpaHandleKey(event)">
+            <button class="dpa-send-btn" onclick="dpaSubmitPrompt()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg border shadow-sm">
-        <div class="border-b p-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <button id="prev-month" class="p-2 hover:bg-gray-100 rounded-full">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>
-                    </button>
-                    <h2 id="calendar-title" class="text-xl font-semibold text-slate-800"></h2>
-                    <button id="next-month" class="p-2 hover:bg-gray-100 rounded-full">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
-                </div>
-                <button onclick="novaReserva()" class="px-4 py-2 bg-gradient-padrao rounded-lg flex items-center gap-2">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Nova Reserva
-                </button>
-            </div>
-        </div>
-
-        <div class="p-4">
-            <div class="grid grid-cols-7 gap-px mb-px">
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Dom</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Seg</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Ter</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Qua</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Qui</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Sex</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Sáb</div>
-            </div>
-
-            <div id="calendar-grid" class="grid grid-cols-7 gap-px bg-gray-200">
-                </div>
-        </div>
-    </div>
 </div>
-
-<div id="reserva-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-slate-800">Detalhes da Reserva</h3>
-                    <button onclick="fecharModal()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <div id="reserva-detalhes" class="space-y-4 text-slate-700">
-                    </div>
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button onclick="editarReserva()" class="px-4 py-2 bg-gradient-padrao rounded">
-                        Editar
-                    </button>
-                    <button onclick="cancelarReserva()" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700">
-                        Cancelar
-                    </button>
-                    <button onclick="fecharModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                        Fechar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="historico-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
-            <div class="p-6 border-b">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-slate-800">Histórico de Reservas</h3>
-                    <button onclick="fecharHistorico()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="p-6 overflow-y-auto max-h-[70vh]">
-                <div id="historico-lista" class="space-y-4">
-                    </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="edicao-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-slate-800">Editar Reserva</h3>
-                    <button onclick="fecharEdicao()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <form id="form-edicao" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Nome do Solicitante</label>
-                        <input type="text" id="edit-nome" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Email</label>
-                        <input type="email" id="edit-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Telefone</label>
-                        <input type="text" id="edit-telefone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Data</label>
-                        <input type="date" id="edit-data" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Horário</label>
-                        <input type="text" id="edit-horario" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" placeholder="Ex: 14:00 - 16:00" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Observações</label>
-                        <textarea id="edit-observacoes" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" rows="3"></textarea>
-                    </div>
-                </form>
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button onclick="salvarEdicao()" class="px-4 py-2 bg-gradient-padrao rounded">
-                        Salvar
-                    </button>
-                    <button onclick="fecharEdicao()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
             </main>
 
@@ -1721,464 +1739,404 @@
 
     
 <script>
-let currentDate = new Date();
-let selectedReservaId = null;
+    const dpaState = { chatHistory: [], anexos: [], currentCertificadoId: null };
+    const dpaCsrfToken = 'N0NF9WOJ0q2Kf3nCilm2TtXxATnL4DgwdMYQWGqwfyKBYHqYod2s6rPV8eJRkM5W';
 
-// FUNÇÃO PARA CORRIGIR O FUSO HORÁRIO (Transforma YYYY-MM-DD em data local exata)
-function parseDataLocal(dataString) {
-    if (!dataString) return new Date();
-    const [ano, mes, dia] = dataString.split('T')[0].split('-');
-    return new Date(ano, mes - 1, dia);
-}
+    // O id vai NO MEIO do path destas rotas (.../certificados/<id>/aprovar/),
+    // entao a URL final precisa trocar o placeholder no lugar, nao concatenar
+    // o id no final (isso concatenado no final gera path errado tipo
+    // ".../certificados//aprovar/<id>/").
+    const DPA_UUID_PLACEHOLDER = '00000000-0000-0000-0000-000000000000';
+    const DPA_URL_APROVAR_TPL = "/api/depara-aprova/certificados/00000000-0000-0000-0000-000000000000/aprovar/";
+    const DPA_URL_REPROVAR_TPL = "/api/depara-aprova/certificados/00000000-0000-0000-0000-000000000000/reprovar/";
 
-function formatDate(date) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
-function formatDateBR(date) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [day, month, year].join('/');
-}
-
-async function carregarSalas() {
-    const unidadeSelect = document.getElementById('unidade');
-    const salaSelect = document.getElementById('sala');
-    const unidadeId = unidadeSelect.value;
-    
-    const salaSelecionadaAnteriormente = salaSelect.value;
-    
-    salaSelect.innerHTML = '<option value="">Todas as salas</option>';
-    salaSelect.disabled = true; 
-    
-    try {
-        const url = unidadeId ? `/api/salas/?unidade=${unidadeId}` : `/api/salas/`;
-        const response = await fetch(url);
-        
-        if (response.ok) {
-            const data = await response.json();
-            if (data.salas && data.salas.length > 0) {
-                data.salas.forEach(sala => {
-                    const option = document.createElement('option');
-                    option.value = sala.id;
-                    option.textContent = sala.nome;
-                    salaSelect.appendChild(option);
-                });
-            }
-        }
-    } catch (error) {
-        console.error('Erro ao carregar salas:', error);
-    } finally {
-        salaSelect.disabled = false;
-        
-        if (salaSelecionadaAnteriormente) {
-            const existeNaLista = Array.from(salaSelect.options).some(opt => opt.value === salaSelecionadaAnteriormente);
-            if (existeNaLista) {
-                salaSelect.value = salaSelecionadaAnteriormente;
-            }
-        }
-        
-        atualizarCalendario(); 
+    function dpaUrlComId(template, id) {
+        return template.replace(DPA_UUID_PLACEHOLDER, id);
     }
-}
 
-async function carregarReservas(inicio, fim) {
-    const unidadeId = document.getElementById('unidade').value;
-    const salaId = document.getElementById('sala').value;
-    
-    try {
-        const params = new URLSearchParams({
-            data_inicio: formatDate(inicio),
-            data_fim: formatDate(fim)
+    /* --- Upload de anexos (clique ou drag&drop, quantos arquivos quiser) --- */
+    function dpaRenderAnexosLista() {
+        const lista = document.getElementById('dpa-anexos-lista');
+        lista.innerHTML = '';
+        dpaState.anexos.forEach((file, idx) => {
+            const item = document.createElement('div');
+            item.className = 'dpa-anexo-item';
+            item.innerHTML = `<i class="fas fa-file-lines"></i><span class="dpa-anexo-nome"></span>` +
+                `<button type="button" class="dpa-anexo-remover" title="Remover"><i class="fas fa-xmark"></i></button>`;
+            item.querySelector('.dpa-anexo-nome').textContent = file.name;
+            item.querySelector('.dpa-anexo-remover').addEventListener('click', () => {
+                dpaState.anexos.splice(idx, 1);
+                dpaRenderAnexosLista();
+            });
+            lista.appendChild(item);
         });
-        if (unidadeId) params.append('unidade', unidadeId);
-        if (salaId) params.append('sala', salaId);
-        
-        const response = await fetch(`/api/reservas/?${params}`);
-        if (response.ok) {
-            const data = await response.json();
-            return data.reservas;
-        }
-        return [];
-    } catch (error) {
-        console.error('Erro ao carregar reservas:', error);
-        return [];
     }
-}
 
-async function atualizarCalendario() {
-    const grid = document.getElementById('calendar-grid');
-    const title = document.getElementById('calendar-title');
-    
-    grid.innerHTML = '';
-    
-    const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                       'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-    title.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-    
-    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-    
-    const reservas = await carregarReservas(firstDay, lastDay);
-    
-    for (let i = 0; i < firstDay.getDay(); i++) {
-        const cell = document.createElement('div');
-        cell.className = 'bg-white p-2 h-32';
-        grid.appendChild(cell);
+    function dpaAdicionarAnexos(fileList) {
+        Array.from(fileList).forEach(file => dpaState.anexos.push(file));
+        dpaRenderAnexosLista();
     }
-    
-    const salaSelect = document.getElementById('sala');
-    const salaId = salaSelect.value;
-    const salaNome = salaId ? salaSelect.options[salaSelect.selectedIndex].text : "";
-    
-    for (let day = 1; day <= lastDay.getDate(); day++) {
-        const cell = document.createElement('div');
-        cell.className = 'bg-white p-2 h-32 relative';
-        
-        const dayNumber = document.createElement('span');
-        dayNumber.className = 'absolute top-2 left-2 text-sm font-medium text-slate-700';
-        dayNumber.textContent = day;
-        cell.appendChild(dayNumber);
-        
-        const reservasContainer = document.createElement('div');
-        reservasContainer.className = 'mt-6 space-y-1 overflow-y-auto max-h-24';
-        
-        const reservasDoDia = reservas.filter(r => {
-            const dataReserva = parseDataLocal(r.data);
-            const isMesmoDia = dataReserva.getDate() === day && dataReserva.getMonth() === currentDate.getMonth();
-            const isMesmaSala = salaId ? (String(r.sala) === salaNome || String(r.sala_id) === String(salaId)) : true;
-            
-            return isMesmoDia && isMesmaSala;
+
+    function dpaSetupDropzone(zoneId, inputId) {
+        const zone = document.getElementById(zoneId);
+        const input = document.getElementById(inputId);
+
+        zone.addEventListener('click', () => input.click());
+        input.addEventListener('change', () => {
+            dpaAdicionarAnexos(input.files);
+            input.value = '';
         });
-        
-        reservasDoDia.forEach(reserva => {
-            const reservaEl = document.createElement('div');
-            const corUnidade = getCorUnidade(reserva.unidade_id);
-            
-            if (reserva.status === 'cancelada') {
-                reservaEl.className = `px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded cursor-pointer hover:${corUnidade.hover} line-through opacity-60 border border-transparent hover:border-slate-300`;
-                reservaEl.title = 'Reserva Cancelada';
+
+        ['dragenter', 'dragover'].forEach(evt => zone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            zone.classList.add('dragover');
+        }));
+        ['dragleave', 'drop'].forEach(evt => zone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            zone.classList.remove('dragover');
+        }));
+        zone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files.length) dpaAdicionarAnexos(e.dataTransfer.files);
+        });
+    }
+
+    dpaSetupDropzone('dpa-dz-anexos', 'dpa-file-anexos');
+
+    const DPA_CRITICIDADE_CLASSES = {
+        'Alta': 'dpa-crit-alta',
+        'Media/Alta': 'dpa-crit-media-alta',
+        'Média/Alta': 'dpa-crit-media-alta',
+        'Media': 'dpa-crit-media',
+        'Média': 'dpa-crit-media',
+        'Recomendacao': 'dpa-crit-recomendacao',
+        'Recomendação': 'dpa-crit-recomendacao',
+    };
+
+    function dpaStatusCellClass(valor) {
+        const v = (valor || '').toLowerCase();
+        if (v.includes('nao conforme') || v.includes('não conforme')) return 'dpa-cell-nao-conforme';
+        if (v.includes('nao verificavel') || v.includes('não verificável')) return 'dpa-cell-nao-verificavel';
+        if (v.includes('nao consta') || v.includes('não consta')) return 'dpa-cell-nao-consta';
+        if (v.includes('conforme')) return 'dpa-cell-conforme';
+        return '';
+    }
+
+    function dpaRenderTabelaProgramatica(conteudo) {
+        const wrap = document.getElementById('dpa-tabela-programatica-wrap');
+        wrap.innerHTML = '';
+        if (!conteudo || !conteudo.linhas || !conteudo.linhas.length) return;
+
+        const colunas = conteudo.colunas || [];
+        let html = '<div class="dpa-table-wrap"><table class="dpa-table"><thead><tr><th>Tópico do conteúdo programático</th>';
+        colunas.forEach(col => { html += `<th>${dpaEscapeHtml(col)}</th>`; });
+        html += '</tr></thead><tbody>';
+        conteudo.linhas.forEach(linha => {
+            html += `<tr><td>${dpaEscapeHtml(linha.requisito || '')}</td>`;
+            colunas.forEach(col => {
+                const valor = (linha.status || {})[col] || '—';
+                html += `<td class="${dpaStatusCellClass(valor)}">${dpaEscapeHtml(valor)}</td>`;
+            });
+            html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        wrap.innerHTML = html;
+    }
+
+    function dpaRenderTabelaDadosGerais(dados) {
+        const wrap = document.getElementById('dpa-tabela-dados-gerais-wrap');
+        wrap.innerHTML = '';
+        if (!dados || !dados.length) return;
+
+        let html = '<div class="dpa-table-wrap"><table class="dpa-table"><thead><tr><th>Dado obrigatório</th><th>Situação no documento</th></tr></thead><tbody>';
+        dados.forEach(item => {
+            html += `<tr><td>${dpaEscapeHtml(item.campo || '')}</td><td class="${dpaStatusCellClass(item.situacao)}">${dpaEscapeHtml(item.situacao || '')}</td></tr>`;
+        });
+        html += '</tbody></table></div>';
+        wrap.innerHTML = html;
+    }
+
+    function dpaRenderTabelaPendencias(pendencias) {
+        const wrap = document.getElementById('dpa-tabela-pendencias-wrap');
+        wrap.innerHTML = '';
+        if (!pendencias || !pendencias.length) return;
+
+        let html = '<div class="dpa-table-wrap"><table class="dpa-table"><thead><tr><th>Item / Pendência</th><th>Ajuste recomendado</th><th>Criticidade</th></tr></thead><tbody>';
+        pendencias.forEach(p => {
+            const critClass = DPA_CRITICIDADE_CLASSES[p.criticidade] || 'dpa-crit-media';
+            html += `<tr><td>${dpaEscapeHtml(p.item || '')}</td><td>${dpaEscapeHtml(p.ajuste_recomendado || '')}</td>` +
+                `<td><span class="dpa-crit-badge ${critClass}">${dpaEscapeHtml(p.criticidade || '')}</span></td></tr>`;
+        });
+        html += '</tbody></table></div>';
+        wrap.innerHTML = html;
+    }
+
+    function dpaEscapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = String(text == null ? '' : text);
+        return div.innerHTML;
+    }
+
+    function dpaAnalisarCertificado() {
+        const clienteSlug = document.getElementById('dpa-cliente').value;
+        if (!clienteSlug) {
+            alert('Selecione um cliente/manual antes de analisar.');
+            return;
+        }
+        if (!dpaState.anexos.length) {
+            alert('Anexe ao menos um documento do certificado.');
+            return;
+        }
+
+        const btn = document.getElementById('dpa-analyze-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analisando...';
+
+        const formData = new FormData();
+        formData.append('cliente_slug', clienteSlug);
+        dpaState.anexos.forEach(file => formData.append('anexos', file));
+
+        fetch("/api/depara-aprova/analisar/", {
+            method: 'POST',
+            headers: { 'X-CSRFToken': dpaCsrfToken },
+            body: formData
+        })
+        .then(res => res.json().then(data => ({ ok: res.ok, data })))
+        .then(({ ok, data }) => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-magnifying-glass"></i> Iniciar Análise';
+
+            if (!ok || data.error) {
+                alert(data.error || 'Erro ao analisar o certificado.');
+                return;
+            }
+
+            const parecer = data.parecer;
+            dpaState.currentCertificadoId = data.certificado_id || null;
+            document.getElementById('dpa-aprovar-btn').style.display = '';
+            document.getElementById('dpa-reprovar-btn').style.display = '';
+            document.getElementById('dpa-aprovar-btn').disabled = false;
+            document.getElementById('dpa-reprovar-btn').disabled = false;
+            document.getElementById('dpa-decisao-badge').style.display = 'none';
+
+            const statusKey = (parecer.status_geral || '').toLowerCase();
+            const badge = document.getElementById('dpa-status-badge');
+            badge.textContent = (parecer.status_geral || '').replace(/_/g, ' ');
+            badge.className = `dpa-status-badge ${statusKey}`;
+
+            const secaoEl = document.getElementById('dpa-secao-ref');
+            const secao = parecer.secao_manual_referenciada;
+            secaoEl.textContent = secao && secao.numero
+                ? `Seção do manual usada: ${secao.numero} — ${secao.titulo}`
+                : '';
+
+            document.getElementById('dpa-resumo').textContent = parecer.resumo || '';
+
+            dpaRenderTabelaProgramatica(parecer.conteudo_programatico);
+            dpaRenderTabelaDadosGerais(parecer.dados_gerais);
+            dpaRenderTabelaPendencias(parecer.pendencias);
+
+            const alertaWrap = document.getElementById('dpa-alerta-tecnico-wrap');
+            if (parecer.alerta_tecnico) {
+                alertaWrap.innerHTML = `<div class="dpa-alerta-tecnico"><i class="fas fa-circle-info" style="margin-top:.15rem;"></i><span>${dpaEscapeHtml(parecer.alerta_tecnico)}</span></div>`;
             } else {
-                reservaEl.className = `px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded cursor-pointer hover:${corUnidade.hover} border border-transparent hover:border-slate-300`;
+                alertaWrap.innerHTML = '';
             }
-            
-            reservaEl.textContent = `${reserva.hora_inicio} - ${reserva.nome || reserva.solicitante}`;
-            reservaEl.onclick = () => mostrarDetalhesReserva(reserva);
-            reservasContainer.appendChild(reservaEl);
+
+            document.getElementById('dpa-results').style.display = 'block';
+            document.getElementById('dpa-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        })
+        .catch(err => {
+            console.error('Analise error:', err);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-magnifying-glass"></i> Iniciar Análise';
+            alert('Falha de rede ao conectar com o assistente.');
         });
-        
-        cell.appendChild(reservasContainer);
-        grid.appendChild(cell);
     }
-    
-    const lastDayOfWeek = lastDay.getDay();
-    if (lastDayOfWeek < 6) {
-        for (let i = lastDayOfWeek + 1; i <= 6; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'bg-white p-2 h-32';
-            grid.appendChild(cell);
+
+    function dpaAppendMessage(role, content) {
+        const panel = document.getElementById('dpaChatMessages');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `dpa-chat-message ${role}`;
+        msgDiv.textContent = content;
+        panel.appendChild(msgDiv);
+        panel.scrollTop = panel.scrollHeight;
+
+        dpaState.chatHistory.push({ role, content });
+        if (dpaState.chatHistory.length > 20) {
+            dpaState.chatHistory.shift();
         }
     }
-}
 
-const coresUnidades = [
-    { bg: 'bg-blue-100', text: 'text-blue-800', hover: 'bg-blue-200' },
-    { bg: 'bg-green-100', text: 'text-green-800', hover: 'bg-green-200' },
-    { bg: 'bg-purple-100', text: 'text-purple-800', hover: 'bg-purple-200' },
-    { bg: 'bg-orange-100', text: 'text-orange-800', hover: 'bg-orange-200' },
-    { bg: 'bg-pink-100', text: 'text-pink-800', hover: 'bg-pink-200' },
-    { bg: 'bg-indigo-100', text: 'text-indigo-800', hover: 'bg-indigo-200' },
-    { bg: 'bg-yellow-100', text: 'text-yellow-800', hover: 'bg-yellow-200' },
-    { bg: 'bg-red-100', text: 'text-red-800', hover: 'bg-red-200' }
-];
+    function dpaTypeAssistantMessage(content) {
+        const panel = document.getElementById('dpaChatMessages');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'dpa-chat-message assistant';
+        panel.appendChild(msgDiv);
 
-function getCorUnidade(unidadeId) {
-    if (!unidadeId) return coresUnidades[0];
-    const index = parseInt(unidadeId) % coresUnidades.length;
-    return coresUnidades[index];
-}
+        dpaState.chatHistory.push({ role: 'assistant', content });
+        if (dpaState.chatHistory.length > 20) {
+            dpaState.chatHistory.shift();
+        }
 
-// Escapa HTML para prevenir XSS em campos de texto livre (nome, observações, etc.)
-function escapeHtml(unsafe) {
-    if (unsafe === null || unsafe === undefined) return '';
-    return String(unsafe)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
-function mostrarDetalhesReserva(reserva) {
-    selectedReservaId = reserva.id;
-    const detalhes = document.getElementById('reserva-detalhes');
-
-    const statusBadge = reserva.status === 'cancelada' ?
-        '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelada</span>' :
-        '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Ativa</span>';
-
-    detalhes.innerHTML = `
-        <div class="space-y-2">
-            <div class="flex items-center gap-2">
-                <span class="font-medium text-slate-800">Status:</span> ${statusBadge}
-            </div>
-            <p><span class="font-medium text-slate-800">Data:</span> ${formatDateBR(parseDataLocal(reserva.data))}</p>
-            <p><span class="font-medium text-slate-800">Horário:</span> ${escapeHtml(reserva.hora_inicio)} às ${escapeHtml(reserva.hora_fim)}</p>
-            <p><span class="font-medium text-slate-800">Unidade:</span> ${escapeHtml(reserva.unidade)}</p>
-            <p><span class="font-medium text-slate-800">Sala:</span> ${escapeHtml(reserva.sala)}</p>
-            ${reserva.mesa_numero ? `<p><span class="font-medium text-slate-800">Mesa:</span> ${escapeHtml(reserva.mesa_numero)}</p>` : ''}
-            <p><span class="font-medium text-slate-800">Nome:</span> ${escapeHtml(reserva.nome || reserva.solicitante)}</p>
-            <p><span class="font-medium text-slate-800">Email:</span> ${escapeHtml(reserva.email) || 'Não informado'}</p>
-            ${reserva.telefone ? `<p><span class="font-medium text-slate-800">Telefone:</span> ${escapeHtml(reserva.telefone)}</p>` : ''}
-            ${reserva.observacoes ? `<p><span class="font-medium text-slate-800">Observações:</span> ${escapeHtml(reserva.observacoes)}</p>` : ''}
-        </div>
-    `;
-    
-    const editBtn = document.querySelector('button[onclick="editarReserva()"]');
-    const cancelBtn = document.querySelector('button[onclick="cancelarReserva()"]');
-    
-    if (reserva.status === 'cancelada') {
-        editBtn.style.display = 'none';
-        cancelBtn.style.display = 'none';
-    } else {
-        editBtn.style.display = 'inline-block';
-        cancelBtn.style.display = 'inline-block';
+        let index = 0;
+        const charsPerTick = 3;
+        function type() {
+            if (index < content.length) {
+                msgDiv.textContent += content.slice(index, index + charsPerTick);
+                index += charsPerTick;
+                panel.scrollTop = panel.scrollHeight;
+                setTimeout(type, 5);
+            }
+        }
+        type();
     }
-    
-    document.getElementById('reserva-modal').classList.remove('hidden');
-}
 
-function fecharModal() {
-    document.getElementById('reserva-modal').classList.add('hidden');
-    selectedReservaId = null;
-}
+    function dpaHandleKey(e) {
+        if (e.key === 'Enter') {
+            dpaSubmitPrompt();
+        }
+    }
 
-async function cancelarReserva() {
-    if (!selectedReservaId) return;
-    if (!confirm('Tem certeza que deseja cancelar esta reserva?')) return;
-    
-    try {
-        const response = await fetch(`/api/reservas/${selectedReservaId}/`, {
-            method: 'PATCH',
+    let dpaThinkingInterval = null;
+
+    function dpaShowThinking() {
+        const panel = document.getElementById('dpaChatMessages');
+        dpaRemoveThinking();
+
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'dpa-chat-message assistant dpa-thinking';
+        msgDiv.id = 'dpaThinkingIndicator';
+
+        const phrases = [
+            "Lendo os critérios informados...",
+            "Cruzando o certificado com as regras...",
+            "Conferindo pendências item a item...",
+            "Montando o parecer..."
+        ];
+        let phraseIdx = 0;
+        msgDiv.innerHTML = `<span class="dpa-thinking-text">${phrases[0]}</span><span class="dpa-loading-dots">...</span>`;
+        panel.appendChild(msgDiv);
+        panel.scrollTop = panel.scrollHeight;
+
+        dpaThinkingInterval = setInterval(() => {
+            phraseIdx = (phraseIdx + 1) % phrases.length;
+            const textEl = msgDiv.querySelector('.dpa-thinking-text');
+            if (textEl) textEl.textContent = phrases[phraseIdx];
+        }, 1600);
+    }
+
+    function dpaRemoveThinking() {
+        if (dpaThinkingInterval) {
+            clearInterval(dpaThinkingInterval);
+            dpaThinkingInterval = null;
+        }
+        const indicator = document.getElementById('dpaThinkingIndicator');
+        if (indicator) indicator.remove();
+    }
+
+    function dpaSendToApi(text) {
+        dpaShowThinking();
+        const clienteSlug = document.getElementById('dpa-cliente').value;
+
+        fetch("/api/depara-aprova/chat/", {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': 'KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq'
+                'X-CSRFToken': dpaCsrfToken
             },
-            body: JSON.stringify({ status: 'cancelada' })
+            body: JSON.stringify({
+                prompt: text,
+                history: dpaState.chatHistory,
+                cliente_slug: clienteSlug
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            dpaRemoveThinking();
+            if (data.error) {
+                dpaAppendMessage('assistant', "Erro na consulta à IA: " + data.error);
+            } else {
+                dpaTypeAssistantMessage(data.response);
+            }
+        })
+        .catch(err => {
+            console.error("Chat error:", err);
+            dpaRemoveThinking();
+            dpaAppendMessage('assistant', "Desculpe, ocorreu uma falha de rede ao conectar com o assistente.");
         });
-        
-        if (response.ok) {
-            fecharModal();
-            atualizarCalendario();
-        } else {
-            alert('Erro ao cancelar reserva');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
     }
-}
 
-async function abrirHistorico() {
-    try {
-        const response = await fetch('/api/reservas/historico/');
-        if (response.ok) {
-            const data = await response.json();
-            mostrarHistorico(data.reservas);
-        } else {
-            alert('Erro ao carregar histórico');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
+    function dpaSubmitPrompt() {
+        const input = document.getElementById('dpaChatInput');
+        const text = input.value.trim();
+        if (!text) return;
+        input.value = '';
+        dpaAppendMessage('user', text);
+        dpaSendToApi(text);
     }
-}
 
-function mostrarHistorico(reservas) {
-    const lista = document.getElementById('historico-lista');
-    
-    if (reservas.length === 0) {
-        lista.innerHTML = '<p class="text-gray-500 text-center">Nenhuma reserva encontrada</p>';
-    } else {
-        lista.innerHTML = reservas.map(reserva => {
-            const corUnidade = getCorUnidade(reserva.unidade_id);
-            const statusBadge = reserva.status === 'cancelada' ?
-                '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelada</span>' :
-                '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Ativa</span>';
-
-            return `
-                <div class="border border-slate-200 rounded-lg p-4 ${reserva.status === 'cancelada' ? 'opacity-60' : 'bg-slate-50'}">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded">${escapeHtml(reserva.unidade)}</span>
-                            ${statusBadge}
-                        </div>
-                        <span class="text-sm font-medium text-slate-500">${formatDateBR(parseDataLocal(reserva.data))}</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 text-sm text-slate-700">
-                        <div>
-                            <p><strong class="text-slate-800">Nome:</strong> ${escapeHtml(reserva.nome || reserva.solicitante)}</p>
-                            <p><strong class="text-slate-800">Sala:</strong> ${escapeHtml(reserva.sala)}</p>
-                            <p><strong class="text-slate-800">Horário:</strong> ${escapeHtml(reserva.horario)}</p>
-                        </div>
-                        <div>
-                            <p><strong class="text-slate-800">Email:</strong> ${escapeHtml(reserva.email) || 'Não informado'}</p>
-                            <p><strong class="text-slate-800">Telefone:</strong> ${escapeHtml(reserva.telefone) || 'Não informado'}</p>
-                            ${reserva.mesa_numero ? `<p><strong class="text-slate-800">Mesa:</strong> ${escapeHtml(reserva.mesa_numero)}</p>` : ''}
-                        </div>
-                    </div>
-                    ${reserva.observacoes ? `<p class="mt-2 text-sm text-slate-700"><strong class="text-slate-800">Observações:</strong> ${escapeHtml(reserva.observacoes)}</p>` : ''}
-                </div>
-            `;
-        }).join('');
+    function dpaSendPreset(text) {
+        dpaAppendMessage('user', text);
+        dpaSendToApi(text);
     }
-    
-    document.getElementById('historico-modal').classList.remove('hidden');
-}
 
-function fecharHistorico() {
-    document.getElementById('historico-modal').classList.add('hidden');
-}
-
-function editarReserva() {
-    if (!selectedReservaId) return;
-    
-    const detalhes = document.getElementById('reserva-detalhes');
-    const reservaAtual = getCurrentReservaData();
-    
-    document.getElementById('edit-nome').value = reservaAtual.nome || '';
-    document.getElementById('edit-email').value = reservaAtual.email || '';
-    document.getElementById('edit-telefone').value = reservaAtual.telefone || '';
-    document.getElementById('edit-horario').value = reservaAtual.horario || '';
-    document.getElementById('edit-observacoes').value = reservaAtual.observacoes || '';
-    
-    fecharModal();
-    document.getElementById('edicao-modal').classList.remove('hidden');
-}
-
-function getCurrentReservaData() {
-    const detalhes = document.getElementById('reserva-detalhes');
-    return {
-        nome: extractTextFromDetail(detalhes, 'Nome:'),
-        email: extractTextFromDetail(detalhes, 'Email:'),
-        telefone: extractTextFromDetail(detalhes, 'Telefone:'),
-        horario: extractTextFromDetail(detalhes, 'Horário:'),
-        observacoes: extractTextFromDetail(detalhes, 'Observações:')
-    };
-}
-
-function extractTextFromDetail(container, label) {
-    const text = container.textContent;
-    const index = text.indexOf(label);
-    if (index === -1) return '';
-    
-    const start = index + label.length;
-    const nextLabel = text.indexOf('\n', start);
-    return text.substring(start, nextLabel === -1 ? text.length : nextLabel).trim();
-}
-
-async function salvarEdicao() {
-    if (!selectedReservaId) return;
-    
-    const dados = {
-        nome: document.getElementById('edit-nome').value,
-        email: document.getElementById('edit-email').value,
-        telefone: document.getElementById('edit-telefone').value,
-        data: document.getElementById('edit-data').value,
-        horario: document.getElementById('edit-horario').value,
-        observacoes: document.getElementById('edit-observacoes').value
-    };
-    
-    try {
-        const response = await fetch(`/api/reservas/${selectedReservaId}/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': 'KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq'
-            },
-            body: JSON.stringify(dados)
-        });
-        
-        if (response.ok) {
-            fecharEdicao();
-            atualizarCalendario();
-        } else {
-            alert('Erro ao salvar alterações');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
+    function dpaClearChat() {
+        dpaState.chatHistory = [];
+        const panel = document.getElementById('dpaChatMessages');
+        panel.innerHTML = '<div class="dpa-chat-message assistant">Chat reiniciado. Me diga qual manual/norma você quer usar e quais regras o certificado precisa cumprir.</div>';
     }
-}
 
-function fecharEdicao() {
-    document.getElementById('edicao-modal').classList.add('hidden');
-}
-
-const unidadeSelect = document.getElementById('unidade');
-const salaSelect = document.getElementById('sala');
-
-if (unidadeSelect) {
-    unidadeSelect.addEventListener('change', function() {
-        carregarSalas(); 
-    });
-}
-
-if (salaSelect) {
-    salaSelect.addEventListener('change', function() {
-        atualizarCalendario(); 
-    });
-}
-
-document.getElementById('mes').addEventListener('change', (e) => {
-    const [year, month] = e.target.value.split('-');
-    currentDate = new Date(year, month - 1);
-    atualizarCalendario();
-});
-
-document.getElementById('prev-month').addEventListener('click', () => {
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
-    document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-    atualizarCalendario();
-});
-
-document.getElementById('next-month').addEventListener('click', () => {
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
-    document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-    atualizarCalendario();
-});
-
-function novaReserva() {
-    const unidadeSelect = document.getElementById('unidade');
-    const unidadeSelecionada = unidadeSelect.value;
-    
-    if (unidadeSelecionada) {
-        const unidadeOption = unidadeSelect.options[unidadeSelect.selectedIndex];
-        const unidadeSlug = unidadeOption.getAttribute('data-slug');
-        
-        if (unidadeSlug) {
-            window.location.href = `/reserva-salas/${unidadeSlug}/`;
-        } else {
-            window.location.href = '/selecionar-unidade/';
-        }
-    } else {
-        window.location.href = '/selecionar-unidade/';
+    /* --- Decisão (Aprovar/Reprovar) sobre o certificado analisado --- */
+    function dpaMostrarDecisao(status) {
+        document.getElementById('dpa-aprovar-btn').style.display = 'none';
+        document.getElementById('dpa-reprovar-btn').style.display = 'none';
+        const badge = document.getElementById('dpa-decisao-badge');
+        badge.style.display = '';
+        badge.className = `dpa-decisao-badge ${status}`;
+        badge.textContent = status === 'aprovado' ? 'Aprovado ✓' : 'Reprovado ✕';
     }
-}
 
-document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-carregarSalas();
+    function dpaAprovarCertificado() {
+        if (!dpaState.currentCertificadoId) return;
+        const btn = document.getElementById('dpa-aprovar-btn');
+        btn.disabled = true;
+        fetch(dpaUrlComId(DPA_URL_APROVAR_TPL, dpaState.currentCertificadoId), {
+            method: 'POST',
+            headers: { 'X-CSRFToken': dpaCsrfToken }
+        })
+        .then(res => res.json().then(data => ({ ok: res.ok, data })))
+        .then(({ ok, data }) => {
+            if (!ok || data.error) {
+                alert(data.error || 'Erro ao aprovar.');
+                btn.disabled = false;
+                return;
+            }
+            dpaMostrarDecisao('aprovado');
+        })
+        .catch(() => { alert('Falha de rede ao aprovar.'); btn.disabled = false; });
+    }
+
+    function dpaReprovarCertificado() {
+        if (!dpaState.currentCertificadoId) return;
+        const motivo = prompt('Motivo da reprovação (opcional):', '') || '';
+        const btn = document.getElementById('dpa-reprovar-btn');
+        btn.disabled = true;
+        fetch(dpaUrlComId(DPA_URL_REPROVAR_TPL, dpaState.currentCertificadoId), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': dpaCsrfToken },
+            body: JSON.stringify({ motivo })
+        })
+        .then(res => res.json().then(data => ({ ok: res.ok, data })))
+        .then(({ ok, data }) => {
+            if (!ok || data.error) {
+                alert(data.error || 'Erro ao reprovar.');
+                btn.disabled = false;
+                return;
+            }
+            dpaMostrarDecisao('reprovado');
+        })
+        .catch(() => { alert('Falha de rede ao reprovar.'); btn.disabled = false; });
+    }
 </script>
 
 <style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script src="static/demo-fill.js"></script></body>

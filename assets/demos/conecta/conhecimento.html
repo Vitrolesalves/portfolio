@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<head><script>(function(){try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}try{var of=window.fetch;if(of){window.fetch=function(u){try{var url=(typeof u==='string')?u:((u&&u.url)||'');if(/^https?:\/\//i.test(url))return of.apply(this,arguments);return Promise.resolve(new Response('[]',{status:200,headers:{'Content-Type':'application/json'}}));}catch(e){return of.apply(this,arguments);}};}}catch(e){}})();</script>
+<head><script>(function(){try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}try{var of=window.fetch;if(of){window.fetch=function(u){try{var s=(typeof u==="string")?u:((u&&u.url)||"");if(/^https?:\/\//i.test(s))return of.apply(this,arguments);return Promise.resolve(new Response("[]",{status:200,headers:{"Content-Type":"application/json"}}));}catch(e){return of.apply(this,arguments);}};}}catch(e){}var M={"/": "dashboard.html", "/meus-chamados/": "chamados.html", "/novo-chamado/": "novo-chamado.html", "/relatorios-risco/": "relatorios.html", "/base-conhecimento/": "conhecimento.html", "/informacoes-regulatorio/": "regulatorio.html"};var dir=location.pathname.replace(/[^\/]*$/,"");function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}try{var d=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(d&&d.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return d.get.call(this);},set:function(v){d.set.call(this,res(v));}});}}catch(e){}try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base de Conhecimento - Módulo Jurídico</title>
@@ -133,7 +133,7 @@
             class="nav-item active">
             <i data-lucide="book-open"></i> Base de Conhecimento
         </a>
-        <a href="#"
+        <a href="_preview-info.html"
             class="nav-item ">
             <i data-lucide="lightbulb"></i> Como Funciona
         </a>
@@ -215,7 +215,7 @@
                             style="width:14px; height:14px; display:inline-block; margin-right:6px; vertical-align:middle;"></i>
                         Mudar Foto
                     </label>
-                    <a href="#"
+                    <a href="_preview-info.html"
                         style="display:block; padding:0.5rem 1rem; font-size:0.85rem; color:var(--danger); text-decoration:none; transition:background 0.2s;"
                         onmouseover="this.style.background='var(--danger-light)'"
                         onmouseout="this.style.background='transparent'">
@@ -1283,7 +1283,7 @@ function visualizarDocumentoBase(id, mimeType) {
       html: `
         <div style="height:80vh;display:flex;flex-direction:column;">
           <div style="text-align:right;margin-bottom:10px;">
-            <a href="#"
+            <a href="_preview-info.html"
               style="display:inline-block;text-decoration:none;color:#fff;background:var(--primary);padding:8px 16px;border-radius:8px;font-weight:600;">
               📥 Baixar
             </a>
@@ -1327,6 +1327,6 @@ function excluirDocumentoBase(id) {
 }
 </script>
 
-<style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});});});</script><script src="static/demo-fill.js"></script></body>
+<style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script src="static/demo-fill.js"></script></body>
 
 </html>

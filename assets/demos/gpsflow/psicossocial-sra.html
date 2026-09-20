@@ -5,7 +5,7 @@
 <head><script>(function(){try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}try{var of=window.fetch;if(of){window.fetch=function(u){try{var s=(typeof u==="string")?u:((u&&u.url)||"");if(/^https?:\/\//i.test(s))return of.apply(this,arguments);return Promise.resolve(new Response("[]",{status:200,headers:{"Content-Type":"application/json"}}));}catch(e){return of.apply(this,arguments);}};}}catch(e){}var M={"/home/": "home.html", "/torre-controle/": "torre-controle.html", "/torre-controle/auditoria/": "auditoria.html", "/chamados/": "chamados.html", "/dashboard/": "dashboard.html", "/financeiro/": "financeiro.html", "/gestao-qualidade/": "qualidade.html", "/gestao-salas/": "gestao-salas.html", "/calendario-reservas/": "calendario-reservas.html", "/controle-acessos/": "controle-acessos.html", "/implantacoes-fluxo/": "implantacoes.html", "/implantacoes-gpsvista/": "implantacoes-sistemicas.html", "/relatorios/": "relatorios.html", "/planner/": "planner.html", "/gerenciar-regionais/": "gerenciar-regionais.html", "/estatisticas-acesso/": "estatisticas-acesso.html", "/novidades/": "novidades.html", "/calendario-2026/": "calendario-2026.html", "/controle-chips/": "controle-chips.html", "/ajuda/": "ajuda.html", "/psicossocial/": "psicossocial.html", "/psicossocial/sra/": "psicossocial-sra.html", "/desativacao-cr/": "desativacao-cr.html", "/desmobilizacoes-fluxo/": "desmobilizacoes.html", "/livro-ocorrencia-pdf/": "livro-pdf.html", "/explorer/": "explorer.html", "/links-importantes/": "links-importantes.html", "/depara-aprova/": "depara-aprova.html", "/controle-ordens/": "controle-ordens.html", "/portaria-base/": "portaria-base.html", "/cracha/": "cracha.html", "/qr-generator/": "qr-generator.html", "/etiquetas/": "etiquetas.html", "/livro-ata/": "livro-ata.html"};var dir=location.pathname.replace(/[^\/]*$/,"");function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}try{var d=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(d&&d.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return d.get.call(this);},set:function(v){d.set.call(this,res(v));}});}}catch(e){}try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário de Reservas - FLOW</title>
+    <title>Base Layout 1 - FLOW</title>
     <meta name="application-name" content="FLOW">
     <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
     <meta name="theme-color" content="#1e3a5f">
@@ -752,45 +752,315 @@
 
     
 <style>
-    /* =========================================
-       CLASSES PADRÃO DO SISTEMA (DARK GRADIENT)
-       ========================================= */
-    .calendario-icon {
-        width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
-        display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
-    }
-    .calendario-title {
-        background: linear-gradient(to right, #1A2A45, #2A4570) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        color: transparent !important; /* Fallback essencial */
-        display: inline-block;
-        text-transform: uppercase;
+    .livro-title {
+        background: linear-gradient(to right, #0F172A, #1e40af);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
         font-size: 26px;
         font-weight: bold;
         margin: 0;
-        line-height: 1.2;
-    }
-    
-    .bg-gradient-padrao {
-        background: linear-gradient(135deg, #1e293b, #334155) !important;
-        color: white !important;
-        border: none !important;
-        transition: all 0.2s ease-in-out;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .bg-gradient-padrao:hover {
-        background: linear-gradient(135deg, #0f172a, #1e293b) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        text-transform: uppercase;
     }
 
-    .focus-padrao:focus {
-        border-color: #1e293b !important;
-        box-shadow: 0 0 0 2px rgba(30, 41, 59, 0.2) !important;
-        outline: none !important;
+    .livro-icon {
+        width: 32px;
+        height: 32px;
+        background: #0F172A;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+    }
+    /* Custom Corporate Theme Colors */
+    :root {
+        --psico-primary: #1E3A8A; /* Navy Blue */
+        --psico-secondary: #3B82F6; /* Accent Blue */
+        --psico-success: #10B981;
+        --psico-warning: #F59E0B;
+        --psico-danger: #EF4444;
+        --psico-bg: #F8FAFC;
+    }
+
+    /* Layout grid: Left column (Forms), Right column (Table list) */
+    .sra-grid {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+        .sra-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Card Panels */
+    .psico-card {
+        background: white;
+        border-radius: 0.6rem;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        border: 1px solid #E2E8F0;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+    }
+
+    .psico-card-header {
+        background: #F8FAFC;
+        border-bottom: 1px solid #E2E8F0;
+        padding: 1rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .psico-card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1E293B;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .psico-card-body {
+        padding: 1.25rem;
+    }
+
+    /* Forms */
+    .psico-form-group {
+        margin-bottom: 1rem;
+    }
+
+    .psico-form-label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 0.35rem;
+    }
+
+    .psico-form-label.required::after {
+        content: "*";
+        color: var(--psico-danger);
+        margin-left: 0.25rem;
+    }
+
+    .psico-input, .psico-select {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #CBD5E1;
+        border-radius: 0.375rem;
+        font-size: 0.825rem;
+        color: #334155;
+        background: white;
+        transition: all 0.2s;
+    }
+
+    .psico-input:focus, .psico-select:focus {
+        outline: none;
+        border-color: var(--psico-secondary);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Buttons */
+    .psico-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.5rem 1.25rem;
+        border-radius: 0.375rem;
+        font-size: 0.825rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+    }
+
+    .psico-btn-primary {
+        background: var(--psico-primary);
+        color: white;
+    }
+
+    .psico-btn-primary:hover {
+        background: #1e3a8aeb;
+        transform: translateY(-1px);
+    }
+
+    .psico-btn-secondary {
+        background: #E2E8F0;
+        color: #475569;
+    }
+
+    .psico-btn-secondary:hover {
+        background: #CBD5E1;
+    }
+
+    .psico-btn-danger {
+        background: var(--psico-danger);
+        color: white;
+    }
+
+    .psico-btn-danger:hover {
+        background: #dc2626;
+    }
+
+    /* Table styles */
+    .psico-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .psico-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .psico-table th {
+        background: #F8FAFC;
+        padding: 0.85rem 1rem;
+        font-size: 0.725rem;
+        font-weight: 700;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 2px solid #E2E8F0;
+    }
+
+    .psico-table td {
+        padding: 0.85rem 1rem;
+        font-size: 0.825rem;
+        color: #334155;
+        border-bottom: 1px solid #E2E8F0;
+        vertical-align: middle;
+    }
+
+    .psico-table tr:hover {
+        background: #F8FAFC;
+    }
+
+    /* File upload design */
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-input-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .file-input-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.35rem;
+        border: 2px dashed #CBD5E1;
+        background: #F8FAFC;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        color: #64748B;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .file-input-wrapper:hover .file-input-btn {
+        border-color: var(--psico-secondary);
+        color: var(--psico-secondary);
+        background: rgba(59, 130, 246, 0.03);
+    }
+
+    .status-badge {
+        display: inline-flex;
+        padding: 0.2rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+    .status-badge.active {
+        background: #DCFCE7;
+        color: #166534;
+    }
+    .status-badge.inactive {
+        background: #FEE2E2;
+        color: #991B1B;
+    }
+
+    /* Pagination */
+    .psico-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.25rem;
+        background: #F8FAFC;
+        border-top: 1px solid #E2E8F0;
+    }
+    .psico-page-link {
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--psico-primary);
+        padding: 0.35rem 0.75rem;
+        border: 1px solid #CBD5E1;
+        border-radius: 0.25rem;
+        background: white;
+        transition: all 0.15s;
+    }
+    .psico-page-link:hover {
+        background: #F1F5F9;
+        color: #0F172A;
+    }
+    .psico-page-link.disabled {
+        pointer-events: none;
+        color: #94A3B8;
+        background: #F8FAFC;
+        border-color: #E2E8F0;
+    }
+
+    /* Autocomplete items container */
+    .autocomplete-items {
+        position: absolute;
+        border: 1px solid #CBD5E1;
+        border-top: none;
+        z-index: 999;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        border-radius: 0 0 0.375rem 0.375rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    /* Individual item */
+    .autocomplete-items div {
+        padding: 0.5rem 0.75rem;
+        cursor: pointer;
+        font-size: 0.825rem;
+        color: #334155;
+        border-bottom: 1px solid #F1F5F9;
+    }
+    /* Highlight matching item on hover/active */
+    .autocomplete-items div:hover {
+        background-color: #F1F5F9;
+    }
+    .autocomplete-active {
+        background-color: #E2E8F0 !important;
+        color: #0F172A !important;
     }
 </style>
 
@@ -801,10 +1071,10 @@
     mobileOpen: false,
     geradores: false,
     acompanhamento: false,
-    gestaoReservas: true,
+    gestaoReservas: false,
     auditoria: false,
     projetos: false,
-    psico: false,
+    psico: true,
     gestaoAVista: false,
     deparaAprova: false
 }">
@@ -937,7 +1207,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) gestaoReservas = !gestaoReservas"
-                        class="nav-link active"
+                        class="nav-link "
                         :class="{ 'expanded': gestaoReservas && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -974,7 +1244,7 @@
                         
                         
                         <a href="calendario-reservas.html"
-                            class="nav-sub-link active">
+                            class="nav-sub-link ">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -1182,7 +1452,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) psico = !psico"
-                        class="nav-link "
+                        class="nav-link active"
                         :class="{ 'expanded': psico && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1206,7 +1476,7 @@
                             <span>Avaliação Psicossocial</span>
                         </a>
                         <a href="psicossocial-sra.html"
-                            class="nav-sub-link ">
+                            class="nav-sub-link active">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -1448,7 +1718,7 @@
                     
 
                     <form method="post" action="/logout/">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="dDJ7vxRxLz0QyWOyVjpuATTuWSETHHMXDpUiihtk0HIHhARU1b5UNRLSud0ZXQBn">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1466,195 +1736,394 @@
                 
 
                 
-<div class="space-y-6">
-    <div class="border-b pb-4">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="calendario-icon"><i class="fas fa-calendar-check"></i></div>
-                <div>
-                    <h1 class="calendario-title mb-0">Calendário de Reservas</h1>
-                    <p class="text-muted-foreground mb-0">Visualize e gerencie as reservas de salas</p>
-                </div>
-            </div>
-            <button onclick="abrirHistorico()" class="px-4 py-2 bg-gradient-padrao rounded-lg flex items-center gap-2">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                Histórico
-            </button>
+<div class="container-fluid py-4">
+
+    <!-- Page Header Title and Icon -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="livro-icon"><i class="fas fa-users"></i></div>
+            <h1 class="livro-title">Base Layout 1</h1>
         </div>
     </div>
-
-    <div class="bg-white rounded-lg border shadow-sm p-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+ 
+    <!-- Django Message Banners -->
+    
+ 
+    <!-- Upper Stats Card -->
+    <div class="psico-card mb-4" style="border-left: 4px solid var(--psico-primary);">
+        <div class="psico-card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
-                <label for="unidade" class="block text-sm font-medium mb-1">Unidade</label>
-                <select id="unidade" 
-                        class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-                    <option value="">Todas as unidades</option>
+                <h3 class="mb-1" style="font-size: 1.25rem; font-weight: 700; color: #1E293B;">Base Layout 1 (Workforce)</h3>
+                <p class="text-muted mb-0" style="font-size: 0.85rem;">
+                    Total de colaboradores cadastrados na base global de dados: <strong>0</strong>
+                </p>
+            </div>
+            <a href="psicossocial.html" class="psico-btn psico-btn-secondary" style="text-decoration: none;">
+                <i class="fas fa-arrow-left"></i> Voltar para Projetos
+            </a>
+        </div>
+    </div>
+ 
+    <div class="sra-grid">
+        
+        <!-- Left Column: Forms -->
+        <div>
+            <!-- Bulk Upload Card -->
+            <div class="psico-card">
+                <div class="psico-card-header">
+                    <h2 class="psico-card-title">
+                        <i class="fas fa-file-import text-success"></i>
+                        Importar Planilha Layout 1
+                    </h2>
+                </div>
+                <div class="psico-card-body">
+                    <p class="text-muted mb-3" style="font-size: 0.8rem; line-height: 1.4;">
+                        Envie uma nova planilha Layout 1 para <strong>substituir</strong> os dados globais.
+                    </p>
+                    <div class="alert alert-info py-2 px-3 mb-3" style="font-size: 0.75rem; line-height: 1.35;">
+                        <strong>Colunas necessárias:</strong> CPF, Nome, Matricula, Negocio, Municipio, Estado, Dt Demissao.
+                    </div>
                     
-                </select>
+                    <form action="/psicossocial/sra/" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="dDJ7vxRxLz0QyWOyVjpuATTuWSETHHMXDpUiihtk0HIHhARU1b5UNRLSud0ZXQBn">
+                        <input type="hidden" name="action" value="import_sra">
+                        
+                        <div class="psico-form-group">
+                            <div class="file-input-wrapper">
+                                <div class="file-input-btn" id="label-global-sra">
+                                    <i class="fas fa-cloud-upload-alt fa-lg text-success mb-1"></i>
+                                    <span style="font-size: 0.75rem; font-weight: 600;">Selecionar Planilha</span>
+                                </div>
+                                <input type="file" name="sra_file" accept=".xlsx,.xls" onchange="updateFileLabel(this, 'label-global-sra')" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="psico-btn psico-btn-primary w-100 mt-2">
+                            <i class="fas fa-sync-alt"></i> Atualizar Layout 1 Global
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div>
-                <label for="sala" class="block text-sm font-medium mb-1">Sala</label>
-                <select id="sala" 
-                        class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-                    <option value="">Todas as salas</option>
-                </select>
+
+            <!-- Import Companies (CNPJ) Card -->
+            <div class="psico-card">
+                <div class="psico-card-header">
+                    <h2 class="psico-card-title">
+                        <i class="fas fa-building text-info"></i>
+                        Importar Empresas (CNPJ)
+                    </h2>
+                </div>
+                <div class="psico-card-body">
+                    <p class="text-muted mb-3" style="font-size: 0.8rem; line-height: 1.4;">
+                        Envie a planilha base contendo a aba <strong>2.Layout_BD_CNPJ</strong> para atualizar os CNPJs e nomes das empresas na base.
+                    </p>
+                    <div class="alert alert-info py-2 px-3 mb-3" style="font-size: 0.75rem; line-height: 1.35;">
+                        <strong>Colunas lidas:</strong> Código Empresa, Código Filial, CNPJ, Razão Social.
+                    </div>
+                    
+                    <form action="/psicossocial/sra/" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="dDJ7vxRxLz0QyWOyVjpuATTuWSETHHMXDpUiihtk0HIHhARU1b5UNRLSud0ZXQBn">
+                        <input type="hidden" name="action" value="import_cnpj">
+                        
+                        <div class="psico-form-group">
+                            <div class="file-input-wrapper">
+                                <div class="file-input-btn" id="label-cnpj-sra" style="border-color: #0ea5e9; background: #f0f9ff; color: #0369a1;">
+                                    <i class="fas fa-cloud-upload-alt fa-lg mb-1" style="color: #0284c7;"></i>
+                                    <span style="font-size: 0.75rem; font-weight: 600;">Selecionar Planilha</span>
+                                </div>
+                                <input type="file" name="cnpj_file" accept=".xlsx,.xls" onchange="updateFileLabel(this, 'label-cnpj-sra')" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="psico-btn psico-btn-primary w-100 mt-2" style="background: #0284c7;">
+                            <i class="fas fa-sync-alt"></i> Atualizar CNPJs / Empresas
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div>
-                <label for="mes" class="block text-sm font-medium mb-1">Mês</label>
-                <input type="month" 
-                       id="mes" 
-                       class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
+
+            <!-- Manual Creation Card -->
+            <div class="psico-card">
+                <div class="psico-card-header">
+                    <h2 class="psico-card-title">
+                        <i class="fas fa-user-plus text-primary"></i>
+                        Cadastro Manual
+                    </h2>
+                </div>
+                <div class="psico-card-body">
+                    <form action="/psicossocial/sra/" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="dDJ7vxRxLz0QyWOyVjpuATTuWSETHHMXDpUiihtk0HIHhARU1b5UNRLSud0ZXQBn">
+                        <input type="hidden" name="action" value="create_colaborador">
+                        
+                        <div class="psico-form-group">
+                            <label class="psico-form-label required" for="nome">Nome Completo</label>
+                            <input class="psico-input" type="text" id="nome" name="nome" placeholder="Ex: João Silva" required>
+                        </div>
+
+                        <div class="psico-form-group">
+                            <label class="psico-form-label required" for="cpf">CPF</label>
+                            <input class="psico-input" type="text" id="cpf" name="cpf" placeholder="Apenas números ou formatado" required>
+                        </div>
+
+                        <div class="psico-form-group">
+                            <label class="psico-form-label" for="matricula">Matrícula</label>
+                            <input class="psico-input" type="text" id="matricula" name="matricula" placeholder="Ex: 100392">
+                        </div>
+
+                        <div class="psico-form-group">
+                            <label class="psico-form-label" for="negocio">Negócio / Setor</label>
+                            <input class="psico-input" type="text" id="negocio" name="negocio" placeholder="Ex: Logística">
+                        </div>
+
+                        <div class="psico-form-group">
+                            <label class="psico-form-label" for="municipio">Município</label>
+                            <input class="psico-input" type="text" id="municipio" name="municipio" placeholder="Ex: Betim">
+                        </div>
+
+                        <div class="psico-form-group">
+                            <label class="psico-form-label" for="estado">Estado (UF)</label>
+                            <input class="psico-input" type="text" id="estado" name="estado" placeholder="Ex: MG" maxlength="2">
+                        </div>
+
+                        <div class="psico-form-group">
+                            <label class="psico-form-label" for="dt_demissao">Data de Demissão</label>
+                            <input class="psico-input" type="date" id="dt_demissao" name="dt_demissao">
+                            <small class="text-muted" style="font-size: 0.7rem;">Deixe vazio se estiver ativo.</small>
+                        </div>
+
+                        <div class="psico-form-group">
+                            <label class="psico-form-label" for="situacao">Situação / Status</label>
+                            <select class="psico-select" id="situacao" name="situacao">
+                                <option value="Ativo">Ativo</option>
+                                <option value="Férias">Férias</option>
+                                <option value="Afastado">Afastado</option>
+                            </select>
+                        </div>
+
+                        <div class="psico-form-group">
+                            <label class="psico-form-label" for="cr">CR (Centro de Resultado)</label>
+                            <input class="psico-input" type="text" id="cr" name="cr" placeholder="Ex: CR-5034">
+                        </div>
+
+                        <div class="psico-form-group">
+                            <label class="psico-form-label" for="cliente">Cliente</label>
+                            <input class="psico-input" type="text" id="cliente" name="cliente" placeholder="Ex: Petrobras">
+                        </div>
+
+                        <button type="submit" class="psico-btn psico-btn-primary w-100 mt-3">
+                            <i class="fas fa-save"></i> Salvar Colaborador
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="bg-white rounded-lg border shadow-sm">
-        <div class="border-b p-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <button id="prev-month" class="p-2 hover:bg-gray-100 rounded-full">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>
-                    </button>
-                    <h2 id="calendar-title" class="text-xl font-semibold text-slate-800"></h2>
-                    <button id="next-month" class="p-2 hover:bg-gray-100 rounded-full">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
+        <!-- Right Column: Table List -->
+        <div>
+            <div class="psico-card">
+                <div class="psico-card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="?show_companies=0" class="psico-btn psico-btn-primary py-1 px-3" style="text-decoration: none; font-size: 0.8rem;">
+                            <i class="fas fa-users"></i> Colaboradores (0)
+                        </a>
+                        <a href="?show_companies=1" class="psico-btn psico-btn-secondary py-1 px-3" style="text-decoration: none; font-size: 0.8rem;">
+                            <i class="fas fa-building"></i> Empresas (0)
+                        </a>
+                    </div>
+                    
+                    <!-- Search Form -->
+                    <form action="/psicossocial/sra/" method="get" class="d-flex gap-2 flex-wrap">
+                        <input type="hidden" name="show_companies" value="0">
+                        
+                        <select name="cliente_filter" class="psico-select py-1" style="width: 200px;" onchange="this.form.submit()">
+                            <option value="">-- Todos Clientes --</option>
+                            
+                        </select>
+                        <select name="status_filter" class="psico-select py-1" style="width: 170px;" onchange="this.form.submit()">
+                            <option value="">-- Todos Status --</option>
+                            <option value="ativos" >Somente Ativos</option>
+                            <option value="inativos" >Não Ativos (Inativos)</option>
+                            <option value="ferias" >Em Férias</option>
+                            <option value="demitidos" >Demitidos</option>
+                        </select>
+                        
+                        <input class="psico-input py-1" type="text" name="q" value="" placeholder="Nome, CPF ou Matrícula..." style="width: 240px;">
+                        <button type="submit" class="psico-btn psico-btn-primary py-1 px-3">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        
+                    </form>
                 </div>
-                <button onclick="novaReserva()" class="px-4 py-2 bg-gradient-padrao rounded-lg flex items-center gap-2">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Nova Reserva
-                </button>
-            </div>
-        </div>
+                
+                <div class="psico-card-body p-0">
+                    
+                    <div class="psico-table-wrapper">
+                        <table class="psico-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th>Matrícula</th>
+                                    <th>Negócio</th>
+                                    <th>Localidade</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr>
+                                    <td colspan="7" class="text-center py-5 text-muted">
+                                        <i class="fas fa-users-slash fa-3x mb-3 text-secondary"></i>
+                                        <p class="mb-0">Nenhum colaborador encontrado.</p>
+                                        <small>Importe uma planilha ou cadastre manualmente no painel lateral.</small>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
 
-        <div class="p-4">
-            <div class="grid grid-cols-7 gap-px mb-px">
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Dom</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Seg</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Ter</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Qua</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Qui</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Sex</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Sáb</div>
-            </div>
-
-            <div id="calendar-grid" class="grid grid-cols-7 gap-px bg-gray-200">
+                    <!-- Pagination -->
+                    
                 </div>
+            </div>
         </div>
     </div>
 </div>
 
-<div id="reserva-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-slate-800">Detalhes da Reserva</h3>
-                    <button onclick="fecharModal()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <div id="reserva-detalhes" class="space-y-4 text-slate-700">
-                    </div>
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button onclick="editarReserva()" class="px-4 py-2 bg-gradient-padrao rounded">
-                        Editar
-                    </button>
-                    <button onclick="cancelarReserva()" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700">
-                        Cancelar
-                    </button>
-                    <button onclick="fecharModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                        Fechar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+    function updateFileLabel(input, labelId) {
+        const label = document.getElementById(labelId);
+        if (input.files && input.files[0]) {
+            const fileName = input.files[0].name;
+            label.style.borderColor = 'var(--psico-success)';
+            label.style.color = 'var(--psico-success)';
+            label.querySelector('span').textContent = fileName;
+        } else {
+            label.style.borderColor = '#CBD5E1';
+            label.style.color = '#64748B';
+            label.querySelector('span').textContent = 'Selecionar Planilha';
+        }
+    }
 
-<div id="historico-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
-            <div class="p-6 border-b">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-slate-800">Histórico de Reservas</h3>
-                    <button onclick="fecharHistorico()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="p-6 overflow-y-auto max-h-[70vh]">
-                <div id="historico-lista" class="space-y-4">
-                    </div>
-            </div>
-        </div>
-    </div>
-</div>
+    // Escapa HTML para prevenir XSS (sugestões vêm de valores gravados por outros usuários)
+    function escapeHtml(unsafe) {
+        if (unsafe === null || unsafe === undefined) return '';
+        return String(unsafe)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
 
-<div id="edicao-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-slate-800">Editar Reserva</h3>
-                    <button onclick="fecharEdicao()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <form id="form-edicao" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Nome do Solicitante</label>
-                        <input type="text" id="edit-nome" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Email</label>
-                        <input type="email" id="edit-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Telefone</label>
-                        <input type="text" id="edit-telefone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Data</label>
-                        <input type="date" id="edit-data" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Horário</label>
-                        <input type="text" id="edit-horario" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" placeholder="Ex: 14:00 - 16:00" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Observações</label>
-                        <textarea id="edit-observacoes" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" rows="3"></textarea>
-                    </div>
-                </form>
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button onclick="salvarEdicao()" class="px-4 py-2 bg-gradient-padrao rounded">
-                        Salvar
-                    </button>
-                    <button onclick="fecharEdicao()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    function initAutocomplete(inputEl, fieldName) {
+        if (!inputEl) return;
+        let currentFocus = -1;
+        let listEl = document.createElement("div");
+        listEl.setAttribute("class", "autocomplete-items");
+        
+        // Wrap/Position
+        inputEl.parentNode.style.position = "relative";
+        inputEl.parentNode.appendChild(listEl);
+        
+        inputEl.addEventListener("input", function(e) {
+            let val = this.value;
+            closeAllLists();
+            if (!val || val.trim().length < 2) { return false; }
+            currentFocus = -1;
+            
+            fetch(`/psicossocial/api/autocomplete/?field=${fieldName}&q=${encodeURIComponent(val)}`)
+                .then(res => res.json())
+                .then(data => {
+                    closeAllLists();
+                    if (!data || data.length === 0) return;
+                    
+                    data.forEach(item => {
+                        let div = document.createElement("div");
+                        let lowerVal = val.toLowerCase();
+                        let lowerItem = item.toLowerCase();
+                        let index = lowerItem.indexOf(lowerVal);
+                        
+                        if (index >= 0) {
+                            div.innerHTML = escapeHtml(item.substr(0, index)) +
+                                            "<strong>" + escapeHtml(item.substr(index, val.length)) + "</strong>" +
+                                            escapeHtml(item.substr(index + val.length));
+                        } else {
+                            div.innerText = item;
+                        }
+                        
+                        div.addEventListener("click", function(e) {
+                            inputEl.value = item;
+                            inputEl.dispatchEvent(new Event('change'));
+                            closeAllLists();
+                        });
+                        listEl.appendChild(div);
+                    });
+                })
+                .catch(err => console.error("Autocomplete fetch error:", err));
+        });
+        
+        inputEl.addEventListener("keydown", function(e) {
+            let x = listEl.getElementsByTagName("div");
+            if (e.keyCode == 40) { // Arrow Down
+                currentFocus++;
+                addActive(x);
+            } else if (e.keyCode == 38) { // Arrow Up
+                currentFocus--;
+                addActive(x);
+            } else if (e.keyCode == 13) { // Enter
+                if (currentFocus > -1) {
+                    e.preventDefault();
+                    if (x[currentFocus]) {
+                        x[currentFocus].click();
+                    }
+                }
+            } else if (e.keyCode == 27) { // Escape
+                closeAllLists();
+            }
+        });
+        
+        function addActive(x) {
+            if (!x) return false;
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+        
+        function removeActive(x) {
+            for (let i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+        
+        function closeAllLists() {
+            while (listEl.firstChild) {
+                listEl.removeChild(listEl.firstChild);
+            }
+        }
+        
+        document.addEventListener("click", function (e) {
+            if (e.target !== inputEl) {
+                closeAllLists();
+            }
+        });
+    }
 
+    document.addEventListener("DOMContentLoaded", function() {
+        initAutocomplete(document.getElementById("nome"), "nome");
+        initAutocomplete(document.getElementById("cpf"), "cpf");
+        initAutocomplete(document.getElementById("matricula"), "matricula");
+        initAutocomplete(document.getElementById("negocio"), "negocio");
+        initAutocomplete(document.getElementById("municipio"), "municipio");
+        initAutocomplete(document.getElementById("estado"), "estado");
+        initAutocomplete(document.getElementById("cr"), "cr");
+        initAutocomplete(document.getElementById("cliente"), "cliente");
+    });
+</script>
 
             </main>
 
@@ -1720,467 +2189,6 @@
 
 
     
-<script>
-let currentDate = new Date();
-let selectedReservaId = null;
-
-// FUNÇÃO PARA CORRIGIR O FUSO HORÁRIO (Transforma YYYY-MM-DD em data local exata)
-function parseDataLocal(dataString) {
-    if (!dataString) return new Date();
-    const [ano, mes, dia] = dataString.split('T')[0].split('-');
-    return new Date(ano, mes - 1, dia);
-}
-
-function formatDate(date) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
-function formatDateBR(date) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [day, month, year].join('/');
-}
-
-async function carregarSalas() {
-    const unidadeSelect = document.getElementById('unidade');
-    const salaSelect = document.getElementById('sala');
-    const unidadeId = unidadeSelect.value;
-    
-    const salaSelecionadaAnteriormente = salaSelect.value;
-    
-    salaSelect.innerHTML = '<option value="">Todas as salas</option>';
-    salaSelect.disabled = true; 
-    
-    try {
-        const url = unidadeId ? `/api/salas/?unidade=${unidadeId}` : `/api/salas/`;
-        const response = await fetch(url);
-        
-        if (response.ok) {
-            const data = await response.json();
-            if (data.salas && data.salas.length > 0) {
-                data.salas.forEach(sala => {
-                    const option = document.createElement('option');
-                    option.value = sala.id;
-                    option.textContent = sala.nome;
-                    salaSelect.appendChild(option);
-                });
-            }
-        }
-    } catch (error) {
-        console.error('Erro ao carregar salas:', error);
-    } finally {
-        salaSelect.disabled = false;
-        
-        if (salaSelecionadaAnteriormente) {
-            const existeNaLista = Array.from(salaSelect.options).some(opt => opt.value === salaSelecionadaAnteriormente);
-            if (existeNaLista) {
-                salaSelect.value = salaSelecionadaAnteriormente;
-            }
-        }
-        
-        atualizarCalendario(); 
-    }
-}
-
-async function carregarReservas(inicio, fim) {
-    const unidadeId = document.getElementById('unidade').value;
-    const salaId = document.getElementById('sala').value;
-    
-    try {
-        const params = new URLSearchParams({
-            data_inicio: formatDate(inicio),
-            data_fim: formatDate(fim)
-        });
-        if (unidadeId) params.append('unidade', unidadeId);
-        if (salaId) params.append('sala', salaId);
-        
-        const response = await fetch(`/api/reservas/?${params}`);
-        if (response.ok) {
-            const data = await response.json();
-            return data.reservas;
-        }
-        return [];
-    } catch (error) {
-        console.error('Erro ao carregar reservas:', error);
-        return [];
-    }
-}
-
-async function atualizarCalendario() {
-    const grid = document.getElementById('calendar-grid');
-    const title = document.getElementById('calendar-title');
-    
-    grid.innerHTML = '';
-    
-    const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                       'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-    title.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-    
-    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-    
-    const reservas = await carregarReservas(firstDay, lastDay);
-    
-    for (let i = 0; i < firstDay.getDay(); i++) {
-        const cell = document.createElement('div');
-        cell.className = 'bg-white p-2 h-32';
-        grid.appendChild(cell);
-    }
-    
-    const salaSelect = document.getElementById('sala');
-    const salaId = salaSelect.value;
-    const salaNome = salaId ? salaSelect.options[salaSelect.selectedIndex].text : "";
-    
-    for (let day = 1; day <= lastDay.getDate(); day++) {
-        const cell = document.createElement('div');
-        cell.className = 'bg-white p-2 h-32 relative';
-        
-        const dayNumber = document.createElement('span');
-        dayNumber.className = 'absolute top-2 left-2 text-sm font-medium text-slate-700';
-        dayNumber.textContent = day;
-        cell.appendChild(dayNumber);
-        
-        const reservasContainer = document.createElement('div');
-        reservasContainer.className = 'mt-6 space-y-1 overflow-y-auto max-h-24';
-        
-        const reservasDoDia = reservas.filter(r => {
-            const dataReserva = parseDataLocal(r.data);
-            const isMesmoDia = dataReserva.getDate() === day && dataReserva.getMonth() === currentDate.getMonth();
-            const isMesmaSala = salaId ? (String(r.sala) === salaNome || String(r.sala_id) === String(salaId)) : true;
-            
-            return isMesmoDia && isMesmaSala;
-        });
-        
-        reservasDoDia.forEach(reserva => {
-            const reservaEl = document.createElement('div');
-            const corUnidade = getCorUnidade(reserva.unidade_id);
-            
-            if (reserva.status === 'cancelada') {
-                reservaEl.className = `px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded cursor-pointer hover:${corUnidade.hover} line-through opacity-60 border border-transparent hover:border-slate-300`;
-                reservaEl.title = 'Reserva Cancelada';
-            } else {
-                reservaEl.className = `px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded cursor-pointer hover:${corUnidade.hover} border border-transparent hover:border-slate-300`;
-            }
-            
-            reservaEl.textContent = `${reserva.hora_inicio} - ${reserva.nome || reserva.solicitante}`;
-            reservaEl.onclick = () => mostrarDetalhesReserva(reserva);
-            reservasContainer.appendChild(reservaEl);
-        });
-        
-        cell.appendChild(reservasContainer);
-        grid.appendChild(cell);
-    }
-    
-    const lastDayOfWeek = lastDay.getDay();
-    if (lastDayOfWeek < 6) {
-        for (let i = lastDayOfWeek + 1; i <= 6; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'bg-white p-2 h-32';
-            grid.appendChild(cell);
-        }
-    }
-}
-
-const coresUnidades = [
-    { bg: 'bg-blue-100', text: 'text-blue-800', hover: 'bg-blue-200' },
-    { bg: 'bg-green-100', text: 'text-green-800', hover: 'bg-green-200' },
-    { bg: 'bg-purple-100', text: 'text-purple-800', hover: 'bg-purple-200' },
-    { bg: 'bg-orange-100', text: 'text-orange-800', hover: 'bg-orange-200' },
-    { bg: 'bg-pink-100', text: 'text-pink-800', hover: 'bg-pink-200' },
-    { bg: 'bg-indigo-100', text: 'text-indigo-800', hover: 'bg-indigo-200' },
-    { bg: 'bg-yellow-100', text: 'text-yellow-800', hover: 'bg-yellow-200' },
-    { bg: 'bg-red-100', text: 'text-red-800', hover: 'bg-red-200' }
-];
-
-function getCorUnidade(unidadeId) {
-    if (!unidadeId) return coresUnidades[0];
-    const index = parseInt(unidadeId) % coresUnidades.length;
-    return coresUnidades[index];
-}
-
-// Escapa HTML para prevenir XSS em campos de texto livre (nome, observações, etc.)
-function escapeHtml(unsafe) {
-    if (unsafe === null || unsafe === undefined) return '';
-    return String(unsafe)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
-function mostrarDetalhesReserva(reserva) {
-    selectedReservaId = reserva.id;
-    const detalhes = document.getElementById('reserva-detalhes');
-
-    const statusBadge = reserva.status === 'cancelada' ?
-        '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelada</span>' :
-        '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Ativa</span>';
-
-    detalhes.innerHTML = `
-        <div class="space-y-2">
-            <div class="flex items-center gap-2">
-                <span class="font-medium text-slate-800">Status:</span> ${statusBadge}
-            </div>
-            <p><span class="font-medium text-slate-800">Data:</span> ${formatDateBR(parseDataLocal(reserva.data))}</p>
-            <p><span class="font-medium text-slate-800">Horário:</span> ${escapeHtml(reserva.hora_inicio)} às ${escapeHtml(reserva.hora_fim)}</p>
-            <p><span class="font-medium text-slate-800">Unidade:</span> ${escapeHtml(reserva.unidade)}</p>
-            <p><span class="font-medium text-slate-800">Sala:</span> ${escapeHtml(reserva.sala)}</p>
-            ${reserva.mesa_numero ? `<p><span class="font-medium text-slate-800">Mesa:</span> ${escapeHtml(reserva.mesa_numero)}</p>` : ''}
-            <p><span class="font-medium text-slate-800">Nome:</span> ${escapeHtml(reserva.nome || reserva.solicitante)}</p>
-            <p><span class="font-medium text-slate-800">Email:</span> ${escapeHtml(reserva.email) || 'Não informado'}</p>
-            ${reserva.telefone ? `<p><span class="font-medium text-slate-800">Telefone:</span> ${escapeHtml(reserva.telefone)}</p>` : ''}
-            ${reserva.observacoes ? `<p><span class="font-medium text-slate-800">Observações:</span> ${escapeHtml(reserva.observacoes)}</p>` : ''}
-        </div>
-    `;
-    
-    const editBtn = document.querySelector('button[onclick="editarReserva()"]');
-    const cancelBtn = document.querySelector('button[onclick="cancelarReserva()"]');
-    
-    if (reserva.status === 'cancelada') {
-        editBtn.style.display = 'none';
-        cancelBtn.style.display = 'none';
-    } else {
-        editBtn.style.display = 'inline-block';
-        cancelBtn.style.display = 'inline-block';
-    }
-    
-    document.getElementById('reserva-modal').classList.remove('hidden');
-}
-
-function fecharModal() {
-    document.getElementById('reserva-modal').classList.add('hidden');
-    selectedReservaId = null;
-}
-
-async function cancelarReserva() {
-    if (!selectedReservaId) return;
-    if (!confirm('Tem certeza que deseja cancelar esta reserva?')) return;
-    
-    try {
-        const response = await fetch(`/api/reservas/${selectedReservaId}/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': 'KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq'
-            },
-            body: JSON.stringify({ status: 'cancelada' })
-        });
-        
-        if (response.ok) {
-            fecharModal();
-            atualizarCalendario();
-        } else {
-            alert('Erro ao cancelar reserva');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-async function abrirHistorico() {
-    try {
-        const response = await fetch('/api/reservas/historico/');
-        if (response.ok) {
-            const data = await response.json();
-            mostrarHistorico(data.reservas);
-        } else {
-            alert('Erro ao carregar histórico');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-function mostrarHistorico(reservas) {
-    const lista = document.getElementById('historico-lista');
-    
-    if (reservas.length === 0) {
-        lista.innerHTML = '<p class="text-gray-500 text-center">Nenhuma reserva encontrada</p>';
-    } else {
-        lista.innerHTML = reservas.map(reserva => {
-            const corUnidade = getCorUnidade(reserva.unidade_id);
-            const statusBadge = reserva.status === 'cancelada' ?
-                '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelada</span>' :
-                '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Ativa</span>';
-
-            return `
-                <div class="border border-slate-200 rounded-lg p-4 ${reserva.status === 'cancelada' ? 'opacity-60' : 'bg-slate-50'}">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded">${escapeHtml(reserva.unidade)}</span>
-                            ${statusBadge}
-                        </div>
-                        <span class="text-sm font-medium text-slate-500">${formatDateBR(parseDataLocal(reserva.data))}</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 text-sm text-slate-700">
-                        <div>
-                            <p><strong class="text-slate-800">Nome:</strong> ${escapeHtml(reserva.nome || reserva.solicitante)}</p>
-                            <p><strong class="text-slate-800">Sala:</strong> ${escapeHtml(reserva.sala)}</p>
-                            <p><strong class="text-slate-800">Horário:</strong> ${escapeHtml(reserva.horario)}</p>
-                        </div>
-                        <div>
-                            <p><strong class="text-slate-800">Email:</strong> ${escapeHtml(reserva.email) || 'Não informado'}</p>
-                            <p><strong class="text-slate-800">Telefone:</strong> ${escapeHtml(reserva.telefone) || 'Não informado'}</p>
-                            ${reserva.mesa_numero ? `<p><strong class="text-slate-800">Mesa:</strong> ${escapeHtml(reserva.mesa_numero)}</p>` : ''}
-                        </div>
-                    </div>
-                    ${reserva.observacoes ? `<p class="mt-2 text-sm text-slate-700"><strong class="text-slate-800">Observações:</strong> ${escapeHtml(reserva.observacoes)}</p>` : ''}
-                </div>
-            `;
-        }).join('');
-    }
-    
-    document.getElementById('historico-modal').classList.remove('hidden');
-}
-
-function fecharHistorico() {
-    document.getElementById('historico-modal').classList.add('hidden');
-}
-
-function editarReserva() {
-    if (!selectedReservaId) return;
-    
-    const detalhes = document.getElementById('reserva-detalhes');
-    const reservaAtual = getCurrentReservaData();
-    
-    document.getElementById('edit-nome').value = reservaAtual.nome || '';
-    document.getElementById('edit-email').value = reservaAtual.email || '';
-    document.getElementById('edit-telefone').value = reservaAtual.telefone || '';
-    document.getElementById('edit-horario').value = reservaAtual.horario || '';
-    document.getElementById('edit-observacoes').value = reservaAtual.observacoes || '';
-    
-    fecharModal();
-    document.getElementById('edicao-modal').classList.remove('hidden');
-}
-
-function getCurrentReservaData() {
-    const detalhes = document.getElementById('reserva-detalhes');
-    return {
-        nome: extractTextFromDetail(detalhes, 'Nome:'),
-        email: extractTextFromDetail(detalhes, 'Email:'),
-        telefone: extractTextFromDetail(detalhes, 'Telefone:'),
-        horario: extractTextFromDetail(detalhes, 'Horário:'),
-        observacoes: extractTextFromDetail(detalhes, 'Observações:')
-    };
-}
-
-function extractTextFromDetail(container, label) {
-    const text = container.textContent;
-    const index = text.indexOf(label);
-    if (index === -1) return '';
-    
-    const start = index + label.length;
-    const nextLabel = text.indexOf('\n', start);
-    return text.substring(start, nextLabel === -1 ? text.length : nextLabel).trim();
-}
-
-async function salvarEdicao() {
-    if (!selectedReservaId) return;
-    
-    const dados = {
-        nome: document.getElementById('edit-nome').value,
-        email: document.getElementById('edit-email').value,
-        telefone: document.getElementById('edit-telefone').value,
-        data: document.getElementById('edit-data').value,
-        horario: document.getElementById('edit-horario').value,
-        observacoes: document.getElementById('edit-observacoes').value
-    };
-    
-    try {
-        const response = await fetch(`/api/reservas/${selectedReservaId}/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': 'KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq'
-            },
-            body: JSON.stringify(dados)
-        });
-        
-        if (response.ok) {
-            fecharEdicao();
-            atualizarCalendario();
-        } else {
-            alert('Erro ao salvar alterações');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-function fecharEdicao() {
-    document.getElementById('edicao-modal').classList.add('hidden');
-}
-
-const unidadeSelect = document.getElementById('unidade');
-const salaSelect = document.getElementById('sala');
-
-if (unidadeSelect) {
-    unidadeSelect.addEventListener('change', function() {
-        carregarSalas(); 
-    });
-}
-
-if (salaSelect) {
-    salaSelect.addEventListener('change', function() {
-        atualizarCalendario(); 
-    });
-}
-
-document.getElementById('mes').addEventListener('change', (e) => {
-    const [year, month] = e.target.value.split('-');
-    currentDate = new Date(year, month - 1);
-    atualizarCalendario();
-});
-
-document.getElementById('prev-month').addEventListener('click', () => {
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
-    document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-    atualizarCalendario();
-});
-
-document.getElementById('next-month').addEventListener('click', () => {
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
-    document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-    atualizarCalendario();
-});
-
-function novaReserva() {
-    const unidadeSelect = document.getElementById('unidade');
-    const unidadeSelecionada = unidadeSelect.value;
-    
-    if (unidadeSelecionada) {
-        const unidadeOption = unidadeSelect.options[unidadeSelect.selectedIndex];
-        const unidadeSlug = unidadeOption.getAttribute('data-slug');
-        
-        if (unidadeSlug) {
-            window.location.href = `/reserva-salas/${unidadeSlug}/`;
-        } else {
-            window.location.href = '/selecionar-unidade/';
-        }
-    } else {
-        window.location.href = '/selecionar-unidade/';
-    }
-}
-
-document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-carregarSalas();
-</script>
-
 <style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script src="static/demo-fill.js"></script></body>
 
 </html>

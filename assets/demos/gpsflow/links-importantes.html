@@ -5,7 +5,7 @@
 <head><script>(function(){try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}try{var of=window.fetch;if(of){window.fetch=function(u){try{var s=(typeof u==="string")?u:((u&&u.url)||"");if(/^https?:\/\//i.test(s))return of.apply(this,arguments);return Promise.resolve(new Response("[]",{status:200,headers:{"Content-Type":"application/json"}}));}catch(e){return of.apply(this,arguments);}};}}catch(e){}var M={"/home/": "home.html", "/torre-controle/": "torre-controle.html", "/torre-controle/auditoria/": "auditoria.html", "/chamados/": "chamados.html", "/dashboard/": "dashboard.html", "/financeiro/": "financeiro.html", "/gestao-qualidade/": "qualidade.html", "/gestao-salas/": "gestao-salas.html", "/calendario-reservas/": "calendario-reservas.html", "/controle-acessos/": "controle-acessos.html", "/implantacoes-fluxo/": "implantacoes.html", "/implantacoes-gpsvista/": "implantacoes-sistemicas.html", "/relatorios/": "relatorios.html", "/planner/": "planner.html", "/gerenciar-regionais/": "gerenciar-regionais.html", "/estatisticas-acesso/": "estatisticas-acesso.html", "/novidades/": "novidades.html", "/calendario-2026/": "calendario-2026.html", "/controle-chips/": "controle-chips.html", "/ajuda/": "ajuda.html", "/psicossocial/": "psicossocial.html", "/psicossocial/sra/": "psicossocial-sra.html", "/desativacao-cr/": "desativacao-cr.html", "/desmobilizacoes-fluxo/": "desmobilizacoes.html", "/livro-ocorrencia-pdf/": "livro-pdf.html", "/explorer/": "explorer.html", "/links-importantes/": "links-importantes.html", "/depara-aprova/": "depara-aprova.html", "/controle-ordens/": "controle-ordens.html", "/portaria-base/": "portaria-base.html", "/cracha/": "cracha.html", "/qr-generator/": "qr-generator.html", "/etiquetas/": "etiquetas.html", "/livro-ata/": "livro-ata.html"};var dir=location.pathname.replace(/[^\/]*$/,"");function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}try{var d=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(d&&d.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return d.get.call(this);},set:function(v){d.set.call(this,res(v));}});}}catch(e){}try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário de Reservas - FLOW</title>
+    <title>Links GPS</title>
     <meta name="application-name" content="FLOW">
     <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
     <meta name="theme-color" content="#1e3a5f">
@@ -752,46 +752,41 @@
 
     
 <style>
-    /* =========================================
-       CLASSES PADRÃO DO SISTEMA (DARK GRADIENT)
-       ========================================= */
-    .calendario-icon {
+    .li-icon {
         width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
         display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
     }
-    .calendario-title {
-        background: linear-gradient(to right, #1A2A45, #2A4570) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        color: transparent !important; /* Fallback essencial */
-        display: inline-block;
-        text-transform: uppercase;
+    .li-title {
+        background: linear-gradient(to right, #1A2A45, #2A4570);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
         font-size: 26px;
         font-weight: bold;
         margin: 0;
-        line-height: 1.2;
-    }
-    
-    .bg-gradient-padrao {
-        background: linear-gradient(135deg, #1e293b, #334155) !important;
-        color: white !important;
-        border: none !important;
-        transition: all 0.2s ease-in-out;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .bg-gradient-padrao:hover {
-        background: linear-gradient(135deg, #0f172a, #1e293b) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        text-transform: uppercase;
     }
 
-    .focus-padrao:focus {
-        border-color: #1e293b !important;
-        box-shadow: 0 0 0 2px rgba(30, 41, 59, 0.2) !important;
-        outline: none !important;
-    }
+    .link-card { border: none; box-shadow: 0 1px 3px rgba(15,23,42,.08); transition: transform .15s ease, box-shadow .15s ease; height: 100%; }
+    .link-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(15,23,42,.14); }
+    .link-card.is-inativo { opacity: .55; }
+
+    .link-icon { width: 3rem; height: 3rem; border-radius: .65rem; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.15rem; flex-shrink: 0; }
+    .link-c1 { background: linear-gradient(135deg, #0ea5e9, #0369a1); }
+    .link-c2 { background: linear-gradient(135deg, #2563eb, #1e3a8a); }
+    .link-c3 { background: linear-gradient(135deg, #16a34a, #15803d); }
+    .link-c4 { background: linear-gradient(135deg, #d97706, #b45309); }
+    .link-c5 { background: linear-gradient(135deg, #64748b, #334155); }
+
+    .badge-inativo { font-size: .65rem; text-transform: uppercase; letter-spacing: .03em; }
+    .link-actions .btn { padding: .2rem .45rem; }
+
+    /* Botões seguem o azul-escuro (navy) do design do site, não o azul padrão do Bootstrap */
+    .btn-primary { background-color: var(--navy); border-color: var(--navy); }
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active { background-color: var(--navy-mid) !important; border-color: var(--navy-mid) !important; }
+    .btn-outline-primary { color: var(--navy); border-color: var(--navy); }
+    .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active { background-color: var(--navy) !important; border-color: var(--navy) !important; color: #fff !important; }
+    .text-primary { color: var(--navy) !important; }
 </style>
 
 </head>
@@ -801,7 +796,7 @@
     mobileOpen: false,
     geradores: false,
     acompanhamento: false,
-    gestaoReservas: true,
+    gestaoReservas: false,
     auditoria: false,
     projetos: false,
     psico: false,
@@ -937,7 +932,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) gestaoReservas = !gestaoReservas"
-                        class="nav-link active"
+                        class="nav-link "
                         :class="{ 'expanded': gestaoReservas && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -974,7 +969,7 @@
                         
                         
                         <a href="calendario-reservas.html"
-                            class="nav-sub-link active">
+                            class="nav-sub-link ">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -1354,7 +1349,7 @@
                 
                 <div class="nav-item">
                     <a href="links-importantes.html"
-                        class="nav-link ">
+                        class="nav-link active">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
@@ -1415,7 +1410,7 @@
                     </svg>
                 </button>
 
-                <span class="topbar-title">FLOW</span>
+                <span class="topbar-title">Links GPS — Fácil Acesso</span>
 
                 <div class="topbar-right">
                     
@@ -1448,7 +1443,7 @@
                     
 
                     <form method="post" action="/logout/">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="C2i2z4vxdWbxC4vzZsZPTVkL11qhPwjC2OtdmO7ks4TolIyV5kFf6Tc9zmMn5F82">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1466,195 +1461,250 @@
                 
 
                 
-<div class="space-y-6">
-    <div class="border-b pb-4">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="calendario-icon"><i class="fas fa-calendar-check"></i></div>
-                <div>
-                    <h1 class="calendario-title mb-0">Calendário de Reservas</h1>
-                    <p class="text-muted-foreground mb-0">Visualize e gerencie as reservas de salas</p>
-                </div>
-            </div>
-            <button onclick="abrirHistorico()" class="px-4 py-2 bg-gradient-padrao rounded-lg flex items-center gap-2">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                Histórico
-            </button>
-        </div>
-    </div>
+<div class="container-fluid py-3">
 
-    <div class="bg-white rounded-lg border shadow-sm p-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <div class="d-flex align-items-center gap-3">
+            <div class="li-icon"><i class="fas fa-link"></i></div>
             <div>
-                <label for="unidade" class="block text-sm font-medium mb-1">Unidade</label>
-                <select id="unidade" 
-                        class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-                    <option value="">Todas as unidades</option>
-                    
-                </select>
-            </div>
-            <div>
-                <label for="sala" class="block text-sm font-medium mb-1">Sala</label>
-                <select id="sala" 
-                        class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-                    <option value="">Todas as salas</option>
-                </select>
-            </div>
-            <div>
-                <label for="mes" class="block text-sm font-medium mb-1">Mês</label>
-                <input type="month" 
-                       id="mes" 
-                       class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
+                <h1 class="li-title mb-0">Links GPS</h1>
+                <p class="text-muted mb-0 small">Atalhos de fácil acesso aos sistemas usados no dia a dia</p>
             </div>
         </div>
+        <button type="button" class="btn btn-primary btn-sm" onclick="abrirModalLink()">
+            <i class="fas fa-plus me-1"></i>Adicionar Link
+        </button>
     </div>
 
-    <div class="bg-white rounded-lg border shadow-sm">
-        <div class="border-b p-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <button id="prev-month" class="p-2 hover:bg-gray-100 rounded-full">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>
-                    </button>
-                    <h2 id="calendar-title" class="text-xl font-semibold text-slate-800"></h2>
-                    <button id="next-month" class="p-2 hover:bg-gray-100 rounded-full">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
+    
+    <div class="row g-3">
+        
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card link-card ">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        
+                        <div class="link-icon link-c1"><i class="fas fa-external-link-alt"></i></div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0 fw-bold">
+                                GPS 360
+                                
+                            </h6>
+                            
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                        <a href="https://gps360.com.br/dashboard" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-external-link-alt me-1"></i>Abrir
+                        </a>
+                        <div class="link-actions d-flex gap-1">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" title="Editar"
+                                data-id="15a7dcab-f915-4187-ab57-6909a4e654ad" data-titulo="GPS 360" data-url="https://gps360.com.br/dashboard"
+                                data-descricao="" data-ordem="1"
+                                data-ativo="true"
+                                onclick="abrirModalLinkEdicao(this)">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" title="Excluir"
+                                data-id="15a7dcab-f915-4187-ab57-6909a4e654ad" data-titulo="GPS 360"
+                                onclick="excluirLink(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="novaReserva()" class="px-4 py-2 bg-gradient-padrao rounded-lg flex items-center gap-2">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Nova Reserva
-                </button>
             </div>
         </div>
-
-        <div class="p-4">
-            <div class="grid grid-cols-7 gap-px mb-px">
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Dom</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Seg</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Ter</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Qua</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Qui</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Sex</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Sáb</div>
-            </div>
-
-            <div id="calendar-grid" class="grid grid-cols-7 gap-px bg-gray-200">
+        
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card link-card ">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        
+                        <div class="link-icon link-c2"><i class="fas fa-external-link-alt"></i></div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0 fw-bold">
+                                GPS Vista
+                                
+                            </h6>
+                            
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                        <a href="https://portalprod.gpsvista.com.br/" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-external-link-alt me-1"></i>Abrir
+                        </a>
+                        <div class="link-actions d-flex gap-1">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" title="Editar"
+                                data-id="5354476a-6a9a-4e0a-8a4f-0f84c769675f" data-titulo="GPS Vista" data-url="https://portalprod.gpsvista.com.br/"
+                                data-descricao="" data-ordem="2"
+                                data-ativo="true"
+                                onclick="abrirModalLinkEdicao(this)">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" title="Excluir"
+                                data-id="5354476a-6a9a-4e0a-8a4f-0f84c769675f" data-titulo="GPS Vista"
+                                onclick="excluirLink(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
         </div>
+        
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card link-card ">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        
+                        <div class="link-icon link-c3"><i class="fas fa-external-link-alt"></i></div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0 fw-bold">
+                                Portal GPSSA
+                                
+                            </h6>
+                            
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                        <a href="https://portal.gpssa.com.br/GPS/Login.aspx" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-external-link-alt me-1"></i>Abrir
+                        </a>
+                        <div class="link-actions d-flex gap-1">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" title="Editar"
+                                data-id="858f4da3-a108-47d8-880a-a8f626168c87" data-titulo="Portal GPSSA" data-url="https://portal.gpssa.com.br/GPS/Login.aspx"
+                                data-descricao="" data-ordem="3"
+                                data-ativo="true"
+                                onclick="abrirModalLinkEdicao(this)">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" title="Excluir"
+                                data-id="858f4da3-a108-47d8-880a-a8f626168c87" data-titulo="Portal GPSSA"
+                                onclick="excluirLink(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card link-card ">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        
+                        <div class="link-icon link-c4"><i class="fas fa-external-link-alt"></i></div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0 fw-bold">
+                                Prisma
+                                
+                            </h6>
+                            
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                        <a href="https://cimogps.com.br/Prisma4/Process/StockIssue" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-external-link-alt me-1"></i>Abrir
+                        </a>
+                        <div class="link-actions d-flex gap-1">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" title="Editar"
+                                data-id="bcf88a50-74d6-4795-b57f-44ea0d7f245d" data-titulo="Prisma" data-url="https://cimogps.com.br/Prisma4/Process/StockIssue"
+                                data-descricao="" data-ordem="4"
+                                data-ativo="true"
+                                onclick="abrirModalLinkEdicao(this)">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" title="Excluir"
+                                data-id="bcf88a50-74d6-4795-b57f-44ea0d7f245d" data-titulo="Prisma"
+                                onclick="excluirLink(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card link-card ">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        
+                        <div class="link-icon link-c5"><i class="fas fa-external-link-alt"></i></div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0 fw-bold">
+                                Home GPS SA
+                                
+                            </h6>
+                            
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                        <a href="https://gpssa.com.br/" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-external-link-alt me-1"></i>Abrir
+                        </a>
+                        <div class="link-actions d-flex gap-1">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" title="Editar"
+                                data-id="a56a71e4-e65a-4e1e-8e75-757537e171fe" data-titulo="Home GPS SA" data-url="https://gpssa.com.br/"
+                                data-descricao="" data-ordem="5"
+                                data-ativo="true"
+                                onclick="abrirModalLinkEdicao(this)">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" title="Excluir"
+                                data-id="a56a71e4-e65a-4e1e-8e75-757537e171fe" data-titulo="Home GPS SA"
+                                onclick="excluirLink(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card link-card ">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-start gap-2 mb-2">
+                        
+                        <div class="link-icon link-c1"><i class="fas fa-external-link-alt"></i></div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0 fw-bold">
+                                Canal de Ética
+                                
+                            </h6>
+                            
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                        <a href="https://www.canaldeetica.com.br/grupogps/" target="_blank" rel="noopener" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-external-link-alt me-1"></i>Abrir
+                        </a>
+                        <div class="link-actions d-flex gap-1">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" title="Editar"
+                                data-id="5bca8a93-1acc-4deb-98f8-814a180310a4" data-titulo="Canal de Ética" data-url="https://www.canaldeetica.com.br/grupogps/"
+                                data-descricao="" data-ordem="6"
+                                data-ativo="true"
+                                onclick="abrirModalLinkEdicao(this)">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" title="Excluir"
+                                data-id="5bca8a93-1acc-4deb-98f8-814a180310a4" data-titulo="Canal de Ética"
+                                onclick="excluirLink(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
+    
+
 </div>
-
-<div id="reserva-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-slate-800">Detalhes da Reserva</h3>
-                    <button onclick="fecharModal()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <div id="reserva-detalhes" class="space-y-4 text-slate-700">
-                    </div>
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button onclick="editarReserva()" class="px-4 py-2 bg-gradient-padrao rounded">
-                        Editar
-                    </button>
-                    <button onclick="cancelarReserva()" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700">
-                        Cancelar
-                    </button>
-                    <button onclick="fecharModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                        Fechar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="historico-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
-            <div class="p-6 border-b">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-slate-800">Histórico de Reservas</h3>
-                    <button onclick="fecharHistorico()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="p-6 overflow-y-auto max-h-[70vh]">
-                <div id="historico-lista" class="space-y-4">
-                    </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="edicao-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-slate-800">Editar Reserva</h3>
-                    <button onclick="fecharEdicao()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <form id="form-edicao" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Nome do Solicitante</label>
-                        <input type="text" id="edit-nome" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Email</label>
-                        <input type="email" id="edit-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Telefone</label>
-                        <input type="text" id="edit-telefone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Data</label>
-                        <input type="date" id="edit-data" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Horário</label>
-                        <input type="text" id="edit-horario" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" placeholder="Ex: 14:00 - 16:00" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Observações</label>
-                        <textarea id="edit-observacoes" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" rows="3"></textarea>
-                    </div>
-                </form>
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button onclick="salvarEdicao()" class="px-4 py-2 bg-gradient-padrao rounded">
-                        Salvar
-                    </button>
-                    <button onclick="fecharEdicao()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
             </main>
 
@@ -1676,6 +1726,53 @@
     </div>
 
     
+<div class="modal fade" id="modalLink" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLinkTitulo">Adicionar Link</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formLink">
+                <div class="modal-body">
+                    <input type="hidden" id="link_id">
+                    <div class="mb-2">
+                        <label class="form-label small">Título *</label>
+                        <input type="text" class="form-control" id="link_titulo" maxlength="100" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">URL *</label>
+                        <input type="url" class="form-control" id="link_url" placeholder="https://..." required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Descrição</label>
+                        <input type="text" class="form-control" id="link_descricao" maxlength="255">
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-2">
+                            <label class="form-label small">Ordem de exibição</label>
+                            <input type="number" class="form-control" id="link_ordem" min="0" placeholder="Automática">
+                        </div>
+                        <div class="col-6 mb-2 d-flex align-items-end">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="link_ativo" checked>
+                                <label class="form-check-label small" for="link_ativo">Ativo (visível na lista)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="small text-danger d-none" id="linkErro"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="salvarLink(this)">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<form style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="C2i2z4vxdWbxC4vzZsZPTVkL11qhPwjC2OtdmO7ks4TolIyV5kFf6Tc9zmMn5F82"></form>
+
 
     <script src="static/vendor/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="static/js/notifications.min.js"></script>
@@ -1721,464 +1818,93 @@
 
     
 <script>
-let currentDate = new Date();
-let selectedReservaId = null;
+    const csrfTokenLinks = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const URL_LINKS_SALVAR = '/api/links-importantes/salvar/';
+    const URL_LINKS_EXCLUIR = '/api/links-importantes/excluir/';
 
-// FUNÇÃO PARA CORRIGIR O FUSO HORÁRIO (Transforma YYYY-MM-DD em data local exata)
-function parseDataLocal(dataString) {
-    if (!dataString) return new Date();
-    const [ano, mes, dia] = dataString.split('T')[0].split('-');
-    return new Date(ano, mes - 1, dia);
-}
-
-function formatDate(date) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
-function formatDateBR(date) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [day, month, year].join('/');
-}
-
-async function carregarSalas() {
-    const unidadeSelect = document.getElementById('unidade');
-    const salaSelect = document.getElementById('sala');
-    const unidadeId = unidadeSelect.value;
-    
-    const salaSelecionadaAnteriormente = salaSelect.value;
-    
-    salaSelect.innerHTML = '<option value="">Todas as salas</option>';
-    salaSelect.disabled = true; 
-    
-    try {
-        const url = unidadeId ? `/api/salas/?unidade=${unidadeId}` : `/api/salas/`;
-        const response = await fetch(url);
-        
-        if (response.ok) {
-            const data = await response.json();
-            if (data.salas && data.salas.length > 0) {
-                data.salas.forEach(sala => {
-                    const option = document.createElement('option');
-                    option.value = sala.id;
-                    option.textContent = sala.nome;
-                    salaSelect.appendChild(option);
-                });
-            }
-        }
-    } catch (error) {
-        console.error('Erro ao carregar salas:', error);
-    } finally {
-        salaSelect.disabled = false;
-        
-        if (salaSelecionadaAnteriormente) {
-            const existeNaLista = Array.from(salaSelect.options).some(opt => opt.value === salaSelecionadaAnteriormente);
-            if (existeNaLista) {
-                salaSelect.value = salaSelecionadaAnteriormente;
-            }
-        }
-        
-        atualizarCalendario(); 
+    function getHeadersLinks() {
+        return { 'X-CSRFToken': csrfTokenLinks, 'Content-Type': 'application/json' };
     }
-}
 
-async function carregarReservas(inicio, fim) {
-    const unidadeId = document.getElementById('unidade').value;
-    const salaId = document.getElementById('sala').value;
-    
-    try {
-        const params = new URLSearchParams({
-            data_inicio: formatDate(inicio),
-            data_fim: formatDate(fim)
-        });
-        if (unidadeId) params.append('unidade', unidadeId);
-        if (salaId) params.append('sala', salaId);
-        
-        const response = await fetch(`/api/reservas/?${params}`);
-        if (response.ok) {
-            const data = await response.json();
-            return data.reservas;
-        }
-        return [];
-    } catch (error) {
-        console.error('Erro ao carregar reservas:', error);
-        return [];
+    function abrirModalLink() {
+        document.getElementById('formLink').reset();
+        document.getElementById('modalLinkTitulo').textContent = 'Adicionar Link';
+        document.getElementById('link_id').value = '';
+        document.getElementById('link_ativo').checked = true;
+        document.getElementById('linkErro').classList.add('d-none');
+        new bootstrap.Modal(document.getElementById('modalLink')).show();
     }
-}
 
-async function atualizarCalendario() {
-    const grid = document.getElementById('calendar-grid');
-    const title = document.getElementById('calendar-title');
-    
-    grid.innerHTML = '';
-    
-    const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                       'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-    title.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-    
-    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-    
-    const reservas = await carregarReservas(firstDay, lastDay);
-    
-    for (let i = 0; i < firstDay.getDay(); i++) {
-        const cell = document.createElement('div');
-        cell.className = 'bg-white p-2 h-32';
-        grid.appendChild(cell);
+    function abrirModalLinkEdicao(btn) {
+        document.getElementById('formLink').reset();
+        document.getElementById('modalLinkTitulo').textContent = 'Editar Link';
+        document.getElementById('link_id').value = btn.dataset.id;
+        document.getElementById('link_titulo').value = btn.dataset.titulo;
+        document.getElementById('link_url').value = btn.dataset.url;
+        document.getElementById('link_descricao').value = btn.dataset.descricao;
+        document.getElementById('link_ordem').value = btn.dataset.ordem;
+        document.getElementById('link_ativo').checked = btn.dataset.ativo === 'true';
+        document.getElementById('linkErro').classList.add('d-none');
+        new bootstrap.Modal(document.getElementById('modalLink')).show();
     }
-    
-    const salaSelect = document.getElementById('sala');
-    const salaId = salaSelect.value;
-    const salaNome = salaId ? salaSelect.options[salaSelect.selectedIndex].text : "";
-    
-    for (let day = 1; day <= lastDay.getDate(); day++) {
-        const cell = document.createElement('div');
-        cell.className = 'bg-white p-2 h-32 relative';
-        
-        const dayNumber = document.createElement('span');
-        dayNumber.className = 'absolute top-2 left-2 text-sm font-medium text-slate-700';
-        dayNumber.textContent = day;
-        cell.appendChild(dayNumber);
-        
-        const reservasContainer = document.createElement('div');
-        reservasContainer.className = 'mt-6 space-y-1 overflow-y-auto max-h-24';
-        
-        const reservasDoDia = reservas.filter(r => {
-            const dataReserva = parseDataLocal(r.data);
-            const isMesmoDia = dataReserva.getDate() === day && dataReserva.getMonth() === currentDate.getMonth();
-            const isMesmaSala = salaId ? (String(r.sala) === salaNome || String(r.sala_id) === String(salaId)) : true;
-            
-            return isMesmoDia && isMesmaSala;
-        });
-        
-        reservasDoDia.forEach(reserva => {
-            const reservaEl = document.createElement('div');
-            const corUnidade = getCorUnidade(reserva.unidade_id);
-            
-            if (reserva.status === 'cancelada') {
-                reservaEl.className = `px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded cursor-pointer hover:${corUnidade.hover} line-through opacity-60 border border-transparent hover:border-slate-300`;
-                reservaEl.title = 'Reserva Cancelada';
-            } else {
-                reservaEl.className = `px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded cursor-pointer hover:${corUnidade.hover} border border-transparent hover:border-slate-300`;
-            }
-            
-            reservaEl.textContent = `${reserva.hora_inicio} - ${reserva.nome || reserva.solicitante}`;
-            reservaEl.onclick = () => mostrarDetalhesReserva(reserva);
-            reservasContainer.appendChild(reservaEl);
-        });
-        
-        cell.appendChild(reservasContainer);
-        grid.appendChild(cell);
+
+    function salvarLink(btn) {
+        const form = document.getElementById('formLink');
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        if (btn.disabled) return;
+
+        const erroEl = document.getElementById('linkErro');
+        erroEl.classList.add('d-none');
+        btn.disabled = true;
+
+        const payload = {
+            id: document.getElementById('link_id').value || null,
+            titulo: document.getElementById('link_titulo').value.trim(),
+            url: document.getElementById('link_url').value.trim(),
+            descricao: document.getElementById('link_descricao').value.trim(),
+            ordem: document.getElementById('link_ordem').value || null,
+            ativo: document.getElementById('link_ativo').checked,
+        };
+
+        fetch(URL_LINKS_SALVAR, { method: 'POST', headers: getHeadersLinks(), body: JSON.stringify(payload) })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    erroEl.textContent = data.message || 'Erro ao salvar o link.';
+                    erroEl.classList.remove('d-none');
+                    btn.disabled = false;
+                }
+            })
+            .catch(() => {
+                erroEl.textContent = 'Erro de comunicação com o servidor.';
+                erroEl.classList.remove('d-none');
+                btn.disabled = false;
+            });
     }
-    
-    const lastDayOfWeek = lastDay.getDay();
-    if (lastDayOfWeek < 6) {
-        for (let i = lastDayOfWeek + 1; i <= 6; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'bg-white p-2 h-32';
-            grid.appendChild(cell);
-        }
+
+    function excluirLink(btn) {
+        const id = btn.dataset.id;
+        const titulo = btn.dataset.titulo;
+        if (!confirm('Excluir o link "' + titulo + '"?')) return;
+        btn.disabled = true;
+
+        fetch(URL_LINKS_EXCLUIR, { method: 'POST', headers: getHeadersLinks(), body: JSON.stringify({ id: id }) })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert(data.message || 'Erro ao excluir o link.');
+                    btn.disabled = false;
+                }
+            })
+            .catch(() => {
+                alert('Erro de comunicação com o servidor.');
+                btn.disabled = false;
+            });
     }
-}
-
-const coresUnidades = [
-    { bg: 'bg-blue-100', text: 'text-blue-800', hover: 'bg-blue-200' },
-    { bg: 'bg-green-100', text: 'text-green-800', hover: 'bg-green-200' },
-    { bg: 'bg-purple-100', text: 'text-purple-800', hover: 'bg-purple-200' },
-    { bg: 'bg-orange-100', text: 'text-orange-800', hover: 'bg-orange-200' },
-    { bg: 'bg-pink-100', text: 'text-pink-800', hover: 'bg-pink-200' },
-    { bg: 'bg-indigo-100', text: 'text-indigo-800', hover: 'bg-indigo-200' },
-    { bg: 'bg-yellow-100', text: 'text-yellow-800', hover: 'bg-yellow-200' },
-    { bg: 'bg-red-100', text: 'text-red-800', hover: 'bg-red-200' }
-];
-
-function getCorUnidade(unidadeId) {
-    if (!unidadeId) return coresUnidades[0];
-    const index = parseInt(unidadeId) % coresUnidades.length;
-    return coresUnidades[index];
-}
-
-// Escapa HTML para prevenir XSS em campos de texto livre (nome, observações, etc.)
-function escapeHtml(unsafe) {
-    if (unsafe === null || unsafe === undefined) return '';
-    return String(unsafe)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
-function mostrarDetalhesReserva(reserva) {
-    selectedReservaId = reserva.id;
-    const detalhes = document.getElementById('reserva-detalhes');
-
-    const statusBadge = reserva.status === 'cancelada' ?
-        '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelada</span>' :
-        '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Ativa</span>';
-
-    detalhes.innerHTML = `
-        <div class="space-y-2">
-            <div class="flex items-center gap-2">
-                <span class="font-medium text-slate-800">Status:</span> ${statusBadge}
-            </div>
-            <p><span class="font-medium text-slate-800">Data:</span> ${formatDateBR(parseDataLocal(reserva.data))}</p>
-            <p><span class="font-medium text-slate-800">Horário:</span> ${escapeHtml(reserva.hora_inicio)} às ${escapeHtml(reserva.hora_fim)}</p>
-            <p><span class="font-medium text-slate-800">Unidade:</span> ${escapeHtml(reserva.unidade)}</p>
-            <p><span class="font-medium text-slate-800">Sala:</span> ${escapeHtml(reserva.sala)}</p>
-            ${reserva.mesa_numero ? `<p><span class="font-medium text-slate-800">Mesa:</span> ${escapeHtml(reserva.mesa_numero)}</p>` : ''}
-            <p><span class="font-medium text-slate-800">Nome:</span> ${escapeHtml(reserva.nome || reserva.solicitante)}</p>
-            <p><span class="font-medium text-slate-800">Email:</span> ${escapeHtml(reserva.email) || 'Não informado'}</p>
-            ${reserva.telefone ? `<p><span class="font-medium text-slate-800">Telefone:</span> ${escapeHtml(reserva.telefone)}</p>` : ''}
-            ${reserva.observacoes ? `<p><span class="font-medium text-slate-800">Observações:</span> ${escapeHtml(reserva.observacoes)}</p>` : ''}
-        </div>
-    `;
-    
-    const editBtn = document.querySelector('button[onclick="editarReserva()"]');
-    const cancelBtn = document.querySelector('button[onclick="cancelarReserva()"]');
-    
-    if (reserva.status === 'cancelada') {
-        editBtn.style.display = 'none';
-        cancelBtn.style.display = 'none';
-    } else {
-        editBtn.style.display = 'inline-block';
-        cancelBtn.style.display = 'inline-block';
-    }
-    
-    document.getElementById('reserva-modal').classList.remove('hidden');
-}
-
-function fecharModal() {
-    document.getElementById('reserva-modal').classList.add('hidden');
-    selectedReservaId = null;
-}
-
-async function cancelarReserva() {
-    if (!selectedReservaId) return;
-    if (!confirm('Tem certeza que deseja cancelar esta reserva?')) return;
-    
-    try {
-        const response = await fetch(`/api/reservas/${selectedReservaId}/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': 'KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq'
-            },
-            body: JSON.stringify({ status: 'cancelada' })
-        });
-        
-        if (response.ok) {
-            fecharModal();
-            atualizarCalendario();
-        } else {
-            alert('Erro ao cancelar reserva');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-async function abrirHistorico() {
-    try {
-        const response = await fetch('/api/reservas/historico/');
-        if (response.ok) {
-            const data = await response.json();
-            mostrarHistorico(data.reservas);
-        } else {
-            alert('Erro ao carregar histórico');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-function mostrarHistorico(reservas) {
-    const lista = document.getElementById('historico-lista');
-    
-    if (reservas.length === 0) {
-        lista.innerHTML = '<p class="text-gray-500 text-center">Nenhuma reserva encontrada</p>';
-    } else {
-        lista.innerHTML = reservas.map(reserva => {
-            const corUnidade = getCorUnidade(reserva.unidade_id);
-            const statusBadge = reserva.status === 'cancelada' ?
-                '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelada</span>' :
-                '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Ativa</span>';
-
-            return `
-                <div class="border border-slate-200 rounded-lg p-4 ${reserva.status === 'cancelada' ? 'opacity-60' : 'bg-slate-50'}">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded">${escapeHtml(reserva.unidade)}</span>
-                            ${statusBadge}
-                        </div>
-                        <span class="text-sm font-medium text-slate-500">${formatDateBR(parseDataLocal(reserva.data))}</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 text-sm text-slate-700">
-                        <div>
-                            <p><strong class="text-slate-800">Nome:</strong> ${escapeHtml(reserva.nome || reserva.solicitante)}</p>
-                            <p><strong class="text-slate-800">Sala:</strong> ${escapeHtml(reserva.sala)}</p>
-                            <p><strong class="text-slate-800">Horário:</strong> ${escapeHtml(reserva.horario)}</p>
-                        </div>
-                        <div>
-                            <p><strong class="text-slate-800">Email:</strong> ${escapeHtml(reserva.email) || 'Não informado'}</p>
-                            <p><strong class="text-slate-800">Telefone:</strong> ${escapeHtml(reserva.telefone) || 'Não informado'}</p>
-                            ${reserva.mesa_numero ? `<p><strong class="text-slate-800">Mesa:</strong> ${escapeHtml(reserva.mesa_numero)}</p>` : ''}
-                        </div>
-                    </div>
-                    ${reserva.observacoes ? `<p class="mt-2 text-sm text-slate-700"><strong class="text-slate-800">Observações:</strong> ${escapeHtml(reserva.observacoes)}</p>` : ''}
-                </div>
-            `;
-        }).join('');
-    }
-    
-    document.getElementById('historico-modal').classList.remove('hidden');
-}
-
-function fecharHistorico() {
-    document.getElementById('historico-modal').classList.add('hidden');
-}
-
-function editarReserva() {
-    if (!selectedReservaId) return;
-    
-    const detalhes = document.getElementById('reserva-detalhes');
-    const reservaAtual = getCurrentReservaData();
-    
-    document.getElementById('edit-nome').value = reservaAtual.nome || '';
-    document.getElementById('edit-email').value = reservaAtual.email || '';
-    document.getElementById('edit-telefone').value = reservaAtual.telefone || '';
-    document.getElementById('edit-horario').value = reservaAtual.horario || '';
-    document.getElementById('edit-observacoes').value = reservaAtual.observacoes || '';
-    
-    fecharModal();
-    document.getElementById('edicao-modal').classList.remove('hidden');
-}
-
-function getCurrentReservaData() {
-    const detalhes = document.getElementById('reserva-detalhes');
-    return {
-        nome: extractTextFromDetail(detalhes, 'Nome:'),
-        email: extractTextFromDetail(detalhes, 'Email:'),
-        telefone: extractTextFromDetail(detalhes, 'Telefone:'),
-        horario: extractTextFromDetail(detalhes, 'Horário:'),
-        observacoes: extractTextFromDetail(detalhes, 'Observações:')
-    };
-}
-
-function extractTextFromDetail(container, label) {
-    const text = container.textContent;
-    const index = text.indexOf(label);
-    if (index === -1) return '';
-    
-    const start = index + label.length;
-    const nextLabel = text.indexOf('\n', start);
-    return text.substring(start, nextLabel === -1 ? text.length : nextLabel).trim();
-}
-
-async function salvarEdicao() {
-    if (!selectedReservaId) return;
-    
-    const dados = {
-        nome: document.getElementById('edit-nome').value,
-        email: document.getElementById('edit-email').value,
-        telefone: document.getElementById('edit-telefone').value,
-        data: document.getElementById('edit-data').value,
-        horario: document.getElementById('edit-horario').value,
-        observacoes: document.getElementById('edit-observacoes').value
-    };
-    
-    try {
-        const response = await fetch(`/api/reservas/${selectedReservaId}/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': 'KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq'
-            },
-            body: JSON.stringify(dados)
-        });
-        
-        if (response.ok) {
-            fecharEdicao();
-            atualizarCalendario();
-        } else {
-            alert('Erro ao salvar alterações');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-function fecharEdicao() {
-    document.getElementById('edicao-modal').classList.add('hidden');
-}
-
-const unidadeSelect = document.getElementById('unidade');
-const salaSelect = document.getElementById('sala');
-
-if (unidadeSelect) {
-    unidadeSelect.addEventListener('change', function() {
-        carregarSalas(); 
-    });
-}
-
-if (salaSelect) {
-    salaSelect.addEventListener('change', function() {
-        atualizarCalendario(); 
-    });
-}
-
-document.getElementById('mes').addEventListener('change', (e) => {
-    const [year, month] = e.target.value.split('-');
-    currentDate = new Date(year, month - 1);
-    atualizarCalendario();
-});
-
-document.getElementById('prev-month').addEventListener('click', () => {
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
-    document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-    atualizarCalendario();
-});
-
-document.getElementById('next-month').addEventListener('click', () => {
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
-    document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-    atualizarCalendario();
-});
-
-function novaReserva() {
-    const unidadeSelect = document.getElementById('unidade');
-    const unidadeSelecionada = unidadeSelect.value;
-    
-    if (unidadeSelecionada) {
-        const unidadeOption = unidadeSelect.options[unidadeSelect.selectedIndex];
-        const unidadeSlug = unidadeOption.getAttribute('data-slug');
-        
-        if (unidadeSlug) {
-            window.location.href = `/reserva-salas/${unidadeSlug}/`;
-        } else {
-            window.location.href = '/selecionar-unidade/';
-        }
-    } else {
-        window.location.href = '/selecionar-unidade/';
-    }
-}
-
-document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-carregarSalas();
 </script>
 
 <style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script src="static/demo-fill.js"></script></body>

@@ -5,7 +5,7 @@
 <head><script>(function(){try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}try{var of=window.fetch;if(of){window.fetch=function(u){try{var s=(typeof u==="string")?u:((u&&u.url)||"");if(/^https?:\/\//i.test(s))return of.apply(this,arguments);return Promise.resolve(new Response("[]",{status:200,headers:{"Content-Type":"application/json"}}));}catch(e){return of.apply(this,arguments);}};}}catch(e){}var M={"/home/": "home.html", "/torre-controle/": "torre-controle.html", "/torre-controle/auditoria/": "auditoria.html", "/chamados/": "chamados.html", "/dashboard/": "dashboard.html", "/financeiro/": "financeiro.html", "/gestao-qualidade/": "qualidade.html", "/gestao-salas/": "gestao-salas.html", "/calendario-reservas/": "calendario-reservas.html", "/controle-acessos/": "controle-acessos.html", "/implantacoes-fluxo/": "implantacoes.html", "/implantacoes-gpsvista/": "implantacoes-sistemicas.html", "/relatorios/": "relatorios.html", "/planner/": "planner.html", "/gerenciar-regionais/": "gerenciar-regionais.html", "/estatisticas-acesso/": "estatisticas-acesso.html", "/novidades/": "novidades.html", "/calendario-2026/": "calendario-2026.html", "/controle-chips/": "controle-chips.html", "/ajuda/": "ajuda.html", "/psicossocial/": "psicossocial.html", "/psicossocial/sra/": "psicossocial-sra.html", "/desativacao-cr/": "desativacao-cr.html", "/desmobilizacoes-fluxo/": "desmobilizacoes.html", "/livro-ocorrencia-pdf/": "livro-pdf.html", "/explorer/": "explorer.html", "/links-importantes/": "links-importantes.html", "/depara-aprova/": "depara-aprova.html", "/controle-ordens/": "controle-ordens.html", "/portaria-base/": "portaria-base.html", "/cracha/": "cracha.html", "/qr-generator/": "qr-generator.html", "/etiquetas/": "etiquetas.html", "/livro-ata/": "livro-ata.html"};var dir=location.pathname.replace(/[^\/]*$/,"");function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}try{var d=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(d&&d.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return d.get.call(this);},set:function(v){d.set.call(this,res(v));}});}}catch(e){}try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário de Reservas - FLOW</title>
+    <title>FLOW</title>
     <meta name="application-name" content="FLOW">
     <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
     <meta name="theme-color" content="#1e3a5f">
@@ -751,46 +751,74 @@
     </style>
 
     
+<!-- SweetAlert2 -->
+<script src="static/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+
 <style>
-    /* =========================================
-       CLASSES PADRÃO DO SISTEMA (DARK GRADIENT)
-       ========================================= */
-    .calendario-icon {
+    /* --- Estilos Adicionais de Ajuste Fino --- */
+    .explorer-container {
+        min-height: calc(100vh - 70px);
+        background: #f8fafc;
+    }
+
+    .explorer-icon {
         width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
         display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
     }
-    .calendario-title {
-        background: linear-gradient(to right, #1A2A45, #2A4570) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        color: transparent !important; /* Fallback essencial */
-        display: inline-block;
-        text-transform: uppercase;
-        font-size: 26px;
-        font-weight: bold;
-        margin: 0;
-        line-height: 1.2;
-    }
-    
-    .bg-gradient-padrao {
-        background: linear-gradient(135deg, #1e293b, #334155) !important;
-        color: white !important;
-        border: none !important;
-        transition: all 0.2s ease-in-out;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .bg-gradient-padrao:hover {
-        background: linear-gradient(135deg, #0f172a, #1e293b) !important;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    .explorer-title {
+        background: linear-gradient(to right, #1A2A45, #2A4570);
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        font-size: 26px; font-weight: bold; margin: 0; text-transform: uppercase;
     }
 
-    .focus-padrao:focus {
-        border-color: #1e293b !important;
-        box-shadow: 0 0 0 2px rgba(30, 41, 59, 0.2) !important;
-        outline: none !important;
+    /* Monospace Editor VS Code Mock */
+    .code-editor-mock {
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+        font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+    }
+
+    .line-numbers {
+        color: #858585;
+        text-align: right;
+        padding-right: 12px;
+        user-select: none;
+        border-right: 1px solid #3c3c3c;
+    }
+
+    .editor-textarea {
+        background: transparent;
+        color: #d4d4d4;
+        font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+        resize: none;
+        outline: none;
+        line-height: 1.5;
+    }
+
+    /* Tree View Hover Buttons */
+    .tree-node-actions {
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .tree-node-row:hover .tree-node-actions {
+        opacity: 1;
+    }
+
+    /* Custom Scrollbar for Tree */
+    .custom-scroll::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
     }
 </style>
 
@@ -801,9 +829,9 @@
     mobileOpen: false,
     geradores: false,
     acompanhamento: false,
-    gestaoReservas: true,
+    gestaoReservas: false,
     auditoria: false,
-    projetos: false,
+    projetos: true,
     psico: false,
     gestaoAVista: false,
     deparaAprova: false
@@ -937,7 +965,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) gestaoReservas = !gestaoReservas"
-                        class="nav-link active"
+                        class="nav-link "
                         :class="{ 'expanded': gestaoReservas && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -974,7 +1002,7 @@
                         
                         
                         <a href="calendario-reservas.html"
-                            class="nav-sub-link active">
+                            class="nav-sub-link ">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -989,7 +1017,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) projetos = !projetos"
-                        class="nav-link "
+                        class="nav-link active"
                         :class="{ 'expanded': projetos && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1016,7 +1044,7 @@
                         
                         
                         <a href="explorer.html"
-                            class="nav-sub-link ">
+                            class="nav-sub-link active">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
@@ -1448,7 +1476,7 @@
                     
 
                     <form method="post" action="/logout/">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="NE5NQkXLo2ubFZaegpeTb6i52towebRmdqgYD4zyDac2oDdAmhUjo4atAOKCukGM">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1466,195 +1494,719 @@
                 
 
                 
-<div class="space-y-6">
-    <div class="border-b pb-4">
-        <div class="flex justify-between items-center">
+<div class="explorer-container p-6 flex flex-col gap-6" x-data="explorerApp()">
+    
+    <!-- Top Navigation Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+        <div>
             <div class="flex items-center gap-3">
-                <div class="calendario-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="explorer-icon">
+                    <i class="fas fa-folder-open"></i>
+                </div>
                 <div>
-                    <h1 class="calendario-title mb-0">Calendário de Reservas</h1>
-                    <p class="text-muted-foreground mb-0">Visualize e gerencie as reservas de salas</p>
+                    <h1 class="explorer-title mb-0">Projetos</h1>
+                    <p class="text-sm text-slate-500 mb-0">Repositório de Arquivos & Documentação</p>
                 </div>
             </div>
-            <button onclick="abrirHistorico()" class="px-4 py-2 bg-gradient-padrao rounded-lg flex items-center gap-2">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                Histórico
+        </div>
+
+        <!-- Abas de Navegação -->
+        <div class="flex bg-slate-100 p-1 rounded-lg self-start md:self-auto shadow-inner">
+            <button @click="currentTab = 'explorer'" 
+                    :class="currentTab === 'explorer' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+                    class="px-4 py-2 text-sm font-semibold rounded-md transition-all duration-200 flex items-center gap-2">
+                <i class="fas fa-folder-tree"></i> Explorador
             </button>
+            
+            
+            <button @click="currentTab = 'audit'; loadAuditLogs()" 
+                    :class="currentTab === 'audit' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+                    class="px-4 py-2 text-sm font-semibold rounded-md transition-all duration-200 flex items-center gap-2">
+                <i class="fas fa-shield-alt"></i> Auditoria <span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">Privado</span>
+            </button>
+            
         </div>
     </div>
 
-    <div class="bg-white rounded-lg border shadow-sm p-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label for="unidade" class="block text-sm font-medium mb-1">Unidade</label>
-                <select id="unidade" 
-                        class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-                    <option value="">Todas as unidades</option>
-                    
-                </select>
-            </div>
-            <div>
-                <label for="sala" class="block text-sm font-medium mb-1">Sala</label>
-                <select id="sala" 
-                        class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-                    <option value="">Todas as salas</option>
-                </select>
-            </div>
-            <div>
-                <label for="mes" class="block text-sm font-medium mb-1">Mês</label>
-                <input type="month" 
-                       id="mes" 
-                       class="w-full h-10 rounded-md border border-gray-300 shadow-sm focus-padrao">
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-white rounded-lg border shadow-sm">
-        <div class="border-b p-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <button id="prev-month" class="p-2 hover:bg-gray-100 rounded-full">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>
+    <!-- MAIN INTERACTIVE WRAPPER -->
+    
+    <!-- 1. TAB EXPLORADOR -->
+    <div x-show="currentTab === 'explorer'" class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow">
+        
+        <!-- Left Pane: Tree Navigator (Col 3) -->
+        <div class="lg:col-span-4 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-[650px] overflow-hidden">
+            <!-- Sidebar Actions Header -->
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between gap-2 bg-slate-50/50">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Diretórios</span>
+                <div class="flex gap-1.5">
+                    <button @click="promptCreate(true)" class="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" title="Nova Pasta">
+                        <i class="fas fa-folder-plus text-lg"></i>
                     </button>
-                    <h2 id="calendar-title" class="text-xl font-semibold text-slate-800"></h2>
-                    <button id="next-month" class="p-2 hover:bg-gray-100 rounded-full">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
+                    <button @click="promptCreate(false)" class="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" title="Novo Arquivo">
+                        <i class="fas fa-file-medical text-lg"></i>
+                    </button>
+                    <button @click="loadNodes()" class="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors" title="Atualizar Árvore">
+                        <i class="fas fa-sync-alt text-base"></i>
                     </button>
                 </div>
-                <button onclick="novaReserva()" class="px-4 py-2 bg-gradient-padrao rounded-lg flex items-center gap-2">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Nova Reserva
+            </div>
+
+            <!-- Directory Tree Container -->
+            <div class="p-4 overflow-y-auto flex-grow custom-scroll bg-white">
+                <!-- Empty State Tree -->
+                <div x-show="nodes.length === 0" class="flex flex-col items-center justify-center py-10 text-center">
+                    <div class="w-12 h-12 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center mb-2">
+                        <i class="fas fa-folder-open text-xl"></i>
+                    </div>
+                    <span class="text-sm font-semibold text-slate-600">Nenhum item criado</span>
+                    <span class="text-xs text-slate-400 max-w-[200px] mt-1">Crie sua primeira pasta ou arquivo acima.</span>
+                </div>
+
+                <!-- Interactive Folder Tree -->
+                <div id="explorer-tree-root" class="text-slate-700 text-sm">
+                    <!-- Dynamic rendering in JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Pane: Code Editor / Plain Text Viewer (Col 8) -->
+        <div class="lg:col-span-8 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-[650px] overflow-hidden">
+            
+            <!-- Empty State Editor -->
+            <div x-show="!selectedFile" class="flex-grow flex flex-col items-center justify-center p-8 text-center bg-slate-50/30">
+                <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-4 animate-pulse shadow-inner">
+                    <i class="fas fa-file-code text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-700">Nenhum arquivo selecionado</h3>
+                <p class="text-sm text-slate-500 max-w-md mt-1">Selecione um arquivo da árvore lateral para visualizar, ou crie novos arquivos e pastas para organizar seus projetos.</p>
+                <div class="mt-4 flex gap-2">
+                    <button @click="promptCreate(false)" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-sm font-semibold shadow-sm transition-all flex items-center gap-2">
+                        <i class="fas fa-plus"></i> Criar Arquivo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active File Editor -->
+            <div x-show="selectedFile" class="flex-grow flex flex-col h-full overflow-hidden" x-cloak>
+                <!-- Editor Top Info Bar -->
+                <div class="p-4 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3 bg-slate-50/60">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold"
+                             :class="selectedFile?.file_type === 'code' ? 'bg-indigo-600' : 'bg-sky-600'">
+                            <i class="fas" :class="selectedFile?.file_type === 'code' ? 'fa-file-code' : 'fa-file-alt'"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-slate-800 text-base" x-text="selectedFile?.name"></span>
+                                <button @click="renameNode(selectedFile.id, selectedFile.name)" class="text-xs text-slate-400 hover:text-slate-600" title="Renomear">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-slate-500">
+                                Criado por: <span class="font-semibold text-slate-600" x-text="selectedFile?.created_by"></span> | 
+                                Atualizado em: <span class="font-semibold text-slate-600" x-text="selectedFile?.updated_at"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Actions and Mode Toggle -->
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <!-- Mode Selector (Plain vs Monospace Code) -->
+                        <div class="flex bg-slate-200 p-0.5 rounded-lg text-xs font-semibold shadow-inner">
+                            <button @click="selectedFile.file_type = 'text'"
+                                    :class="selectedFile?.file_type === 'text' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'"
+                                    class="px-2.5 py-1.5 rounded-md transition-all">
+                                <i class="fas fa-align-left mr-1"></i> Texto Normal
+                            </button>
+                            <button @click="selectedFile.file_type = 'code'"
+                                    :class="selectedFile?.file_type === 'code' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'"
+                                    class="px-2.5 py-1.5 rounded-md transition-all">
+                                <i class="fas fa-code mr-1"></i> Código
+                            </button>
+                        </div>
+
+                        <!-- Language dropdown if code -->
+                        <div x-show="selectedFile?.file_type === 'code'">
+                            <select x-model="selectedFile.language" class="form-select border border-slate-300 rounded-md text-xs py-1.5 px-2 bg-white text-slate-700">
+                                <option value="plain">Texto/Shell</option>
+                                <option value="javascript">Javascript</option>
+                                <option value="python">Python</option>
+                                <option value="html">HTML</option>
+                                <option value="css">CSS</option>
+                            </select>
+                        </div>
+
+                        <!-- Delete Button -->
+                        <button @click="deleteNode(selectedFile.id, selectedFile.name)" class="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors" title="Excluir Arquivo">
+                            <i class="fas fa-trash-alt text-base"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- IDE Frame Wrapper -->
+                <div class="flex-grow overflow-hidden flex flex-col relative">
+                    
+                    <!-- 1. PLAIN TEXT VIEW (Normal Text Editor) -->
+                    <div x-show="selectedFile?.file_type === 'text'" class="flex-grow flex flex-col p-4 h-full">
+                        <textarea x-model="selectedFile.content" 
+                                  placeholder="Digite seu texto livremente aqui..." 
+                                  class="w-full flex-grow p-4 border border-slate-200 rounded-lg text-slate-700 text-sm focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none resize-none"></textarea>
+                    </div>
+
+                    <!-- 2. MONOSPACE CODE VIEW (IDE Mockup Theme) -->
+                    <div x-show="selectedFile?.file_type === 'code'" class="flex-grow flex flex-col h-full bg-[#1e1e1e] overflow-hidden" x-cloak>
+                        <!-- MacOS Windows circles header -->
+                        <div class="bg-[#2d2d2d] px-4 py-2 border-b border-[#252526] flex items-center justify-between">
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                                <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                                <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+                                <span class="ml-3 text-xs text-slate-400 font-mono font-medium" x-text="selectedFile?.name"></span>
+                            </div>
+                            <span class="text-[10px] text-slate-500 uppercase tracking-widest font-mono">VS Code Mockup</span>
+                        </div>
+                        
+                        <!-- Main Editor Text Area with dynamic line numbers -->
+                        <div class="flex-grow flex overflow-hidden p-2 text-sm font-mono h-full">
+                            <!-- Line number sidebar -->
+                            <div class="line-numbers text-right select-none font-mono py-2 text-[#858585] text-xs h-full overflow-hidden bg-[#1e1e1e] w-12" id="line-numbers-container">
+                                1
+                            </div>
+                            <!-- Live Code Input -->
+                            <textarea x-model="selectedFile.content"
+                                      @input="syncLineNumbers()"
+                                      @scroll="syncScroll()"
+                                      id="code-editor-textarea"
+                                      placeholder="// Digite seu código aqui..."
+                                      class="flex-grow h-full py-2 px-4 bg-transparent text-[#d4d4d4] font-mono text-xs outline-none border-none resize-none overflow-y-auto custom-scroll"
+                                      style="tab-size: 4;"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Editor Footer with Save Button -->
+                <div class="p-4 border-t border-slate-200 bg-slate-50 flex justify-between items-center">
+                    <span class="text-xs text-slate-400 font-medium">Lembre-se de salvar suas modificações</span>
+                    <button @click="saveFile()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold shadow flex items-center gap-2 transition-all">
+                        <i class="fas fa-save"></i> Salvar Alterações
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. TAB AUDITORIA (Restrito a Administradores) -->
+    
+    <div x-show="currentTab === 'audit'" class="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-[650px] overflow-hidden" x-cloak>
+        <!-- Audit Headers and Filters -->
+        <div class="p-4 border-b border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div>
+                <h3 class="font-bold text-slate-800">Registro de Auditoria</h3>
+                <p class="text-xs text-slate-500">Histórico de visualização, criação, edição e exclusão de arquivos no sistema</p>
+            </div>
+            
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <!-- Real-time search filter -->
+                <div class="relative w-full sm:w-64">
+                    <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
+                    <input type="text" x-model="auditSearch" placeholder="Buscar usuário ou item..." 
+                           class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-slate-900 focus:border-slate-900 outline-none">
+                </div>
+                
+                <button @click="loadAuditLogs()" class="p-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-sm shadow-sm transition-all" title="Atualizar Logs">
+                    <i class="fas fa-sync-alt"></i>
                 </button>
             </div>
         </div>
 
-        <div class="p-4">
-            <div class="grid grid-cols-7 gap-px mb-px">
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Dom</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Seg</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Ter</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Qua</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Qui</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Sex</div>
-                <div class="text-center py-2 font-semibold text-sm text-slate-700">Sáb</div>
-            </div>
-
-            <div id="calendar-grid" class="grid grid-cols-7 gap-px bg-gray-200">
-                </div>
+        <!-- Audit Table Container -->
+        <div class="flex-grow overflow-auto custom-scroll">
+            <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50/70 sticky top-0 z-10">
+                    <tr>
+                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Usuário</th>
+                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Ação</th>
+                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Item Afetado</th>
+                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Detalhes da Ação</th>
+                        <th class="px-6 py-3.5 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Data / Hora</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-slate-100 text-sm">
+                    <template x-for="log in filteredLogs()" :key="log.id">
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <!-- User column -->
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-xs" x-text="log.user.charAt(0).toUpperCase()"></div>
+                                    <span class="font-bold text-slate-800" x-text="log.user"></span>
+                                </div>
+                            </td>
+                            <!-- Action column with badges -->
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase border"
+                                      :class="{
+                                          'bg-green-50 text-green-700 border-green-200': log.action === 'CREATE',
+                                          'bg-yellow-50 text-yellow-700 border-yellow-200': log.action === 'EDIT',
+                                          'bg-blue-50 text-blue-700 border-blue-200': log.action === 'OPEN',
+                                          'bg-purple-50 text-purple-700 border-purple-200': log.action === 'RENAME',
+                                          'bg-red-50 text-red-700 border-red-200': log.action === 'DELETE'
+                                      }">
+                                    <span x-text="log.action"></span>
+                                </span>
+                            </td>
+                            <!-- Item affected -->
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center gap-1.5 text-slate-700">
+                                    <i class="fas" :class="log.node_type === 'Pasta' ? 'fa-folder text-amber-500' : 'fa-file-alt text-slate-400'"></i>
+                                    <span class="font-semibold" x-text="log.node_name"></span>
+                                </div>
+                            </td>
+                            <!-- Details -->
+                            <td class="px-6 py-4">
+                                <span class="text-slate-600 text-xs sm:text-sm" x-text="log.details"></span>
+                            </td>
+                            <!-- Timestamp -->
+                            <td class="px-6 py-4 whitespace-nowrap text-slate-400 font-mono text-xs" x-text="log.timestamp"></td>
+                        </tr>
+                    </template>
+                    
+                    <!-- Empty logs search -->
+                    <tr x-show="filteredLogs().length === 0">
+                        <td colspan="5" class="px-6 py-12 text-center text-slate-400">
+                            <div class="flex flex-col items-center justify-center">
+                                <i class="fas fa-receipt text-3xl mb-2 text-slate-300"></i>
+                                <span>Nenhum log encontrado para a busca.</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+    
+
 </div>
 
-<div id="reserva-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-slate-800">Detalhes da Reserva</h3>
-                    <button onclick="fecharModal()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <div id="reserva-detalhes" class="space-y-4 text-slate-700">
-                    </div>
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button onclick="editarReserva()" class="px-4 py-2 bg-gradient-padrao rounded">
-                        Editar
-                    </button>
-                    <button onclick="cancelarReserva()" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700">
-                        Cancelar
-                    </button>
-                    <button onclick="fecharModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                        Fechar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- CSRF Token helper for JS -->
+<input type="hidden" name="csrfmiddlewaretoken" value="NE5NQkXLo2ubFZaegpeTb6i52towebRmdqgYD4zyDac2oDdAmhUjo4atAOKCukGM">
 
-<div id="historico-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
-            <div class="p-6 border-b">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-slate-800">Histórico de Reservas</h3>
-                    <button onclick="fecharHistorico()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="p-6 overflow-y-auto max-h-[70vh]">
-                <div id="historico-lista" class="space-y-4">
-                    </div>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+    function explorerApp() {
+        return {
+            currentTab: 'explorer',
+            nodes: [],
+            selectedFile: null,
+            expandedFolders: new Set(),
+            auditLogs: [],
+            auditSearch: '',
+            
+            init() {
+                this.loadNodes();
+                
+                // Configuração global do SweetAlert2
+                window.Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            },
 
-<div id="edicao-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-slate-800">Editar Reserva</h3>
-                    <button onclick="fecharEdicao()" class="text-gray-500 hover:text-gray-700">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <form id="form-edicao" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Nome do Solicitante</label>
-                        <input type="text" id="edit-nome" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Email</label>
-                        <input type="email" id="edit-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Telefone</label>
-                        <input type="text" id="edit-telefone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Data</label>
-                        <input type="date" id="edit-data" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Horário</label>
-                        <input type="text" id="edit-horario" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" placeholder="Ex: 14:00 - 16:00" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1 text-slate-700">Observações</label>
-                        <textarea id="edit-observacoes" class="w-full px-3 py-2 border border-gray-300 rounded-md focus-padrao" rows="3"></textarea>
-                    </div>
-                </form>
-                <div class="mt-6 flex justify-end space-x-3">
-                    <button onclick="salvarEdicao()" class="px-4 py-2 bg-gradient-padrao rounded">
-                        Salvar
-                    </button>
-                    <button onclick="fecharEdicao()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+            // 1. CARREGAR E RENDERIZAR NÓS DA ÁRVORE
+            loadNodes() {
+                fetch('/explorer/?action=explorer_list')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            this.nodes = data.nodes;
+                            this.renderTree();
+                        } else {
+                            window.Toast.fire({ icon: 'error', title: data.message });
+                        }
+                    })
+                    .catch(err => console.error("Erro ao carregar árvore:", err));
+            },
 
+            // RENDERIZAR A ÁRVORE RECURSIVAMENTE NO DOM
+            renderTree() {
+                const rootElement = document.getElementById('explorer-tree-root');
+                if (!rootElement) return;
+                rootElement.innerHTML = '';
+
+                // Montar árvore a partir da lista plana
+                const buildTreeDOM = (parentId = null, level = 0) => {
+                    const children = this.nodes.filter(n => n.parent_id === parentId);
+                    if (children.length === 0) return null;
+
+                    const container = document.createElement('div');
+                    container.className = parentId ? 'pl-4 border-l border-slate-100 ml-2 mt-1 flex flex-col gap-1' : 'flex flex-col gap-1';
+
+                    children.forEach(node => {
+                        const row = document.createElement('div');
+                        // Tree node styling
+                        row.className = `tree-node-row group flex items-center justify-between py-1.5 px-2.5 rounded-lg cursor-pointer hover:bg-slate-100 text-slate-700 transition-all duration-150 ${this.selectedFile?.id === node.id ? 'bg-blue-50 text-blue-700 font-semibold' : ''}`;
+                        
+                        // Icone e Texto
+                        const info = document.createElement('div');
+                        info.className = 'flex items-center gap-2 flex-grow overflow-hidden';
+                        
+                        if (node.is_folder) {
+                            const isExpanded = this.expandedFolders.has(node.id);
+                            info.innerHTML = `
+                                <i class="fas fa-chevron-right text-[10px] text-slate-400 transform transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}"></i>
+                                <i class="fas ${isExpanded ? 'fa-folder-open text-amber-500' : 'fa-folder text-amber-500'} text-base"></i>
+                            `;
+                            const nameSpanFolder = document.createElement('span');
+                            nameSpanFolder.className = 'truncate';
+                            nameSpanFolder.textContent = node.name;
+                            info.appendChild(nameSpanFolder);
+
+                            // Click para expandir pasta
+                            row.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                if (this.expandedFolders.has(node.id)) {
+                                    this.expandedFolders.delete(node.id);
+                                } else {
+                                    this.expandedFolders.add(node.id);
+                                }
+                                this.renderTree();
+                            });
+                        } else {
+                            // File node
+                            const extension = node.name.split('.').pop().toLowerCase();
+                            let fileIcon = 'fa-file-alt text-sky-500';
+                            if (node.file_type === 'code' || ['js', 'py', 'html', 'css', 'env', 'sh'].includes(extension)) {
+                                fileIcon = 'fa-file-code text-indigo-500';
+                            }
+                            info.innerHTML = `
+                                <i class="w-[10px]"></i>
+                                <i class="fas ${fileIcon} text-base"></i>
+                            `;
+                            const nameSpanFile = document.createElement('span');
+                            nameSpanFile.className = 'truncate';
+                            nameSpanFile.textContent = node.name;
+                            info.appendChild(nameSpanFile);
+
+                            // Click para abrir arquivo
+                            row.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                this.loadFileContent(node.id);
+                            });
+                        }
+                        row.appendChild(info);
+
+                        // Botões de ação no hover (Editar/Deletar)
+                        const actions = document.createElement('div');
+                        actions.className = 'tree-node-actions flex items-center gap-1.5 pr-1';
+                        
+                        // Se for pasta, botão criar dentro dela
+                        if (node.is_folder) {
+                            const addBtn = document.createElement('button');
+                            addBtn.className = 'text-slate-400 hover:text-blue-600 transition-colors p-1 rounded';
+                            addBtn.innerHTML = '<i class="fas fa-plus text-xs"></i>';
+                            addBtn.title = 'Criar dentro';
+                            addBtn.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                this.promptCreate(false, node.id);
+                            });
+                            actions.appendChild(addBtn);
+                        }
+
+                        const renameBtn = document.createElement('button');
+                        renameBtn.className = 'text-slate-400 hover:text-slate-700 transition-colors p-1 rounded';
+                        renameBtn.innerHTML = '<i class="fas fa-edit text-xs"></i>';
+                        renameBtn.title = 'Renomear';
+                        renameBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.renameNode(node.id, node.name);
+                        });
+                        actions.appendChild(renameBtn);
+
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.className = 'text-slate-400 hover:text-red-500 transition-colors p-1 rounded';
+                        deleteBtn.innerHTML = '<i class="fas fa-trash-alt text-xs"></i>';
+                        deleteBtn.title = 'Excluir';
+                        deleteBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.deleteNode(node.id, node.name);
+                        });
+                        actions.appendChild(deleteBtn);
+
+                        row.appendChild(actions);
+                        container.appendChild(row);
+
+                        // Sub-itens se pasta expandida
+                        if (node.is_folder && this.expandedFolders.has(node.id)) {
+                            const subTree = buildTreeDOM(node.id, level + 1);
+                            if (subTree) container.appendChild(subTree);
+                        }
+                    });
+
+                    return container;
+                };
+
+                const domTree = buildTreeDOM(null, 0);
+                if (domTree) rootElement.appendChild(domTree);
+            },
+
+            // 2. ABRIR ARQUIVO E BUSCAR CONTEÚDO
+            loadFileContent(nodeId) {
+                fetch(`/explorer/?action=explorer_file_content&node_id=${nodeId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            this.selectedFile = data.node;
+                            this.renderTree(); // Atualiza a seleção visual na árvore
+                            
+                            // Sincroniza números de linhas após um pequeno delay para a renderização do Alpine
+                            setTimeout(() => {
+                                this.syncLineNumbers();
+                            }, 50);
+                        } else {
+                            window.Toast.fire({ icon: 'error', title: data.message });
+                        }
+                    })
+                    .catch(err => console.error("Erro ao carregar arquivo:", err));
+            },
+
+            // 3. CRIAR NOVO ARQUIVO OU PASTA
+            promptCreate(isFolder, parentId = null) {
+                const tipo = isFolder ? 'Pasta' : 'Arquivo';
+                Swal.fire({
+                    title: `Criar Nova ${tipo}`,
+                    input: 'text',
+                    inputLabel: `Digite o nome da ${tipo.toLowerCase()}:`,
+                    inputPlaceholder: isFolder ? 'ex: Documentos Importantes' : 'ex: script.py',
+                    showCancelButton: true,
+                    confirmButtonText: 'Criar',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#0F172A',
+                    inputValidator: (value) => {
+                        if (!value || !value.trim()) {
+                            return 'O nome é obrigatório!';
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const name = result.value.trim();
+                        const formData = new FormData();
+                        formData.append('action', 'explorer_create');
+                        formData.append('name', name);
+                        formData.append('is_folder', isFolder);
+                        if (parentId) formData.append('parent_id', parentId);
+                        
+                        // Define tipo de arquivo automático baseado em extensão
+                        if (!isFolder) {
+                            const ext = name.split('.').pop().toLowerCase();
+                            if (['js', 'py', 'html', 'css', 'env', 'sh'].includes(ext)) {
+                                formData.append('file_type', 'code');
+                            } else {
+                                formData.append('file_type', 'text');
+                            }
+                        }
+
+                        fetch('/explorer/', {
+                            method: 'POST',
+                            headers: { 'X-CSRFToken': this.getCsrfToken() },
+                            body: formData
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                window.Toast.fire({ icon: 'success', title: `${tipo} criada com sucesso!` });
+                                
+                                // Auto expande a pasta pai ao criar item dentro
+                                if (parentId) {
+                                    this.expandedFolders.add(parentId);
+                                }
+                                this.loadNodes();
+                            } else {
+                                Swal.fire('Erro', data.message, 'error');
+                            }
+                        })
+                        .catch(err => console.error(err));
+                    }
+                });
+            },
+
+            // 4. RENOMEAR PASTA OU ARQUIVO
+            renameNode(nodeId, currentName) {
+                Swal.fire({
+                    title: 'Renomear Item',
+                    input: 'text',
+                    inputLabel: 'Novo nome do item:',
+                    inputValue: currentName,
+                    showCancelButton: true,
+                    confirmButtonText: 'Salvar',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#0F172A',
+                    inputValidator: (value) => {
+                        if (!value || !value.trim()) {
+                            return 'O nome não pode ser vazio!';
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const newName = result.value.trim();
+                        const formData = new FormData();
+                        formData.append('action', 'explorer_rename');
+                        formData.append('node_id', nodeId);
+                        formData.append('new_name', newName);
+
+                        fetch('/explorer/', {
+                            method: 'POST',
+                            headers: { 'X-CSRFToken': this.getCsrfToken() },
+                            body: formData
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                window.Toast.fire({ icon: 'success', title: 'Renomeado com sucesso!' });
+                                
+                                // Atualiza arquivo selecionado na tela se for ele
+                                if (this.selectedFile && this.selectedFile.id === nodeId) {
+                                    this.selectedFile.name = newName;
+                                }
+                                this.loadNodes();
+                            } else {
+                                Swal.fire('Erro', data.message, 'error');
+                            }
+                        })
+                        .catch(err => console.error(err));
+                    }
+                });
+            },
+
+            // 5. EXCLUIR PASTA OU ARQUIVO
+            deleteNode(nodeId, name) {
+                Swal.fire({
+                    title: 'Confirmar Exclusão?',
+                    text: `Tem certeza que deseja excluir '${name}'? Se for uma pasta, TODO o seu conteúdo interno será excluído recursivamente! Esta ação é irreversível.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim, Excluir',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6b7280'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const formData = new FormData();
+                        formData.append('action', 'explorer_delete');
+                        formData.append('node_id', nodeId);
+
+                        fetch('/explorer/', {
+                            method: 'POST',
+                            headers: { 'X-CSRFToken': this.getCsrfToken() },
+                            body: formData
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                window.Toast.fire({ icon: 'success', title: 'Excluído com sucesso!' });
+                                
+                                // Se for o arquivo que estava aberto, fecha-o
+                                if (this.selectedFile && this.selectedFile.id === nodeId) {
+                                    this.selectedFile = null;
+                                }
+                                this.loadNodes();
+                            } else {
+                                Swal.fire('Erro', data.message, 'error');
+                            }
+                        })
+                        .catch(err => console.error(err));
+                    }
+                });
+            },
+
+            // 6. SALVAR CONTEÚDO DO EDITOR
+            saveFile() {
+                if (!this.selectedFile) return;
+
+                const formData = new FormData();
+                formData.append('action', 'explorer_update');
+                formData.append('node_id', this.selectedFile.id);
+                formData.append('content', this.selectedFile.content);
+                formData.append('file_type', this.selectedFile.file_type);
+                formData.append('language', this.selectedFile.language || 'plain');
+
+                fetch('/explorer/', {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': this.getCsrfToken() },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.Toast.fire({ icon: 'success', title: 'Arquivo salvo com sucesso!' });
+                        // Atualiza a hora
+                        const now = new Date();
+                        this.selectedFile.updated_at = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+                    } else {
+                        Swal.fire('Erro ao Salvar', data.message, 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error("Erro ao salvar:", err);
+                    Swal.fire('Erro', 'Ocorreu um erro ao salvar o arquivo.', 'error');
+                });
+            },
+
+            // 7. CARREGAR E BUSCAR LOGS DE AUDITORIA
+            loadAuditLogs() {
+                fetch('/explorer/?action=explorer_audit_logs')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            this.auditLogs = data.logs;
+                        } else {
+                            window.Toast.fire({ icon: 'error', title: data.message });
+                        }
+                    })
+                    .catch(err => console.error("Erro ao carregar logs:", err));
+            },
+
+            // FILTRAGEM DOS LOGS EM TEMPO REAL
+            filteredLogs() {
+                if (!this.auditSearch.trim()) return this.auditLogs;
+                
+                const query = this.auditSearch.toLowerCase();
+                return this.auditLogs.filter(log => 
+                    log.user.toLowerCase().includes(query) ||
+                    log.node_name.toLowerCase().includes(query) ||
+                    log.action.toLowerCase().includes(query) ||
+                    log.details.toLowerCase().includes(query)
+                );
+            },
+
+            // --- AUXILIARES E SINCRONIZADORES DE TELA DO MOCK VS CODE ---
+            syncLineNumbers() {
+                const textarea = document.getElementById('code-editor-textarea');
+                const lineContainer = document.getElementById('line-numbers-container');
+                if (!textarea || !lineContainer) return;
+
+                const lines = textarea.value.split('\n');
+                let numberHTML = '';
+                for (let i = 1; i <= lines.length; i++) {
+                    numberHTML += `${i}<br>`;
+                }
+                lineContainer.innerHTML = numberHTML;
+            },
+
+            syncScroll() {
+                const textarea = document.getElementById('code-editor-textarea');
+                const lineContainer = document.getElementById('line-numbers-container');
+                if (!textarea || !lineContainer) return;
+
+                lineContainer.scrollTop = textarea.scrollTop;
+            },
+
+            getCsrfToken() {
+                return document.querySelector('[name=csrfmiddlewaretoken]').value;
+            }
+        };
+    }
+</script>
 
             </main>
 
@@ -1720,467 +2272,6 @@
 
 
     
-<script>
-let currentDate = new Date();
-let selectedReservaId = null;
-
-// FUNÇÃO PARA CORRIGIR O FUSO HORÁRIO (Transforma YYYY-MM-DD em data local exata)
-function parseDataLocal(dataString) {
-    if (!dataString) return new Date();
-    const [ano, mes, dia] = dataString.split('T')[0].split('-');
-    return new Date(ano, mes - 1, dia);
-}
-
-function formatDate(date) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
-function formatDateBR(date) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [day, month, year].join('/');
-}
-
-async function carregarSalas() {
-    const unidadeSelect = document.getElementById('unidade');
-    const salaSelect = document.getElementById('sala');
-    const unidadeId = unidadeSelect.value;
-    
-    const salaSelecionadaAnteriormente = salaSelect.value;
-    
-    salaSelect.innerHTML = '<option value="">Todas as salas</option>';
-    salaSelect.disabled = true; 
-    
-    try {
-        const url = unidadeId ? `/api/salas/?unidade=${unidadeId}` : `/api/salas/`;
-        const response = await fetch(url);
-        
-        if (response.ok) {
-            const data = await response.json();
-            if (data.salas && data.salas.length > 0) {
-                data.salas.forEach(sala => {
-                    const option = document.createElement('option');
-                    option.value = sala.id;
-                    option.textContent = sala.nome;
-                    salaSelect.appendChild(option);
-                });
-            }
-        }
-    } catch (error) {
-        console.error('Erro ao carregar salas:', error);
-    } finally {
-        salaSelect.disabled = false;
-        
-        if (salaSelecionadaAnteriormente) {
-            const existeNaLista = Array.from(salaSelect.options).some(opt => opt.value === salaSelecionadaAnteriormente);
-            if (existeNaLista) {
-                salaSelect.value = salaSelecionadaAnteriormente;
-            }
-        }
-        
-        atualizarCalendario(); 
-    }
-}
-
-async function carregarReservas(inicio, fim) {
-    const unidadeId = document.getElementById('unidade').value;
-    const salaId = document.getElementById('sala').value;
-    
-    try {
-        const params = new URLSearchParams({
-            data_inicio: formatDate(inicio),
-            data_fim: formatDate(fim)
-        });
-        if (unidadeId) params.append('unidade', unidadeId);
-        if (salaId) params.append('sala', salaId);
-        
-        const response = await fetch(`/api/reservas/?${params}`);
-        if (response.ok) {
-            const data = await response.json();
-            return data.reservas;
-        }
-        return [];
-    } catch (error) {
-        console.error('Erro ao carregar reservas:', error);
-        return [];
-    }
-}
-
-async function atualizarCalendario() {
-    const grid = document.getElementById('calendar-grid');
-    const title = document.getElementById('calendar-title');
-    
-    grid.innerHTML = '';
-    
-    const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                       'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-    title.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-    
-    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-    
-    const reservas = await carregarReservas(firstDay, lastDay);
-    
-    for (let i = 0; i < firstDay.getDay(); i++) {
-        const cell = document.createElement('div');
-        cell.className = 'bg-white p-2 h-32';
-        grid.appendChild(cell);
-    }
-    
-    const salaSelect = document.getElementById('sala');
-    const salaId = salaSelect.value;
-    const salaNome = salaId ? salaSelect.options[salaSelect.selectedIndex].text : "";
-    
-    for (let day = 1; day <= lastDay.getDate(); day++) {
-        const cell = document.createElement('div');
-        cell.className = 'bg-white p-2 h-32 relative';
-        
-        const dayNumber = document.createElement('span');
-        dayNumber.className = 'absolute top-2 left-2 text-sm font-medium text-slate-700';
-        dayNumber.textContent = day;
-        cell.appendChild(dayNumber);
-        
-        const reservasContainer = document.createElement('div');
-        reservasContainer.className = 'mt-6 space-y-1 overflow-y-auto max-h-24';
-        
-        const reservasDoDia = reservas.filter(r => {
-            const dataReserva = parseDataLocal(r.data);
-            const isMesmoDia = dataReserva.getDate() === day && dataReserva.getMonth() === currentDate.getMonth();
-            const isMesmaSala = salaId ? (String(r.sala) === salaNome || String(r.sala_id) === String(salaId)) : true;
-            
-            return isMesmoDia && isMesmaSala;
-        });
-        
-        reservasDoDia.forEach(reserva => {
-            const reservaEl = document.createElement('div');
-            const corUnidade = getCorUnidade(reserva.unidade_id);
-            
-            if (reserva.status === 'cancelada') {
-                reservaEl.className = `px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded cursor-pointer hover:${corUnidade.hover} line-through opacity-60 border border-transparent hover:border-slate-300`;
-                reservaEl.title = 'Reserva Cancelada';
-            } else {
-                reservaEl.className = `px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded cursor-pointer hover:${corUnidade.hover} border border-transparent hover:border-slate-300`;
-            }
-            
-            reservaEl.textContent = `${reserva.hora_inicio} - ${reserva.nome || reserva.solicitante}`;
-            reservaEl.onclick = () => mostrarDetalhesReserva(reserva);
-            reservasContainer.appendChild(reservaEl);
-        });
-        
-        cell.appendChild(reservasContainer);
-        grid.appendChild(cell);
-    }
-    
-    const lastDayOfWeek = lastDay.getDay();
-    if (lastDayOfWeek < 6) {
-        for (let i = lastDayOfWeek + 1; i <= 6; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'bg-white p-2 h-32';
-            grid.appendChild(cell);
-        }
-    }
-}
-
-const coresUnidades = [
-    { bg: 'bg-blue-100', text: 'text-blue-800', hover: 'bg-blue-200' },
-    { bg: 'bg-green-100', text: 'text-green-800', hover: 'bg-green-200' },
-    { bg: 'bg-purple-100', text: 'text-purple-800', hover: 'bg-purple-200' },
-    { bg: 'bg-orange-100', text: 'text-orange-800', hover: 'bg-orange-200' },
-    { bg: 'bg-pink-100', text: 'text-pink-800', hover: 'bg-pink-200' },
-    { bg: 'bg-indigo-100', text: 'text-indigo-800', hover: 'bg-indigo-200' },
-    { bg: 'bg-yellow-100', text: 'text-yellow-800', hover: 'bg-yellow-200' },
-    { bg: 'bg-red-100', text: 'text-red-800', hover: 'bg-red-200' }
-];
-
-function getCorUnidade(unidadeId) {
-    if (!unidadeId) return coresUnidades[0];
-    const index = parseInt(unidadeId) % coresUnidades.length;
-    return coresUnidades[index];
-}
-
-// Escapa HTML para prevenir XSS em campos de texto livre (nome, observações, etc.)
-function escapeHtml(unsafe) {
-    if (unsafe === null || unsafe === undefined) return '';
-    return String(unsafe)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
-function mostrarDetalhesReserva(reserva) {
-    selectedReservaId = reserva.id;
-    const detalhes = document.getElementById('reserva-detalhes');
-
-    const statusBadge = reserva.status === 'cancelada' ?
-        '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelada</span>' :
-        '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Ativa</span>';
-
-    detalhes.innerHTML = `
-        <div class="space-y-2">
-            <div class="flex items-center gap-2">
-                <span class="font-medium text-slate-800">Status:</span> ${statusBadge}
-            </div>
-            <p><span class="font-medium text-slate-800">Data:</span> ${formatDateBR(parseDataLocal(reserva.data))}</p>
-            <p><span class="font-medium text-slate-800">Horário:</span> ${escapeHtml(reserva.hora_inicio)} às ${escapeHtml(reserva.hora_fim)}</p>
-            <p><span class="font-medium text-slate-800">Unidade:</span> ${escapeHtml(reserva.unidade)}</p>
-            <p><span class="font-medium text-slate-800">Sala:</span> ${escapeHtml(reserva.sala)}</p>
-            ${reserva.mesa_numero ? `<p><span class="font-medium text-slate-800">Mesa:</span> ${escapeHtml(reserva.mesa_numero)}</p>` : ''}
-            <p><span class="font-medium text-slate-800">Nome:</span> ${escapeHtml(reserva.nome || reserva.solicitante)}</p>
-            <p><span class="font-medium text-slate-800">Email:</span> ${escapeHtml(reserva.email) || 'Não informado'}</p>
-            ${reserva.telefone ? `<p><span class="font-medium text-slate-800">Telefone:</span> ${escapeHtml(reserva.telefone)}</p>` : ''}
-            ${reserva.observacoes ? `<p><span class="font-medium text-slate-800">Observações:</span> ${escapeHtml(reserva.observacoes)}</p>` : ''}
-        </div>
-    `;
-    
-    const editBtn = document.querySelector('button[onclick="editarReserva()"]');
-    const cancelBtn = document.querySelector('button[onclick="cancelarReserva()"]');
-    
-    if (reserva.status === 'cancelada') {
-        editBtn.style.display = 'none';
-        cancelBtn.style.display = 'none';
-    } else {
-        editBtn.style.display = 'inline-block';
-        cancelBtn.style.display = 'inline-block';
-    }
-    
-    document.getElementById('reserva-modal').classList.remove('hidden');
-}
-
-function fecharModal() {
-    document.getElementById('reserva-modal').classList.add('hidden');
-    selectedReservaId = null;
-}
-
-async function cancelarReserva() {
-    if (!selectedReservaId) return;
-    if (!confirm('Tem certeza que deseja cancelar esta reserva?')) return;
-    
-    try {
-        const response = await fetch(`/api/reservas/${selectedReservaId}/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': 'KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq'
-            },
-            body: JSON.stringify({ status: 'cancelada' })
-        });
-        
-        if (response.ok) {
-            fecharModal();
-            atualizarCalendario();
-        } else {
-            alert('Erro ao cancelar reserva');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-async function abrirHistorico() {
-    try {
-        const response = await fetch('/api/reservas/historico/');
-        if (response.ok) {
-            const data = await response.json();
-            mostrarHistorico(data.reservas);
-        } else {
-            alert('Erro ao carregar histórico');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-function mostrarHistorico(reservas) {
-    const lista = document.getElementById('historico-lista');
-    
-    if (reservas.length === 0) {
-        lista.innerHTML = '<p class="text-gray-500 text-center">Nenhuma reserva encontrada</p>';
-    } else {
-        lista.innerHTML = reservas.map(reserva => {
-            const corUnidade = getCorUnidade(reserva.unidade_id);
-            const statusBadge = reserva.status === 'cancelada' ?
-                '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelada</span>' :
-                '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Ativa</span>';
-
-            return `
-                <div class="border border-slate-200 rounded-lg p-4 ${reserva.status === 'cancelada' ? 'opacity-60' : 'bg-slate-50'}">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2 py-1 ${corUnidade.bg} ${corUnidade.text} text-xs rounded">${escapeHtml(reserva.unidade)}</span>
-                            ${statusBadge}
-                        </div>
-                        <span class="text-sm font-medium text-slate-500">${formatDateBR(parseDataLocal(reserva.data))}</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 text-sm text-slate-700">
-                        <div>
-                            <p><strong class="text-slate-800">Nome:</strong> ${escapeHtml(reserva.nome || reserva.solicitante)}</p>
-                            <p><strong class="text-slate-800">Sala:</strong> ${escapeHtml(reserva.sala)}</p>
-                            <p><strong class="text-slate-800">Horário:</strong> ${escapeHtml(reserva.horario)}</p>
-                        </div>
-                        <div>
-                            <p><strong class="text-slate-800">Email:</strong> ${escapeHtml(reserva.email) || 'Não informado'}</p>
-                            <p><strong class="text-slate-800">Telefone:</strong> ${escapeHtml(reserva.telefone) || 'Não informado'}</p>
-                            ${reserva.mesa_numero ? `<p><strong class="text-slate-800">Mesa:</strong> ${escapeHtml(reserva.mesa_numero)}</p>` : ''}
-                        </div>
-                    </div>
-                    ${reserva.observacoes ? `<p class="mt-2 text-sm text-slate-700"><strong class="text-slate-800">Observações:</strong> ${escapeHtml(reserva.observacoes)}</p>` : ''}
-                </div>
-            `;
-        }).join('');
-    }
-    
-    document.getElementById('historico-modal').classList.remove('hidden');
-}
-
-function fecharHistorico() {
-    document.getElementById('historico-modal').classList.add('hidden');
-}
-
-function editarReserva() {
-    if (!selectedReservaId) return;
-    
-    const detalhes = document.getElementById('reserva-detalhes');
-    const reservaAtual = getCurrentReservaData();
-    
-    document.getElementById('edit-nome').value = reservaAtual.nome || '';
-    document.getElementById('edit-email').value = reservaAtual.email || '';
-    document.getElementById('edit-telefone').value = reservaAtual.telefone || '';
-    document.getElementById('edit-horario').value = reservaAtual.horario || '';
-    document.getElementById('edit-observacoes').value = reservaAtual.observacoes || '';
-    
-    fecharModal();
-    document.getElementById('edicao-modal').classList.remove('hidden');
-}
-
-function getCurrentReservaData() {
-    const detalhes = document.getElementById('reserva-detalhes');
-    return {
-        nome: extractTextFromDetail(detalhes, 'Nome:'),
-        email: extractTextFromDetail(detalhes, 'Email:'),
-        telefone: extractTextFromDetail(detalhes, 'Telefone:'),
-        horario: extractTextFromDetail(detalhes, 'Horário:'),
-        observacoes: extractTextFromDetail(detalhes, 'Observações:')
-    };
-}
-
-function extractTextFromDetail(container, label) {
-    const text = container.textContent;
-    const index = text.indexOf(label);
-    if (index === -1) return '';
-    
-    const start = index + label.length;
-    const nextLabel = text.indexOf('\n', start);
-    return text.substring(start, nextLabel === -1 ? text.length : nextLabel).trim();
-}
-
-async function salvarEdicao() {
-    if (!selectedReservaId) return;
-    
-    const dados = {
-        nome: document.getElementById('edit-nome').value,
-        email: document.getElementById('edit-email').value,
-        telefone: document.getElementById('edit-telefone').value,
-        data: document.getElementById('edit-data').value,
-        horario: document.getElementById('edit-horario').value,
-        observacoes: document.getElementById('edit-observacoes').value
-    };
-    
-    try {
-        const response = await fetch(`/api/reservas/${selectedReservaId}/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': 'KGe8otxul4qySnwThqOPPjZugmPYMdcQHmtKLMbrh8bK2hvIjzowCe7c0yfDjlmq'
-            },
-            body: JSON.stringify(dados)
-        });
-        
-        if (response.ok) {
-            fecharEdicao();
-            atualizarCalendario();
-        } else {
-            alert('Erro ao salvar alterações');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-    }
-}
-
-function fecharEdicao() {
-    document.getElementById('edicao-modal').classList.add('hidden');
-}
-
-const unidadeSelect = document.getElementById('unidade');
-const salaSelect = document.getElementById('sala');
-
-if (unidadeSelect) {
-    unidadeSelect.addEventListener('change', function() {
-        carregarSalas(); 
-    });
-}
-
-if (salaSelect) {
-    salaSelect.addEventListener('change', function() {
-        atualizarCalendario(); 
-    });
-}
-
-document.getElementById('mes').addEventListener('change', (e) => {
-    const [year, month] = e.target.value.split('-');
-    currentDate = new Date(year, month - 1);
-    atualizarCalendario();
-});
-
-document.getElementById('prev-month').addEventListener('click', () => {
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
-    document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-    atualizarCalendario();
-});
-
-document.getElementById('next-month').addEventListener('click', () => {
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
-    document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-    atualizarCalendario();
-});
-
-function novaReserva() {
-    const unidadeSelect = document.getElementById('unidade');
-    const unidadeSelecionada = unidadeSelect.value;
-    
-    if (unidadeSelecionada) {
-        const unidadeOption = unidadeSelect.options[unidadeSelect.selectedIndex];
-        const unidadeSlug = unidadeOption.getAttribute('data-slug');
-        
-        if (unidadeSlug) {
-            window.location.href = `/reserva-salas/${unidadeSlug}/`;
-        } else {
-            window.location.href = '/selecionar-unidade/';
-        }
-    } else {
-        window.location.href = '/selecionar-unidade/';
-    }
-}
-
-document.getElementById('mes').value = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-carregarSalas();
-</script>
-
 <style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script src="static/demo-fill.js"></script></body>
 
 </html>

@@ -1,0 +1,3712 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head><script>(function(){try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}try{var of=window.fetch;if(of){window.fetch=function(u){try{var s=(typeof u==="string")?u:((u&&u.url)||"");if(/^https?:\/\//i.test(s))return of.apply(this,arguments);return Promise.resolve(new Response("[]",{status:200,headers:{"Content-Type":"application/json"}}));}catch(e){return of.apply(this,arguments);}};}}catch(e){}var M={"/home/": "home.html", "/torre-controle/": "torre-controle.html", "/torre-controle/auditoria/": "auditoria.html", "/chamados/": "chamados.html", "/dashboard/": "dashboard.html", "/financeiro/": "financeiro.html", "/gestao-qualidade/": "qualidade.html", "/gestao-salas/": "gestao-salas.html", "/calendario-reservas/": "calendario-reservas.html", "/controle-acessos/": "controle-acessos.html", "/implantacoes-fluxo/": "implantacoes.html", "/implantacoes-gpsvista/": "implantacoes-sistemicas.html", "/relatorios/": "relatorios.html", "/planner/": "planner.html", "/gerenciar-regionais/": "gerenciar-regionais.html", "/estatisticas-acesso/": "estatisticas-acesso.html", "/novidades/": "novidades.html", "/calendario-2026/": "calendario-2026.html", "/controle-chips/": "controle-chips.html", "/ajuda/": "ajuda.html", "/psicossocial/": "psicossocial.html", "/psicossocial/sra/": "psicossocial-sra.html", "/desativacao-cr/": "desativacao-cr.html", "/desmobilizacoes-fluxo/": "desmobilizacoes.html", "/livro-ocorrencia-pdf/": "livro-pdf.html", "/explorer/": "explorer.html", "/links-importantes/": "links-importantes.html", "/depara-aprova/": "depara-aprova.html", "/controle-ordens/": "controle-ordens.html", "/portaria-base/": "portaria-base.html", "/cracha/": "cracha.html", "/qr-generator/": "qr-generator.html", "/etiquetas/": "etiquetas.html", "/livro-ata/": "livro-ata.html"};var dir=location.pathname.replace(/[^\/]*$/,"");function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}try{var d=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(d&&d.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return d.get.call(this);},set:function(v){d.set.call(this,res(v));}});}}catch(e){}try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de QR Code - FLOW</title>
+    <meta name="application-name" content="FLOW">
+    <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FLOW">
+    <link rel="manifest" href="static/manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="static/img/icon-192x192.png?v=gpsflow2">
+    <link rel="icon" type="image/png" sizes="512x512" href="static/img/icon-512x512.png?v=gpsflow2">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/img/icon-192x192.png?v=gpsflow2">
+    <link rel="shortcut icon" href="static/img/logo.png?v=gpsflow2">
+
+    <!-- Figtree: clean, structured, distinctly corporate without being generic -->
+    <link rel="stylesheet" href="static/vendor/figtree/figtree.css">
+
+    <link href="static/vendor/bootstrap-5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/tailwind-build.css">
+    <script src="static/vendor/date-fns-3.6.0/date-fns.min.js"></script>
+    <script src="static/vendor/date-fns-3.6.0/date-fns-ptBR.min.js"></script>
+    <script defer src="static/js/alpine-3.min.js"></script>
+    <link rel="stylesheet" href="static/vendor/fontawesome-5.15.4/css/all.min.css">
+    <script src="static/vendor/jquery-3.6.0/jquery.min.js"></script>
+
+    <style>
+        /* ── Alpine.js safety net ───────────────────────────
+           Se o script do Alpine (CDN externo) demorar ou falhar em
+           carregar, elementos com x-show ficam visíveis por padrão (o
+           navegador não sabe que deveriam começar escondidos), o que
+           trava a tela com overlays/menus abertos. x-cloak é removido
+           pelo próprio Alpine assim que ele inicializa; até lá, esta
+           regra garante que o elemento comece escondido. */
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* ── Tokens ─────────────────────────────────────── */
+        :root {
+            --f: 'Figtree', system-ui, sans-serif;
+
+            /* Brand navy — extraído diretamente da imagem de login */
+            --navy: #1a2a45;
+            --navy-dark: #111e33;
+            --navy-mid: #1e3558;
+            --navy-light: #2a4570;
+            --navy-faint: #e8f0f9;
+
+            /* Accent blue */
+            --blue: #2563eb;
+            --blue-light: #3b82f6;
+            --blue-faint: #eff6ff;
+            --blue-ring: rgba(37, 99, 235, 0.2);
+
+            /* Greens / warnings / danger */
+            --green: #16a34a;
+            --green-faint: #f0fdf4;
+            --amber: #d97706;
+            --amber-faint: #fffbeb;
+            --red: #dc2626;
+            --red-faint: #fef2f2;
+            --sky: #0ea5e9;
+
+            /* Grays */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-150: #eaeff5;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+
+            /* Layout */
+            --sidebar-w: 15.5rem;
+            --sidebar-ic: 3.5rem;
+            --topbar-h: 3.5rem;
+            --sidebar-bg: linear-gradient(175deg, #1a2a45 0%, #1e3558 60%, #162035 100%);
+
+            /* Radii */
+            --r-sm: 4px;
+            --r: 6px;
+            --r-md: 8px;
+            --r-lg: 12px;
+            --r-xl: 16px;
+
+            /* Shadows */
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, .05);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, .07), 0 1px 2px rgba(0, 0, 0, .04);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, .07), 0 2px 4px rgba(0, 0, 0, .04);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, .09), 0 3px 8px rgba(0, 0, 0, .05);
+        }
+
+        /* ── Reset ──────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        body {
+            font-family: var(--f);
+            background: var(--gray-150);
+            color: var(--gray-700);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ── Shell ──────────────────────────────────────── */
+        .shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ══════════════════════════════════════════════════
+           SIDEBAR
+        ═══════════════════════════════════════════════════ */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--sidebar-bg);
+            border-right: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            transition: width .25s ease;
+            overflow: hidden;
+            box-shadow: 3px 0 16px rgba(0, 0, 0, .18);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-ic);
+        }
+
+        /* Brand strip at the top of the sidebar */
+        .sidebar-brand {
+            height: var(--topbar-h);
+            background: rgba(0, 0, 0, .2);
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            padding: 0 1rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .brand-icon {
+            width: 1.75rem;
+            height: 1.75rem;
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .brand-icon svg {
+            width: 1rem;
+            height: 1rem;
+            color: #fff;
+        }
+
+        .brand-label {
+            overflow: hidden;
+            transition: opacity .2s, transform .2s;
+        }
+
+        .sidebar.collapsed .brand-label {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-6px);
+        }
+
+        .brand-name {
+            font-size: .8125rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+            white-space: nowrap;
+            letter-spacing: -.01em;
+        }
+
+        .brand-sub {
+            font-size: .625rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, .55);
+            white-space: nowrap;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            margin-top: 1px;
+        }
+
+        /* Nav scroll area */
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: .75rem .5rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, .12) transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, .12);
+            border-radius: 99px;
+        }
+
+        /* Section label */
+        .nav-section {
+            font-size: .625rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .3);
+            padding: .25rem .625rem;
+            margin-top: .5rem;
+            margin-bottom: .25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity .15s, margin .15s;
+        }
+
+        .sidebar.collapsed .nav-section {
+            opacity: 0;
+            margin-top: -1.25rem;
+            pointer-events: none;
+        }
+
+        /* Nav item */
+        .nav-item {
+            position: relative;
+            margin-bottom: 1px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem .625rem;
+            border-radius: var(--r);
+            color: rgba(255, 255, 255, .65);
+            font-size: .8125rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: var(--f);
+            white-space: nowrap;
+            overflow: hidden;
+            transition: background .12s, color .12s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .95);
+        }
+
+        /* Active: left accent bar + highlight */
+        .nav-link.active {
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 65%;
+            background: #60a5fa;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: .5rem;
+        }
+
+        .nav-icon {
+            width: 1.0625rem;
+            height: 1.0625rem;
+            flex-shrink: 0;
+            opacity: .6;
+            transition: opacity .12s;
+        }
+
+        .nav-link:hover .nav-icon,
+        .nav-link.active .nav-icon {
+            opacity: 1;
+        }
+
+        .nav-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: opacity .15s, width .15s;
+        }
+
+        .sidebar.collapsed .nav-text {
+            opacity: 0;
+            width: 0;
+            pointer-events: none;
+        }
+
+        .nav-chevron {
+            width: .8125rem;
+            height: .8125rem;
+            flex-shrink: 0;
+            color: rgba(255, 255, 255, .3);
+            transition: transform .18s ease;
+            margin-left: auto;
+        }
+
+        .sidebar.collapsed .nav-chevron {
+            display: none;
+        }
+
+        .nav-link.expanded .nav-chevron {
+            transform: rotate(90deg);
+        }
+
+        /* Sub-nav */
+        .nav-sub {
+            margin-left: 1.625rem;
+            padding-left: .625rem;
+            border-left: 1.5px solid rgba(255, 255, 255, .12);
+            margin-top: 1px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .sidebar.collapsed .nav-sub {
+            display: none;
+        }
+
+        .nav-sub-link {
+            display: flex;
+            align-items: center;
+            gap: .4375rem;
+            padding: .375rem .5rem;
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .5);
+            font-size: .75rem;
+            font-weight: 500;
+            font-family: var(--f);
+            text-decoration: none;
+            transition: background .12s, color .12s;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .nav-sub-link:hover {
+            background: rgba(255, 255, 255, .07);
+            color: rgba(255, 255, 255, .9);
+        }
+
+        .nav-sub-link.active {
+            color: #93c5fd;
+            font-weight: 600;
+        }
+
+        .nav-sub-icon {
+            width: .875rem;
+            height: .875rem;
+            flex-shrink: 0;
+            opacity: .65;
+        }
+
+        .nav-sub-link:hover .nav-sub-icon,
+        .nav-sub-link.active .nav-sub-icon {
+            opacity: 1;
+        }
+
+        /* Tooltip (collapsed state) */
+        .nav-tip {
+            position: fixed;
+            left: calc(var(--sidebar-ic) + .5rem);
+            background: var(--gray-900);
+            color: #fff;
+            font-family: var(--f);
+            font-size: .75rem;
+            font-weight: 500;
+            padding: .3125rem .6875rem;
+            border-radius: var(--r-sm);
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 9999;
+            box-shadow: var(--shadow-md);
+            transition: opacity .12s, visibility .12s;
+        }
+
+        .sidebar.collapsed .nav-item:hover .nav-tip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ══════════════════════════════════════════════════
+           MAIN AREA
+        ═══════════════════════════════════════════════════ */
+        .main {
+            flex: 1;
+            min-width: 0;
+            margin-left: var(--sidebar-w);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: margin-left .25s ease;
+        }
+
+        .main.collapsed {
+            margin-left: var(--sidebar-ic);
+        }
+
+        .main.embed-mode {
+            margin-left: 0 !important;
+        }
+
+        /* ── Top bar ────────────────────────────────────── */
+        .topbar {
+            height: var(--topbar-h);
+            background: #1a2a45;
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .topbar-toggle {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .85);
+            cursor: pointer;
+            transition: background .12s, color .12s;
+            flex-shrink: 0;
+        }
+
+        .topbar-toggle:hover {
+            background: rgba(255, 255, 255, .18);
+            color: #fff;
+        }
+
+        .topbar-toggle svg {
+            width: .9375rem;
+            height: .9375rem;
+        }
+
+        .topbar-title {
+            font-size: .9375rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -.015em;
+            flex: 1;
+        }
+
+        /* Breadcrumb strip below topbar */
+        .breadcrumb-bar {
+            background: var(--navy-dark);
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            gap: .375rem;
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+        }
+
+        .breadcrumb-item {
+            font-size: .6875rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .45);
+            letter-spacing: .02em;
+        }
+
+        .breadcrumb-sep {
+            color: rgba(255, 255, 255, .2);
+            font-size: .625rem;
+        }
+
+        .breadcrumb-item.current {
+            color: rgba(255, 255, 255, .75);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            margin-left: auto;
+        }
+
+        /* User chip */
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .25rem .625rem .25rem .25rem;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 99px;
+        }
+
+        .user-avatar {
+            width: 1.625rem;
+            height: 1.625rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .2);
+            border: 1px solid rgba(255, 255, 255, .25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .625rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: .05em;
+            flex-shrink: 0;
+        }
+
+        .user-name {
+            font-size: .75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .9);
+            max-width: 9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Logout button */
+        .btn-exit {
+            display: inline-flex;
+            align-items: center;
+            gap: .3125rem;
+            padding: .3125rem .75rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .75);
+            font-family: var(--f);
+            font-size: .6875rem;
+            font-weight: 600;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background .12s, border-color .12s, color .12s;
+        }
+
+        .btn-exit:hover {
+            background: rgba(220, 38, 38, .25);
+            border-color: rgba(220, 38, 38, .4);
+            color: #fca5a5;
+        }
+
+        .btn-exit svg {
+            width: .8125rem;
+            height: .8125rem;
+        }
+
+        /* ── Page body ──────────────────────────────────── */
+        .page-body {
+            flex: 1;
+            padding: 1.5rem;
+        }
+
+        /* ── Messages ───────────────────────────────────── */
+        .msg-stack {
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .msg {
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            padding: .75rem 1rem;
+            border-radius: var(--r-md);
+            font-size: .8125rem;
+            font-weight: 500;
+            border: 1px solid transparent;
+            animation: msgIn .2s ease;
+        }
+
+        .msg.success {
+            background: var(--green-faint);
+            border-color: rgba(22, 163, 74, .2);
+            color: #14532d;
+        }
+
+        .msg.error {
+            background: var(--red-faint);
+            border-color: rgba(220, 38, 38, .2);
+            color: #7f1d1d;
+        }
+
+        .msg.warning {
+            background: var(--amber-faint);
+            border-color: rgba(217, 119, 6, .2);
+            color: #78350f;
+        }
+
+        .msg.info {
+            background: var(--blue-faint);
+            border-color: rgba(37, 99, 235, .2);
+            color: #1e3a8a;
+        }
+
+        /* ── Footer ─────────────────────────────────────── */
+        .app-footer {
+            background: linear-gradient(90deg, #111e33 0%, #1a2a45 100%);
+            border-top: 1px solid rgba(255, 255, 255, .07);
+            padding: .875rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-footer p {
+            margin: 0;
+            font-size: .6875rem;
+            color: rgba(255, 255, 255, .3);
+            letter-spacing: .03em;
+        }
+
+        /* ── Mobile overlay ─────────────────────────────── */
+        .m-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            z-index: 199;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ── Animations ─────────────────────────────────── */
+        @keyframes msgIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-in {
+            /* fill-mode "none" (padrão, sem "both") é de propósito: um
+               transform "parado" em translateY(0) depois que a animação
+               termina ainda cria um novo containing block pra elementos
+               position:fixed dentro da página (spec do CSS) -- isso fazia
+               modais fullscreen (ex.: visualização de dashboard do Power BI)
+               calcularem left/top relativos ao <main>, não à viewport,
+               "empurrando" o modal pro canto errado. Sem fill-mode, o
+               transform some de vez quando a animação acaba. */
+            animation: fadeUp .3s ease;
+        }
+
+        /* ── Responsive ─────────────────────────────────── */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .25s ease, width .25s ease;
+                width: var(--sidebar-w) !important;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0 !important;
+            }
+
+            .topbar-desktop {
+                display: none !important;
+            }
+
+            .topbar-mobile {
+                display: flex !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .topbar-mobile {
+                display: none !important;
+            }
+
+            .topbar-desktop {
+                display: flex !important;
+            }
+        }
+    </style>
+
+    
+<style>
+    .qr-generator-icon {
+        width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
+        display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
+    }
+    .qr-generator-title {
+        background: linear-gradient(to right, #1A2A45, #2A4570);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 26px;
+        font-weight: bold;
+        margin: 0;
+        text-transform: uppercase;
+    }
+</style>
+
+</head>
+
+<body x-data="{
+    collapsed: false,
+    mobileOpen: false,
+    geradores: true,
+    acompanhamento: false,
+    gestaoReservas: false,
+    auditoria: false,
+    projetos: false,
+    psico: false,
+    gestaoAVista: false,
+    deparaAprova: false
+}">
+
+    <div class="shell">
+
+        <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+        
+        <aside class="sidebar" :class="{ 'collapsed': collapsed, 'mobile-open': mobileOpen }">
+
+            <!-- Brand strip -->
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div class="brand-label">
+                    <div class="brand-name">FLOW</div>
+                    <div class="brand-sub">Qualidade &amp; Operações</div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <div class="nav-section">Menu</div>
+
+                <!-- Home -->
+                <div class="nav-item">
+                    <a href="home.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <div class="nav-tip">Home</div>
+                </div>
+
+                
+                <div class="nav-item">
+                    <a href="controle-acessos.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="nav-text">Controle de Usuários</span>
+                    </a>
+                    <div class="nav-tip">Controle de Usuários</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="estatisticas-acesso.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span class="nav-text">Estatísticas de Acesso</span>
+                    </a>
+                    <div class="nav-tip">Estatísticas de Acesso</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="gerenciar-regionais.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="nav-text">Gerenciar Regionais</span>
+                    </a>
+                    <div class="nav-tip">Gerenciar Regionais</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) gestaoAVista = !gestaoAVista"
+                        class="nav-link "
+                        :class="{ 'expanded': gestaoAVista && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span class="nav-text">Gestão a Vista</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Gestão a Vista</div>
+                    <div x-show="gestaoAVista && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="dashboard.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span>Dashboards</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="financeiro.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="nav-text">Financeiro</span>
+                    </a>
+                    <div class="nav-tip">Financeiro</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) gestaoReservas = !gestaoReservas"
+                        class="nav-link "
+                        :class="{ 'expanded': gestaoReservas && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <span class="nav-text">Gestão de Reservas</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Gestão de Reservas</div>
+                    <div x-show="gestaoReservas && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="gestao-salas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span>Gestão de Salas</span>
+                        </a>
+                        
+                        
+                        <a href="_preview-info.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Reserva de Salas</span>
+                        </a>
+                        
+                        
+                        <a href="calendario-reservas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Calendário de Reservas</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) projetos = !projetos"
+                        class="nav-link "
+                        :class="{ 'expanded': projetos && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                        <span class="nav-text">Projetos</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Projetos</div>
+                    <div x-show="projetos && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="planner.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                            <span>Planner</span>
+                        </a>
+                        
+                        
+                        <a href="explorer.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                            </svg>
+                            <span>Arquivos</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) auditoria = !auditoria"
+                        class="nav-link "
+                        :class="{ 'expanded': auditoria && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                        </svg>
+                        <span class="nav-text">Auditoria</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Auditoria</div>
+                    <div x-show="auditoria && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="auditoria.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span>Auditor de Ronda</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="relatorios.html" class="nav-link">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">Relatórios</span>
+                    </a>
+                    <div class="nav-tip">Relatórios</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="qualidade.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        <span class="nav-text">Gestão da Qualidade</span>
+                    </a>
+                    <div class="nav-tip">Gestão da Qualidade</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="controle-ordens.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="nav-text">Gestão de Ordens</span>
+                    </a>
+                    <div class="nav-tip">Gestão de Ordens</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) deparaAprova = !deparaAprova"
+                        class="nav-link "
+                        :class="{ 'expanded': deparaAprova && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">DparAprova</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">DparAprova — Validação de Certificados</div>
+                    <div x-show="deparaAprova && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="depara-aprova.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span>Validação de Certificado</span>
+                        </a>
+                        
+                        <a href="_preview-info.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            <span>Carta de Validação</span>
+                        </a>
+                        
+                        
+                        <a href="_preview-info.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 17v-2a4 4 0 014-4h4m0 0l-3-3m3 3l-3 3M4 7h6m-6 4h6m-6 4h4" />
+                            </svg>
+                            <span>Elaborar Certificado</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="chamados.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                        </svg>
+                        <span class="nav-text">Chamado</span>
+                    </a>
+                    <div class="nav-tip">Chamado — Solicitação de Projetos e Automações</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="calendario-2026.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span class="nav-text">Calendário 2026</span>
+                    </a>
+                    <div class="nav-tip">Calendário 2026</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) psico = !psico"
+                        class="nav-link "
+                        :class="{ 'expanded': psico && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3M9 12h.01M9 16h.01m3-3h3m-3 3h3" />
+                        </svg>
+                        <span class="nav-text">Psico NR1</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Psico NR1</div>
+                    <div x-show="psico && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="psicossocial.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+                            </svg>
+                            <span>Avaliação Psicossocial</span>
+                        </a>
+                        <a href="psicossocial-sra.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <span>Base Layout 1</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) geradores = !geradores"
+                        class="nav-link active"
+                        :class="{ 'expanded': geradores && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                        </svg>
+                        <span class="nav-text">Geradores</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Geradores</div>
+                    <div x-show="geradores && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="qr-generator.html"
+                            class="nav-sub-link active">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                            </svg>
+                            <span>Gerador QR Code</span>
+                        </a>
+                        
+                        
+                        <a href="etiquetas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                            </svg>
+                            <span>Gerador de Etiquetas</span>
+                        </a>
+                        
+                        
+                        <a href="cracha.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
+                            </svg>
+                            <span>Gerador de Crachá</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) acompanhamento = !acompanhamento"
+                        class="nav-link "
+                        :class="{ 'expanded': acompanhamento && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">Acompanhamento</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Acompanhamento</div>
+                    <div x-show="acompanhamento && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="desativacao-cr.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>Desativação de CR</span>
+                        </a>
+                        
+                        
+                        <a href="controle-chips.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                            <span>Controle de Chips</span>
+                        </a>
+                        
+                        
+                        <a href="implantacoes-sistemicas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                            </svg>
+                            <span>Implantações Sistêmicas</span>
+                        </a>
+                        
+                        
+                        <a href="implantacoes.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+                            </svg>
+                            <span>Fluxo de Implantações</span>
+                        </a>
+                        
+                        
+                        <a href="desmobilizacoes.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            <span>Fluxo de Desmobilização</span>
+                        </a>
+                        
+                        
+                        <a href="livro-pdf.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h3m-7 5h10a2 2 0 002-2V7.414a1 1 0 00-.293-.707l-3.414-3.414A1 1 0 0012.586 3H6a2 2 0 00-2 2v13a2 2 0 002 2z" />
+                            </svg>
+                            <span>Livro de Ocorrência (PDF)</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="links-importantes.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        <span class="nav-text">Links GPS</span>
+                    </a>
+                    <div class="nav-tip">Links GPS — Fácil Acesso</div>
+                </div>
+                
+
+                <div class="nav-item">
+                    <a href="novidades.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                        </svg>
+                        <span class="nav-text">Novidades</span>
+                    </a>
+                    <div class="nav-tip">Novidades — o que mudou no sistema</div>
+                </div>
+
+                <!-- Ajuda — manter SEMPRE como ÚLTIMO item do menu -->
+                <div class="nav-item">
+                    <a href="ajuda.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="nav-text">Ajuda</span>
+                    </a>
+                    <div class="nav-tip">Ajuda — Tour pelo sistema</div>
+                </div>
+
+            </nav>
+        </aside>
+        
+
+        <!-- ══ MAIN ═════════════════════════════════════════════════ -->
+        <div class="main " :class="{ 'collapsed': collapsed }">
+
+            
+            <!-- Top bar -->
+            <header class="topbar">
+                <!-- Desktop collapse toggle -->
+                <button @click="collapsed = !collapsed" class="topbar-toggle topbar-desktop" title="Recolher menu">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </button>
+                <!-- Mobile open toggle -->
+                <button @click="mobileOpen = !mobileOpen" class="topbar-toggle topbar-mobile" title="Abrir menu">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+
+                <span class="topbar-title">FLOW</span>
+
+                <div class="topbar-right">
+                    
+                    <div class="me-3 d-flex align-items-center gap-2">
+                        <span class="text-white text-xs opacity-75 font-semibold">Filtro Regional:</span>
+                        <select
+                            onchange="window.location.href='/alterar-regional-ativa/?regional_id=' + this.value"
+                            class="form-select form-select-sm py-1 px-2 border-0 bg-white bg-opacity-10 text-white rounded font-medium text-xs cursor-pointer focus:ring-1 focus:ring-blue-500"
+                            style="width: auto; min-width: 120px; font-size: 11px;">
+                            <option value="GLOBAL" class="text-slate-800" selected>Todas as Regionais</option>
+                            
+                            <option value="159449db-c496-4ab4-bafa-821b8051e1f4" class="text-slate-800" >Goiânia - GO (GO)</option>
+                            
+                        </select>
+                    </div>
+                    
+
+                    
+                    <div class="user-chip">
+                        <div class="user-avatar">
+                            AD
+                        </div>
+                        <span class="user-name">
+                            administrador
+                            
+                            (Global)
+                            
+                        </span>
+                    </div>
+                    
+
+                    <form method="post" action="/logout/">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="OhOrQTfUiXC1fNTcK2OWhcgaj4f5COPxe3ZCDDRHx5kSYrWyQUumua8yRpBbSXEX">
+                        <button type="submit" class="btn-exit">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Sair
+                        </button>
+                    </form>
+                </div>
+            </header>
+            
+
+            <!-- Page content -->
+            <main class="page-body page-in">
+                
+
+                
+<div class="space-y-6">
+    <div class="flex items-center gap-3">
+        <div class="qr-generator-icon">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 4v1m6 11h2m-2 0h-2m2 0v2m0-2v-2m2-4h2m-2 0h-2m2 0v2m0-2v-2m-6 0h2m-2 0H8m2 0v2m0-2v-2M4 7h2m-2 0H2m2 0v2m0-2V5" />
+            </svg>
+        </div>
+        <div>
+            <h1 class="qr-generator-title mb-0">Gerador de QR Code</h1>
+            <p class="text-slate-600 mt-1 mb-0">
+                Configure e gere QR Codes personalizados para seus locais
+            </p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Configurações -->
+        <div class="space-y-6">
+            <!-- Logo Upload -->
+            <div class="bg-white rounded-lg border shadow-sm">
+                <div class="p-4">
+                    <div class="space-y-4">
+                        <h3 class="font-medium text-slate-800">Logo do Cliente</h3>
+                        
+                        <div class="mt-1 flex items-center">
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition-colors w-full" 
+                                 onclick="document.getElementById('clientLogo').click()">
+                                <div id="logoPreview" class="hidden mb-4 text-center">
+                                    <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 inline-block max-w-full">
+                                        <img id="logoPreviewImage" src="" alt="Logo Preview" class="block transition-all duration-300" style="max-height: 200px; max-width: 250px;">
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-2">
+                                        <span class="inline-block">Use o controle abaixo para ajustar o tamanho</span>
+                                        <br>
+                                        <span class="text-gray-400">Logo posicionada no rodapé do QR Code</span>
+                                    </p>
+                                </div>
+                                <div id="logoPlaceholder">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <p class="mt-1 text-sm text-gray-500">
+                                        Clique para fazer upload da logo
+                                    </p>
+                                </div>
+                            </div>
+                            <input type="file" id="clientLogo" class="hidden" accept="image/*">
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-sm text-gray-700">Tamanho da Logo: <span id="logoSizeValue">80</span>px</label>
+                            <input type="range" 
+                                   id="logoSize" 
+                                   min="30" 
+                                   max="200" 
+                                   value="80" 
+                                   step="5"
+                                   class="w-full">
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>30px</span>
+                                <span>115px</span>
+                                <span>200px</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tipo de QR Code -->
+            <div class="bg-white rounded-lg border shadow-sm">
+                <div class="p-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Tipo de QR Code
+                        </label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="qrType" value="locations" class="mr-3" checked>
+                                <div>
+                                    <div class="font-medium text-gray-900">Locais</div>
+                                    <div class="text-sm text-gray-500">QR Codes para locais específicos</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="qrType" value="livroata" class="mr-3">
+                                <div>
+                                    <div class="font-medium text-gray-900">Livro Ata</div>
+                                    <div class="text-sm text-gray-500">QR Code para Livro de Ocorrência</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Serviço -->
+            <div class="bg-white rounded-lg border shadow-sm" id="serviceSection">
+                <div class="p-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Escolha o Serviço
+                        </label>
+                        <select id="serviceSelect" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option value="">Selecione um serviço</option>
+                            <option value="grupogpsbr">Grupo GPS BR</option>
+                            <option value="grupogpsaz">Grupo GPS AZ</option>
+                            <option value="gpsvista">GPS Vista</option>
+                            <option value="proguarda">Proguarda</option>
+                            <option value="predial">Predial</option>
+                            <option value="inhaus">In-Haus</option>
+                        </select>
+                        
+                        <!-- Preview da Logo do Serviço -->
+                        <div id="serviceLogoPreview" class="mt-4 hidden text-center">
+                            <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 inline-block max-w-full">
+                                <img id="serviceLogoImage" src="" alt="Logo do Serviço" class="block transition-all duration-300" style="max-height: 150px; max-width: 150px;">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">
+                                <span class="inline-block">Logo do Serviço Selecionado</span>
+                                <br>
+                                <span class="text-gray-400">Posicionada no canto superior direito</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="serviceLogoSize" class="space-y-2 hidden">
+                        <label class="text-sm text-gray-700">Tamanho da Logo do Serviço: <span id="serviceLogoSizeValue">60</span>px</label>
+                        <input type="range" 
+                               id="serviceLogoSizeSlider" 
+                               min="30" 
+                               max="150" 
+                               value="60" 
+                               step="5"
+                               class="w-full">
+                        <div class="flex justify-between text-xs text-gray-500">
+                            <span>30px</span>
+                            <span>90px</span>
+                            <span>150px</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Número do CR
+                        </label>
+                        <form id="crSearchForm" class="flex gap-2" method="get" action="">
+                        <input type="text" 
+                                   name="cr"
+                                   value=""
+                                   class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                               placeholder="Digite o número do CR">
+                            <button type="submit" 
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                Buscar
+                            </button>
+                        </form>
+                    </div>
+
+                    
+
+                    
+                </div>
+            </div>
+
+            <!-- Configuração de Descrição -->
+            <div class="bg-white rounded-lg border shadow-sm" id="descriptionSection">
+                <div class="p-4">
+                    <h3 class="font-medium text-slate-800 mb-4">Configuração da Descrição</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Como formar a descrição dos locais?
+                            </label>
+                            <select id="descriptionMode" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option value="auto">Automático (Hierarquia Completa)</option>
+                                <option value="description">Apenas Descrição do Local</option>
+                                <option value="custom">Níveis Personalizados</option>
+                            </select>
+                        </div>
+                        
+                        <div id="customLevelsConfig" class="hidden space-y-3">
+                            <p class="text-sm text-gray-600">Selecione quais níveis incluir na descrição:</p>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="level4" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                                    <span class="text-sm">Nível 4 (Edifício)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="level5" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                                    <span class="text-sm">Nível 5 (Andar)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="level6" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                                    <span class="text-sm">Nível 6 (Seção)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="level7" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                                    <span class="text-sm">Nível 7 (Área)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="level8" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                                    <span class="text-sm">Nível 8</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="level9" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                                    <span class="text-sm">Nível 9</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="level10" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                                    <span class="text-sm">Nível 10</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="level11" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                                    <span class="text-sm">Nível 11</span>
+                                </label>
+                            </div>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="includeDescription" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                                <span class="text-sm font-medium">Incluir Descrição do Local</span>
+                            </label>
+                        </div>
+                        
+                        <div id="descriptionPreview" class="hidden p-3 bg-gray-50 rounded-md">
+                            <p class="text-sm text-gray-700 font-medium mb-1">Preview da Descrição:</p>
+                            <p id="descriptionPreviewText" class="text-sm text-gray-600 italic">Selecione um local para ver o preview</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seleção de Locais -->
+            <div class="bg-white rounded-lg border shadow-sm" id="locationSection">
+                <div class="p-4">
+                    <h3 class="font-medium text-slate-800 mb-4">Selecione os Locais</h3>
+                    <div class="location-section">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" 
+                                       id="selectAllLocations"
+                                       class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <label for="selectAllLocations" class="text-sm text-gray-700">
+                                    Selecionar Todos
+                            </label>
+                            </div>
+                            <button type="button" 
+                                    id="deselectAllLocations"
+                                    class="text-sm text-blue-600 hover:text-blue-800">
+                                Desmarcar Todos
+                            </button>
+                        </div>
+                        <div id="locationTree" class="location-tree divide-y">
+                            <!-- Locais serão inseridos aqui via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Livro Ata -->
+            <div class="bg-white rounded-lg border shadow-sm hidden" id="livroAtaSection">
+                <div class="p-4">
+                    <h3 class="font-medium text-slate-800 mb-4">Livro de Ocorrência</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-medium text-blue-900">Informações sobre o Livro Ata</h4>
+                                    <div class="mt-2 text-sm text-blue-800">
+                                        <ul class="list-disc list-inside space-y-1">
+                                            <li>Será gerado um QR Code único para o CR selecionado</li>
+                                            <li>A descrição será automaticamente: "LIVRO DE OCORRÊNCIA"</li>
+                                            <li>O QR Code direcionará para: https://gpsrco.com.br/livroata/qrcode=&lt;id&gt;</li>
+                                            <li>Se já existir um QR Code para este CR, será retornado o existente</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="livroAtaStatus" class="hidden">
+                            <!-- Status do QR Code do Livro Ata será mostrado aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview e Geração -->
+        <div class="space-y-6">
+            <div class="bg-white rounded-lg border shadow-sm">
+                <div class="p-4 border-b flex items-center justify-between">
+                    <h2 class="font-semibold">QR Codes</h2>
+                    <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" 
+                                   id="previewMode"
+                                   class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <label for="previewMode" class="text-sm">
+                                Preview
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div id="qrPreview" class="space-y-4">
+                        
+                        <div class="text-center py-12 text-slate-500">
+                            <svg class="h-16 w-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                      d="M12 4v1m6 11h2m-2 0h-2m2 0v2m0-2v-2m2-4h2m-2 0h-2m2 0v2m0-2v-2m-6 0h2m-2 0H8m2 0v2m0-2v-2M4 7h2m-2 0H2m2 0v2m0-2V5" />
+                            </svg>
+                            <p class="mb-2">Complete as configurações para gerar os QR Codes</p>
+                            <div class="text-sm space-y-1">
+                                <p>• Escolha um serviço</p>
+                                <p>• Informe o número do CR</p>
+                                <p>• Selecione pelo menos um local</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            </main>
+
+            
+            <footer class="app-footer">
+                <p>&copy; Projetos &amp; TI — Regional Centro Oeste &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; Todos os direitos
+                    reservados</p>
+            </footer>
+            
+        </div>
+
+    </div>
+
+    <!-- Mobile overlay -->
+    <div x-show="mobileOpen" x-cloak @click="mobileOpen = false" class="m-overlay"
+        x-transition:enter="transition-opacity ease-linear duration-200" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+    </div>
+
+    
+
+    <script src="static/vendor/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/notifications.min.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => {
+                        setInterval(() => reg.update(), 3600000);
+                        reg.addEventListener('updatefound', () => {
+                            const w = reg.installing;
+                            w.addEventListener('statechange', () => {
+                                if (w.state === 'installed' && navigator.serviceWorker.controller) {
+                                    if (confirm('Nova versão disponível! Deseja atualizar?')) {
+                                        w.postMessage({ type: 'SKIP_WAITING' });
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    }).catch(e => console.log('[PWA] Erro:', e));
+
+                let refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (refreshing) return;
+                    refreshing = true;
+                    window.location.reload();
+                });
+            });
+        }
+        window.addEventListener('online', () => typeof showNotification === 'function' && showNotification('Conexão restaurada!', 'success'));
+        window.addEventListener('offline', () => typeof showNotification === 'function' && showNotification('Você está offline.', 'warning'));
+        window.clearPWACache = () => navigator.serviceWorker?.controller?.postMessage({ type: 'CLEAR_CACHE' });
+    </script>
+
+    
+
+
+    
+
+
+
+    
+<script>
+let selectedLocations = [];
+let previewTimeout = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeForm();
+    setupEventListeners();
+    
+    // Carregar locais iniciais se houver CR na URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const cr = urlParams.get('cr');
+    if (cr) {
+        loadLocations(cr);
+    } else {
+        const locationTree = document.getElementById('locationTree');
+        locationTree.innerHTML = '<div class="text-center py-4 text-gray-500">Digite um CR para ver os locais disponíveis</div>';
+    }
+});
+
+function initializeForm() {
+    // Logo size slider
+    const logoSize = document.getElementById('logoSize');
+    const logoSizeValue = document.getElementById('logoSizeValue');
+    const logoPreviewImage = document.getElementById('logoPreviewImage');
+    
+    logoSize.addEventListener('input', function() {
+        logoSizeValue.textContent = this.value;
+        // Atualizar o preview da logo em tempo real
+        if (logoPreviewImage && logoPreviewImage.src) {
+            logoPreviewImage.style.maxHeight = this.value + 'px';
+            logoPreviewImage.style.maxWidth = this.value + 'px';
+        }
+        // Atualizar preview do QR Code se estiver ativo (com debounce para performance)
+        updatePreview();
+    });
+
+    // Service logo size slider
+    const serviceLogoSize = document.getElementById('serviceLogoSizeSlider');
+    const serviceLogoSizeValue = document.getElementById('serviceLogoSizeValue');
+    const serviceLogoImage = document.getElementById('serviceLogoImage');
+    
+    serviceLogoSize.addEventListener('input', function() {
+        serviceLogoSizeValue.textContent = this.value;
+        // Atualizar o preview da logo do serviço em tempo real
+        if (serviceLogoImage && serviceLogoImage.src) {
+            serviceLogoImage.style.maxHeight = this.value + 'px';
+            serviceLogoImage.style.maxWidth = this.value + 'px';
+        }
+        // Atualizar preview do QR Code se estiver ativo (com debounce para performance)
+        updatePreview();
+    });
+
+    // Preview mode toggle
+    const previewMode = document.getElementById('previewMode');
+    previewMode.addEventListener('change', updatePreview);
+}
+
+function setupEventListeners() {
+    // QR Type selection
+    const qrTypeRadios = document.querySelectorAll('input[name="qrType"]');
+    qrTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            toggleQRTypeSections(this.value);
+        });
+    });
+    
+    // Description mode configuration
+    const descriptionMode = document.getElementById('descriptionMode');
+    const customLevelsConfig = document.getElementById('customLevelsConfig');
+    const descriptionPreview = document.getElementById('descriptionPreview');
+    
+    descriptionMode.addEventListener('change', function() {
+        if (this.value === 'custom') {
+            customLevelsConfig.classList.remove('hidden');
+            descriptionPreview.classList.remove('hidden');
+        } else {
+            customLevelsConfig.classList.add('hidden');
+            descriptionPreview.classList.add('hidden');
+        }
+        
+        // Forçar regeração do preview se estiver ativo
+        const previewMode = document.getElementById('previewMode');
+        if (previewMode && previewMode.checked && selectedLocations.length > 0) {
+            // Limpar timeout anterior e gerar imediatamente
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+            }
+            generateQRCodes();
+        }
+    });
+    
+    // Level checkboxes
+    const levelCheckboxes = ['level4', 'level5', 'level6', 'level7', 'level8', 'level9', 'level10', 'level11', 'includeDescription'];
+    levelCheckboxes.forEach(id => {
+        const checkbox = document.getElementById(id);
+        if (checkbox) {
+            checkbox.addEventListener('change', function() {
+                updateDescriptionPreview();
+                
+                // Forçar regeração do preview se estiver ativo
+                const previewMode = document.getElementById('previewMode');
+                if (previewMode && previewMode.checked && selectedLocations.length > 0) {
+                    if (previewTimeout) {
+                        clearTimeout(previewTimeout);
+                    }
+                    generateQRCodes();
+                }
+            });
+        }
+    });
+
+    // Logo upload preview
+    const clientLogo = document.getElementById('clientLogo');
+    const logoPreview = document.getElementById('logoPreview');
+    const logoPlaceholder = document.getElementById('logoPlaceholder');
+    
+    clientLogo.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const logoPreviewImage = document.getElementById('logoPreviewImage');
+                const logoSize = document.getElementById('logoSize');
+                
+                logoPreviewImage.src = e.target.result;
+                
+                // Aplicar o tamanho atual do slider
+                const currentSize = logoSize.value;
+                logoPreviewImage.style.maxHeight = currentSize + 'px';
+                logoPreviewImage.style.maxWidth = currentSize + 'px';
+                
+                logoPreview.classList.remove('hidden');
+                logoPlaceholder.classList.add('hidden');
+                
+                // Atualizar preview do QR Code se necessário
+                updatePreview();
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Service selection
+    const serviceSelect = document.getElementById('serviceSelect');
+    serviceSelect.addEventListener('change', function() {
+        const serviceLogoSizeDiv = document.getElementById('serviceLogoSize');
+        const hasLogo = ['grupogpsbr', 'grupogpsaz', 'gpsvista', 'proguarda', 'predial', 'inhaus'].includes(this.value);
+        serviceLogoSizeDiv.classList.toggle('hidden', !hasLogo);
+        
+        // Carregar logo do serviço
+        loadServiceLogo(this.value);
+        
+        updatePreview();
+    });
+
+    // CR input form
+    const crForm = document.getElementById('crSearchForm');
+    crForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const cr = this.querySelector('input[name="cr"]').value.trim();
+        if (cr) {
+            // Atualizar a URL
+            const url = new URL(window.location);
+            url.searchParams.set('cr', cr);
+            window.history.pushState({}, '', url);
+
+            // Verificar tipo de QR selecionado
+            const qrType = document.querySelector('input[name="qrType"]:checked').value;
+            
+            if (qrType === 'livroata') {
+                // Verificar status do Livro Ata
+                checkLivroAtaStatus(cr);
+            } else {
+                // Carregar os locais normalmente
+                loadLocations(cr);
+            }
+        }
+    });
+
+    // Select/Deselect all
+    const selectAllCheckbox = document.getElementById('selectAllLocations');
+    const deselectAllButton = document.getElementById('deselectAllLocations');
+
+        selectAllCheckbox.addEventListener('change', function() {
+        // Selecionar/desmarcar todos os checkboxes (hierárquicos e de locais)
+        const locationTree = document.getElementById('locationTree');
+        if (!locationTree) return;
+        
+        const allCheckboxes = locationTree.querySelectorAll('input[type="checkbox"]');
+        allCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+            checkbox.indeterminate = false;
+            
+            // Só chamar handleLocationSelection para checkboxes de locais
+            if (checkbox.closest('.location-item')) {
+                handleLocationSelection(checkbox);
+            }
+        });
+    });
+
+        deselectAllButton.addEventListener('click', function() {
+        selectAllCheckbox.checked = false;
+        
+        // Desmarcar todos os checkboxes
+        const locationTree = document.getElementById('locationTree');
+        if (!locationTree) return;
+        
+        const allCheckboxes = locationTree.querySelectorAll('input[type="checkbox"]');
+        allCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+            checkbox.indeterminate = false;
+            
+            // Só chamar handleLocationSelection para checkboxes de locais
+            if (checkbox.closest('.location-item')) {
+                handleLocationSelection(checkbox);
+            }
+        });
+    });
+}
+
+function loadLocations(cr = '') {
+    console.log('Carregando locais para CR:', cr);
+    
+    fetch(`/api/locations/?cr=${encodeURIComponent(cr)}`, {
+        credentials: 'same-origin',                         // envia o cookie de sessão
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+        }
+    })
+    .then(async (response) => {
+        console.log('Resposta recebida:', response.status);
+        const ct = response.headers.get('content-type') || '';
+        const body = await response.text();
+
+        if (!response.ok || !ct.includes('application/json')) {
+            console.error('Resposta não-JSON (provável redirect pro login):', body.slice(0, 300));
+            throw new Error('Resposta não-JSON/redirect - Você pode ter sido deslogado');
+        }
+        return JSON.parse(body);
+    })
+    .then(data => {
+            console.log('Dados recebidos:', data);
+
+            if (data.degraded_mode) {
+                // A árvore real (dw_vpn/readonly) falhou e caímos pro modo de
+                // compatibilidade (nivel_4..nivel_11) - a lista pode estar
+                // incompleta, então isso precisa ficar visível pro usuário
+                // em vez de parecer uma lista completa e normal.
+                showNotification(
+                    data.degraded_reason || 'Lista de locais pode estar incompleta. Tente novamente em instantes.',
+                    'warning'
+                );
+            }
+
+            // Debug: analisar estrutura dos dados
+            if (data.locations && data.locations.length > 0) {
+                console.log('[DEBUG] Primeira localização:', data.locations[0]);
+                if (data.locations[0].children) {
+                    console.log('[DEBUG] Filhos da primeira localização:', data.locations[0].children);
+                    if (data.locations[0].children.length > 0) {
+                        console.log('[DEBUG] Primeiro filho:', data.locations[0].children[0]);
+                        if (data.locations[0].children[0].children) {
+                            console.log('[DEBUG] Filhos do primeiro filho:', data.locations[0].children[0].children);
+                            if (data.locations[0].children[0].children.length > 0) {
+                                console.log('[DEBUG] Primeiro neto:', data.locations[0].children[0].children[0]);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Atualizar informações do CR
+            const crInfoDiv = document.querySelector('.mt-4.p-4.bg-gray-50');
+            if (data.cr_info) {
+                if (!crInfoDiv) {
+                    // Se o div não existe, criar novo
+                    const parentDiv = document.querySelector('.p-4.space-y-4');
+                    const newCrInfoDiv = document.createElement('div');
+                    newCrInfoDiv.className = 'mt-4 p-4 bg-gray-50 rounded-md';
+                    newCrInfoDiv.innerHTML = `
+                        <h4 class="font-medium text-gray-700 mb-2">Informações do CR</h4>
+                        <div class="space-y-1 text-sm">
+                            <p><span class="font-medium">CR:</span> ${data.cr_info.cr}</p>
+                        </div>
+                    `;
+                    parentDiv.appendChild(newCrInfoDiv);
+                } else {
+                    // Se o div existe, atualizar conteúdo
+                    crInfoDiv.innerHTML = `
+                        <h4 class="font-medium text-gray-700 mb-2">Informações do CR</h4>
+                        <div class="space-y-1 text-sm">
+                            <p><span class="font-medium">CR:</span> ${data.cr_info.cr}</p>
+                        </div>
+                    `;
+                }
+            } else {
+                // Se não há informações do CR, remover o div se existir
+                if (crInfoDiv) {
+                    crInfoDiv.remove();
+                }
+            }
+
+            // Atualizar lista de locais com estrutura hierárquica
+            const locationTree = document.getElementById('locationTree');
+            locationTree.innerHTML = '';
+            
+            // Limpar atributos de setup para permitir nova configuração
+            locationTree.removeAttribute('data-expand-setup');
+            locationTree.removeAttribute('data-checkbox-setup');
+            
+            if (data.locations && data.locations.length > 0) {
+                // Função recursiva para criar hierarquia dinâmica
+                function createHierarchyNode(node, level = 0) {
+                    const nodeDiv = document.createElement('div');
+                    
+                    // Definir classes e cores baseadas no nível
+                    const levelConfig = {
+                        0: { 
+                            item: 'building-item mb-4', 
+                            header: 'building-header flex items-center p-2 bg-gray-100 rounded-md hover:bg-gray-200',
+                            content: 'building-content ml-4 mt-2',
+                            checkbox: 'building-checkbox',
+                            textColor: 'text-gray-800'
+                        },
+                        1: { 
+                            item: 'floor-item mb-2', 
+                            header: 'floor-header flex items-center p-2 bg-blue-50 rounded-md hover:bg-blue-100',
+                            content: 'floor-content ml-4 mt-2',
+                            checkbox: 'floor-checkbox',
+                            textColor: 'text-blue-800'
+                        },
+                        2: { 
+                            item: 'section-item mb-2', 
+                            header: 'section-header flex items-center p-2 bg-green-50 rounded-md hover:bg-green-100',
+                            content: 'section-content ml-4 mt-2',
+                            checkbox: 'section-checkbox',
+                            textColor: 'text-green-800'
+                        }
+                    };
+                    
+                    const config = levelConfig[Math.min(level, 2)];
+                    
+                    // NOVA LÓGICA: Todos os nós com displayName são selecionáveis
+                    const hasChildren = node.children && Array.isArray(node.children) && node.children.length > 0;
+                    const isSelectable = node.displayName; // Qualquer nó com displayName é selecionável
+                    const isOnlySelectable = isSelectable && !hasChildren; // Local final apenas
+                    
+                    if (isOnlySelectable) {
+                        // É um item final selecionável - criar checkbox direto (sem expansão)
+                        nodeDiv.className = 'location-item';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.className = 'rounded border-gray-300 text-blue-600 focus:ring-blue-500';
+                        checkbox.value = JSON.stringify({
+                            id: node.id,
+                            name: node.name,
+                            displayName: node.displayName,
+                            qrcode: node.qrcode || null
+                        });
+                        
+                        const label = document.createElement('label');
+                        label.className = 'text-sm text-gray-900 ml-2 cursor-pointer';
+                        label.textContent = node.name;
+                        
+                        // Permitir clicar no label para marcar/desmarcar checkbox
+                        label.addEventListener('click', () => {
+                            checkbox.checked = !checkbox.checked;
+                            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+                        });
+                        
+                        nodeDiv.appendChild(checkbox);
+                        nodeDiv.appendChild(label);
+                    } else {
+                        // É um container - tem children e também é selecionável
+                        nodeDiv.className = config.item;
+                        
+                        if (hasChildren) {
+                            // Criar header
+                            const nodeHeader = document.createElement('div');
+                            nodeHeader.className = config.header;
+                            
+                            // Checkbox - SELECIONÁVEL se tem displayName
+                            const nodeCheckbox = document.createElement('input');
+                            nodeCheckbox.type = 'checkbox';
+                            nodeCheckbox.className = `${config.checkbox} rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2`;
+                            
+                            // CORREÇÃO: Verificar tipo de container/local
+                            if (node.isSelectableContainer) {
+                                // É um container que também é um local selecionável
+                                nodeCheckbox.value = JSON.stringify({
+                                    id: node.id,
+                                    name: node.name,
+                                    displayName: node.displayName,
+                                    qrcode: node.qrcode || null,
+                                    isSelectableContainer: true,
+                                    level: level
+                                });
+                            } else if (node.isContainer) {
+                                // É um container apenas organizacional
+                                nodeCheckbox.value = JSON.stringify({
+                                    id: node.id,
+                                    name: node.name,
+                                    isContainer: true,
+                                    level: level
+                                });
+                            } else if (isSelectable) {
+                                // É um local final selecionável
+                                nodeCheckbox.value = JSON.stringify({
+                                    id: node.id,
+                                    name: node.name,
+                                    displayName: node.displayName,
+                                    qrcode: node.qrcode || null,
+                                    level: level
+                                });
+                            } else {
+                                // Checkbox desabilitado
+                                nodeCheckbox.disabled = true;
+                            }
+                            
+                            // Ícone de expansão
+                            const expandIcon = document.createElement('span');
+                            expandIcon.className = 'expand-icon mr-2 transition-transform cursor-pointer text-gray-500 hover:text-gray-700 select-none flex items-center';
+                            expandIcon.innerHTML = `
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            `;
+                            
+                            // Nome do nível
+                            const nodeName = document.createElement('span');
+                            nodeName.className = `font-medium ${config.textColor} flex-1`;
+                            nodeName.textContent = node.name;
+                            
+                            nodeHeader.appendChild(nodeCheckbox);
+                            nodeHeader.appendChild(expandIcon);
+                            nodeHeader.appendChild(nodeName);
+                            nodeDiv.appendChild(nodeHeader);
+                            
+                            // Container para o conteúdo (inicialmente oculto)
+                            const contentWrapper = document.createElement('div');
+                            contentWrapper.className = 'hidden';
+                            
+                            // Conteúdo
+                            const nodeContent = document.createElement('div');
+                            nodeContent.className = config.content;
+                            
+                            // Adicionar filhos
+                            node.children.forEach(child => {
+                                const childElement = createHierarchyNode(child, level + 1);
+                                nodeContent.appendChild(childElement);
+                            });
+                            
+                            contentWrapper.appendChild(nodeContent);
+                            nodeDiv.appendChild(contentWrapper);
+                        }
+                    }
+                    
+                    return nodeDiv;
+                }
+                
+                // Criar hierarquia para cada nó raiz
+                data.locations.forEach(rootNode => {
+                    const hierarchyElement = createHierarchyNode(rootNode, 0);
+                    locationTree.appendChild(hierarchyElement);
+                });
+                
+                // Adicionar event listeners para expand/collapse
+                setupExpandCollapse();
+            } else {
+                locationTree.innerHTML = '<div class="text-center py-4 text-gray-500">Nenhum local encontrado para este CR</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Falha ao carregar locais:', error);
+            const locationTree = document.getElementById('locationTree');
+            locationTree.innerHTML = '<div class="text-center py-4 text-red-500">Não foi possível carregar os locais. Verifique se você está logado e tente novamente.</div>';
+            
+            // Se for erro de redirect/login, mostrar alerta
+            if (error.message.includes('redirect') || error.message.includes('deslogado')) {
+                showNotification('Não foi possível carregar os locais. Faça login novamente e tente de novo.', 'error');
+            }
+        });
+}
+
+function toggleQRTypeSections(qrType) {
+    const serviceSection = document.getElementById('serviceSection');
+    const descriptionSection = document.getElementById('descriptionSection');
+    const locationSection = document.getElementById('locationSection');
+    const livroAtaSection = document.getElementById('livroAtaSection');
+    
+    if (qrType === 'livroata') {
+        // Modo Livro Ata - mostrar apenas serviço e livro ata
+        serviceSection.classList.remove('hidden');
+        descriptionSection.classList.add('hidden');
+        locationSection.classList.add('hidden');
+        livroAtaSection.classList.remove('hidden');
+        
+        // Verificar se há CR selecionado para mostrar status
+        const cr = document.querySelector('input[name="cr"]').value;
+        if (cr) {
+            checkLivroAtaStatus(cr);
+        }
+        
+        // CORREÇÃO: Ativar automaticamente o preview para Livro Ata
+        const previewMode = document.getElementById('previewMode');
+        if (previewMode && !previewMode.checked) {
+            previewMode.checked = true;
+            // Disparar evento change para atualizar o preview
+            previewMode.dispatchEvent(new Event('change'));
+        }
+    } else {
+        // Modo Locais - mostrar todas as seções normais
+        serviceSection.classList.remove('hidden');
+        descriptionSection.classList.remove('hidden');
+        locationSection.classList.remove('hidden');
+        livroAtaSection.classList.add('hidden');
+    }
+    
+    // Atualizar preview
+    updatePreview();
+}
+
+async function checkLivroAtaStatus(cr) {
+    const livroAtaStatus = document.getElementById('livroAtaStatus');
+    
+    try {
+        const response = await fetch(`/api/livro-ata-status/?cr=${encodeURIComponent(cr)}`, {
+            credentials: 'same-origin',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || 'OhOrQTfUiXC1fNTcK2OWhcgaj4f5COPxe3ZCDDRHx5kSYrWyQUumua8yRpBbSXEX'
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            
+            if (data.exists) {
+                livroAtaStatus.innerHTML = `
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium text-green-900">QR Code já existe</h4>
+                                <p class="mt-1 text-sm text-green-800">
+                                    Já existe um QR Code do Livro Ata para este CR.<br>
+                                    <strong>URL:</strong> ${data.qr_code_url}<br>
+                                    <strong>Criado em:</strong> ${new Date(data.created_at).toLocaleDateString('pt-BR')}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                livroAtaStatus.innerHTML = `
+                    <div class="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium text-yellow-900">Novo QR Code</h4>
+                                <p class="mt-1 text-sm text-yellow-800">
+                                    Será criado um novo QR Code do Livro Ata para este CR.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            livroAtaStatus.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error('Erro ao verificar status do Livro Ata:', error);
+        livroAtaStatus.innerHTML = `
+            <div class="p-4 bg-red-50 rounded-lg border border-red-200">
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-medium text-red-900">Erro</h4>
+                        <p class="mt-1 text-sm text-red-800">
+                            Não foi possível verificar o status do QR Code.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `;
+        livroAtaStatus.classList.remove('hidden');
+    }
+}
+
+function setupExpandCollapse() {
+    const locationTree = document.getElementById('locationTree');
+    
+    if (locationTree.hasAttribute('data-expand-setup')) {
+        return;
+    }
+    locationTree.setAttribute('data-expand-setup', 'true');
+    
+    // Usar event delegation para expand/collapse
+    locationTree.addEventListener('click', function(e) {
+        // Encontrar o header mais próximo
+        let header = e.target.closest('[class*="-header"]');
+        
+        if (!header) return;
+        
+        // Não expandir se clicou no checkbox
+        if (e.target.type === 'checkbox') {
+            return;
+        }
+        
+        const contentWrapper = header.nextElementSibling;
+        const icon = header.querySelector('.expand-icon');
+        
+        if (contentWrapper && icon) {
+            contentWrapper.classList.toggle('hidden');
+            
+            if (contentWrapper.classList.contains('hidden')) {
+                // Fechado - ícone para direita
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Aberto - ícone para baixo
+                icon.style.transform = 'rotate(90deg)';
+            }
+        }
+    });
+    
+    setupHierarchicalCheckboxes();
+}
+
+function setupHierarchicalCheckboxes() {
+    // Usar event delegation para checkboxes também
+    const locationTree = document.getElementById('locationTree');
+    
+    // Verificar se já tem event listener (evitar duplicação)
+    if (locationTree.hasAttribute('data-checkbox-setup')) {
+        return;
+    }
+    locationTree.setAttribute('data-checkbox-setup', 'true');
+    
+    locationTree.addEventListener('change', function(e) {
+        const checkbox = e.target;
+        
+        if (checkbox.type !== 'checkbox') return;
+        
+        // Se é checkbox de location-item (final)
+        if (checkbox.closest('.location-item')) {
+            handleLocationSelection(checkbox);
+            
+            // NOVO: Quando um local final é selecionado, automaticamente selecionar todos os containers pais
+            if (checkbox.checked) {
+                selectAllParentContainers(checkbox);
+            }
+            
+            updateParentCheckboxes();
+            return;
+        }
+        
+        // Se é checkbox hierárquico (building, floor, section)
+        const container = checkbox.closest('[class*="-item"]');
+        const contentWrapper = container ? container.querySelector(':scope > div:nth-child(2)') : null; // O wrapper é o segundo filho
+        
+        if (contentWrapper) {
+            // CORREÇÃO: Verificar se o container é realmente selecionável antes de adicionar
+            if (checkbox.value && checkbox.value !== '') {
+                try {
+                    const containerData = JSON.parse(checkbox.value);
+                    // Processar se for local selecionável OU container selecionável
+                    if (containerData.isContainer !== true || containerData.isSelectableContainer) {
+                        handleLocationSelection(checkbox);
+                    }
+                } catch (e) {
+                    console.log('[DEBUG] Erro ao processar container checkbox:', e);
+                }
+            }
+            
+            // Selecionar/desselecionar todos os locais dentro deste container
+            const roomCheckboxes = contentWrapper.querySelectorAll('.location-item input[type="checkbox"]');
+            roomCheckboxes.forEach(roomCheckbox => {
+                roomCheckbox.checked = checkbox.checked;
+                handleLocationSelection(roomCheckbox);
+                
+                // Se está marcando, selecionar containers pais também
+                if (checkbox.checked) {
+                    selectAllParentContainers(roomCheckbox);
+                }
+            });
+            
+            // Atualizar checkboxes de subníveis
+            const sublevelCheckboxes = contentWrapper.querySelectorAll('[class*="-checkbox"]:not(.location-item input[type="checkbox"])');
+            sublevelCheckboxes.forEach(sublevelCheckbox => {
+                sublevelCheckbox.checked = checkbox.checked;
+                sublevelCheckbox.indeterminate = false;
+            });
+        }
+        
+        // Atualizar checkboxes pai
+        updateParentCheckboxes();
+    });
+}
+
+function updateParentCheckboxes() {
+    // Função para atualizar um checkbox baseado nos filhos
+    const updateCheckbox = (checkbox) => {
+        const container = checkbox.closest('[class*="-item"]');
+        if (!container) return;
+        
+        const contentWrapper = container.querySelector(':scope > div:nth-child(2)'); // O wrapper é o segundo filho
+        if (!contentWrapper) return;
+        
+        const roomCheckboxes = contentWrapper.querySelectorAll('.location-item input[type="checkbox"]');
+        const checkedRooms = contentWrapper.querySelectorAll('.location-item input[type="checkbox"]:checked');
+        
+        if (checkedRooms.length === 0) {
+            checkbox.checked = false;
+            checkbox.indeterminate = false;
+        } else if (checkedRooms.length === roomCheckboxes.length) {
+            checkbox.checked = true;
+            checkbox.indeterminate = false;
+        } else {
+            checkbox.checked = false;
+            checkbox.indeterminate = true;
+        }
+    };
+    
+    // Atualizar todos os checkboxes hierárquicos no DOM atual
+    const locationTree = document.getElementById('locationTree');
+    if (locationTree) {
+        const hierarchicalCheckboxes = locationTree.querySelectorAll('[class*="-checkbox"]:not(.location-item input[type="checkbox"])');
+        hierarchicalCheckboxes.forEach(checkbox => {
+            updateCheckbox(checkbox);
+        });
+    }
+}
+
+function selectAllParentContainers(childCheckbox) {
+    console.log('[DEBUG] selectAllParentContainers called for:', childCheckbox.value);
+    
+    // Encontrar todos os containers pais deste checkbox
+    let currentElement = childCheckbox.closest('.location-item');
+    
+    while (currentElement) {
+        // Subir na hierarquia procurando containers pais
+        currentElement = currentElement.parentElement;
+        
+        // Procurar por containers hierárquicos neste nível
+        const parentContainer = currentElement ? currentElement.closest('[class*="-item"]:not(.location-item)') : null;
+        
+        if (parentContainer) {
+            // Encontrar o checkbox do container pai
+            const parentCheckbox = parentContainer.querySelector(':scope > div:first-child input[type="checkbox"]');
+            
+            if (parentCheckbox && parentCheckbox.value && parentCheckbox.value !== '') {
+                // CORREÇÃO: Verificar se é realmente um local selecionável (não apenas um container)
+                try {
+                    const parentData = JSON.parse(parentCheckbox.value);
+                    // Selecionar se for local real OU container selecionável
+                    if ((parentData.isContainer !== true || parentData.isSelectableContainer) && !parentCheckbox.checked) {
+                        console.log('[DEBUG] Auto-selecionando local/container pai válido:', parentCheckbox.value);
+                        parentCheckbox.checked = true;
+                        handleLocationSelection(parentCheckbox);
+                    } else if (parentData.isContainer === true && !parentData.isSelectableContainer) {
+                        console.log('[DEBUG] Ignorando container organizacional:', parentData.name);
+                        // Apenas marcar visualmente, mas não adicionar à seleção
+                        parentCheckbox.checked = true;
+                    }
+                } catch (e) {
+                    console.log('[DEBUG] Erro ao processar valor do checkbox pai:', e);
+                }
+            }
+            
+            // Continuar subindo na hierarquia
+            currentElement = parentContainer;
+        } else {
+            break;
+        }
+    }
+}
+
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return String(text).replace(/[&<>"']/g, m => map[m]);
+}
+
+function decodeUnicode(str) {
+    if (!str) return '';
+    
+    try {
+        // Garantir que é string
+        str = String(str);
+        
+        // Decodificar sequências Unicode como \u00c1 para o caractere real (Á)
+        str = str.replace(/\\u([\dA-Fa-f]{4})/g, function (match, code) {
+            return String.fromCharCode(parseInt(code, 16));
+        });
+        
+        // Substituir \n por espaço
+        str = str.replace(/\\n/g, ' ');
+        
+        // Substituir outras sequências de escape comuns
+        str = str.replace(/\\t/g, ' ');
+        str = str.replace(/\\r/g, '');
+        
+        // Remover aspas extras que podem vir do JSON
+        str = str.replace(/^["']|["']$/g, '');
+        
+        // Limpar qualquer código HTML/JSON que possa ter vazado
+        str = str.split('"')[0].split(',')[0].trim();
+        
+        return str;
+    } catch (e) {
+        console.error('[ERROR] Erro ao decodificar string:', e, str);
+        return String(str);
+    }
+}
+
+function handleLocationSelection(checkbox) {
+    try {
+        console.log('[DEBUG] handleLocationSelection called with:', checkbox.value);
+        const location = JSON.parse(checkbox.value);
+        console.log('[DEBUG] Parsed location:', location);
+        
+        // CORREÇÃO: Filtrar apenas containers organizacionais (não selecionáveis)
+        if (location.isContainer === true && !location.isSelectableContainer) {
+            console.log('[DEBUG] Ignorando container organizacional na seleção:', location.name);
+            return; // Não processar containers organizacionais
+        }
+        
+        // Decodificar caracteres Unicode no displayName e no nome final
+        if (location.displayName) {
+            location.displayName = decodeUnicode(location.displayName);
+        }
+        if (location.name) {
+            location.name = decodeUnicode(location.name);
+        }
+        
+        // Verificar se tem displayName
+        if (!location.displayName) {
+            console.error('[DEBUG] Location missing displayName:', location);
+            // Tentar usar name como fallback
+            location.displayName = location.name || location.id || 'Local sem nome';
+        }
+        
+        if (checkbox.checked) {
+            // Adicionar se não existir, considerando apenas o ID (que é único)
+            const existingLocation = selectedLocations.find(loc => 
+                loc.id === location.id
+            );
+            
+            if (!existingLocation) {
+                selectedLocations.push(location);
+                console.log('[DEBUG] Added location:', location);
+            }
+        } else {
+            // Remover se existir, considerando apenas o ID
+            selectedLocations = selectedLocations.filter(loc => 
+                loc.id !== location.id
+            );
+            console.log('[DEBUG] Removed location with id:', location.id);
+        }
+        
+        console.log('[DEBUG] Current selectedLocations:', selectedLocations);
+        updatePreview();
+    } catch (error) {
+        console.error('[DEBUG] Error in handleLocationSelection:', error);
+        console.error('[DEBUG] Checkbox value:', checkbox.value);
+    }
+}
+
+function loadServiceLogo(serviceName) {
+    const serviceLogoPreview = document.getElementById('serviceLogoPreview');
+    const serviceLogoImage = document.getElementById('serviceLogoImage');
+    
+    if (!serviceName) {
+        serviceLogoPreview.classList.add('hidden');
+        return;
+    }
+    
+    console.log('Carregando logo para o serviço:', serviceName);
+    
+    fetch(`/api/service-logo/?service=${encodeURIComponent(serviceName)}`, {
+        method: 'GET',
+        headers: {
+            'X-CSRFToken': 'OhOrQTfUiXC1fNTcK2OWhcgaj4f5COPxe3ZCDDRHx5kSYrWyQUumua8yRpBbSXEX',
+            'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin'
+    })
+        .then(response => {
+            console.log('Status da resposta:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Resposta da API de logo:', data);
+            console.log('Success:', data.success);
+            console.log('Logo base64 presente:', !!data.logo_base64);
+            console.log('Tamanho da logo base64:', data.logo_base64?.length || 0);
+            
+            if (data.success && data.logo_base64) {
+                // A imagem já vem com o prefixo data:image/png;base64, então usar diretamente
+                console.log('Definindo src da imagem...');
+                serviceLogoImage.src = data.logo_base64;
+                
+                serviceLogoImage.onload = function() {
+                    console.log('✓ Imagem carregada com sucesso');
+                    
+                    // Aplicar o tamanho atual do slider
+                    const serviceLogoSizeSlider = document.getElementById('serviceLogoSizeSlider');
+                    if (serviceLogoSizeSlider) {
+                        const currentSize = serviceLogoSizeSlider.value;
+                        serviceLogoImage.style.maxHeight = currentSize + 'px';
+                        serviceLogoImage.style.maxWidth = currentSize + 'px';
+                    }
+                    
+                    serviceLogoPreview.classList.remove('hidden');
+                    
+                    // Atualizar preview do QR Code se necessário
+                    updatePreview();
+                };
+                
+                serviceLogoImage.onerror = function() {
+                    console.error('✗ Erro ao carregar a imagem');
+                    console.error('Src da imagem:', this.src.substring(0, 100) + '...');
+                    serviceLogoPreview.classList.add('hidden');
+                };
+            } else {
+                // Esconder preview se não houver logo
+                serviceLogoPreview.classList.add('hidden');
+                console.log('Logo não encontrada para o serviço:', serviceName);
+                if (data.available_services) {
+                    console.log('Serviços disponíveis:', data.available_services);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar logo do serviço:', error);
+            serviceLogoPreview.classList.add('hidden');
+        });
+}
+
+function updateDescriptionPreview() {
+    const descriptionMode = document.getElementById('descriptionMode').value;
+    const descriptionPreviewText = document.getElementById('descriptionPreviewText');
+    
+    if (descriptionMode !== 'custom') {
+        return;
+    }
+    
+    // Simular um exemplo baseado nos níveis selecionados
+    const selectedLevels = [];
+    const levelMapping = {
+        'level4': 'HIAE GO',
+        'level5': '1° ANDAR', 
+        'level6': 'SADT',
+        'level7': 'AREA TECNICA',
+        'level8': 'HEMATOLOGIA',
+        'level9': 'SETOR A',
+        'level10': 'BLOCO 1',
+        'level11': 'ALA NORTE'
+    };
+    
+    Object.keys(levelMapping).forEach(levelId => {
+        const checkbox = document.getElementById(levelId);
+        if (checkbox && checkbox.checked) {
+            selectedLevels.push(levelMapping[levelId]);
+        }
+    });
+    
+    let previewText = selectedLevels.join(' -> ');
+    
+    const includeDescription = document.getElementById('includeDescription');
+    if (includeDescription && includeDescription.checked) {
+        if (previewText) {
+            previewText += ' - SALA DE UTILIDADES';
+        } else {
+            previewText = 'SALA DE UTILIDADES';
+        }
+    }
+    
+    if (!previewText) {
+        previewText = 'Selecione pelo menos um nível ou a descrição';
+    }
+    
+    descriptionPreviewText.textContent = previewText;
+}
+
+function getDescriptionConfig() {
+    const descriptionMode = document.getElementById('descriptionMode').value;
+    
+    const config = {
+        mode: descriptionMode,
+        levels: [],
+        includeDescription: false
+    };
+    
+    if (descriptionMode === 'custom') {
+        const levelIds = ['level4', 'level5', 'level6', 'level7', 'level8', 'level9', 'level10', 'level11'];
+        levelIds.forEach(levelId => {
+            const checkbox = document.getElementById(levelId);
+            if (checkbox && checkbox.checked) {
+                config.levels.push(levelId.replace('level', 'nivel_'));
+            }
+        });
+        
+        const includeDescription = document.getElementById('includeDescription');
+        config.includeDescription = includeDescription && includeDescription.checked;
+    }
+    
+    return config;
+}
+
+function updatePreview() {
+    // Limpar timeout anterior para evitar chamadas excessivas
+    if (previewTimeout) {
+        clearTimeout(previewTimeout);
+    }
+    
+    const service = document.getElementById('serviceSelect').value;
+    const cr = document.querySelector('input[name="cr"]').value;
+    const showPreview = document.getElementById('previewMode').checked;
+    const qrPreview = document.getElementById('qrPreview');
+    const qrType = document.querySelector('input[name="qrType"]:checked').value;
+    
+
+    // Verificar condições baseadas no tipo de QR
+    let missingRequirements = [];
+    if (!service) missingRequirements.push('• Escolha um serviço');
+    if (!cr) missingRequirements.push('• Informe o número do CR');
+    
+    if (qrType === 'locations' && selectedLocations.length === 0) {
+        missingRequirements.push('• Selecione pelo menos um local');
+    }
+
+    if (missingRequirements.length > 0) {
+        qrPreview.innerHTML = `
+            <div class="text-center py-12 text-slate-500">
+                <svg class="h-16 w-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M12 4v1m6 11h2m-2 0h-2m2 0v2m0-2v-2m2-4h2m-2 0h-2m2 0v2m0-2v-2m-6 0h2m-2 0H8m2 0v2m0-2v-2M4 7h2m-2 0H2m2 0v2m0-2V5" />
+                </svg>
+                <p class="mb-2">Complete as configurações para gerar os QR Codes</p>
+                <div class="text-sm space-y-1">
+                    ${missingRequirements.join('')}
+                </div>
+            </div>
+        `;
+        return;
+    }
+
+    if (!showPreview) {
+        qrPreview.innerHTML = `
+            <div class="text-center py-8">
+                <svg class="h-12 w-12 mx-auto mb-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                <p class="text-slate-600 mb-4">
+                    Ative o preview para visualizar os QR Codes antes de gerar
+                </p>
+            </div>
+        `;
+        return;
+    }
+
+    // Mostrar loading imediatamente
+    showLoadingState();
+
+    // Debounce - aguardar 500ms antes de gerar preview
+    previewTimeout = setTimeout(() => {
+        const qrType = document.querySelector('input[name="qrType"]:checked').value;
+        if (qrType === 'livroata') {
+            generateLivroAtaQRCode();
+        } else {
+            generateQRCodes();
+        }
+    }, 500);
+}
+
+function showLoadingState() {
+    const qrPreview = document.getElementById('qrPreview');
+    qrPreview.innerHTML = `
+        <div class="text-center py-8">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
+            <p class="text-slate-600">
+                Gerando preview dos QR Codes...
+            </p>
+            <p class="text-xs text-slate-500 mt-2">
+                ${selectedLocations.length} local(is) selecionado(s)
+            </p>
+        </div>
+    `;
+}
+
+async function generateLivroAtaQRCode() {
+    const service = document.getElementById('serviceSelect').value;
+    const crNumber = document.querySelector('input[name="cr"]').value;
+    const logoSize = document.getElementById('logoSize').value;
+    const serviceLogoSizeSlider = document.getElementById('serviceLogoSizeSlider');
+    const serviceLogoSize = serviceLogoSizeSlider ? serviceLogoSizeSlider.value : 60;
+    const clientLogo = document.getElementById('clientLogo').files[0];
+    
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({
+        service: service,
+        cr_number: crNumber,
+        qr_type: 'livroata',
+        logo_size: logoSize,
+        service_logo_size: serviceLogoSize
+    }));
+    
+    if (clientLogo) {
+        formData.append('client_logo', clientLogo);
+    }
+    
+    try {
+        const response = await fetch('/api/generate-livro-ata-qr/', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || 'OhOrQTfUiXC1fNTcK2OWhcgaj4f5COPxe3ZCDDRHx5kSYrWyQUumua8yRpBbSXEX'
+            }
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+            const qrPreview = document.getElementById('qrPreview');
+            qrPreview.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="text-sm text-slate-600">
+                            QR Code do Livro de Ocorrência
+                        </p>
+                        ${result.is_existing ? `
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                                Existente
+                            </span>
+                        ` : `
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                                Novo
+                            </span>
+                        `}
+                    </div>
+                    
+                    <div class="border rounded-lg p-4 space-y-3">
+                        <div class="flex justify-center">
+                            <div class="bg-white border rounded relative">
+                                <img src="data:image/png;base64,${result.qr_code.image}" 
+                                     style="width: 150px; height: 200px"
+                                     alt="QR Code Livro Ata">
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <p class="font-medium text-slate-800">
+                                LIVRO DE OCORRÊNCIA
+                            </p>
+                            <p class="text-xs text-slate-500">
+                                ${escapeHtml(service)} - CR ${escapeHtml(crNumber)}
+                            </p>
+                            <p class="text-xs text-slate-400 mt-1">
+                                ${escapeHtml(result.qr_code_url)}
+                            </p>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick='copyQRData(${JSON.stringify(result.qr_code_url)})'
+                                    class="flex-1 py-1 px-3 border rounded text-sm hover:bg-slate-50">
+                                <svg class="inline-block h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                                Copiar URL
+                            </button>
+                            <button onclick="downloadLivroAtaQR('${result.livro_ata_id}')"
+                                    class="flex-1 py-1 px-3 border rounded text-sm hover:bg-slate-50">
+                                <svg class="inline-block h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                                Baixar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button onclick="downloadLivroAtaPDF('${result.livro_ata_id}')"
+                                class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center justify-center gap-2">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            Baixar PDF A4 - Livro de Ocorrência
+                        </button>
+                    </div>
+                </div>
+            `;
+        } else {
+            throw new Error(result.error || 'Erro ao gerar QR Code do Livro Ata');
+        }
+    } catch (error) {
+        console.error('Error generating Livro Ata QR code:', error);
+        const qrPreview = document.getElementById('qrPreview');
+        
+        let errorMessage = error.message;
+        if (errorMessage.includes('CR não encontrado')) {
+            errorMessage = `CR não encontrado no sistema. Verifique se o número do CR está correto e se existe na base de dados.`;
+        }
+        
+        qrPreview.innerHTML = `
+            <div class="text-center py-8 text-red-500">
+                <svg class="h-12 w-12 mx-auto mb-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <p class="mb-2 font-medium">Erro ao gerar QR Code do Livro Ata</p>
+                <p class="text-sm">${errorMessage}</p>
+            </div>
+        `;
+    }
+}
+
+async function generateQRCodes() {
+    const service = document.getElementById('serviceSelect').value;
+    const crNumber = document.querySelector('input[name="cr"]').value;
+    const logoSize = document.getElementById('logoSize').value;
+    const serviceLogoSizeSlider = document.getElementById('serviceLogoSizeSlider');
+    const serviceLogoSize = serviceLogoSizeSlider ? serviceLogoSizeSlider.value : 60;
+    const clientLogo = document.getElementById('clientLogo').files[0];
+    
+    // Preparar dados dos locais selecionados (limitar a 3 para preview rápido)
+    const maxPreviewItems = 3;
+    const locationsForPreview = selectedLocations.slice(0, maxPreviewItems);
+    
+    console.log('[DEBUG] selectedLocations:', selectedLocations);
+    console.log('[DEBUG] locationsForPreview:', locationsForPreview);
+    
+    const locationsData = locationsForPreview.map((location, index) => {
+        console.log(`[DEBUG] Processing location ${index}:`, location);
+        if (!location.displayName) {
+            console.error(`[DEBUG] Location ${index} missing displayName:`, location);
+        }
+        return {
+            id: location.id,
+            name: location.name || null,
+            displayName: location.displayName || location.name || `Local ${index + 1}`,
+            qrcode: location.qrcode || null
+        };
+    });
+    
+    const descriptionConfig = getDescriptionConfig();
+    
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({
+        service: service,
+        cr_number: crNumber,
+        locations: locationsData,
+        logo_size: logoSize,
+        service_logo_size: serviceLogoSize,
+        description_config: descriptionConfig
+    }));
+    
+    if (clientLogo) {
+        formData.append('client_logo', clientLogo);
+    }
+    
+    try {
+        const response = await fetch('/api/generate-qr/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || 'OhOrQTfUiXC1fNTcK2OWhcgaj4f5COPxe3ZCDDRHx5kSYrWyQUumua8yRpBbSXEX'
+            }
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+            const qrPreview = document.getElementById('qrPreview');
+            qrPreview.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="text-sm text-slate-600">
+                            ${selectedLocations.length} QR Code(s) configurados
+                        </p>
+                        ${selectedLocations.length > maxPreviewItems ? `
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                                Preview: ${maxPreviewItems} de ${selectedLocations.length}
+                            </span>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="space-y-4 max-h-96 overflow-y-auto">
+                        ${result.qr_codes.map((qr, idx) => `
+                            <div class="border rounded-lg p-4 space-y-3">
+                                <div class="flex justify-center">
+                                    <div class="bg-white border rounded relative">
+                                        <img src="data:image/png;base64,${qr.image}" 
+                                             style="width: 150px; height: 200px"
+                                             alt="QR Code">
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <p class="font-medium text-slate-800">
+                                        ${escapeHtml(decodeUnicode(locationsForPreview[idx].displayName))}
+                                    </p>
+                                    <p class="text-xs text-slate-500">
+                                        ${escapeHtml(service)} - CR ${escapeHtml(crNumber)}
+                                    </p>
+                                </div>
+
+                                <div class="flex gap-2">
+                                    <button onclick='copyQRData(${JSON.stringify(qr.data)})'
+                                            class="flex-1 py-1 px-3 border rounded text-sm hover:bg-slate-50">
+                                        <svg class="inline-block h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                        </svg>
+                                        Copiar
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                        ${selectedLocations.length > maxPreviewItems ? `
+                            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                <p class="text-sm text-blue-800 font-medium">
+                                    Preview limitado a ${maxPreviewItems} QR Codes
+                                </p>
+                                <p class="text-xs text-blue-600 mt-1">
+                                    Total selecionado: ${selectedLocations.length} locais
+                                </p>
+                                <p class="text-xs text-blue-500">
+                                    Todos serão gerados no download final
+                                </p>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="space-y-2">
+                        <button onclick="downloadAllQRCodes()"
+                                class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center justify-center gap-2">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            Baixar PDF A4 - 3x4 (${selectedLocations.length} QR Codes)
+                        </button>
+                        
+                        <button onclick="downloadIndividualQRCodes()"
+                                class="w-full py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-50 flex items-center justify-center gap-2">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            Baixar Arquivos Individuais
+                        </button>
+                    </div>
+
+                    ${selectedLocations.length > 12 ? `
+                        <p class="text-xs text-slate-500 text-center">
+                            * Mais de 12 QR Codes serão divididos em múltiplas páginas A4
+                        </p>
+                    ` : ''}
+                </div>
+            `;
+        } else {
+            throw new Error(result.error || 'Erro ao gerar QR Codes');
+        }
+    } catch (error) {
+        console.error('Error generating QR codes:', error);
+        qrPreview.innerHTML = `
+            <div class="text-center py-8 text-red-500">
+                <p class="mb-2">Erro ao gerar QR Codes</p>
+                <p class="text-sm">${error.message}</p>
+            </div>
+        `;
+    }
+}
+
+function copyQRData(data) {
+    navigator.clipboard.writeText(data);
+    showNotification('Dados copiados para a área de transferência', 'success');
+}
+
+// Tamanho do lote pra geração de QR Codes em CRs grandes. Cada chamada a
+// /api/generate-qr-batch/ processa só esse tanto de locais por vez, então a
+// requisição fica curta (poucos segundos) não importa o quão grande seja o
+// CR inteiro - evita estourar o timeout do servidor e evita segurar um
+// worker inteiro numa única requisição gigante.
+const QR_BATCH_SIZE = 40;
+
+/**
+ * Gera os QR Codes de `locations` chamando /api/generate-qr-batch/ em lotes
+ * sequenciais (um de cada vez, de propósito, pra não rajar o servidor com
+ * requisições paralelas). Devolve a lista completa de qr_codes (mesmo
+ * formato de /api/generate-qr/: {data, image, custom_description}).
+ */
+async function generateAllInChunks(locations, config, onProgress) {
+    const { service, crNumber, logoSize, serviceLogoSize, descriptionConfig, clientLogo } = config;
+    const allQrCodes = [];
+    const total = locations.length;
+
+    for (let i = 0; i < total; i += QR_BATCH_SIZE) {
+        const chunk = locations.slice(i, i + QR_BATCH_SIZE);
+        const locationsData = chunk.map(location => ({
+            id: location.id,
+            name: location.name || null,
+            displayName: location.displayName,
+            qrcode: location.qrcode || null
+        }));
+
+        const formData = new FormData();
+        formData.append('data', JSON.stringify({
+            service: service,
+            cr_number: crNumber,
+            locations: locationsData,
+            logo_size: logoSize,
+            service_logo_size: serviceLogoSize,
+            description_config: descriptionConfig
+        }));
+        if (clientLogo) {
+            formData.append('client_logo', clientLogo);
+        }
+
+        const response = await fetch('/api/generate-qr-batch/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || 'OhOrQTfUiXC1fNTcK2OWhcgaj4f5COPxe3ZCDDRHx5kSYrWyQUumua8yRpBbSXEX'
+            }
+        });
+        const result = await response.json();
+        if (!result.success) {
+            throw new Error(result.error || 'Erro ao gerar QR Codes');
+        }
+
+        allQrCodes.push(...result.qr_codes);
+        if (onProgress) {
+            onProgress(Math.min(i + chunk.length, total), total);
+        }
+    }
+
+    return allQrCodes;
+}
+
+async function downloadAllQRCodes() {
+    const service = document.getElementById('serviceSelect').value;
+    const crNumber = document.querySelector('input[name="cr"]').value;
+    const logoSize = document.getElementById('logoSize').value;
+    const serviceLogoSizeSlider = document.getElementById('serviceLogoSizeSlider');
+    const serviceLogoSize = serviceLogoSizeSlider ? serviceLogoSizeSlider.value : 60;
+    const clientLogo = document.getElementById('clientLogo').files[0];
+
+    if (!service || !crNumber || selectedLocations.length === 0) {
+        showNotification('Por favor, complete todas as configurações antes de fazer o download.', 'warning');
+        return;
+    }
+
+    // Mostrar loading
+    const button = event.target;
+    const originalText = button.innerHTML;
+    button.disabled = true;
+
+    try {
+        const descriptionConfig = getDescriptionConfig();
+
+        // 1) Gera (e cacheia no servidor) os cartões em lotes pequenos -
+        // cada requisição fica curta mesmo pra CRs com centenas de locais.
+        await generateAllInChunks(
+            selectedLocations,
+            { service, crNumber, logoSize, serviceLogoSize, descriptionConfig, clientLogo },
+            (done, total) => {
+                button.innerHTML = `<div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>Gerando ${done}/${total}...`;
+            }
+        );
+
+        // 2) Monta o PDF final - como os cartões já estão cacheados no
+        // servidor (mesma chave: conteúdo do QR + descrição + config
+        // visual), essa chamada fica rápida mesmo com muitos locais.
+        button.innerHTML = '<div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>Montando PDF...';
+
+        const locationsData = selectedLocations.map(location => ({
+            id: location.id,
+            name: location.name || null,
+            displayName: location.displayName,
+            qrcode: location.qrcode || null
+        }));
+
+        const formData = new FormData();
+        formData.append('data', JSON.stringify({
+            service: service,
+            cr_number: crNumber,
+            locations: locationsData,
+            logo_size: logoSize,
+            service_logo_size: serviceLogoSize,
+            description_config: descriptionConfig
+        }));
+
+        if (clientLogo) {
+            formData.append('client_logo', clientLogo);
+        }
+
+        const response = await fetch('/api/download-pdf/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || 'OhOrQTfUiXC1fNTcK2OWhcgaj4f5COPxe3ZCDDRHx5kSYrWyQUumua8yRpBbSXEX'
+            }
+        });
+
+        if (response.ok) {
+            // Criar download do PDF
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `qr_codes_${crNumber}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+            console.log('PDF baixado com sucesso');
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao gerar PDF');
+        }
+
+    } catch (error) {
+        console.error('Erro no download do PDF:', error);
+        showNotification('Erro ao gerar PDF: ' + error.message, 'error');
+    } finally {
+        // Restaurar botão
+        button.innerHTML = originalText;
+        button.disabled = false;
+    }
+}
+
+function slugifyFileName(text, fallback) {
+    const stripAccents = (text || '').normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const normalized = stripAccents
+        .replace(/[^a-zA-Z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    return normalized || fallback;
+}
+
+async function downloadIndividualQRCodes() {
+    const service = document.getElementById('serviceSelect').value;
+    const crNumber = document.querySelector('input[name="cr"]').value;
+    const logoSize = document.getElementById('logoSize').value;
+    const serviceLogoSizeSlider = document.getElementById('serviceLogoSizeSlider');
+    const serviceLogoSize = serviceLogoSizeSlider ? serviceLogoSizeSlider.value : 60;
+    const clientLogo = document.getElementById('clientLogo').files[0];
+
+    if (!service || !crNumber || selectedLocations.length === 0) {
+        showNotification('Por favor, complete todas as configurações antes de fazer o download.', 'warning');
+        return;
+    }
+
+    // Mostrar loading
+    const button = (event && event.target && event.target.closest('button')) || event.target;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600 mr-2"></div>Gerando arquivos...';
+    button.disabled = true;
+
+    try {
+        // Gerar TODOS os locais selecionados (não só o preview limitado),
+        // igual ao download em PDF - evita depender de <img> que só existem
+        // pros 3 primeiros itens do preview. Em lotes pequenos (mesmo
+        // helper do PDF) pra não estourar o timeout do servidor em CRs
+        // grandes.
+        const descriptionConfig = getDescriptionConfig();
+
+        const qrCodes = await generateAllInChunks(
+            selectedLocations,
+            { service, crNumber, logoSize, serviceLogoSize, descriptionConfig, clientLogo },
+            (done, total) => {
+                button.innerHTML = `<div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600 mr-2"></div>Gerando ${done}/${total}...`;
+            }
+        );
+
+        // Disparar o download de cada PNG direto do navegador (a partir do
+        // base64 já recebido), sem navegar pra nenhuma URL - evita o 414
+        // Request-URI Too Large que dava ao empurrar a imagem inteira pra
+        // dentro do caminho da URL
+        qrCodes.forEach((qr, index) => {
+            setTimeout(() => {
+                const link = document.createElement('a');
+                link.href = `data:image/png;base64,${qr.image}`;
+                const name = slugifyFileName(qr.custom_description, `local-${index + 1}`);
+                link.download = `qr-code-${name}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }, index * 400);
+        });
+    } catch (error) {
+        console.error('Erro ao baixar QR Codes individuais:', error);
+        showNotification('Erro ao baixar QR Codes: ' + error.message, 'error');
+    } finally {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    }
+}
+
+function downloadLivroAtaQR(livroAtaId) {
+    window.location.href = `/api/download-livro-ata-qr/${livroAtaId}/`;
+}
+
+async function downloadLivroAtaPDF(livroAtaId) {
+    // Mostrar loading
+    const button = event.target;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>Gerando PDF...';
+    button.disabled = true;
+    
+    try {
+        // Coletar configurações atuais (incluindo logo do cliente)
+        const logoSize = document.getElementById('logoSize').value;
+        const serviceLogoSizeSlider = document.getElementById('serviceLogoSizeSlider');
+        const serviceLogoSize = serviceLogoSizeSlider ? serviceLogoSizeSlider.value : 60;
+        const clientLogo = document.getElementById('clientLogo').files[0];
+        const service = document.getElementById('serviceSelect').value;
+        
+        console.log('[DEBUG] downloadLivroAtaPDF - logoSize:', logoSize);
+        console.log('[DEBUG] downloadLivroAtaPDF - serviceLogoSize:', serviceLogoSize);
+        console.log('[DEBUG] downloadLivroAtaPDF - service:', service);
+        console.log('[DEBUG] downloadLivroAtaPDF - clientLogo:', clientLogo);
+        console.log('[DEBUG] downloadLivroAtaPDF - clientLogo existe?', !!clientLogo);
+        
+        if (clientLogo) {
+            console.log('[DEBUG] Logo do cliente encontrada:', {
+                name: clientLogo.name,
+                size: clientLogo.size,
+                type: clientLogo.type
+            });
+        } else {
+            console.warn('[WARNING] ⚠️ Nenhuma logo do cliente selecionada!');
+        }
+        
+        const formData = new FormData();
+        formData.append('data', JSON.stringify({
+            livro_ata_id: livroAtaId,
+            logo_size: logoSize,
+            service_logo_size: serviceLogoSize,
+            service: service
+        }));
+        
+        // ✅ ADICIONAR LOGO DO CLIENTE SE EXISTIR
+        if (clientLogo) {
+            formData.append('client_logo', clientLogo);
+            console.log('[DEBUG] ✅ Logo do cliente adicionada ao FormData');
+        }
+        
+        // Debug: Mostrar conteúdo do FormData
+        console.log('[DEBUG] FormData entries:');
+        for (let pair of formData.entries()) {
+            console.log(`  ${pair[0]}:`, pair[1]);
+        }
+        
+        // Obter CSRF token
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 'OhOrQTfUiXC1fNTcK2OWhcgaj4f5COPxe3ZCDDRHx5kSYrWyQUumua8yRpBbSXEX';
+        console.log('[DEBUG] CSRF Token:', csrfToken);
+        
+        const response = await fetch('/api/download-livro-ata-pdf/', {
+            method: 'POST',
+            body: formData,
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        });
+        
+        console.log('[DEBUG] Response status:', response.status);
+        console.log('[DEBUG] Response headers:', response.headers);
+        
+        if (response.ok) {
+            // Criar download do PDF
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `livro_ata_qr_code.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            
+            console.log('PDF do Livro Ata baixado com sucesso');
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao gerar PDF do Livro Ata');
+        }
+        
+    } catch (error) {
+        console.error('Erro no download do PDF do Livro Ata:', error);
+        showNotification('Erro ao gerar PDF do Livro Ata: ' + error.message, 'error');
+    } finally {
+        // Restaurar botão
+        button.innerHTML = originalText;
+        button.disabled = false;
+    }
+}
+</script>
+
+<style>
+.location-section {
+    background: white;
+    border-radius: 8px;
+}
+
+.location-tree {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 1rem;
+}
+
+/* Building Level */
+.building-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.building-content {
+    padding: 0.5rem 0;
+    margin-left: 1rem;
+}
+
+/* Floor Level */
+.floor-item {
+    border: 1px solid #dbeafe;
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
+}
+
+.floor-content {
+    padding: 0.5rem 0;
+    margin-left: 1rem;
+}
+
+/* Section Level */
+.section-item {
+    border: 1px solid #dcfce7;
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-content {
+    padding: 0.5rem 0;
+    margin-left: 1rem;
+}
+
+/* Headers */
+.building-header,
+.floor-header,
+.section-header {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+}
+
+.building-header {
+    background-color: #f3f4f6;
+    font-weight: 600;
+}
+
+.floor-header {
+    background-color: #dbeafe;
+    font-weight: 500;
+}
+
+.section-header {
+    background-color: #dcfce7;
+    font-weight: 500;
+}
+
+.building-header:hover {
+    background-color: #e5e7eb;
+}
+
+.floor-header:hover {
+    background-color: #bfdbfe;
+}
+
+.section-header:hover {
+    background-color: #bbf7d0;
+}
+
+/* Location Items */
+.location-item {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s;
+}
+
+.location-item:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Expand Icon */
+.expand-icon {
+    transition: transform 0.2s ease;
+    min-width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Checkboxes */
+input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+    border-color: #d1d5db;
+    color: #2563eb;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+input[type="checkbox"]:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: #93c5fd;
+}
+
+input[type="checkbox"]:indeterminate {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+/* Hidden state */
+.hidden {
+    display: none;
+}
+
+/* Content wrapper transitions */
+.building-content,
+.floor-content,
+.section-content {
+    transition: all 0.2s ease-in-out;
+}
+</style> 
+
+<style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script src="static/demo-fill.js"></script></body>
+
+</html>
