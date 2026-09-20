@@ -1,54 +1,53 @@
-# Deploy na VPS
+# Deploy — vitrolesalves.com
 
-Site estático → o deploy é clonar o repositório, apontar o Nginx e, para atualizar, `git pull`.
+O portfólio está **em produção** em https://vitrolesalves.com, servido pelo Nginx na VPS
+(Ubuntu). O deploy é por **git pull + sync**, com o repositório clonado fora do web root.
 
-> ⚠️ **Atenção:** nesta VPS também roda o **bot do Discord**. Todos os passos abaixo mexem
-> apenas em Nginx e na pasta do site de cheats. **Nada aqui toca no serviço/pasta do bot.**
-> Antes de remover qualquer coisa, confira o que está rodando (`systemctl list-units`,
-> `docker ps`, `crontab -l`) para não derrubar o bot por engano.
+## Arquitetura na VPS
 
-## 1. Clonar o repositório
-
-```bash
-sudo mkdir -p /var/www
-sudo git clone git@github.com:Vitrolesalves/<REPO>.git /var/www/portfolio
-# (ou https:// com token, se preferir)
+```
+GitHub (privado)  Vitrolesalves/portfolio
+        │  git pull (deploy key read-only: /root/.ssh/portfolio_deploy)
+        ▼
+/opt/portfolio-src        ← clone completo do repo (fica FORA do web root)
+        │  rsync (só index.html + assets/)
+        ▼
+/var/www/vitrolesalves.com/app   ← web root do Nginx (sem .git, sem docs)
 ```
 
-## 2. Trocar o site de cheats pelo portfólio (reaproveitando o domínio)
+Por que o clone fica fora do web root: se o `.git` estivesse dentro do diretório servido,
+qualquer pessoa poderia baixar o histórico em `/.git/`. Aqui o web root recebe só os
+arquivos servíveis — `/.git/` e `/deploy/` retornam 404.
 
-1. Descobrir qual server block responde pelo domínio hoje:
-   ```bash
-   grep -rl "SEU_DOMINIO" /etc/nginx/sites-enabled/ /etc/nginx/sites-available/
-   ```
-2. Fazer backup e desativar o site antigo (NÃO apagar ainda):
-   ```bash
-   sudo cp /etc/nginx/sites-available/<site-cheats> ~/backup-nginx-cheats.conf
-   sudo rm /etc/nginx/sites-enabled/<site-cheats>
-   ```
-3. Instalar o server block do portfólio (troque SEU_DOMINIO no arquivo antes):
-   ```bash
-   sudo cp /var/www/portfolio/deploy/portfolio.nginx.conf /etc/nginx/sites-available/portfolio
-   sudo ln -sf /etc/nginx/sites-available/portfolio /etc/nginx/sites-enabled/portfolio
-   sudo nginx -t && sudo systemctl reload nginx
-   ```
-4. Conferir no navegador que o portfólio está no ar pelo domínio.
-5. Só então remover os arquivos do site antigo (o backup do config já está salvo):
-   ```bash
-   # confirmar o caminho no root do config antigo antes!
-   sudo rm -rf /var/www/<pasta-do-site-de-cheats>
-   ```
+## O que NÃO é tocado
 
-## 3. HTTPS
+- **Bot do Discord** — `botdc-marretaspop.service` em `/opt/botdc`. Intacto.
+- **Config do Nginx** — `/etc/nginx/sites-enabled/vitrolesalves.com` (contém as rotas
+  `/api/` e `/marretaspop/` do bot). Não é reescrito; só troca-se o conteúdo do web root.
+
+## Atualizar o site
 
 ```bash
-sudo certbot --nginx -d SEU_DOMINIO -d www.SEU_DOMINIO
+# 1) na sua máquina
+git add -A && git commit -m "..." && git push
+
+# 2) na VPS
+ssh root@vitrolesalves.com
+bash /root/deploy-portfolio.sh
 ```
 
-## 4. Atualizar o site depois
+O script [`deploy-portfolio.sh`](deploy-portfolio.sh) (cópia versionada do que roda em
+`/root/deploy-portfolio.sh`) faz `git pull` em `/opt/portfolio-src` e sincroniza para o
+web root, ajustando dono e permissões.
+
+## Rodar localmente
 
 ```bash
-cd /var/www/portfolio && sudo git pull
+python -m http.server 5577   # http://127.0.0.1:5577
 ```
 
-Pronto — sem build, sem restart de app. O Nginx já serve a versão nova.
+## Histórico / rollback
+
+- O site anterior (cheats) foi preservado em `/var/www/vitrolesalves.com/app.cheats-bak-<timestamp>`.
+- Backend antigo `genesis-api.service`: parado e desabilitado (reversível com
+  `systemctl enable --now genesis-api.service`).
