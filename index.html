@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daniel Augusto — Desenvolvedor de Sistemas & Automação</title>
+  <meta name="description" content="Desenvolvedor full-stack e de automação. Sistemas em produção em escala nacional, robôs de RPA, integrações de pagamento e game dev. Portfólio de Daniel Augusto." />
+  <meta name="author" content="Daniel Augusto" />
+  <meta name="theme-color" content="#0a0e17" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Daniel Augusto — Desenvolvedor de Sistemas & Automação" />
+  <meta property="og:description" content="Sistemas web em produção nacional, automação/RPA, pagamentos e game dev. Veja os trabalhos." />
+  <meta property="og:locale" content="pt_BR" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <!-- ambient background -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow--1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow--2" aria-hidden="true"></div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#top" class="brand" aria-label="Início">
+        <span class="brand__mark">DA</span>
+        <span class="brand__text">Daniel Augusto<em>dev · automação</em></span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Navegação principal">
+        <a href="#trabalhos">Trabalhos</a>
+        <a href="#stack">Stack</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato" class="btn btn--ghost nav__cta">Fale comigo</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__content reveal">
+          <span class="eyebrow"><span class="dot"></span> Disponível para novos projetos</span>
+          <h1 class="hero__title">
+            Eu transformo processos manuais em
+            <span class="grad">sistemas que rodam sozinhos.</span>
+          </h1>
+          <p class="hero__lede">
+            Sou <strong>Daniel Augusto</strong>, desenvolvedor full-stack e de automação.
+            Construo plataformas web, robôs de RPA, integrações de pagamento e ferramentas de
+            infraestrutura — do rascunho ao deploy em produção. Alguns dos meus sistemas rodam
+            hoje em <strong>escala nacional</strong>.
+          </p>
+          <div class="hero__cta">
+            <a href="#trabalhos" class="btn btn--primary">Ver trabalhos <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a href="#contato" class="btn btn--outline">Fale comigo</a>
+            <div class="hero__social">
+              <a href="https://github.com/Vitrolesalves" target="_blank" rel="noopener" aria-label="GitHub" class="icon-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/vitrolealves/" target="_blank" rel="noopener" aria-label="LinkedIn" class="icon-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5V9h3zM6.5 7.7a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6zM19 19h-3v-5.4c0-1.3-.5-2.2-1.7-2.2a1.8 1.8 0 0 0-1.7 1.2c-.1.2-.1.5-.1.8V19h-3V9h3v1.3a3 3 0 0 1 2.7-1.5c2 0 3.5 1.3 3.5 4.1z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <ul class="hero__stats">
+            <li><b data-count="10" data-suffix="+">0</b><span>projetos entregues</span></li>
+            <li><b data-count="6" data-suffix="+">0</b><span>empresas atendidas</span></li>
+            <li><b>Nacional</b><span>sistemas em produção</span></li>
+          </ul>
+        </div>
+
+        <!-- hero visual: stacked window mock -->
+        <div class="hero__visual reveal" aria-hidden="true">
+          <div class="win win--code">
+            <div class="win__bar"><i></i><i></i><i></i><span>deploy.sh</span></div>
+            <pre class="code"><span class="c-com"># do rascunho ao servidor</span>
+<span class="c-kw">git</span> push origin main
+<span class="c-kw">ssh</span> vps <span class="c-str">"cd app && git pull"</span>
+<span class="c-fn">systemctl</span> restart gunicorn
+<span class="c-ok">✓ 3 regionais online</span>
+<span class="c-ok">✓ 0 downtime</span></pre>
+          </div>
+          <div class="win win--card">
+            <div class="win__glasshead">
+              <span class="chip chip--live"><span class="dot dot--live"></span> em produção</span>
+              <span class="win__title">GPS Vista</span>
+            </div>
+            <div class="kpi-row">
+              <div class="kpi kpi--blue"><b>+40</b><span>módulos</span></div>
+              <div class="kpi kpi--green"><b>multi-banco</b><span>por regional</span></div>
+              <div class="kpi kpi--amber"><b>PWA</b><span>mobile em campo</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EMPRESAS ============ -->
+    <section class="clients" aria-label="Empresas atendidas">
+      <div class="container">
+        <p class="clients__label">Sistemas e automações entregues para</p>
+        <div class="clients__row reveal">
+          <span class="client-badge">Grupo&nbsp;GPS</span>
+          <span class="client-badge">ISA&nbsp;CTEEP</span>
+          <span class="client-badge">Edibra</span>
+          <span class="client-badge">Equatorial&nbsp;Energia</span>
+          <span class="client-badge">Proguarda</span>
+          <span class="client-badge">JI&nbsp;Ferreira&nbsp;Imóveis</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ O QUE FAÇO ============ -->
+    <section class="capabilities" id="capabilities">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">O que eu faço</span>
+          <h2>Três frentes, um mesmo jeito de trabalhar: <span class="grad">resolver o problema de verdade.</span></h2>
+        </div>
+        <div class="cap-grid">
+          <article class="cap-card reveal">
+            <div class="cap-card__icon i-sys">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg>
+            </div>
+            <h3>Sistemas Web</h3>
+            <p>Plataformas Django completas: multi-tenant, controle de acesso por papel, relatórios, dashboards e PWA. Do banco ao Nginx.</p>
+          </article>
+          <article class="cap-card reveal">
+            <div class="cap-card__icon i-auto">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></svg>
+            </div>
+            <h3>Automação & RPA</h3>
+            <p>Robôs que baixam faturas, geram documentos e alimentam sistemas. Contorno de anti-bot, extensões de navegador e integrações de pagamento (PIX).</p>
+          </article>
+          <article class="cap-card reveal">
+            <div class="cap-card__icon i-infra">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg>
+            </div>
+            <h3>Infra & Deploy</h3>
+            <p>VPS, túneis SSH auto-reconectáveis, Docker, Nginx e CI. Ferramentas de console que a equipe usa com dois cliques.</p>
+          </article>
+          <article class="cap-card reveal">
+            <div class="cap-card__icon i-game">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="10" rx="4"/><path d="M7 12h3M8.5 10.5v3M15 11h.01M17.5 13h.01"/></svg>
+            </div>
+            <h3>Game Dev</h3>
+            <p>Unity/C# e Roblox/Luau: arquitetura MMO server-authoritative, sistemas de inventário, netcode e integração jogo ↔ backend.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TRABALHOS ============ -->
+    <section class="works" id="trabalhos">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Trabalhos</span>
+          <h2>Cada projeto nasceu de um <span class="grad">problema real</span> — e virou algo em produção.</h2>
+          <p class="section-sub">Abaixo, os sistemas de verdade: as telas, as empresas para quem foram feitos e como resolvi o problema de cada uma.</p>
+        </div>
+
+        <!-- ===== PROJECT 1: GPS VISTA (flagship) ===== -->
+        <article class="work work--feature reveal" id="gpsvista">
+          <div class="work__head">
+            <div class="work__meta">
+              <span class="tag tag--flagship">★ Projeto principal</span>
+              <span class="tag">Grupo GPS</span>
+              <span class="tag tag--live"><span class="dot dot--live"></span> Em produção · nacional</span>
+            </div>
+            <h3 class="work__title">GPS Vista — Gestão à Vista</h3>
+            <p class="work__tagline">O sistema operacional de uma das maiores empresas de facilities do Brasil — hoje usado pelas regionais do país inteiro.</p>
+          </div>
+
+          <!-- gallery -->
+          <figure class="browser browser--lg">
+            <div class="browser__bar"><i></i><i></i><i></i><span class="browser__url">gpsvista · Home</span></div>
+            <img class="shot shot--active" src="assets/img/gpsvista-home.png" alt="Tela inicial do GPS Vista com menu lateral e módulos do sistema" loading="lazy" data-shot="0" />
+            <img class="shot" src="assets/img/gpsvista-torre.png" alt="Torre de Controle — Livro de Ocorrências digital com painéis de não-conformidades" loading="lazy" data-shot="1" />
+            <img class="shot" src="assets/img/gpsvista-cmo.png" alt="Módulo CMO — Conformidade de Efetivo com gráficos e indicadores" loading="lazy" data-shot="2" />
+            <img class="shot" src="assets/img/gpsvista-implantacoes.png" alt="Acompanhamento de implantações sistêmicas com gráficos por serviço" loading="lazy" data-shot="3" />
+            <img class="shot" src="assets/img/gpsvista-fluxo.png" alt="Fluxo de implantações em formato kanban" loading="lazy" data-shot="4" />
+          </figure>
+          <div class="thumbs" role="tablist" aria-label="Telas do GPS Vista">
+            <button class="thumb is-active" data-go="0" role="tab" aria-selected="true"><img src="assets/img/gpsvista-home.png" alt="" /></button>
+            <button class="thumb" data-go="1" role="tab"><img src="assets/img/gpsvista-torre.png" alt="" /></button>
+            <button class="thumb" data-go="2" role="tab"><img src="assets/img/gpsvista-cmo.png" alt="" /></button>
+            <button class="thumb" data-go="3" role="tab"><img src="assets/img/gpsvista-implantacoes.png" alt="" /></button>
+            <button class="thumb" data-go="4" role="tab"><img src="assets/img/gpsvista-fluxo.png" alt="" /></button>
+          </div>
+
+          <div class="work__body">
+            <div class="ps">
+              <div class="ps__block">
+                <span class="ps__label ps__label--problem">O problema</span>
+                <p>A operação vivia em papel, planilhas e grupos de WhatsApp: livro de ocorrências manual, rondas sem evidência, indicadores montados à mão no fim do mês. Cada regional fazia do seu jeito e o corporativo não enxergava nada em tempo real.</p>
+              </div>
+              <div class="ps__block">
+                <span class="ps__label ps__label--solution">A solução</span>
+                <p>Um único sistema web com permissão por página e por papel, que digitalizou fluxo a fluxo. Começou em uma regional; deu resultado e o corporativo adotou como padrão nacional. Essa virada de escala guiou a decisão de arquitetura mais importante: <strong>roteamento multi-banco</strong> — cada regional com seu próprio PostgreSQL, escolhido em runtime pelo Django.</p>
+              </div>
+              <div class="ps__block">
+                <span class="ps__label ps__label--result">O resultado</span>
+                <p>Mais de 40 módulos em produção: Torre de Controle (livro de ocorrências com trilha de auditoria por hash encadeado), Livro Ata com QR Code + WhatsApp, avaliação psicossocial <strong>NR-01</strong> (feita para a <strong>ISA CTEEP</strong>), gestão da qualidade, CMO de efetivo e o módulo de manutenção da <strong>Edibra</strong>. Instalável como app no celular do supervisor em campo.</p>
+              </div>
+            </div>
+
+            <ul class="highlights">
+              <li><b>Multi-banco por regional</b> — DATABASE_ROUTER customizado, aliases registrados em runtime, réplica read-only para relatórios pesados.</li>
+              <li><b>Auditoria à prova de adulteração</b> — registros do livro de ocorrências encadeados por hash.</li>
+              <li><b>Geração de documentos</b> — relatório NR-01 em Word (python-docx), PDFs (reportlab), planilhas (openpyxl/pandas), QR (Pillow).</li>
+              <li><b>Migração de senhas legadas</b> — base MD5 antiga migrada para Argon2 automaticamente no primeiro login.</li>
+            </ul>
+
+            <div class="work__foot">
+              <div class="stack">
+                <span>Python 3.12</span><span>Django 5.2</span><span>PostgreSQL</span><span>Redis</span><span>Docker</span><span>Nginx</span><span>Pandas</span><span>Ollama</span>
+              </div>
+              <a href="https://github.com/Vitrolesalves/gestao-a-vista" target="_blank" rel="noopener" class="work__link">Ver versão pública ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ===== GRID of other projects ===== -->
+        <div class="work-grid">
+
+          <!-- Conecta Jurídico -->
+          <article class="work work--split reveal">
+            <div class="work__visual">
+              <!-- mock: legal timeline UI -->
+              <div class="mock mock--juridico">
+                <div class="mock__top"><span class="mock__brand">⚖ Conecta Jurídico</span><span class="mock__ai">✦ Lexia IA</span></div>
+                <div class="mock__ticket">
+                  <div class="mtk"><span class="mtk__pill mtk__pill--crit">Crítico</span><span>CR-2041 · Revisão contratual</span><span class="mtk__sla">SLA 4h</span></div>
+                  <div class="mtimeline">
+                    <div class="mti"><i class="mti__dot"></i><div><b>Aberto</b><small>campos ajustados pela norma</small></div></div>
+                    <div class="mti"><i class="mti__dot"></i><div><b>Em análise</b><small>Lexia resumiu 3 anexos (PDF/DOCX)</small></div></div>
+                    <div class="mti mti--now"><i class="mti__dot"></i><div><b>Aprovação</b><small>aguardando validação jurídica</small></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="work__side">
+              <div class="work__meta"><span class="tag">Jurídico corporativo</span></div>
+              <h3 class="work__title work__title--sm">Conecta Jurídico</h3>
+              <p class="work__desc"><b>Problema:</b> a área jurídica se afogava em e-mails desestruturados, prazos perdidos e documentos espalhados — sem rastreabilidade para auditoria e compliance.</p>
+              <p class="work__desc"><b>Solução:</b> uma plataforma de governança contratual com chamados inteligentes (campos, anexos e aprovadores mudam conforme a norma e a criticidade), timeline colaborativa por demanda, gestão de SLA e uma IA — a <b>Lexia</b> — que lê contratos em PDF/DOCX e resume as tratativas.</p>
+              <div class="stack"><span>Django</span><span>SQLite/PostgreSQL</span><span>Ollama (LLM)</span><span>python-docx</span><span>pypdf</span></div>
+            </div>
+          </article>
+
+          <!-- Gerador de Etiquetas QR -->
+          <article class="work work--split work--reverse reveal">
+            <div class="work__visual">
+              <div class="mock mock--app">
+                <div class="mock__win"><span class="mock__wtitle">Gerador de Etiquetas QR</span><i></i><i></i><i></i></div>
+                <div class="mock__appbody">
+                  <div class="mock__form">
+                    <label>Código do CR</label>
+                    <div class="mock__input">CR-1042 <span class="mock__go">Gerar</span></div>
+                    <div class="mock__hint">árvore de locais · consulta recursiva</div>
+                  </div>
+                  <div class="mock__label">
+                    <div class="qr">
+                      <svg viewBox="0 0 40 40" fill="currentColor"><path d="M0 0h12v12H0zM4 4v4h4V4zM28 0h12v12H28zM32 4v4h4V4zM0 28h12v12H0zM4 32v4h4v-4zM16 0h4v4h-4zM20 4h4v8h-4zM16 16h4v4h-4zM24 16h8v4h-8zM32 20h8v8h-4v-4h-4zM16 24h4v8h-4zM24 28h4v4h-4zM28 32h12v8H28zM20 36h4v4h-4z"/></svg>
+                    </div>
+                    <div class="qr__meta">LOCAL → SUBSOLO → SALA TÉCNICA<br /><small>16 etiquetas / A4 · 300 DPI</small></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="work__side">
+              <div class="work__meta"><span class="tag">Grupo GPS</span></div>
+              <h3 class="work__title work__title--sm">Gerador de Etiquetas QR</h3>
+              <p class="work__desc"><b>Problema:</b> cada posto de operação precisa de uma etiqueta com QR Code para o supervisor registrar o turno no local — e eram centenas, montadas manualmente.</p>
+              <p class="work__desc"><b>Solução:</b> um app desktop que consulta a árvore de locais no PostgreSQL (CTE recursiva), monta um PDF com <b>16 etiquetas por página A4 a 300 DPI</b>, com preview em tempo real e logo do cliente posicionável por drag &amp; drop. Distribuído como <code>.exe</code>.</p>
+              <div class="stack"><span>Python</span><span>Tkinter</span><span>Pillow</span><span>psycopg2</span><span>PyInstaller</span></div>
+              <a href="https://github.com/Vitrolesalves/gerador-etiquetas-qr" target="_blank" rel="noopener" class="work__link">Ver no GitHub ↗</a>
+            </div>
+          </article>
+
+          <!-- Túnel SSH -->
+          <article class="work work--split reveal">
+            <div class="work__visual">
+              <div class="mock mock--term">
+                <div class="mock__win mock__win--dark"><span class="mock__wtitle">TunelServidor.exe</span><i></i><i></i><i></i></div>
+                <pre class="mock__term-body"><span class="t-ok">●</span> TÚNEL ATIVO  base → VPS:5433
+<span class="t-dim">conexões ativas</span> 3   <span class="t-dim">total</span> 128
+<span class="t-dim">watchdog</span> keepalive 45s · timeout 15s
+<span class="t-warn">↻</span> reconectar em 12s (backoff)
+<span class="t-ok">✓</span> banco respondendo · latência VPN eliminada</pre>
+              </div>
+            </div>
+            <div class="work__side">
+              <div class="work__meta"><span class="tag">Grupo GPS</span></div>
+              <h3 class="work__title work__title--sm">Gerenciador de Túnel SSH</h3>
+              <p class="work__desc"><b>Problema:</b> o sistema web rodava na VPS, mas o banco ficava na rede interna atrás de VPN. A latência deixava o site arrastado a ponto de atrapalhar a operação.</p>
+              <p class="work__desc"><b>Solução:</b> um túnel SSH reverso ligando o banco on-premise à VPS, com <b>reconexão automática</b>, watchdog que detecta queda silenciosa (não só o keepalive), backoff exponencial e um painel de status para a equipe. A latência de VPN saiu do caminho das queries.</p>
+              <div class="stack"><span>Python</span><span>paramiko</span><span>rich</span><span>PyInstaller</span></div>
+              <a href="https://github.com/Vitrolesalves/ssh-tunnel-manager" target="_blank" rel="noopener" class="work__link">Ver no GitHub ↗</a>
+            </div>
+          </article>
+
+          <!-- Equatorial Faturas -->
+          <article class="work work--split work--reverse reveal">
+            <div class="work__visual">
+              <div class="mock mock--bot">
+                <div class="mock__win mock__win--dark"><span class="mock__wtitle">robô · equatorial-faturas</span><i></i><i></i><i></i></div>
+                <div class="mock__botbody">
+                  <div class="brow"><span class="b-uc">UC 632.971…</span><span class="b-ok">✓ baixado</span></div>
+                  <div class="brow"><span class="b-uc">UC 118.204…</span><span class="b-ok">✓ baixado</span></div>
+                  <div class="brow"><span class="b-uc">UC 905.771…</span><span class="b-run">↓ PDF completo</span></div>
+                  <div class="brow brow--sum">resumo.csv · valor · vencimento · kWh</div>
+                  <div class="brow brow--waf"><span class="b-shield">🛡 WAF Imperva</span><span class="b-bypass">extensão no Chrome real → OK</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="work__side">
+              <div class="work__meta"><span class="tag">Proguarda</span></div>
+              <h3 class="work__title work__title--sm">Robô de Faturas — Equatorial</h3>
+              <p class="work__desc"><b>Problema:</b> baixar todo mês as faturas de energia de dezenas de unidades consumidoras, uma a uma, e digitar valor, vencimento e consumo à mão.</p>
+              <p class="work__desc"><b>Solução:</b> um robô que baixa o PDF completo de cada UC e extrai os dados para uma planilha. O portal fica atrás de um WAF Imperva que barra automação headless — mapeei isso e virei a estratégia para uma <b>extensão de navegador (Manifest V3)</b> que roda dentro do Chrome real do operador, depois do login. Engenharia honesta: entendi o bloqueio e desenhei em cima dele.</p>
+              <div class="stack"><span>Python</span><span>Playwright</span><span>Chrome Extension MV3</span><span>PDF parsing</span></div>
+            </div>
+          </article>
+
+          <!-- JI Imóveis -->
+          <article class="work work--split reveal">
+            <div class="work__visual">
+              <div class="mock mock--doc">
+                <div class="mock__papers">
+                  <div class="paper paper--3"></div>
+                  <div class="paper paper--2"></div>
+                  <div class="paper paper--1">
+                    <div class="paper__brand">JI Ferreira Imóveis</div>
+                    <div class="paper__line paper__line--title">Contrato de Locação</div>
+                    <div class="paper__line"></div>
+                    <div class="paper__line paper__line--w80"></div>
+                    <div class="paper__line paper__line--w60"></div>
+                    <div class="paper__field"><span>Locador</span><span>Locatário</span></div>
+                    <div class="paper__line paper__line--w70"></div>
+                    <div class="paper__stamp">gerado automaticamente</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="work__side">
+              <div class="work__meta"><span class="tag">JI Ferreira Imóveis</span></div>
+              <h3 class="work__title work__title--sm">Automação de Documentos Imobiliários</h3>
+              <p class="work__desc"><b>Problema:</b> uma imobiliária gera dezenas de contratos, propostas e recibos por semana — sempre os mesmos modelos, preenchidos manualmente, sujeitos a erro e retrabalho.</p>
+              <p class="work__desc"><b>Solução:</b> uma automação que recebe os dados do imóvel e das partes e monta o documento final padronizado, pronto para assinatura — cortando o trabalho manual e padronizando a saída. Dados sensíveis (CPF e afins) tratados com cuidado.</p>
+              <div class="stack"><span>Python</span><span>Geração de documentos</span><span>Templates</span><span>Automação</span></div>
+            </div>
+          </article>
+
+          <!-- Discord Bot + Roblox -->
+          <article class="work work--split work--reverse reveal">
+            <div class="work__visual">
+              <div class="mock mock--discord">
+                <div class="mock__dc-head"><span class="dc-hash">#</span> loja · <span class="dc-bot">BOT</span></div>
+                <div class="mock__dc-embed">
+                  <div class="dc-embed__bar"></div>
+                  <div class="dc-embed__body">
+                    <b>Cargo VIP — R$ 29,<span class="dc-cents">93</span></b>
+                    <small>PIX gerado · valor único p/ conferência automática</small>
+                    <div class="dc-qr"><svg viewBox="0 0 40 40" fill="currentColor"><path d="M0 0h12v12H0zM4 4v4h4V4zM28 0h12v12H28zM32 4v4h4V4zM0 28h12v12H0zM4 32v4h4v-4zM16 0h4v12h-4zM24 16h8v4h-8zM32 20h8v8h-4v-4h-4zM16 24h4v8h-4zM28 32h12v8H28z"/></svg></div>
+                    <div class="dc-status"><span class="dc-ok">✓ pago</span> → cargo entregue · item enviado no Roblox</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="work__side">
+              <div class="work__meta"><span class="tag">Produto próprio</span></div>
+              <h3 class="work__title work__title--sm">Bot de Vendas Discord + Entrega no Roblox</h3>
+              <p class="work__desc"><b>Problema:</b> vender itens digitais e liberar acesso sem ninguém conferir pagamento e entregar na mão, 24/7.</p>
+              <p class="work__desc"><b>Solução:</b> um bot que gera cobrança <b>PIX (Mercado Pago)</b> com centavos aleatórios — cada valor vira único, então a confirmação é automática (webhook + polling de segurança) e <b>idempotente</b>: nunca entrega duas vezes nem sem o valor exato. Ao pagar, entrega o cargo no Discord e o item dentro do <b>Roblox</b> via script Luau autenticado.</p>
+              <div class="stack"><span>Python</span><span>discord.py</span><span>Mercado Pago (PIX)</span><span>SQLite</span><span>Luau/Roblox</span></div>
+            </div>
+          </article>
+
+        </div><!-- /work-grid -->
+
+        <!-- ===== GAME DEV ===== -->
+        <article class="work work--games reveal" id="games">
+          <div class="work__meta"><span class="tag">Game Dev · Open-source</span></div>
+          <h3 class="work__title work__title--sm">Unity &amp; Roblox — arquitetura de jogo</h3>
+          <p class="work__desc games__intro">Além dos sistemas de empresa, desenvolvo jogos e ferramentas de jogo — com foco em arquitetura correta: servidor com autoridade, validação anti-cheat no back-end e netcode.</p>
+          <div class="games-grid">
+            <a href="https://github.com/Vitrolesalves/Unity-MMO-Architecture" target="_blank" rel="noopener" class="gcard">
+              <div class="gcard__tag">C# · Netcode for GameObjects</div>
+              <h4>MMO Architecture</h4>
+              <p>Arquitetura MMO <b>server-authoritative</b>: sistema de troca seguro, validação de inventário no servidor e máquinas de estado de IA.</p>
+              <span class="gcard__link">GitHub ↗</span>
+            </a>
+            <a href="https://github.com/Vitrolesalves/BaseFps" target="_blank" rel="noopener" class="gcard">
+              <div class="gcard__tag">C# · Unity</div>
+              <h4>Base FPS</h4>
+              <p>Controlador de movimento 3D em primeira pessoa: corrida, pulo, controle de câmera e travamento de cursor.</p>
+              <span class="gcard__link">GitHub ↗</span>
+            </a>
+            <a href="https://github.com/Vitrolesalves/InventoryManager" target="_blank" rel="noopener" class="gcard">
+              <div class="gcard__tag">C# · Unity</div>
+              <h4>Inventory Manager</h4>
+              <p>Sistema de inventário em três camadas: detecção de item, interação/coleta e gerenciamento do inventário.</p>
+              <span class="gcard__link">GitHub ↗</span>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============ STACK ============ -->
+    <section class="stack-sec" id="stack">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Stack</span>
+          <h2>As ferramentas que eu uso <span class="grad">todos os dias.</span></h2>
+        </div>
+        <div class="stack-grid reveal">
+          <div class="stack-col">
+            <h4>Linguagens</h4>
+            <ul><li>Python</li><li>C#</li><li>JavaScript</li><li>Luau</li><li>SQL</li><li>Kotlin</li></ul>
+          </div>
+          <div class="stack-col">
+            <h4>Backend &amp; Web</h4>
+            <ul><li>Django</li><li>Django REST</li><li>PostgreSQL</li><li>SQLite</li><li>Redis</li><li>PWA</li></ul>
+          </div>
+          <div class="stack-col">
+            <h4>Automação &amp; IA</h4>
+            <ul><li>Playwright</li><li>Extensões MV3</li><li>paramiko</li><li>Pandas</li><li>Ollama / LLM</li><li>Mercado Pago</li></ul>
+          </div>
+          <div class="stack-col">
+            <h4>Infra &amp; Deploy</h4>
+            <ul><li>Linux / VPS</li><li>Docker</li><li>Nginx</li><li>SSH / túneis</li><li>Git / GitHub</li><li>PyInstaller</li></ul>
+          </div>
+          <div class="stack-col">
+            <h4>Game Dev</h4>
+            <ul><li>Unity</li><li>Netcode (NGO)</li><li>Roblox Studio</li><li>Luau</li><li>Máquinas de estado</li></ul>
+          </div>
+          <div class="stack-col">
+            <h4>Documentos</h4>
+            <ul><li>python-docx</li><li>reportlab</li><li>openpyxl</li><li>Pillow</li><li>pypdf</li><li>QR Code</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVIÇOS ============ -->
+    <section class="services" id="servicos">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Serviços</span>
+          <h2>Aberto a novos projetos — <span class="grad">e a novas frentes.</span></h2>
+          <p class="section-sub">Fiz muita coisa e estou disposto a participar de muito mais. Alguns caminhos por onde a gente pode começar:</p>
+        </div>
+        <div class="serv-grid">
+          <div class="serv reveal"><span class="serv__n">01</span><h3>Sistemas sob medida</h3><p>Plataformas web completas para a sua operação — do banco de dados ao deploy em produção.</p></div>
+          <div class="serv reveal"><span class="serv__n">02</span><h3>Automação &amp; RPA</h3><p>Robôs que eliminam tarefas repetitivas: faturas, documentos, cadastros, integrações entre sistemas.</p></div>
+          <div class="serv reveal"><span class="serv__n">03</span><h3>Integração de pagamentos</h3><p>PIX, cobrança automática, confirmação idempotente e entrega de produto sem intervenção manual.</p></div>
+          <div class="serv reveal"><span class="serv__n">04</span><h3>Infra &amp; deploy</h3><p>Subir, estabilizar e monitorar sua aplicação em VPS: Nginx, Docker, túneis e continuidade.</p></div>
+          <div class="serv reveal"><span class="serv__n">05</span><h3>Geração de documentos</h3><p>Contratos, relatórios e etiquetas gerados automaticamente a partir dos seus dados.</p></div>
+          <div class="serv reveal"><span class="serv__n">06</span><h3>Game dev &amp; ferramentas</h3><p>Unity/C# e Roblox/Luau: mecânicas, netcode server-authoritative e integrações jogo ↔ backend.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SOBRE ============ -->
+    <section class="about" id="sobre">
+      <div class="container about__inner">
+        <div class="about__text reveal">
+          <span class="kicker">Sobre</span>
+          <h2>Gosto de resolver o problema — não só de escrever código.</h2>
+          <p>Meu trabalho quase sempre começa igual: alguém tem um processo que dói. Uma planilha que ninguém aguenta mais, uma fatura baixada na mão toda semana, um sistema lento por causa de VPN. Eu entro, entendo o fluxo de verdade e devolvo algo que roda sozinho.</p>
+          <p>Já levei um sistema de uma regional até a <b>escala nacional</b>, mapeei um WAF para desenhar a automação certa em cima dele, e migrei bases legadas sem parar a operação. Não fujo da parte chata — deploy, banco, o caso de borda que só aparece em produção. É ali que o problema realmente termina.</p>
+          <p>Estou sempre disposto a entrar em coisas novas. Se você tem um problema técnico interessante, provavelmente eu vou querer ouvir.</p>
+          <a href="#contato" class="btn btn--primary">Vamos conversar</a>
+        </div>
+        <div class="about__card reveal">
+          <div class="idcard">
+            <div class="idcard__avatar">DA</div>
+            <div class="idcard__name">Daniel Augusto</div>
+            <div class="idcard__role">Desenvolvedor de Sistemas &amp; Automação</div>
+            <ul class="idcard__facts">
+              <li><span>Base</span><b>Goiânia · GO</b></li>
+              <li><span>Foco</span><b>Web · RPA · Infra · Games</b></li>
+              <li><span>Status</span><b class="ok">Disponível p/ projetos</b></li>
+            </ul>
+            <div class="idcard__links">
+              <a href="https://github.com/Vitrolesalves" target="_blank" rel="noopener">GitHub</a>
+              <a href="https://www.linkedin.com/in/vitrolealves/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTATO ============ -->
+    <section class="contact" id="contato">
+      <div class="container">
+        <div class="contact__card reveal">
+          <div class="contact__left">
+            <span class="kicker">Contato</span>
+            <h2>Tem um projeto ou uma ideia?<br /><span class="grad">Me chama.</span></h2>
+            <p>Respondo rápido. Pode mandar por e-mail ou chamar direto no WhatsApp — o que for melhor pra você.</p>
+          </div>
+          <div class="contact__right">
+            <a class="contact__row" href="mailto:daniel.aual08@gmail.com">
+              <span class="contact__ico">✉</span>
+              <span><small>E-mail</small><b>daniel.aual08@gmail.com</b></span>
+            </a>
+            <a class="contact__row" href="https://wa.me/5562995150112" target="_blank" rel="noopener">
+              <span class="contact__ico">▲</span>
+              <span><small>WhatsApp / Telefone</small><b>(62) 99515-0112</b></span>
+            </a>
+            <a class="contact__row" href="https://www.linkedin.com/in/vitrolealves/" target="_blank" rel="noopener">
+              <span class="contact__ico">in</span>
+              <span><small>LinkedIn</small><b>/in/vitrolealves</b></span>
+            </a>
+            <a class="contact__row" href="https://github.com/Vitrolesalves" target="_blank" rel="noopener">
+              <span class="contact__ico">▓</span>
+              <span><small>GitHub</small><b>/Vitrolesalves</b></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="brand">
+        <span class="brand__mark">DA</span>
+        <span class="brand__text">Daniel Augusto<em>dev · automação</em></span>
+      </div>
+      <nav class="footer__links">
+        <a href="#trabalhos">Trabalhos</a>
+        <a href="#stack">Stack</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <p class="footer__copy">© <span id="year">2026</span> Daniel Augusto · Feito à mão, do rascunho ao deploy.</p>
+    </div>
+  </footer>
+
+  <!-- lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" aria-label="Fechar">✕</button>
+    <img src="" alt="" id="lightboxImg" />
+  </div>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

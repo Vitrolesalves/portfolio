@@ -1,0 +1,12 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Logs / temporários
+*.log
+.cache/
+
+# Nada de segredos aqui — este repo é 100% estático e público-seguro
