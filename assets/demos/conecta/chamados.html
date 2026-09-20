@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Chamados - Módulo Jurídico</title>
+    
+    <link rel="stylesheet" href="static/css/global.css">
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- SISTEMA GLOBAL DE CORES E TEMAS -->
+    <style>
+        :root {
+            /* MODO CLARO: Azul Marinho, Branco e Cinza Claro */
+            --bg-main: #f3f4f6;
+            --bg-card: #ffffff;
+            --bg-input: #f8fafc;
+            --bg-ficha: #f8fafc;
+            --bg-comments: #f5f7fa;
+
+            --primary: #003366;
+            --primary-hover: #002244;
+            --secondary: #6b7280;
+
+            --text-primary: #111827;
+            --text-main: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+
+            --border-color: #d1d5db;
+            --border-light: #e5e7eb;
+
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+
+            --status-aberto: #fef9c3;
+            --text-warning: #854d0e;
+            --status-analise: #dbeafe;
+            --text-info: #1e40af;
+            --status-assinatura: #fce7f3;
+            --text-danger: #9d174d;
+            --status-concluido: #d1fae5;
+            --text-success: #065f46;
+
+            --btn-hover-bg: #e8edf4;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body.dark {
+            /* MODO ESCURO: Vermelho Pastel e Cinza Escuro */
+            --bg-main: #121212;
+            --bg-card: #1e1e1e;
+            --bg-input: #2a2a2a;
+            --bg-ficha: #252525;
+            --bg-comments: #1a1a1a;
+
+            --primary: #e08888;
+            --primary-hover: #c96b6b;
+            --secondary: #a1a1aa;
+
+            --text-primary: #f3f4f6;
+            --text-main: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+
+            --border-color: #404040;
+            --border-light: #333333;
+
+            --danger: #ef4444;
+            --danger-light: #451a1a;
+            --success: #10b981;
+            --success-light: #064e3b;
+            --warning: #f59e0b;
+            --warning-light: #453113;
+            --info: #3b82f6;
+            --info-light: #1e3a8a;
+
+            --status-aberto: #453514;
+            --text-warning: #fde047;
+            --status-analise: #1e3a8a;
+            --text-info: #93c5fd;
+            --status-assinatura: #501835;
+            --text-danger: #f9a8d4;
+            --status-concluido: #064e3b;
+            --text-success: #6ee7b7;
+
+            --btn-hover-bg: #3a3a3a;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Garante que o fundo e o texto globais mudem sempre */
+        body {
+            background-color: var(--bg-main) !important;
+            color: var(--text-primary) !important;
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+    <div class="sidebar-header">
+        <h2><i data-lucide="scale"></i> Conecta Jurídico</h2>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item ">
+            <i data-lucide="layout-dashboard"></i> Feed
+        </a>
+        <a href="novo-chamado.html"
+            class="nav-item ">
+            <i data-lucide="plus-circle"></i> Novo Chamado
+        </a>
+        <a href="chamados.html"
+            class="nav-item active">
+            <i data-lucide="folder-open"></i> Meus Chamados
+        </a>
+        <a href="relatorios.html"
+            class="nav-item ">
+            <i data-lucide="alert-triangle"></i> Relatórios de Risco
+        </a>
+        <a href="conhecimento.html"
+            class="nav-item ">
+            <i data-lucide="book-open"></i> Base de Conhecimento
+        </a>
+        <a href="#"
+            class="nav-item ">
+            <i data-lucide="lightbulb"></i> Como Funciona
+        </a>
+        <a href="regulatorio.html"
+            class="nav-item ">
+            <i data-lucide="scale"></i> Regulatório
+        </a>
+        
+    </nav>
+</aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+    <div class="header-title">
+        
+        Meus Chamados
+        
+        
+    </div>
+    <div class="header-actions">
+
+        <!-- Modo Noturno -->
+        <div style="position:relative; cursor:pointer; width:36px; height:36px; border-radius:50%; background:var(--bg-card); display:flex; align-items:center; justify-content:center; transition:background 0.35s ease;"
+            onclick="toggleGlobalDarkMode()" title="Alternar Modo Noturno">
+            <i data-lucide="moon" id="globalDarkIcon"
+                style="color:var(--text-primary); width:18px; height:18px; transition:opacity 0.18s ease;"></i>
+        </div>
+
+        <!-- Notificações -->
+        <div style="position:relative; cursor:pointer;" id="notif-btn"
+            onclick="document.getElementById('notif-menu').style.display = document.getElementById('notif-menu').style.display === 'none' ? 'block' : 'none'">
+            <i data-lucide="bell" style="color: var(--text-muted);"></i>
+            
+
+            <!-- Menu Notificacoes -->
+            <div id="notif-menu"
+                style="display:none; position:absolute; top:30px; right:0; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--shadow-md); width:300px; z-index:9999; overflow:hidden;">
+                <div
+                    style="padding:0.75rem 1rem; border-bottom:1px solid var(--border-color); font-weight:600; font-size:0.9rem; background:var(--bg-ficha); color:var(--text-primary);">
+                    Notificações</div>
+                <div style="max-height:300px; overflow-y:auto;">
+                    
+                    <div style="padding:1rem; text-align:center; color:var(--text-muted); font-size:0.85rem;">Nenhuma
+                        notificação nova.</div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Perfil -->
+        <div class="user-profile" style="position:relative; cursor:pointer;"
+            onclick="document.getElementById('profile-menu').style.display = document.getElementById('profile-menu').style.display === 'none' ? 'block' : 'none'">
+            <div class="avatar" style="overflow:hidden;">
+                
+                A
+                
+            </div>
+            <span>Admin D.</span>
+            <i data-lucide="chevron-down" style="width: 16px; height: 16px; color: var(--secondary);"></i>
+
+            <!-- Menu Perfil -->
+            <div id="profile-menu"
+                style="display:none; position:absolute; top:40px; right:0; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--shadow-md); width:220px; z-index:9999; overflow:hidden; text-align:left;">
+                <div style="padding:1rem; border-bottom:1px solid var(--border-color); background:var(--bg-ficha);">
+                    <div style="font-weight:700; font-size:0.95rem; color:var(--text-primary);">Admin Demo</div>
+                    <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">@admin
+                    </div>
+                    <div style="font-size:0.75rem; color:var(--primary); margin-top:4px; font-weight:600;">Administrador</div>
+                </div>
+
+                <div style="padding:0.5rem 0;">
+                    <label
+                        style="display:block; padding:0.5rem 1rem; font-size:0.85rem; color:var(--text-main); cursor:pointer; transition:background 0.2s;"
+                        onmouseover="this.style.background='var(--btn-hover-bg)'"
+                        onmouseout="this.style.background='transparent'" onclick="abrirModalFoto(); return false;">
+                        <i data-lucide="camera"
+                            style="width:14px; height:14px; display:inline-block; margin-right:6px; vertical-align:middle;"></i>
+                        Mudar Foto
+                    </label>
+                    <a href="#"
+                        style="display:block; padding:0.5rem 1rem; font-size:0.85rem; color:var(--danger); text-decoration:none; transition:background 0.2s;"
+                        onmouseover="this.style.background='var(--danger-light)'"
+                        onmouseout="this.style.background='transparent'">
+                        <i data-lucide="log-out"
+                            style="width:14px; height:14px; display:inline-block; margin-right:6px; vertical-align:middle;"></i>
+                        Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Modal Premium de Foto de Perfil -->
+<div id="modal-foto-perfil" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 99999;
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+">
+    <div style="
+        background: var(--bg-card);
+        border-radius: 20px;
+        width: 380px;
+        max-width: 95vw;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        animation: slideUp 0.3s ease;
+    ">
+        <!-- Header do Modal -->
+        <div style="
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            padding: 1.25rem 1.5rem;
+            display: flex; align-items: center; justify-content: space-between;
+        ">
+            <div style="color:white; font-weight:700; font-size:1rem;">📷 Atualizar Foto de Perfil</div>
+            <button onclick="fecharModalFoto()"
+                style="background:rgba(255,255,255,0.15); border:none; color:white; width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;">✕</button>
+        </div>
+
+        <!-- Área de Preview -->
+        <div style="padding: 2rem; text-align: center;">
+            <!-- Preview circular -->
+            <div style="position:relative; display:inline-block; margin-bottom: 1.5rem;">
+                <div id="foto-preview-circle" style="
+                    width: 140px; height: 140px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    border: 4px solid var(--primary);
+                    box-shadow: var(--shadow-md);
+                    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+                    display: flex; align-items: center; justify-content: center;
+                    margin: 0 auto;
+                    cursor: pointer;
+                    position: relative;
+                ">
+                    
+                    <div id="foto-placeholder" style="color:white; font-size:2.5rem; font-weight:700;">A</div>
+                    <img id="img-preview" style="width:100%; height:100%; object-fit:cover; display:none;">
+                    
+
+                    <!-- Overlay ao hover -->
+                    <div id="foto-overlay" style="
+                        position:absolute; top:0; left:0;
+                        width:100%; height:100%;
+                        background: var(--bg-card); opacity: 0.8;
+                        display:flex; flex-direction:column; align-items:center; justify-content:center;
+                        opacity:0; transition: opacity 0.2s;
+                        border-radius:50%;
+                    ">
+                        <div style="font-size:1.5rem;">📷</div>
+                        <div style="color:var(--text-main); font-size:0.7rem; font-weight:600; margin-top:4px;">Escolher
+                            foto</div>
+                    </div>
+                </div>
+                <div style="font-size:0.78rem; color:var(--text-muted); margin-top: 0.75rem;">Clique no círculo para
+                    escolher</div>
+            </div>
+
+            <!-- Input oculto -->
+            <input type="file" id="input-foto-oculto" accept="image/*" style="display:none;"
+                onchange="previewFoto(this)">
+
+            <!-- Botões de ação -->
+            <div id="foto-acoes" style="display:none; flex-direction:column; gap:0.75rem; margin-top:0.5rem;">
+                <button id="btn-confirmar-foto" onclick="confirmarUploadFoto()" style="
+                    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+                    color: white; border: none;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 10px; font-weight: 700;
+                    cursor: pointer; width: 100%; font-size: 0.9rem;
+                    box-shadow: var(--shadow-md);
+                    transition: all 0.2s;
+                " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">
+                    ✓ Salvar Foto de Perfil
+                </button>
+                <button onclick="document.getElementById('input-foto-oculto').click()" style="
+                    background: var(--btn-hover-bg); color: var(--text-main);
+                    border: 1px solid var(--border-color);
+                    padding: 0.6rem 1.5rem;
+                    border-radius: 10px; font-weight: 600;
+                    cursor: pointer; width: 100%; font-size: 0.85rem;
+                    transition: background 0.2s;
+                " onmouseover="this.style.background='var(--border-color)'"
+                    onmouseout="this.style.background='var(--btn-hover-bg)'">
+                    🔄 Escolher outra foto
+                </button>
+            </div>
+
+            <div id="foto-cta" style="margin-top:0.5rem;">
+                <button onclick="document.getElementById('input-foto-oculto').click()" style="
+                    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+                    color: white; border: none;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 10px; font-weight: 700;
+                    cursor: pointer; width: 100%; font-size: 0.9rem;
+                    box-shadow: var(--shadow-md);
+                    transition: all 0.2s;
+                " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">
+                    📁 Escolher Foto
+                </button>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.75rem;">Suporta JPG, PNG e WebP
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>
+    // Lógicas de UI
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#notif-btn') && !e.target.closest('#notif-menu')) {
+            const m = document.getElementById('notif-menu');
+            if (m) m.style.display = 'none';
+        }
+        if (!e.target.closest('.user-profile')) {
+            const p = document.getElementById('profile-menu');
+            if (p) p.style.display = 'none';
+        }
+    });
+
+    const previewCircle = document.getElementById('foto-preview-circle');
+    const overlay = document.getElementById('foto-overlay');
+    if (previewCircle && overlay) {
+        previewCircle.addEventListener('mouseover', () => overlay.style.opacity = '1');
+        previewCircle.addEventListener('mouseout', () => overlay.style.opacity = '0');
+        previewCircle.addEventListener('click', () => document.getElementById('input-foto-oculto').click());
+    }
+
+    function abrirModalFoto() {
+        const modal = document.getElementById('modal-foto-perfil');
+        modal.style.display = 'flex';
+        document.getElementById('profile-menu').style.display = 'none';
+    }
+
+    function fecharModalFoto() {
+        document.getElementById('modal-foto-perfil').style.display = 'none';
+    }
+
+    document.getElementById('modal-foto-perfil').addEventListener('click', function (e) {
+        if (e.target === this) fecharModalFoto();
+    });
+
+    let arquivoFoto = null;
+
+    function previewFoto(input) {
+        if (!input.files || !input.files[0]) return;
+        arquivoFoto = input.files[0];
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = document.getElementById('img-preview');
+            const placeholder = document.getElementById('foto-placeholder');
+            img.src = e.target.result;
+            img.style.display = 'block';
+            if (placeholder) placeholder.style.display = 'none';
+
+            document.getElementById('foto-acoes').style.display = 'flex';
+            document.getElementById('foto-cta').style.display = 'none';
+        };
+        reader.readAsDataURL(arquivoFoto);
+    }
+
+    function confirmarUploadFoto() {
+        if (!arquivoFoto) return;
+
+        const btn = document.getElementById('btn-confirmar-foto');
+        btn.disabled = true;
+        btn.textContent = '⏳ Salvando...';
+
+        const formData = new FormData();
+        formData.append('foto', arquivoFoto);
+
+        fetch('/api/upload-foto/', {
+            method: 'POST',
+            headers: { 'X-CSRFToken': 'AUPiZF9T1OWbQJwlljCzZLqTi9HayLC4B6tRuxIpIQTNlEjLaoHxaNz2h18R4XFE' },
+            body: formData
+        })
+            .then(r => r.json())
+            .then(d => {
+                if (d.status === 'success') {
+                    btn.textContent = '✓ Salvo!';
+                    btn.style.background = 'var(--success)';
+                    setTimeout(() => location.reload(), 800);
+                } else {
+                    btn.textContent = '✕ Erro ao salvar';
+                    btn.style.background = 'var(--danger)';
+                    btn.disabled = false;
+                }
+            })
+            .catch(() => {
+                btn.textContent = '✕ Erro de conexão';
+                btn.style.background = 'var(--danger)';
+                btn.disabled = false;
+            });
+    }
+</script>
+
+            <!-- Dynamic Content -->
+            <div class="content-area">
+                
+<div class="form-container" style="max-width: 100%;">
+    <div style="display: flex; justify-content: space-between; align-items:center; margin-bottom: 2rem;">
+        <div>
+            <h3 style="color: var(--text-main); margin:0;">Rastreabilidade de Chamados</h3>
+            <p style="color: var(--secondary); font-size: 0.9rem; margin-top:0.25rem;">Registro formal de todas as solicitações abertas por você.</p>
+        </div>
+        <a href="novo-chamado.html" style="
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.65rem 1.25rem;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            color: white; border-radius: 10px; text-decoration: none;
+            font-weight: 700; font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.2s;
+        " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">
+            <i data-lucide="plus-circle" style="width:16px;height:16px;"></i> Novo Chamado
+        </a>
+    </div>
+
+    
+    <div style="text-align:center; padding:4rem 2rem; color:var(--text-muted);">
+        <div style="font-size:3rem; margin-bottom:1rem;">📋</div>
+        <h4 style="color:var(--text-main); margin-bottom:0.5rem;">Nenhum chamado encontrado</h4>
+        <p style="font-size:0.9rem;">Você ainda não abriu nenhum chamado. Clique abaixo para começar.</p>
+        <a href="novo-chamado.html" style="
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.65rem 1.5rem; margin-top: 1rem;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            color: white; border-radius: 10px; text-decoration: none;
+            font-weight: 700; font-size: 0.9rem;
+        ">
+            <i data-lucide="plus-circle" style="width:16px;height:16px;"></i> Abrir Primeiro Chamado
+        </a>
+    </div>
+    
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ASSISTENTE VIRTUAL LEXIA (NOTION AI STYLE) -->
+    <!-- ========================================== -->
+
+    <!-- Botão Flutuante -->
+    <button id="btn-lexia" onclick="toggleLexIA()" style="
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+        border: none;
+        color: white;
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    " onmouseover="this.style.transform='scale(1.1) rotate(5deg)'"
+        onmouseout="this.style.transform='scale(1) rotate(0)'">
+        <i data-lucide="sparkles" style="width: 24px; height: 24px;"></i>
+    </button>
+
+    <!-- Painel da LexIA -->
+    <div id="painel-lexia" style="
+        display: none;
+        position: fixed;
+        bottom: 5rem;
+        right: 2rem;
+        width: 380px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        z-index: 9998;
+        overflow: hidden;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s, transform 0.3s, background-color 0.35s ease, border-color 0.35s ease;
+        pointer-events: none;
+    ">
+        <!-- Header -->
+        <div
+            style="background: var(--bg-ficha); padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
+            <div style="color: var(--primary);">
+                <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div style="flex: 1;">
+                <h4 style="margin: 0; font-size: 1rem; color: var(--text-primary); font-weight: 700;">LexIA</h4>
+                <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">Sua assistente jurídica inteligente
+                </p>
+            </div>
+            <button onclick="toggleHistoricoLexIA()" title="Historico de conversas"
+                style="background: none; border: none; cursor: pointer; color: var(--text-muted); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="history" style="width: 18px; height: 18px;"></i>
+            </button>
+            <button onclick="toggleLexIA()"
+                style="background: none; border: none; cursor: pointer; color: var(--text-muted);">
+                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+            </button>
+        </div>
+
+        <!-- Historico da LexIA -->
+        <div id="lexia-history-panel" style="display: none; border-bottom: 1px solid var(--border-color); background: var(--bg-card);">
+            <div id="lexia-history-list" style="max-height: 190px; overflow-y: auto; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.35rem;">
+                <div class="lexia-history-empty">Nenhuma conversa salva ainda.</div>
+            </div>
+        </div>
+
+        <!-- Body / Chat Area -->
+        <div id="lexia-chat-area"
+            style="padding: 1.25rem; max-height: 400px; overflow-y: auto; flex: 1; font-size: 0.85rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 1rem;">
+            <div
+                style="background: var(--bg-ficha); border: 1px solid var(--border-color); padding: 0.75rem; border-radius: 8px 8px 8px 0;">
+                Olá, <strong>Admin D.</strong>! Selecione um chamado e me diga o que você
+                precisa saber sobre ele.
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div style="padding: 1rem; border-top: 1px solid var(--border-color); background: var(--bg-card);">
+            <div style="margin-bottom: 0.75rem;">
+                <select id="lexia-chamado-select" onchange="trocarChamadoLexIA()"
+                    style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background: var(--bg-input); color: var(--text-primary);">
+                    <option value="">Selecione um contrato/chamado...</option>
+                </select>
+            </div>
+            <div style="position: relative;">
+                <input type="text" id="lexia-prompt" placeholder="Ex: Quem falta dar Ok?"
+                    style="width: 100%; padding: 0.6rem 2.5rem 0.6rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background: var(--bg-input); color: var(--text-primary); transition: border-color 0.2s;"
+                    onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor=''"
+                    onkeypress="if(event.key === 'Enter') enviarPerguntaLexIA()">
+                <button onclick="enviarPerguntaLexIA()"
+                    style="position: absolute; right: 0.25rem; top: 0.25rem; background: var(--primary); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <i data-lucide="arrow-up" style="width: 16px; height: 16px;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Efeito de giro para o ícone de loading -->
+    <style>
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .lucide-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        .lexia-message h4 {
+            margin: 0.35rem 0 0.45rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            line-height: 1.25;
+        }
+
+        .lexia-message p {
+            margin: 0.35rem 0;
+            line-height: 1.55;
+        }
+
+        .lexia-message ul {
+            margin: 0.35rem 0 0.55rem 1rem;
+            padding: 0;
+        }
+
+        .lexia-message li {
+            margin: 0.3rem 0;
+            line-height: 1.45;
+        }
+
+        .lexia-message strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .lexia-history-item {
+            display: flex;
+            align-items: stretch;
+            gap: 0.35rem;
+            max-height: 58px;
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            overflow: hidden;
+            transition: opacity 0.22s ease, transform 0.22s ease, max-height 0.28s ease, margin 0.28s ease;
+        }
+
+        .lexia-history-item.is-deleting {
+            opacity: 0.55;
+            transform: translateX(8px) scale(0.985);
+        }
+
+        .lexia-history-item.is-removed {
+            opacity: 0;
+            max-height: 0;
+            margin: 0;
+            transform: translateX(18px) scale(0.96);
+        }
+
+        .lexia-history-main {
+            flex: 1;
+            min-width: 0;
+            border: 1px solid var(--border-color);
+            background: var(--bg-ficha);
+            border-radius: 7px;
+            padding: 0.5rem 0.65rem;
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .lexia-history-main:hover {
+            background: var(--btn-hover-bg);
+        }
+
+        .lexia-history-question {
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lexia-history-meta {
+            margin-top: 0.15rem;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lexia-history-delete {
+            border: 1px solid var(--danger-light);
+            background: var(--bg-card);
+            color: var(--danger);
+            border-radius: 7px;
+            width: 34px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .lexia-history-delete:hover {
+            background: var(--danger-light);
+            transform: translateY(-1px);
+        }
+
+        .lexia-history-delete.is-busy {
+            background: var(--danger-light);
+            border-color: var(--danger);
+            pointer-events: none;
+        }
+
+        .lexia-history-delete.is-busy svg {
+            animation: spin 0.85s linear infinite;
+        }
+
+        .lexia-history-empty {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            padding: 0.5rem;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        // Inicializa os ícones do Lucide do sistema principal
+        lucide.createIcons();
+
+        /* ─── GLOBAL DARK MODE ───────────────────────────────── */
+        // Persiste a preferência ao carregar a página
+        (function () {
+            const isDark = localStorage.getItem('feedDark') === '1' || localStorage.getItem('globalDark') === '1';
+            if (isDark) {
+                document.body.classList.add('dark');
+                localStorage.setItem('globalDark', '1');
+            }
+            // Aguarda o Lucide estar pronto para trocar o ícone
+            const icon = document.getElementById('globalDarkIcon');
+            if (icon && isDark) {
+                icon.setAttribute('data-lucide', 'sun');
+                lucide.createIcons({ nodes: [icon] });
+            }
+        })();
+
+        function toggleGlobalDarkMode() {
+            const isDark = document.body.classList.toggle('dark');
+            localStorage.setItem('globalDark', isDark ? '1' : '0');
+            localStorage.setItem('feedDark', isDark ? '1' : '0');
+
+            // Re-busca o elemento após qualquer possível re-render do Lucide
+            const icon = document.getElementById('globalDarkIcon');
+            if (icon) {
+                icon.style.opacity = '0';
+                setTimeout(() => {
+                    icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                    lucide.createIcons({ nodes: [icon] });
+                    const freshIcon = document.getElementById('globalDarkIcon');
+                    if (freshIcon) freshIcon.style.opacity = '1';
+                }, 180);
+            }
+        }
+
+        // Lógica da LexIA
+        let lexiaOpen = false;
+        let historicoAbertoLexIA = false;
+        let historicoLexIA = [];
+
+        function toggleLexIA() {
+            const painel = document.getElementById('painel-lexia');
+            lexiaOpen = !lexiaOpen;
+
+            if (lexiaOpen) {
+                painel.style.display = 'flex';
+                setTimeout(() => {
+                    painel.style.opacity = '1';
+                    painel.style.transform = 'translateY(0)';
+                    painel.style.pointerEvents = 'auto';
+                }, 10);
+                carregarChamadosLexIA();
+                carregarHistoricoLexIA();
+            } else {
+                painel.style.opacity = '0';
+                painel.style.transform = 'translateY(20px)';
+                painel.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    painel.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        function carregarChamadosLexIA() {
+            const select = document.getElementById('lexia-chamado-select');
+            fetch('/api/lexia/chamados/')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        select.innerHTML = '<option value="">Selecione um contrato/chamado...</option>';
+                        data.chamados.forEach(c => {
+                            select.innerHTML += `<option value="${c.id}">#${c.id} - ${c.titulo}</option>`;
+                        });
+                    }
+                });
+        }
+
+        function mensagemInicialLexIA() {
+            return `
+                <div style="background: var(--bg-ficha); border: 1px solid var(--border-color); padding: 0.75rem; border-radius: 8px 8px 8px 0;">
+                    Ola, <strong>Admin D.</strong>! Selecione um chamado e me diga o que voce precisa saber sobre ele.
+                </div>
+            `;
+        }
+
+        function limparChatLexIA() {
+            const chatArea = document.getElementById('lexia-chat-area');
+            const select = document.getElementById('lexia-chamado-select');
+            chatArea.innerHTML = select && select.value ? '' : mensagemInicialLexIA();
+        }
+
+        function trocarChamadoLexIA() {
+            limparChatLexIA();
+            const painelHistorico = document.getElementById('lexia-history-panel');
+            painelHistorico.style.display = 'none';
+            historicoAbertoLexIA = false;
+        }
+
+        function toggleHistoricoLexIA() {
+            const painelHistorico = document.getElementById('lexia-history-panel');
+            historicoAbertoLexIA = !historicoAbertoLexIA;
+            painelHistorico.style.display = historicoAbertoLexIA ? 'block' : 'none';
+
+            if (historicoAbertoLexIA) {
+                carregarHistoricoLexIA();
+            }
+        }
+
+        function carregarHistoricoLexIA(chamadoId = '') {
+            const lista = document.getElementById('lexia-history-list');
+            if (!lista) return;
+
+            lista.innerHTML = '<div class="lexia-history-empty">Carregando historico...</div>';
+            const url = chamadoId ? `/api/lexia/historico/?chamado_id=${encodeURIComponent(chamadoId)}` : '/api/lexia/historico/';
+
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        renderizarHistoricoLexIA(data.historico || []);
+                    } else {
+                        lista.innerHTML = '<div class="lexia-history-empty">Nao foi possivel carregar o historico.</div>';
+                    }
+                })
+                .catch(() => {
+                    lista.innerHTML = '<div class="lexia-history-empty">Nao foi possivel carregar o historico.</div>';
+                });
+        }
+
+        function renderizarHistoricoLexIA(itens) {
+            const lista = document.getElementById('lexia-history-list');
+            historicoLexIA = itens || [];
+
+            if (!historicoLexIA.length) {
+                lista.innerHTML = '<div class="lexia-history-empty">Nenhuma conversa salva ainda.</div>';
+                return;
+            }
+
+            lista.innerHTML = historicoLexIA.map(item => {
+                const titulo = `#${item.chamado_id} - ${item.chamado_titulo}`;
+                const tituloCurto = titulo.length > 78 ? `${titulo.slice(0, 78)}...` : titulo;
+                const totalMensagens = (item.mensagens || []).length;
+                return `
+                    <div class="lexia-history-item" id="lexia-history-${item.id}">
+                        <button class="lexia-history-main" onclick="abrirHistoricoLexIA(${item.id})" title="Abrir conversa salva">
+                            <div class="lexia-history-question">${escapeHtmlLexIA(tituloCurto)}</div>
+                            <div class="lexia-history-meta">${totalMensagens} mensagens - ${escapeHtmlLexIA(item.data)}</div>
+                        </button>
+                        <button class="lexia-history-delete" onclick="excluirHistoricoLexIA(event, ${item.id})" title="Apagar conversa">
+                            <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function abrirHistoricoLexIA(historicoId) {
+            const item = historicoLexIA.find(h => h.id === historicoId);
+            if (!item) return;
+
+            const chatArea = document.getElementById('lexia-chat-area');
+            chatArea.innerHTML = '';
+            const mensagens = item.mensagens && item.mensagens.length
+                ? item.mensagens
+                : [
+                    { role: 'user', content: item.pergunta },
+                    { role: 'assistant', content: item.resposta }
+                ];
+
+            mensagens.forEach(mensagem => {
+                adicionarMensagemLexIA(mensagem.content, mensagem.role === 'user');
+            });
+
+            const select = document.getElementById('lexia-chamado-select');
+            if (select) select.value = item.chamado_id;
+
+            const painelHistorico = document.getElementById('lexia-history-panel');
+            painelHistorico.style.display = 'none';
+            historicoAbertoLexIA = false;
+        }
+
+        function alertaLexIA(opcoes) {
+            if (window.Swal) {
+                return Swal.fire({
+                    confirmButtonColor: 'var(--primary)',
+                    cancelButtonColor: 'var(--secondary)',
+                    background: getComputedStyle(document.body).getPropertyValue('--bg-card').trim() || '#ffffff',
+                    color: getComputedStyle(document.body).getPropertyValue('--text-primary').trim() || '#111827',
+                    ...opcoes
+                });
+            }
+
+            return new Promise(resolve => {
+                const bgCard = getComputedStyle(document.body).getPropertyValue('--bg-card').trim() || '#ffffff';
+                const textPrimary = getComputedStyle(document.body).getPropertyValue('--text-primary').trim() || '#111827';
+                const textMuted = getComputedStyle(document.body).getPropertyValue('--text-muted').trim() || '#64748b';
+                const primary = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#003366';
+                const overlay = document.createElement('div');
+                overlay.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:10000;display:flex;align-items:center;justify-content:center;padding:1rem;';
+                overlay.innerHTML = `
+                    <div style="width:min(420px, 100%);background:${bgCard};color:${textPrimary};border-radius:14px;box-shadow:0 24px 70px rgba(15,23,42,.25);padding:1.25rem;">
+                        <h3 style="margin:0 0 .45rem;font-size:1.05rem;">${escapeHtmlLexIA(opcoes.title || '')}</h3>
+                        <p style="margin:0;color:${textMuted};font-size:.9rem;line-height:1.45;">${escapeHtmlLexIA(opcoes.text || '')}</p>
+                        <div style="display:flex;justify-content:flex-end;gap:.6rem;margin-top:1.2rem;">
+                            <button data-lexia-confirm style="border:0;background:${primary};color:#fff;border-radius:8px;padding:.55rem .95rem;cursor:pointer;">${escapeHtmlLexIA(opcoes.confirmButtonText || 'OK')}</button>
+                            ${opcoes.showCancelButton ? '<button data-lexia-cancel style="border:1px solid #cbd5e1;background:transparent;color:inherit;border-radius:8px;padding:.55rem .85rem;cursor:pointer;">Cancelar</button>' : ''}
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+                overlay.querySelector('[data-lexia-confirm]').onclick = () => {
+                    overlay.remove();
+                    resolve({ isConfirmed: true });
+                };
+                const cancelar = overlay.querySelector('[data-lexia-cancel]');
+                if (cancelar) {
+                    cancelar.onclick = () => {
+                        overlay.remove();
+                        resolve({ isConfirmed: false });
+                    };
+                }
+            });
+        }
+
+        async function excluirHistoricoLexIA(event, historicoId) {
+            event.stopPropagation();
+            const confirmacao = await alertaLexIA({
+                title: 'Apagar conversa?',
+                text: 'Esta conversa sera removida do historico da LexIA.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Apagar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: false,
+                focusCancel: true
+            });
+
+            if (!confirmacao.isConfirmed) return;
+
+            const itemEl = document.getElementById(`lexia-history-${historicoId}`);
+            const botao = event.currentTarget;
+            if (itemEl) itemEl.classList.add('is-deleting');
+            if (botao) {
+                botao.classList.add('is-busy');
+                botao.innerHTML = '<i data-lucide="loader-2" style="width: 15px; height: 15px;"></i>';
+                lucide.createIcons();
+            }
+
+            fetch(`/api/lexia/historico/${historicoId}/excluir/`, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': 'AUPiZF9T1OWbQJwlljCzZLqTi9HayLC4B6tRuxIpIQTNlEjLaoHxaNz2h18R4XFE' }
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const removido = historicoLexIA.find(item => item.id === historicoId);
+                        historicoLexIA = historicoLexIA.filter(item => {
+                            return removido ? item.chamado_id !== removido.chamado_id : item.id !== historicoId;
+                        });
+                        if (itemEl) {
+                            itemEl.classList.add('is-removed');
+                            setTimeout(() => renderizarHistoricoLexIA(historicoLexIA), 280);
+                        } else {
+                            renderizarHistoricoLexIA(historicoLexIA);
+                        }
+                    } else {
+                        if (itemEl) itemEl.classList.remove('is-deleting');
+                        if (botao) {
+                            botao.classList.remove('is-busy');
+                            botao.innerHTML = '<i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>';
+                            lucide.createIcons();
+                        }
+                        alertaLexIA({
+                            title: 'Nao foi possivel apagar',
+                            text: 'Tente novamente em alguns instantes.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(() => {
+                    if (itemEl) itemEl.classList.remove('is-deleting');
+                    if (botao) {
+                        botao.classList.remove('is-busy');
+                        botao.innerHTML = '<i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>';
+                        lucide.createIcons();
+                    }
+                    alertaLexIA({
+                        title: 'Erro de conexao',
+                        text: 'Nao foi possivel falar com o servidor para apagar o historico.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        }
+
+        function escapeHtmlLexIA(valor) {
+            return String(valor || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatarInlineLexIA(texto) {
+            return escapeHtmlLexIA(texto)
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>');
+        }
+
+        function limparTituloLexIA(texto) {
+            return texto
+                .replace(/^\s*#+\s*/, '')
+                .replace(/^\*\*(.+)\*\*$/, '$1')
+                .replace(/\*\*/g, '')
+                .trim();
+        }
+
+        function formatarRespostaLexIA(texto) {
+            const linhas = String(texto || '').replace(/\r\n/g, '\n').split('\n');
+            let html = '';
+            let listaAberta = false;
+
+            function fecharLista() {
+                if (listaAberta) {
+                    html += '</ul>';
+                    listaAberta = false;
+                }
+            }
+
+            linhas.forEach(linhaOriginal => {
+                const linha = linhaOriginal.trim();
+
+                if (!linha) {
+                    fecharLista();
+                    return;
+                }
+
+                if (/^-{3,}$/.test(linha)) {
+                    fecharLista();
+                    return;
+                }
+
+                const titulo = linha.match(/^#{1,6}\s+(.+)$/);
+                if (titulo) {
+                    fecharLista();
+                    html += `<h4>${formatarInlineLexIA(limparTituloLexIA(titulo[1]))}</h4>`;
+                    return;
+                }
+
+                const itemLista = linha.match(/^[-*]\s+(.+)$/);
+                if (itemLista) {
+                    if (!listaAberta) {
+                        html += '<ul>';
+                        listaAberta = true;
+                    }
+                    html += `<li>${formatarInlineLexIA(itemLista[1])}</li>`;
+                    return;
+                }
+
+                fecharLista();
+                html += `<p>${formatarInlineLexIA(linha)}</p>`;
+            });
+
+            fecharLista();
+            return html || '<p>Sem resposta.</p>';
+        }
+
+        function adicionarMensagemLexIA(texto, isUser) {
+            const chatArea = document.getElementById('lexia-chat-area');
+            const bgColor = isUser ? 'var(--bg-input)' : 'var(--bg-ficha)';
+            const borderColor = isUser ? 'var(--primary)' : 'var(--border-color)';
+            const borderRadius = isUser ? '8px 8px 0 8px' : '8px 8px 8px 0';
+            const alignSelf = isUser ? 'flex-end' : 'flex-start';
+            const conteudo = isUser ? escapeHtmlLexIA(texto) : formatarRespostaLexIA(texto);
+
+            const html = `
+                <div class="lexia-message" style="background: ${bgColor}; border: 1px solid ${borderColor}; padding: 0.75rem; border-radius: ${borderRadius}; align-self: ${alignSelf}; max-width: 85%; word-wrap: break-word;">
+                    ${conteudo}
+                </div>
+            `;
+            chatArea.insertAdjacentHTML('beforeend', html);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function enviarPerguntaLexIA() {
+            const select = document.getElementById('lexia-chamado-select');
+            const input = document.getElementById('lexia-prompt');
+            const chamadoId = select.value;
+            const promptTexto = input.value.trim();
+
+            if (!chamadoId) {
+                alertaLexIA({
+                    title: 'Selecione um chamado',
+                    text: 'Escolha um contrato/chamado antes de enviar a pergunta.',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+            if (!promptTexto) return;
+
+            adicionarMensagemLexIA(promptTexto, true);
+            input.value = '';
+
+            const chatArea = document.getElementById('lexia-chat-area');
+            const loadingHtml = `<div id="lexia-loading" style="align-self: flex-start; color: var(--primary); display: flex; gap: 0.5rem; align-items: center;"><i data-lucide="loader" class="lucide-spin" style="width: 16px; height: 16px;"></i> LexIA está analisando...</div>`;
+            chatArea.insertAdjacentHTML('beforeend', loadingHtml);
+            lucide.createIcons();
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            fetch('/api/lexia/perguntar/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': 'AUPiZF9T1OWbQJwlljCzZLqTi9HayLC4B6tRuxIpIQTNlEjLaoHxaNz2h18R4XFE'
+                },
+                body: JSON.stringify({
+                    chamado_id: chamadoId,
+                    pergunta: promptTexto
+                })
+            })
+                .then(r => r.json())
+                .then(data => {
+                    const loader = document.getElementById('lexia-loading');
+                    if (loader) loader.remove();
+
+                    if (data.status === 'success') {
+                        adicionarMensagemLexIA(data.resposta, false);
+                        if (data.historico) {
+                            historicoLexIA = [data.historico, ...historicoLexIA.filter(item => item.chamado_id !== data.historico.chamado_id)].slice(0, 30);
+                            renderizarHistoricoLexIA(historicoLexIA);
+                        }
+                    } else {
+                        adicionarMensagemLexIA(`⚠️ Erro: ${data.msg}`, false);
+                    }
+                })
+                .catch(err => {
+                    const loader = document.getElementById('lexia-loading');
+                    if (loader) loader.remove();
+                    adicionarMensagemLexIA("⚠️ Erro de conexão ao falar com a IA.", false);
+                });
+        }
+    </script>
+
+    
+<style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});});});</script></body>
+
+</html>

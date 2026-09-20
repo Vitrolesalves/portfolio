@@ -1,0 +1,2595 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Chamado - Módulo Jurídico</title>
+    
+    <link rel="stylesheet" href="static/css/global.css">
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- SISTEMA GLOBAL DE CORES E TEMAS -->
+    <style>
+        :root {
+            /* MODO CLARO: Azul Marinho, Branco e Cinza Claro */
+            --bg-main: #f3f4f6;
+            --bg-card: #ffffff;
+            --bg-input: #f8fafc;
+            --bg-ficha: #f8fafc;
+            --bg-comments: #f5f7fa;
+
+            --primary: #003366;
+            --primary-hover: #002244;
+            --secondary: #6b7280;
+
+            --text-primary: #111827;
+            --text-main: #111827;
+            --text-secondary: #374151;
+            --text-muted: #6b7280;
+
+            --border-color: #d1d5db;
+            --border-light: #e5e7eb;
+
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+
+            --status-aberto: #fef9c3;
+            --text-warning: #854d0e;
+            --status-analise: #dbeafe;
+            --text-info: #1e40af;
+            --status-assinatura: #fce7f3;
+            --text-danger: #9d174d;
+            --status-concluido: #d1fae5;
+            --text-success: #065f46;
+
+            --btn-hover-bg: #e8edf4;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body.dark {
+            /* MODO ESCURO: Vermelho Pastel e Cinza Escuro */
+            --bg-main: #121212;
+            --bg-card: #1e1e1e;
+            --bg-input: #2a2a2a;
+            --bg-ficha: #252525;
+            --bg-comments: #1a1a1a;
+
+            --primary: #e08888;
+            --primary-hover: #c96b6b;
+            --secondary: #a1a1aa;
+
+            --text-primary: #f3f4f6;
+            --text-main: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+
+            --border-color: #404040;
+            --border-light: #333333;
+
+            --danger: #ef4444;
+            --danger-light: #451a1a;
+            --success: #10b981;
+            --success-light: #064e3b;
+            --warning: #f59e0b;
+            --warning-light: #453113;
+            --info: #3b82f6;
+            --info-light: #1e3a8a;
+
+            --status-aberto: #453514;
+            --text-warning: #fde047;
+            --status-analise: #1e3a8a;
+            --text-info: #93c5fd;
+            --status-assinatura: #501835;
+            --text-danger: #f9a8d4;
+            --status-concluido: #064e3b;
+            --text-success: #6ee7b7;
+
+            --btn-hover-bg: #3a3a3a;
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Garante que o fundo e o texto globais mudem sempre */
+        body {
+            background-color: var(--bg-main) !important;
+            color: var(--text-primary) !important;
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+    <div class="sidebar-header">
+        <h2><i data-lucide="scale"></i> Conecta Jurídico</h2>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item ">
+            <i data-lucide="layout-dashboard"></i> Feed
+        </a>
+        <a href="novo-chamado.html"
+            class="nav-item active">
+            <i data-lucide="plus-circle"></i> Novo Chamado
+        </a>
+        <a href="chamados.html"
+            class="nav-item ">
+            <i data-lucide="folder-open"></i> Meus Chamados
+        </a>
+        <a href="relatorios.html"
+            class="nav-item ">
+            <i data-lucide="alert-triangle"></i> Relatórios de Risco
+        </a>
+        <a href="conhecimento.html"
+            class="nav-item ">
+            <i data-lucide="book-open"></i> Base de Conhecimento
+        </a>
+        <a href="#"
+            class="nav-item ">
+            <i data-lucide="lightbulb"></i> Como Funciona
+        </a>
+        <a href="regulatorio.html"
+            class="nav-item ">
+            <i data-lucide="scale"></i> Regulatório
+        </a>
+        
+    </nav>
+</aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+    <div class="header-title">
+        
+        Novo Chamado
+        
+        
+    </div>
+    <div class="header-actions">
+
+        <!-- Modo Noturno -->
+        <div style="position:relative; cursor:pointer; width:36px; height:36px; border-radius:50%; background:var(--bg-card); display:flex; align-items:center; justify-content:center; transition:background 0.35s ease;"
+            onclick="toggleGlobalDarkMode()" title="Alternar Modo Noturno">
+            <i data-lucide="moon" id="globalDarkIcon"
+                style="color:var(--text-primary); width:18px; height:18px; transition:opacity 0.18s ease;"></i>
+        </div>
+
+        <!-- Notificações -->
+        <div style="position:relative; cursor:pointer;" id="notif-btn"
+            onclick="document.getElementById('notif-menu').style.display = document.getElementById('notif-menu').style.display === 'none' ? 'block' : 'none'">
+            <i data-lucide="bell" style="color: var(--text-muted);"></i>
+            
+
+            <!-- Menu Notificacoes -->
+            <div id="notif-menu"
+                style="display:none; position:absolute; top:30px; right:0; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--shadow-md); width:300px; z-index:9999; overflow:hidden;">
+                <div
+                    style="padding:0.75rem 1rem; border-bottom:1px solid var(--border-color); font-weight:600; font-size:0.9rem; background:var(--bg-ficha); color:var(--text-primary);">
+                    Notificações</div>
+                <div style="max-height:300px; overflow-y:auto;">
+                    
+                    <div style="padding:1rem; text-align:center; color:var(--text-muted); font-size:0.85rem;">Nenhuma
+                        notificação nova.</div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Perfil -->
+        <div class="user-profile" style="position:relative; cursor:pointer;"
+            onclick="document.getElementById('profile-menu').style.display = document.getElementById('profile-menu').style.display === 'none' ? 'block' : 'none'">
+            <div class="avatar" style="overflow:hidden;">
+                
+                A
+                
+            </div>
+            <span>Admin D.</span>
+            <i data-lucide="chevron-down" style="width: 16px; height: 16px; color: var(--secondary);"></i>
+
+            <!-- Menu Perfil -->
+            <div id="profile-menu"
+                style="display:none; position:absolute; top:40px; right:0; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--shadow-md); width:220px; z-index:9999; overflow:hidden; text-align:left;">
+                <div style="padding:1rem; border-bottom:1px solid var(--border-color); background:var(--bg-ficha);">
+                    <div style="font-weight:700; font-size:0.95rem; color:var(--text-primary);">Admin Demo</div>
+                    <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">@admin
+                    </div>
+                    <div style="font-size:0.75rem; color:var(--primary); margin-top:4px; font-weight:600;">Administrador</div>
+                </div>
+
+                <div style="padding:0.5rem 0;">
+                    <label
+                        style="display:block; padding:0.5rem 1rem; font-size:0.85rem; color:var(--text-main); cursor:pointer; transition:background 0.2s;"
+                        onmouseover="this.style.background='var(--btn-hover-bg)'"
+                        onmouseout="this.style.background='transparent'" onclick="abrirModalFoto(); return false;">
+                        <i data-lucide="camera"
+                            style="width:14px; height:14px; display:inline-block; margin-right:6px; vertical-align:middle;"></i>
+                        Mudar Foto
+                    </label>
+                    <a href="#"
+                        style="display:block; padding:0.5rem 1rem; font-size:0.85rem; color:var(--danger); text-decoration:none; transition:background 0.2s;"
+                        onmouseover="this.style.background='var(--danger-light)'"
+                        onmouseout="this.style.background='transparent'">
+                        <i data-lucide="log-out"
+                            style="width:14px; height:14px; display:inline-block; margin-right:6px; vertical-align:middle;"></i>
+                        Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Modal Premium de Foto de Perfil -->
+<div id="modal-foto-perfil" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 99999;
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+">
+    <div style="
+        background: var(--bg-card);
+        border-radius: 20px;
+        width: 380px;
+        max-width: 95vw;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        animation: slideUp 0.3s ease;
+    ">
+        <!-- Header do Modal -->
+        <div style="
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            padding: 1.25rem 1.5rem;
+            display: flex; align-items: center; justify-content: space-between;
+        ">
+            <div style="color:white; font-weight:700; font-size:1rem;">📷 Atualizar Foto de Perfil</div>
+            <button onclick="fecharModalFoto()"
+                style="background:rgba(255,255,255,0.15); border:none; color:white; width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;">✕</button>
+        </div>
+
+        <!-- Área de Preview -->
+        <div style="padding: 2rem; text-align: center;">
+            <!-- Preview circular -->
+            <div style="position:relative; display:inline-block; margin-bottom: 1.5rem;">
+                <div id="foto-preview-circle" style="
+                    width: 140px; height: 140px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    border: 4px solid var(--primary);
+                    box-shadow: var(--shadow-md);
+                    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+                    display: flex; align-items: center; justify-content: center;
+                    margin: 0 auto;
+                    cursor: pointer;
+                    position: relative;
+                ">
+                    
+                    <div id="foto-placeholder" style="color:white; font-size:2.5rem; font-weight:700;">A</div>
+                    <img id="img-preview" style="width:100%; height:100%; object-fit:cover; display:none;">
+                    
+
+                    <!-- Overlay ao hover -->
+                    <div id="foto-overlay" style="
+                        position:absolute; top:0; left:0;
+                        width:100%; height:100%;
+                        background: var(--bg-card); opacity: 0.8;
+                        display:flex; flex-direction:column; align-items:center; justify-content:center;
+                        opacity:0; transition: opacity 0.2s;
+                        border-radius:50%;
+                    ">
+                        <div style="font-size:1.5rem;">📷</div>
+                        <div style="color:var(--text-main); font-size:0.7rem; font-weight:600; margin-top:4px;">Escolher
+                            foto</div>
+                    </div>
+                </div>
+                <div style="font-size:0.78rem; color:var(--text-muted); margin-top: 0.75rem;">Clique no círculo para
+                    escolher</div>
+            </div>
+
+            <!-- Input oculto -->
+            <input type="file" id="input-foto-oculto" accept="image/*" style="display:none;"
+                onchange="previewFoto(this)">
+
+            <!-- Botões de ação -->
+            <div id="foto-acoes" style="display:none; flex-direction:column; gap:0.75rem; margin-top:0.5rem;">
+                <button id="btn-confirmar-foto" onclick="confirmarUploadFoto()" style="
+                    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+                    color: white; border: none;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 10px; font-weight: 700;
+                    cursor: pointer; width: 100%; font-size: 0.9rem;
+                    box-shadow: var(--shadow-md);
+                    transition: all 0.2s;
+                " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">
+                    ✓ Salvar Foto de Perfil
+                </button>
+                <button onclick="document.getElementById('input-foto-oculto').click()" style="
+                    background: var(--btn-hover-bg); color: var(--text-main);
+                    border: 1px solid var(--border-color);
+                    padding: 0.6rem 1.5rem;
+                    border-radius: 10px; font-weight: 600;
+                    cursor: pointer; width: 100%; font-size: 0.85rem;
+                    transition: background 0.2s;
+                " onmouseover="this.style.background='var(--border-color)'"
+                    onmouseout="this.style.background='var(--btn-hover-bg)'">
+                    🔄 Escolher outra foto
+                </button>
+            </div>
+
+            <div id="foto-cta" style="margin-top:0.5rem;">
+                <button onclick="document.getElementById('input-foto-oculto').click()" style="
+                    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+                    color: white; border: none;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 10px; font-weight: 700;
+                    cursor: pointer; width: 100%; font-size: 0.9rem;
+                    box-shadow: var(--shadow-md);
+                    transition: all 0.2s;
+                " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">
+                    📁 Escolher Foto
+                </button>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.75rem;">Suporta JPG, PNG e WebP
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>
+    // Lógicas de UI
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#notif-btn') && !e.target.closest('#notif-menu')) {
+            const m = document.getElementById('notif-menu');
+            if (m) m.style.display = 'none';
+        }
+        if (!e.target.closest('.user-profile')) {
+            const p = document.getElementById('profile-menu');
+            if (p) p.style.display = 'none';
+        }
+    });
+
+    const previewCircle = document.getElementById('foto-preview-circle');
+    const overlay = document.getElementById('foto-overlay');
+    if (previewCircle && overlay) {
+        previewCircle.addEventListener('mouseover', () => overlay.style.opacity = '1');
+        previewCircle.addEventListener('mouseout', () => overlay.style.opacity = '0');
+        previewCircle.addEventListener('click', () => document.getElementById('input-foto-oculto').click());
+    }
+
+    function abrirModalFoto() {
+        const modal = document.getElementById('modal-foto-perfil');
+        modal.style.display = 'flex';
+        document.getElementById('profile-menu').style.display = 'none';
+    }
+
+    function fecharModalFoto() {
+        document.getElementById('modal-foto-perfil').style.display = 'none';
+    }
+
+    document.getElementById('modal-foto-perfil').addEventListener('click', function (e) {
+        if (e.target === this) fecharModalFoto();
+    });
+
+    let arquivoFoto = null;
+
+    function previewFoto(input) {
+        if (!input.files || !input.files[0]) return;
+        arquivoFoto = input.files[0];
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = document.getElementById('img-preview');
+            const placeholder = document.getElementById('foto-placeholder');
+            img.src = e.target.result;
+            img.style.display = 'block';
+            if (placeholder) placeholder.style.display = 'none';
+
+            document.getElementById('foto-acoes').style.display = 'flex';
+            document.getElementById('foto-cta').style.display = 'none';
+        };
+        reader.readAsDataURL(arquivoFoto);
+    }
+
+    function confirmarUploadFoto() {
+        if (!arquivoFoto) return;
+
+        const btn = document.getElementById('btn-confirmar-foto');
+        btn.disabled = true;
+        btn.textContent = '⏳ Salvando...';
+
+        const formData = new FormData();
+        formData.append('foto', arquivoFoto);
+
+        fetch('/api/upload-foto/', {
+            method: 'POST',
+            headers: { 'X-CSRFToken': 'MTrNGMulxZG1OCJTcmWRRFS7m9M9iF6uN55mbE3Re1DDjxwj1r1P2H1gl1dQOR94' },
+            body: formData
+        })
+            .then(r => r.json())
+            .then(d => {
+                if (d.status === 'success') {
+                    btn.textContent = '✓ Salvo!';
+                    btn.style.background = 'var(--success)';
+                    setTimeout(() => location.reload(), 800);
+                } else {
+                    btn.textContent = '✕ Erro ao salvar';
+                    btn.style.background = 'var(--danger)';
+                    btn.disabled = false;
+                }
+            })
+            .catch(() => {
+                btn.textContent = '✕ Erro de conexão';
+                btn.style.background = 'var(--danger)';
+                btn.disabled = false;
+            });
+    }
+</script>
+
+            <!-- Dynamic Content -->
+            <div class="content-area">
+                 
+<div class="form-container">
+    <form id="formNovoChamado" novalidate>
+        <!-- Categoria Base -->
+        <div class="form-group">
+            <label class="form-label">Selecione o Fluxo (Norma Interna)</label>
+            <select class="form-control" id="categoriaSelect" onchange="mudarCategoria()">
+                <option value="">Selecione o fluxo aplicável...</option>
+                <option value="cat1">Norma 04 - Contratos com Fornecedores</option>
+                <option value="cat3">Norma 02 - Contratos com Clientes</option>
+                <option value="cat4">Norma 01 - Notificações Extrajudiciais</option>
+            </select>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #cbd5e1; margin: 2rem 0;">
+
+        <!-- ========================================== -->
+        <!-- NORMA 04: CONTRATOS COM FORNECEDORES -->
+        <!-- ========================================== -->
+        <div id="section-cat1" class="hidden">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Norma 04: Contratos com Fornecedores</h3>
+            <div
+                style="background-color: var(--bg-ficha); padding: 1rem; border-left: 4px solid var(--primary); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                <strong>Atenção:</strong> Para subcontratações operacionais, selecione o tipo
+                <strong>"Subcontratado"</strong> no campo abaixo.
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Tipo de Contratação</label>
+                    <select class="form-control" id="tipoFornecedor" name="tipo_contratacao" onchange="verificarCondicionaisFornecedor()">
+                        <option value="padrao">Padrão</option>
+                        <option value="locacao">Locação de Imóvel</option>
+                        <option value="transporte">Transporte de Pessoas</option>
+                        <option value="subcontratado">Subcontratado (Operação dentro de Cliente)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Centro de Resultado / Cliente</label>
+                    <div class="cr-autocomplete" id="cr-wrap-fornecedor">
+                        <div class="cr-input-wrap">
+                            <i data-lucide="search" class="cr-search-icon"></i>
+                            <input type="text" class="cr-input" id="crClienteFornecedor"
+                                placeholder="Digite o número ou nome do CR..." autocomplete="off"
+                                oninput="filtrarCR('fornecedor')" onkeydown="navCR(event,'fornecedor')"
+                                onfocus="abrirCR('fornecedor')">
+                            <span class="cr-clear" id="cr-clear-fornecedor" onclick="limparCR('fornecedor')"
+                                title="Limpar"> </span>
+                        </div>
+                        <input type="hidden" id="crClienteFornecedor-value">
+                        <div class="cr-dropdown" id="cr-dropdown-fornecedor"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Dados do Fornecedor</label>
+                    <input type="text" class="form-control" name="dados_fornecedor" placeholder="Razão Social, CNPJ">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">  Data de Início da Vigência</label>
+                    <input type="date" class="form-control" id="vigencia-inicio" name="data_inicio">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">  Data de Término da Vigência</label>
+                    <input type="date" class="form-control" id="vigencia-fim" name="data_fim">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Prazo e Forma de Pagamento</label>
+                    <input type="text" class="form-control" name="condicao_pagamento" placeholder="Ex: 30 dias via boleto">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Dados Bancários</label>
+                    <input type="text" class="form-control" name="dados_bancarios" placeholder="Banco, Ag, Conta">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-check">
+                    <input type="checkbox" class="form-check-input" name="suprimentos_envolvida" value="Sim" required>
+                    <span style="font-weight: 500; color: var(--danger);">Área de Suprimentos foi envolvida nesta
+                        negociação? (Obrigatório - Art. 8)</span>
+                </label>
+            </div>
+
+            <!-- Origem da Minuta -->
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-label">Origem da Minuta Contratual</label>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <label class="form-check">
+                        <input type="radio" name="minuta_fornecedor" value="cliente" class="form-check-input">
+                        <span>Minuta Disponibilizada pelo Fornecedor (Anexar editável)</span>
+                    </label>
+                    <label class="form-check">
+                        <input type="radio" name="minuta_fornecedor" value="gps" class="form-check-input" checked>
+                        <span>Minuta Padrão GPS (Nós redigimos)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Proposta Comercial + PEC Ativo -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Proposta Comercial Aprovada</label>
+                    <div class="file-upload-zone" style="padding: 1rem;">
+                        <i data-lucide="upload-cloud"
+                            style="width: 24px; height: 24px; color: var(--primary); margin-bottom: 0.3rem;"></i>
+                        <p style="font-size: 0.85rem;">Clique ou arraste o PDF da proposta</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">PEC Ativo</label>
+                    <div class="file-upload-zone" style="padding: 1rem;">
+                        <i data-lucide="upload-cloud"
+                            style="width: 24px; height: 24px; color: var(--primary); margin-bottom: 0.3rem;"></i>
+                        <p style="font-size: 0.85rem;">Anexe o PEC Ativo vigente</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Justificativa Geral -->
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-label">Justificativa <span style="color: var(--danger);">*</span></label>
+                <textarea name="justificativa" class="form-control" rows="3" placeholder="Descreva a necessidade..."></textarea>
+            </div>
+
+            <!-- Condicional: Locação de Imóvel -->
+            <div id="cond-locacao" class="hidden risk-panel"
+                style="background-color: var(--status-concluido); border-color: var(--success); margin-bottom: 1.5rem;">
+                <h4 style="color: var(--text-success); margin-bottom: 1rem;"><i data-lucide="home"></i> Locação de Imóvel (Art. 10)
+                </h4>
+                <p style="color: var(--text-success); font-size: 0.85rem; margin-bottom: 1rem;"><strong>VEDADO PAGAMENTO
+                        TRIANGULAR:</strong> Os dados bancários devem ser do titular do imóvel.</p>
+
+                <!-- Info Box Locação -->
+                <div
+                    style="background: var(--status-assinatura); border:1px solid var(--primary); border-radius:8px; padding:1rem; margin-bottom:1.25rem;">
+                    <div
+                        style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem; color: var(--text-info); font-weight:600; font-size:0.9rem;">
+                        <i data-lucide="info" style="width:16px; height:16px;"></i>
+                        Documentos Necessários – Contrato de Locação de Imóvel (Art. 10)
+                    </div>
+                    <ol style="margin:0; padding-left:1.2rem; color: var(--text-main); font-size:0.83rem; line-height:1.9;">
+                        <li>Dados completos do locador</li>
+                        <li>Valor negociado do aluguel</li>
+                        <li>Prazo de vigência do contrato</li>
+                        <li>Dados completos do imóvel objeto da locação</li>
+                        <li>Laudo de vistoria inicial do imóvel</li>
+                        <li>Certidão atualizada de registro do imóvel (titularidade do proprietário)</li>
+                        <li>Comprovante de endereço do locador</li>
+                        <li>Dados bancários do locador</li>
+                    </ol>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Valor do Aluguel Negociado</label>
+                        <input type="number" class="form-control" name="valor_aluguel" placeholder="R$ 0,00">
+                    </div>
+                </div>
+
+                <!-- Documentos Obrigatórios – Locação -->
+                <div style="margin-top:1rem;">
+                    <div style="display:flex; border-bottom:2px solid var(--border-light); margin-bottom:1rem;">
+                        <button type="button" class="tab-btn-active"
+                            style="padding:0.5rem 1.1rem; border:none; background:none; font-weight:600; color: var(--text-success); border-bottom:2px solid var(--success); margin-bottom:-2px; cursor:pointer; font-size:0.88rem;">
+                            Documentos Obrigatórios</button>
+                    </div>
+                    <div id="tab-loc-obrig">
+                        <div style="background: var(--bg-ficha); border-radius:8px; padding:0.85rem;">
+                            <p style="font-size:0.82rem; font-weight:600; margin-bottom:0.6rem;">Anexe todos os
+                                documentos obrigatórios (Art. 10):</p>
+                            <ul
+                                style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.4rem;">
+                                <li
+                                    style="padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #94a3b8; border-radius:6px;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem; flex:1;">I – Dados completos do locador</span>
+                                        <label
+                                            style="cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"
+                                                onchange="previewDoc(this)"></label>
+                                    </div>
+                                </li>
+                                <li
+                                    style="padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #94a3b8; border-radius:6px;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem; flex:1;">II – Valor negociado do aluguel</span>
+                                        <label
+                                            style="cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"
+                                                onchange="previewDoc(this)"></label>
+                                    </div>
+                                </li>
+                                <li
+                                    style="padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #94a3b8; border-radius:6px;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem; flex:1;">III – Prazo de vigência do
+                                            contrato</span>
+                                        <label
+                                            style="cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"
+                                                onchange="previewDoc(this)"></label>
+                                    </div>
+                                </li>
+                                <li
+                                    style="padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #94a3b8; border-radius:6px;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem; flex:1;">IV – Dados completos do imóvel objeto
+                                            da locação</span>
+                                        <label
+                                            style="cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"
+                                                onchange="previewDoc(this)"></label>
+                                    </div>
+                                </li>
+                                <li
+                                    style="padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #94a3b8; border-radius:6px;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem; flex:1;">V – Laudo de vistoria inicial do
+                                            imóvel</span>
+                                        <label
+                                            style="cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"
+                                                onchange="previewDoc(this)"></label>
+                                    </div>
+                                </li>
+                                <li
+                                    style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #94a3b8; border-radius:6px;">
+                                    <i data-lucide="file-text"
+                                        style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                    <span style="font-size:0.83rem;">Certidão atualizada de registro do imóvel</span>
+                                    <label
+                                        style="margin-left:auto; cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                        Anexar<input type="file" style="display:none;"></label>
+                                </li>
+                                <li
+                                    style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #94a3b8; border-radius:6px;">
+                                    <i data-lucide="file-text"
+                                        style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                    <span style="font-size:0.83rem;">Comprovante de endereço do locador</span>
+                                    <label
+                                        style="margin-left:auto; cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                        Anexar<input type="file" style="display:none;"></label>
+                                </li>
+                                <li
+                                    style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #94a3b8; border-radius:6px;">
+                                    <i data-lucide="file-text"
+                                        style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                    <span style="font-size:0.83rem;">Dados bancários do locador</span>
+                                    <label
+                                        style="margin-left:auto; cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                        Anexar<input type="file" style="display:none;"></label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:1rem;">
+                    <label class="form-label">Justificativa da Locação <span
+                            style="color:var(--danger);">*</span></label>
+                    <textarea class="form-control" name="justificativa_locacao" rows="3"
+                        placeholder="Justifique a necessidade da locação deste imóvel..." required></textarea>
+                </div>
+            </div>
+
+            <!-- Condicional: Transporte de Pessoas -->
+            <div id="cond-transporte" class="hidden risk-panel"
+                style="background-color: var(--status-analise); border-color: var(--warning); margin-bottom: 1.5rem;">
+                <h4 style="color: var(--text-warning); margin-bottom: 1rem;"><i data-lucide="bus"></i> Transporte de Pessoas (Art.
+                    11)</h4>
+
+                <!-- Info Box Transporte -->
+                <div
+                    style="background: var(--status-analise); border:1px solid var(--warning); border-radius:8px; padding:1rem; margin-bottom:1.25rem;">
+                    <div
+                        style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem; color: var(--text-warning); font-weight:600; font-size:0.9rem;">
+                        <i data-lucide="info" style="width:16px; height:16px;"></i>
+                        Documentos Necessários – Contratação de Transporte de Pessoas (Art. 11)
+                    </div>
+                    <ol style="margin:0; padding-left:1.2rem; color: var(--text-main); font-size:0.83rem; line-height:1.9;">
+                        <li>Proposta comercial com valores, trajeto, vigência e condições de pagamento</li>
+                        <li>Alvará ou licença de funcionamento (município sede da empresa)</li>
+                        <li>Contrato social da empresa de transporte</li>
+                        <li>Apólice de seguro com cobertura de responsabilidade civil contra terceiros</li>
+                        <li>Documentação do veículo</li>
+                        <li>CNH dos condutores</li>
+                        <li>Comprovação de vínculo entre condutores e a empresa prestadora</li>
+                    </ol>
+                </div>
+
+                <!-- Documentos Obrigatórios – Transporte -->
+                <div style="margin-top:1rem;">
+                    <div style="display:flex; border-bottom:2px solid var(--border-light); margin-bottom:1rem;">
+                        <button type="button" class="tab-btn-active"
+                            style="padding:0.5rem 1.1rem; border:none; background:none; font-weight:600; color:var(--text-warning); border-bottom:2px solid var(--warning); margin-bottom:-2px; cursor:pointer; font-size:0.88rem;">
+                            Documentos Obrigatórios</button>
+                    </div>
+                    <div id="tab-tr-obrig">
+                        <div style="background:var(--bg-ficha); border-radius:8px; padding:0.85rem;">
+                            <p style="font-size:0.82rem; font-weight:600; margin-bottom:0.6rem; color:var(--text-primary);">Anexe todos os
+                                documentos obrigatórios (Art. 11):</p>
+                            <ul
+                                style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.4rem;">
+                                <li
+                                    style="padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #fbbf24; border-radius:6px;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color:#854d0e; flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem; flex:1;">I – Proposta comercial com valores,
+                                            trajeto, vigência e condições de pagamento</span>
+                                        <label
+                                            style="cursor:pointer; color:#854d0e; font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"
+                                                onchange="previewDoc(this)"></label>
+                                    </div>
+                                </li>
+                                <li
+                                    style="padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #fbbf24; border-radius:6px;">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color:#854d0e; flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem; flex:1;">II – Alvará ou licença de
+                                            funcionamento</span>
+                                        <label
+                                            style="cursor:pointer; color:#854d0e; font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"
+                                                onchange="previewDoc(this)"></label>
+                                    </div>
+                                </li>
+                                <li
+                                    style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #fbbf24; border-radius:6px;">
+                                    <i data-lucide="file-text"
+                                        style="width:15px; height:15px; color:#854d0e; flex-shrink:0;"></i>
+                                    <span style="font-size:0.83rem;">Apólice de seguro – responsabilidade civil contra
+                                        terceiros</span>
+                                    <label
+                                        style="margin-left:auto; cursor:pointer; color:#854d0e; font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                        Anexar<input type="file" style="display:none;"></label>
+                                </li>
+                                <li
+                                    style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #fbbf24; border-radius:6px;">
+                                    <i data-lucide="file-text"
+                                        style="width:15px; height:15px; color:#854d0e; flex-shrink:0;"></i>
+                                    <span style="font-size:0.83rem;">Documentação do veículo</span>
+                                    <label
+                                        style="margin-left:auto; cursor:pointer; color:#854d0e; font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                        Anexar<input type="file" style="display:none;"></label>
+                                </li>
+                                <li
+                                    style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #fbbf24; border-radius:6px;">
+                                    <i data-lucide="file-text"
+                                        style="width:15px; height:15px; color:#854d0e; flex-shrink:0;"></i>
+                                    <span style="font-size:0.83rem;">CNH dos condutores</span>
+                                    <label
+                                        style="margin-left:auto; cursor:pointer; color:#854d0e; font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                        Anexar<input type="file" style="display:none;"></label>
+                                </li>
+                                <li
+                                    style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #fbbf24; border-radius:6px;">
+                                    <i data-lucide="file-text"
+                                        style="width:15px; height:15px; color:#854d0e; flex-shrink:0;"></i>
+                                    <span style="font-size:0.83rem;">Comprovação de vínculo condutor x empresa</span>
+                                    <label
+                                        style="margin-left:auto; cursor:pointer; color:#854d0e; font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                        Anexar<input type="file" style="display:none;"></label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:1rem;">
+                    <label class="form-label">Justificativa do Transporte <span
+                            style="color:var(--danger);">*</span></label>
+                    <textarea class="form-control" name="justificativa_transporte" rows="3"
+                        placeholder="Justifique a necessidade da contratação do transporte..." required></textarea>
+                </div>
+            </div>
+
+            <!-- Condicional: Subcontratado -->
+            <div id="cond-subcontratado" class="hidden risk-panel"
+                style="background-color: var(--danger-light); border-color: var(--danger); margin-bottom:1.5rem;">
+                <h4 style="color: var(--text-danger); margin-bottom:1rem;"><i data-lucide="alert-triangle"></i> Subcontratação
+                    (Back-to-Back Obrigatório)</h4>
+
+                <div
+                    style="background: var(--danger-light); border:1px solid var(--danger); border-radius:8px; padding:1rem; margin-bottom:1.25rem;">
+                    <div
+                        style="display:flex; align-items:center; gap:0.5rem; color: var(--text-danger); font-weight:600; font-size:0.9rem; margin-bottom:0.4rem;">
+                        <i data-lucide="shield-alert" style="width:16px; height:16px;"></i>
+                        Atenção: Obrigatório Back-to-Back
+                    </div>
+                    <p style="font-size:0.83rem; color: var(--text-danger); margin:0;">Toda subcontratação é um evento de risco. As
+                        obrigações assumidas com o cliente devem refletir integralmente no subcontratado.</p>
+                </div>
+
+                <div
+                    style="background: var(--bg-ficha); border:1px solid #e2e8f0; border-radius:8px; padding:1rem; margin-bottom:1.25rem;">
+                    <label class="form-label" style="margin-bottom:0.5rem;">Esta subcontratação atua dentro de um cliente
+                        GPS?</label>
+                    <div style="display:flex; gap:1.5rem; margin-bottom:0.5rem;">
+                        <label class="form-check">
+                            <input type="radio" name="sub_dentro_cliente" value="sim" class="form-check-input"
+                                onchange="toggleClienteSub()">
+                            <span style="font-weight:500;">Sim</span>
+                        </label>
+                        <label class="form-check">
+                            <input type="radio" name="sub_dentro_cliente" value="nao" class="form-check-input"
+                                onchange="toggleClienteSub()" checked>
+                            <span style="font-weight:500;">Não</span>
+                        </label>
+                    </div>
+
+                    <div id="bloco-cliente-sub" style="display:none; margin-top:0.75rem;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Posto / Local do Cliente <span
+                                        style="color:var(--danger);">*</span></label>
+                                <input type="text" class="form-control" name="posto_cliente" placeholder="Nome do posto ou local de operação">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Contrato do Cliente Relacionado <span
+                                        style="color:var(--danger);">*</span></label>
+                                <input type="text" class="form-control" name="contrato_cliente" placeholder="Número ou identificação do contrato">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Dados da Subcontratada</label>
+                        <input type="text" class="form-control" name="dados_subcontratada" placeholder="Razão Social e CNPJ">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Valor Estimado (R$)</label>
+                        <input type="number" class="form-control" name="valor_estimado_sub" placeholder="0,00">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">  Data de Início da Vigência</label>
+                        <input type="date" class="form-control" name="data_inicio_sub">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">  Data de Término da Vigência</label>
+                        <input type="date" class="form-control" name="data_fim_sub">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Prazo e Forma de Pagamento</label>
+                        <input type="text" class="form-control" name="condicao_pagamento_sub" placeholder="Ex: 30 dias via boleto">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Dados Bancários</label>
+                        <input type="text" class="form-control" name="dados_bancarios_sub" placeholder="Banco, Ag, Conta">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1rem;">
+                    <label class="form-check">
+                        <input type="checkbox" class="form-check-input" name="suprimentos_envolvida_sub" value="Sim" required>
+                        <span style="font-weight:500; color:var(--danger);">Área de Suprimentos foi envolvida nesta
+                            negociação? (Obrigatório - Art. 8)</span>
+                    </label>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1.25rem;">
+                    <label class="form-label">Origem da Minuta Contratual</label>
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                        <label class="form-check">
+                            <input type="radio" name="minuta_sub" value="sub" class="form-check-input">
+                            <span>Minuta Disponibilizada pelo Subcontratado</span>
+                        </label>
+                        <label class="form-check">
+                            <input type="radio" name="minuta_sub" value="gps" class="form-check-input" checked>
+                            <span>Minuta Padrão GPS (Nós redigimos)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Proposta Comercial com Evidência de Aprovação</label>
+                        <div class="file-upload-zone" style="padding:1rem;">
+                            <i data-lucide="upload-cloud"
+                                style="width:24px; height:24px; color:var(--primary); margin-bottom:0.3rem;"></i>
+                            <p style="font-size:0.85rem;">Clique ou arraste o PDF</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PEC Ativo</label>
+                        <div class="file-upload-zone" style="padding:1rem;">
+                            <i data-lucide="upload-cloud"
+                                style="width:24px; height:24px; color:var(--primary); margin-bottom:0.3rem;"></i>
+                            <p style="font-size:0.85rem;">Anexe o PEC Ativo vigente</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:1.25rem;">
+                    <label class="form-label">Justificativa Técnica &amp; Escopo <span
+                            style="color:var(--danger);">*</span></label>
+                    <textarea class="form-control" name="justificativa_sub" rows="4"
+                        placeholder="Descreva os motivos técnicos para a subcontratação e o escopo detalhado..."
+                        required></textarea>
+                </div>
+
+                <div class="risk-panel">
+                    <div class="risk-title"><i data-lucide="shield-alert"></i> Painel de Análise Jurídica – Classificação de
+                        Risco</div>
+                    <p style="font-size:0.85rem; margin-bottom:1rem;">Com base no escopo, o Jurídico classifica o risco:</p>
+
+                    <div class="form-group">
+                        <label class="form-label">Classificação de Risco (Item 5.2)</label>
+                        <select name="nivel_risco" class="form-control" id="nivelRiscoSub" onchange="verificarBloqueioRiscoSub()"
+                            style="background-color:var(--bg-input); color:var(--text-primary);">
+                            <option value="baixo">Baixo</option>
+                            <option value="medio">Médio</option>
+                            <option value="alto">Alto</option>
+                            <option value="critico">Crítico</option>
+                        </select>
+                    </div>
+
+                    <div id="bloqueio-risco-sub" class="hidden"
+                        style="margin-top:1rem; padding:1rem; background-color:var(--bg-card); border-radius:var(--radius-sm); border-left:4px solid var(--danger);">
+                        <p style="color:var(--danger); font-weight:600; margin-bottom:0.5rem;">🚨 Aprovação Expressa da
+                            Diretoria Exigida (Item 5.4)</p>
+                        <p style="font-size:0.9rem; margin-bottom:1rem;">A assinatura está bloqueada. Em caso de risco
+                            iminente, ative a exceção:</p>
+                        <label class="form-check">
+                            <input type="checkbox" id="checkExcecaoSub" name="solicitar_excecao_sub" value="Sim" class="form-check-input"
+                                onchange="toggleExcecaoSub()">
+                            <span class="form-check-label">Solicitar Exceção/Execução Antecipada (Item 6)</span>
+                        </label>
+                        <div id="justificativa-excecao-sub" class="hidden" style="margin-top:1rem;">
+                            <textarea class="form-control" name="justificativa_excecao_sub" rows="2"
+                                placeholder="Descreva a emergência (risco à integridade, paralisação contratual)... O prazo de regularização será de 5 dias úteis."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- NORMA 02: CONTRATOS COM CLIENTES -->
+        <!-- ========================================== -->
+        <div id="section-cat3" class="hidden">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Norma 02: Contratos com Clientes</h3>
+            <div
+                style="background-color: var(--bg-ficha); padding: 1rem; border-left: 4px solid var(--primary); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                <strong>Atenção:</strong> O Jurídico possui 03 dias úteis para análise. O chamado só será iniciado com o
+                PEC ativo e Evidência de Fechamento.
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Dados do Cliente</label>
+                    <input type="text" class="form-control" name="dados_cliente" placeholder="Razão Social e CNPJ">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Centro de Resultado / Cliente</label>
+                    <div class="cr-autocomplete" id="cr-wrap-norma02">
+                        <div class="cr-input-wrap">
+                            <i data-lucide="search" class="cr-search-icon"></i>
+                            <input type="text" class="cr-input" id="crClienteNorma02"
+                                placeholder="Digite o número ou nome do CR..." autocomplete="off"
+                                oninput="filtrarCR('norma02')" onkeydown="navCR(event,'norma02')"
+                                onfocus="abrirCR('norma02')">
+                            <span class="cr-clear" id="cr-clear-norma02" onclick="limparCR('norma02')"
+                                title="Limpar"> </span>
+                        </div>
+                        <input type="hidden" id="crClienteNorma02-value">
+                        <div class="cr-dropdown" id="cr-dropdown-norma02"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">  Data de Início da Vigência</label>
+                    <input type="date" class="form-control" name="data_inicio_n02">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">  Data de Término da Vigência</label>
+                    <input type="date" class="form-control" name="data_fim_n02">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-label">Origem da Minuta Contratual (Item 5)</label>
+                <div style="display: flex; gap: 1rem;">
+                    <label class="form-check">
+                        <input type="radio" name="minuta_propria" value="sim" class="form-check-input">
+                        <span>Minuta Disponibilizada pelo Cliente (Anexar editável)</span>
+                    </label>
+                    <label class="form-check">
+                        <input type="radio" name="minuta_propria" value="nao" class="form-check-input" checked>
+                        <span>Minuta Padrão GPS (Nós redigimos)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group"
+                style="margin-bottom: 1.5rem; background-color: var(--bg-ficha); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                <label class="form-check">
+                    <input type="checkbox" id="checkMultirregional" name="multirregional" value="Sim" class="form-check-input"
+                        onchange="toggleMultirregional()">
+                    <span style="font-weight: 600; color: var(--primary);">Contratação Multirregional (Item
+                        3)</span>
+                </label>
+                <p style="font-size: 0.85rem; margin-left: 1.6rem; color: var(--text-muted);">Marque se o escopo envolver
+                    prestação de serviços em duas ou mais regionais do Grupo GPS.</p>
+            </div>
+
+            <div id="bloco-regional" class="form-group hidden"
+                style="padding: 1.5rem; background-color: var(--bg-main); border: 1px dashed var(--primary); border-radius: var(--radius-md);">
+                <label class="form-label">Regional Líder (Item 3.2 - Maior Receita)</label>
+                <select class="form-control" name="regional_lider" style="margin-bottom: 1rem;">
+                    <option>Selecione a Regional responsável por consolidar...</option>
+                    <option>São Paulo</option>
+                    <option>Rio de Janeiro</option>
+                    <option>Minas Gerais</option>
+                    <option>Sul</option>
+                    <option>Nordeste</option>
+                </select>
+                <p style="font-size: 0.85rem; color: var(--danger);">*As demais regionais envolvidas deverão se
+                    manifestar formalmente neste chamado, apontando riscos locais antes da assinatura.</p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Uploads Obrigatórios (Item 4.2)</label>
+                <div class="file-upload-zone">
+                    <i data-lucide="upload-cloud"
+                        style="width: 32px; height: 32px; color: var(--primary); margin-bottom: 0.5rem;"></i>
+                    <p>Anexe: Aceite formal do cliente (Evidência), Proposta Comercial, Proposta Técnica e PEC ativo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- NORMA 01: NOTIFICAÇÕES EXTRAJUDICIAIS -->
+        <!-- ========================================== -->
+        <div id="section-cat4" class="hidden">
+            <h3 style="margin-bottom: 1.5rem; color: var(--warning);">Norma 01: Notificações Extrajudiciais</h3>
+            <div
+                style="background-color: var(--bg-ficha); padding: 1rem; border-left: 4px solid var(--warning); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                <strong>SLA de Retorno:</strong> Mínimo de 3 dias úteis para análise jurídica (Art. 13). Casos de
+                urgência devem ser justificados abaixo.
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label class="form-label">Qual o objetivo do acionamento?</label>
+                <div style="display: flex; gap: 1.5rem;">
+                    <label class="form-check">
+                        <input type="radio" name="tipo_notificacao" value="recebimento" class="form-check-input"
+                            onchange="toggleNotificacao()" checked>
+                        <span style="font-weight: 500;">Capítulo II: Recebemos uma Notificação (Defesa)</span>
+                    </label>
+                    <label class="form-check">
+                        <input type="radio" name="tipo_notificacao" value="emissao" class="form-check-input"
+                            onchange="toggleNotificacao()">
+                        <span style="font-weight: 500;">Capítulo IV: Emitir Cobrança / Notificar (Ataque)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Recebimento (Defesa) -->
+            <div id="bloco-recebimento">
+                <div class="risk-panel" style="background-color: var(--danger-light); border-color: var(--danger);">
+                    <h4 style="margin-bottom: 1rem; color: #be123c;"><i data-lucide="shield"></i> Informações para
+                        Defesa (Art. 5)</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Há prazo indicado na notificação?</label>
+                            <input type="date" class="form-control" name="prazo_notificacao_defesa">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Histórico e Justificativa (Obrigatório)</label>
+                        <textarea class="form-control" name="justificativa_defesa" rows="3"
+                            placeholder="Descreva os fatos relacionados à notificação e as justificativas técnicas/operacionais..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Evidências e Documentos</label>
+                        <div class="file-upload-zone">
+                            <i data-lucide="upload-cloud"
+                                style="width: 32px; height: 32px; color: var(--primary); margin-bottom: 0.5rem;"></i>
+                            <p>Anexe a Cópia Integral da Notificação, Contrato firmado e Evidências Documentais
+                                (relatórios, medições, e-mails, fotos)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emissão (Cobrança) -->
+            <div id="bloco-emissao" class="hidden">
+                <div class="risk-panel" style="background-color: var(--status-concluido); border-color: var(--success);">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-success);"><i data-lucide="file-text"></i> Informações para
+                        Cobrança (Art. 9 e 10)</h4>
+
+                    <!-- Info Box Cobrança -->
+                    <div
+                        style="background: var(--status-concluido); border:1px solid var(--success); border-radius:8px; padding:1rem; margin-bottom:1.25rem;">
+                        <div
+                            style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem; color: var(--text-success); font-weight:600; font-size:0.9rem;">
+                            <i data-lucide="info" style="width:16px; height:16px;"></i>
+                            Documentos Necessários – Notificação Extrajudicial de Cobrança
+                        </div>
+                        <ol style="margin:0; padding-left:1.2rem; color: var(--text-success); font-size:0.83rem; line-height:1.9;">
+                            <li>Identificação do cliente</li>
+                            <li>Identificação do contrato relacionado</li>
+                            <li>Notas fiscais em aberto</li>
+                            <li>Datas de vencimento</li>
+                            <li>Valores atualizados da dívida</li>
+                            <li>Cálculo de encargos contratuais aplicáveis</li>
+                            <li>Histórico de tratativas de cobrança administrativa</li>
+                        </ol>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Identificação do Cliente e Contrato</label>
+                            <input type="text" class="form-control" name="id_cliente_contrato" placeholder="CNPJ e Número do Contrato">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Notas Fiscais em Aberto e Vencimentos</label>
+                            <input type="text" class="form-control" name="notas_fiscais_vencimentos" placeholder="Nº das Notas e Datas">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Valor Atualizado da Dívida</label>
+                            <input type="number" class="form-control" name="valor_divida" placeholder="R$ 0,00">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Cálculo de Encargos e Histórico de Cobrança Administrativa</label>
+                        <textarea class="form-control" name="historico_cobranca" rows="3"
+                            placeholder="Descreva as tratativas anteriores, impactos na continuidade do contrato..."></textarea>
+                    </div>
+
+                    <!-- Documentos Obrigatórios – Cobrança -->
+                    <div style="margin-top:1rem;">
+                        <div style="display:flex; border-bottom:2px solid #d1d5db; margin-bottom:1rem;">
+                            <button type="button" class="tab-btn-active"
+                                style="padding:0.5rem 1.1rem; border:none; background:none; font-weight:600; color: var(--text-success); border-bottom:2px solid #166534; margin-bottom:-2px; cursor:pointer; font-size:0.88rem;">
+                                Documentos Obrigatórios</button>
+                        </div>
+                        <div id="tab-cob-obrig">
+                            <div style="background:#f0fdf4; border-radius:8px; padding:0.85rem;">
+                                <p style="font-size:0.82rem; font-weight:600; margin-bottom:0.6rem;">Anexe os documentos
+                                    obrigatórios individualmente:</p>
+                                <ul
+                                    style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.4rem;">
+                                    <li
+                                        style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #4ade80; border-radius:6px;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem;">Notas fiscais em aberto</span>
+                                        <label
+                                            style="margin-left:auto; cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"></label>
+                                    </li>
+                                    <li
+                                        style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #4ade80; border-radius:6px;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem;">Cálculo de encargos contratuais
+                                            aplicáveis</span>
+                                        <label
+                                            style="margin-left:auto; cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"></label>
+                                    </li>
+                                    <li
+                                        style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #4ade80; border-radius:6px;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem;">Histórico de tratativas de cobrança
+                                            administrativa</span>
+                                        <label
+                                            style="margin-left:auto; cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"></label>
+                                    </li>
+                                    <li
+                                        style="display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.75rem; background: var(--bg-card); border:1px dashed #4ade80; border-radius:6px;">
+                                        <i data-lucide="file-text"
+                                            style="width:15px; height:15px; color: var(--text-success); flex-shrink:0;"></i>
+                                        <span style="font-size:0.83rem;">Identificação do contrato relacionado</span>
+                                        <label
+                                            style="margin-left:auto; cursor:pointer; color: var(--text-success); font-size:0.78rem; font-weight:600; white-space:nowrap;">
+                                            Anexar<input type="file" style="display:none;"></label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- COMPONENTE VISUAL DE ASSINATURAS -->
+        <!-- ========================================== -->
+        <div id="painel-assinaturas" class="hidden" style="margin-top: 3rem;">
+            <h4 style="margin-bottom: 1rem;">Fluxo de Assinaturas (D4Sign)</h4>
+            <div class="approval-flow" id="fluxo-dinamico">
+                <!-- Preenchido via JS -->
+            </div>
+        </div>
+
+        <div class="form-group"
+            style="display:flex; align-items:center; justify-content:flex-end; gap:1rem; margin-top: 3rem; padding-top:1.5rem; border-top:1px solid #e5e7eb;">
+            <button type="button" class="btn btn-outline" onclick="window.location.href='/'">
+                <i data-lucide="x" style="width:15px;height:15px;"></i> Cancelar
+            </button>
+            <button type="submit" id="btn-registrar" style="
+                display: inline-flex;
+                align-items: center;
+                gap: 0.6rem;
+                padding: 0.75rem 2rem;
+                background: linear-gradient(135deg, #003366 0%, #0057b8 50%, #0073e6 100%);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                font-size: 0.95rem;
+                font-weight: 700;
+                cursor: pointer;
+                letter-spacing: 0.02em;
+                box-shadow: 0 4px 15px rgba(0, 87, 184, 0.4), 0 1px 3px rgba(0,0,0,0.1);
+                transition: all 0.25s ease;
+                position: relative;
+                overflow: hidden;
+            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,87,184,0.5), 0 2px 6px rgba(0,0,0,0.15)';"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,87,184,0.4), 0 1px 3px rgba(0,0,0,0.1)';"
+                onmousedown="this.style.transform='translateY(0) scale(0.98)';"
+                onmouseup="this.style.transform='translateY(-2px) scale(1)';">
+                <i data-lucide="send" style="width:17px;height:17px;"></i>
+                Registrar Chamado
+            </button>
+        </div>
+    </form>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ASSISTENTE VIRTUAL LEXIA (NOTION AI STYLE) -->
+    <!-- ========================================== -->
+
+    <!-- Botão Flutuante -->
+    <button id="btn-lexia" onclick="toggleLexIA()" style="
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+        border: none;
+        color: white;
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    " onmouseover="this.style.transform='scale(1.1) rotate(5deg)'"
+        onmouseout="this.style.transform='scale(1) rotate(0)'">
+        <i data-lucide="sparkles" style="width: 24px; height: 24px;"></i>
+    </button>
+
+    <!-- Painel da LexIA -->
+    <div id="painel-lexia" style="
+        display: none;
+        position: fixed;
+        bottom: 5rem;
+        right: 2rem;
+        width: 380px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        z-index: 9998;
+        overflow: hidden;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s, transform 0.3s, background-color 0.35s ease, border-color 0.35s ease;
+        pointer-events: none;
+    ">
+        <!-- Header -->
+        <div
+            style="background: var(--bg-ficha); padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
+            <div style="color: var(--primary);">
+                <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div style="flex: 1;">
+                <h4 style="margin: 0; font-size: 1rem; color: var(--text-primary); font-weight: 700;">LexIA</h4>
+                <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">Sua assistente jurídica inteligente
+                </p>
+            </div>
+            <button onclick="toggleHistoricoLexIA()" title="Historico de conversas"
+                style="background: none; border: none; cursor: pointer; color: var(--text-muted); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="history" style="width: 18px; height: 18px;"></i>
+            </button>
+            <button onclick="toggleLexIA()"
+                style="background: none; border: none; cursor: pointer; color: var(--text-muted);">
+                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+            </button>
+        </div>
+
+        <!-- Historico da LexIA -->
+        <div id="lexia-history-panel" style="display: none; border-bottom: 1px solid var(--border-color); background: var(--bg-card);">
+            <div id="lexia-history-list" style="max-height: 190px; overflow-y: auto; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.35rem;">
+                <div class="lexia-history-empty">Nenhuma conversa salva ainda.</div>
+            </div>
+        </div>
+
+        <!-- Body / Chat Area -->
+        <div id="lexia-chat-area"
+            style="padding: 1.25rem; max-height: 400px; overflow-y: auto; flex: 1; font-size: 0.85rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 1rem;">
+            <div
+                style="background: var(--bg-ficha); border: 1px solid var(--border-color); padding: 0.75rem; border-radius: 8px 8px 8px 0;">
+                Olá, <strong>Admin D.</strong>! Selecione um chamado e me diga o que você
+                precisa saber sobre ele.
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div style="padding: 1rem; border-top: 1px solid var(--border-color); background: var(--bg-card);">
+            <div style="margin-bottom: 0.75rem;">
+                <select id="lexia-chamado-select" onchange="trocarChamadoLexIA()"
+                    style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background: var(--bg-input); color: var(--text-primary);">
+                    <option value="">Selecione um contrato/chamado...</option>
+                </select>
+            </div>
+            <div style="position: relative;">
+                <input type="text" id="lexia-prompt" placeholder="Ex: Quem falta dar Ok?"
+                    style="width: 100%; padding: 0.6rem 2.5rem 0.6rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background: var(--bg-input); color: var(--text-primary); transition: border-color 0.2s;"
+                    onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor=''"
+                    onkeypress="if(event.key === 'Enter') enviarPerguntaLexIA()">
+                <button onclick="enviarPerguntaLexIA()"
+                    style="position: absolute; right: 0.25rem; top: 0.25rem; background: var(--primary); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <i data-lucide="arrow-up" style="width: 16px; height: 16px;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Efeito de giro para o ícone de loading -->
+    <style>
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .lucide-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        .lexia-message h4 {
+            margin: 0.35rem 0 0.45rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            line-height: 1.25;
+        }
+
+        .lexia-message p {
+            margin: 0.35rem 0;
+            line-height: 1.55;
+        }
+
+        .lexia-message ul {
+            margin: 0.35rem 0 0.55rem 1rem;
+            padding: 0;
+        }
+
+        .lexia-message li {
+            margin: 0.3rem 0;
+            line-height: 1.45;
+        }
+
+        .lexia-message strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .lexia-history-item {
+            display: flex;
+            align-items: stretch;
+            gap: 0.35rem;
+            max-height: 58px;
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            overflow: hidden;
+            transition: opacity 0.22s ease, transform 0.22s ease, max-height 0.28s ease, margin 0.28s ease;
+        }
+
+        .lexia-history-item.is-deleting {
+            opacity: 0.55;
+            transform: translateX(8px) scale(0.985);
+        }
+
+        .lexia-history-item.is-removed {
+            opacity: 0;
+            max-height: 0;
+            margin: 0;
+            transform: translateX(18px) scale(0.96);
+        }
+
+        .lexia-history-main {
+            flex: 1;
+            min-width: 0;
+            border: 1px solid var(--border-color);
+            background: var(--bg-ficha);
+            border-radius: 7px;
+            padding: 0.5rem 0.65rem;
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .lexia-history-main:hover {
+            background: var(--btn-hover-bg);
+        }
+
+        .lexia-history-question {
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lexia-history-meta {
+            margin-top: 0.15rem;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lexia-history-delete {
+            border: 1px solid var(--danger-light);
+            background: var(--bg-card);
+            color: var(--danger);
+            border-radius: 7px;
+            width: 34px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .lexia-history-delete:hover {
+            background: var(--danger-light);
+            transform: translateY(-1px);
+        }
+
+        .lexia-history-delete.is-busy {
+            background: var(--danger-light);
+            border-color: var(--danger);
+            pointer-events: none;
+        }
+
+        .lexia-history-delete.is-busy svg {
+            animation: spin 0.85s linear infinite;
+        }
+
+        .lexia-history-empty {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            padding: 0.5rem;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        // Inicializa os ícones do Lucide do sistema principal
+        lucide.createIcons();
+
+        /* ─── GLOBAL DARK MODE ───────────────────────────────── */
+        // Persiste a preferência ao carregar a página
+        (function () {
+            const isDark = localStorage.getItem('feedDark') === '1' || localStorage.getItem('globalDark') === '1';
+            if (isDark) {
+                document.body.classList.add('dark');
+                localStorage.setItem('globalDark', '1');
+            }
+            // Aguarda o Lucide estar pronto para trocar o ícone
+            const icon = document.getElementById('globalDarkIcon');
+            if (icon && isDark) {
+                icon.setAttribute('data-lucide', 'sun');
+                lucide.createIcons({ nodes: [icon] });
+            }
+        })();
+
+        function toggleGlobalDarkMode() {
+            const isDark = document.body.classList.toggle('dark');
+            localStorage.setItem('globalDark', isDark ? '1' : '0');
+            localStorage.setItem('feedDark', isDark ? '1' : '0');
+
+            // Re-busca o elemento após qualquer possível re-render do Lucide
+            const icon = document.getElementById('globalDarkIcon');
+            if (icon) {
+                icon.style.opacity = '0';
+                setTimeout(() => {
+                    icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                    lucide.createIcons({ nodes: [icon] });
+                    const freshIcon = document.getElementById('globalDarkIcon');
+                    if (freshIcon) freshIcon.style.opacity = '1';
+                }, 180);
+            }
+        }
+
+        // Lógica da LexIA
+        let lexiaOpen = false;
+        let historicoAbertoLexIA = false;
+        let historicoLexIA = [];
+
+        function toggleLexIA() {
+            const painel = document.getElementById('painel-lexia');
+            lexiaOpen = !lexiaOpen;
+
+            if (lexiaOpen) {
+                painel.style.display = 'flex';
+                setTimeout(() => {
+                    painel.style.opacity = '1';
+                    painel.style.transform = 'translateY(0)';
+                    painel.style.pointerEvents = 'auto';
+                }, 10);
+                carregarChamadosLexIA();
+                carregarHistoricoLexIA();
+            } else {
+                painel.style.opacity = '0';
+                painel.style.transform = 'translateY(20px)';
+                painel.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    painel.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        function carregarChamadosLexIA() {
+            const select = document.getElementById('lexia-chamado-select');
+            fetch('/api/lexia/chamados/')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        select.innerHTML = '<option value="">Selecione um contrato/chamado...</option>';
+                        data.chamados.forEach(c => {
+                            select.innerHTML += `<option value="${c.id}">#${c.id} - ${c.titulo}</option>`;
+                        });
+                    }
+                });
+        }
+
+        function mensagemInicialLexIA() {
+            return `
+                <div style="background: var(--bg-ficha); border: 1px solid var(--border-color); padding: 0.75rem; border-radius: 8px 8px 8px 0;">
+                    Ola, <strong>Admin D.</strong>! Selecione um chamado e me diga o que voce precisa saber sobre ele.
+                </div>
+            `;
+        }
+
+        function limparChatLexIA() {
+            const chatArea = document.getElementById('lexia-chat-area');
+            const select = document.getElementById('lexia-chamado-select');
+            chatArea.innerHTML = select && select.value ? '' : mensagemInicialLexIA();
+        }
+
+        function trocarChamadoLexIA() {
+            limparChatLexIA();
+            const painelHistorico = document.getElementById('lexia-history-panel');
+            painelHistorico.style.display = 'none';
+            historicoAbertoLexIA = false;
+        }
+
+        function toggleHistoricoLexIA() {
+            const painelHistorico = document.getElementById('lexia-history-panel');
+            historicoAbertoLexIA = !historicoAbertoLexIA;
+            painelHistorico.style.display = historicoAbertoLexIA ? 'block' : 'none';
+
+            if (historicoAbertoLexIA) {
+                carregarHistoricoLexIA();
+            }
+        }
+
+        function carregarHistoricoLexIA(chamadoId = '') {
+            const lista = document.getElementById('lexia-history-list');
+            if (!lista) return;
+
+            lista.innerHTML = '<div class="lexia-history-empty">Carregando historico...</div>';
+            const url = chamadoId ? `/api/lexia/historico/?chamado_id=${encodeURIComponent(chamadoId)}` : '/api/lexia/historico/';
+
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        renderizarHistoricoLexIA(data.historico || []);
+                    } else {
+                        lista.innerHTML = '<div class="lexia-history-empty">Nao foi possivel carregar o historico.</div>';
+                    }
+                })
+                .catch(() => {
+                    lista.innerHTML = '<div class="lexia-history-empty">Nao foi possivel carregar o historico.</div>';
+                });
+        }
+
+        function renderizarHistoricoLexIA(itens) {
+            const lista = document.getElementById('lexia-history-list');
+            historicoLexIA = itens || [];
+
+            if (!historicoLexIA.length) {
+                lista.innerHTML = '<div class="lexia-history-empty">Nenhuma conversa salva ainda.</div>';
+                return;
+            }
+
+            lista.innerHTML = historicoLexIA.map(item => {
+                const titulo = `#${item.chamado_id} - ${item.chamado_titulo}`;
+                const tituloCurto = titulo.length > 78 ? `${titulo.slice(0, 78)}...` : titulo;
+                const totalMensagens = (item.mensagens || []).length;
+                return `
+                    <div class="lexia-history-item" id="lexia-history-${item.id}">
+                        <button class="lexia-history-main" onclick="abrirHistoricoLexIA(${item.id})" title="Abrir conversa salva">
+                            <div class="lexia-history-question">${escapeHtmlLexIA(tituloCurto)}</div>
+                            <div class="lexia-history-meta">${totalMensagens} mensagens - ${escapeHtmlLexIA(item.data)}</div>
+                        </button>
+                        <button class="lexia-history-delete" onclick="excluirHistoricoLexIA(event, ${item.id})" title="Apagar conversa">
+                            <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function abrirHistoricoLexIA(historicoId) {
+            const item = historicoLexIA.find(h => h.id === historicoId);
+            if (!item) return;
+
+            const chatArea = document.getElementById('lexia-chat-area');
+            chatArea.innerHTML = '';
+            const mensagens = item.mensagens && item.mensagens.length
+                ? item.mensagens
+                : [
+                    { role: 'user', content: item.pergunta },
+                    { role: 'assistant', content: item.resposta }
+                ];
+
+            mensagens.forEach(mensagem => {
+                adicionarMensagemLexIA(mensagem.content, mensagem.role === 'user');
+            });
+
+            const select = document.getElementById('lexia-chamado-select');
+            if (select) select.value = item.chamado_id;
+
+            const painelHistorico = document.getElementById('lexia-history-panel');
+            painelHistorico.style.display = 'none';
+            historicoAbertoLexIA = false;
+        }
+
+        function alertaLexIA(opcoes) {
+            if (window.Swal) {
+                return Swal.fire({
+                    confirmButtonColor: 'var(--primary)',
+                    cancelButtonColor: 'var(--secondary)',
+                    background: getComputedStyle(document.body).getPropertyValue('--bg-card').trim() || '#ffffff',
+                    color: getComputedStyle(document.body).getPropertyValue('--text-primary').trim() || '#111827',
+                    ...opcoes
+                });
+            }
+
+            return new Promise(resolve => {
+                const bgCard = getComputedStyle(document.body).getPropertyValue('--bg-card').trim() || '#ffffff';
+                const textPrimary = getComputedStyle(document.body).getPropertyValue('--text-primary').trim() || '#111827';
+                const textMuted = getComputedStyle(document.body).getPropertyValue('--text-muted').trim() || '#64748b';
+                const primary = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#003366';
+                const overlay = document.createElement('div');
+                overlay.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:10000;display:flex;align-items:center;justify-content:center;padding:1rem;';
+                overlay.innerHTML = `
+                    <div style="width:min(420px, 100%);background:${bgCard};color:${textPrimary};border-radius:14px;box-shadow:0 24px 70px rgba(15,23,42,.25);padding:1.25rem;">
+                        <h3 style="margin:0 0 .45rem;font-size:1.05rem;">${escapeHtmlLexIA(opcoes.title || '')}</h3>
+                        <p style="margin:0;color:${textMuted};font-size:.9rem;line-height:1.45;">${escapeHtmlLexIA(opcoes.text || '')}</p>
+                        <div style="display:flex;justify-content:flex-end;gap:.6rem;margin-top:1.2rem;">
+                            <button data-lexia-confirm style="border:0;background:${primary};color:#fff;border-radius:8px;padding:.55rem .95rem;cursor:pointer;">${escapeHtmlLexIA(opcoes.confirmButtonText || 'OK')}</button>
+                            ${opcoes.showCancelButton ? '<button data-lexia-cancel style="border:1px solid #cbd5e1;background:transparent;color:inherit;border-radius:8px;padding:.55rem .85rem;cursor:pointer;">Cancelar</button>' : ''}
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+                overlay.querySelector('[data-lexia-confirm]').onclick = () => {
+                    overlay.remove();
+                    resolve({ isConfirmed: true });
+                };
+                const cancelar = overlay.querySelector('[data-lexia-cancel]');
+                if (cancelar) {
+                    cancelar.onclick = () => {
+                        overlay.remove();
+                        resolve({ isConfirmed: false });
+                    };
+                }
+            });
+        }
+
+        async function excluirHistoricoLexIA(event, historicoId) {
+            event.stopPropagation();
+            const confirmacao = await alertaLexIA({
+                title: 'Apagar conversa?',
+                text: 'Esta conversa sera removida do historico da LexIA.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Apagar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: false,
+                focusCancel: true
+            });
+
+            if (!confirmacao.isConfirmed) return;
+
+            const itemEl = document.getElementById(`lexia-history-${historicoId}`);
+            const botao = event.currentTarget;
+            if (itemEl) itemEl.classList.add('is-deleting');
+            if (botao) {
+                botao.classList.add('is-busy');
+                botao.innerHTML = '<i data-lucide="loader-2" style="width: 15px; height: 15px;"></i>';
+                lucide.createIcons();
+            }
+
+            fetch(`/api/lexia/historico/${historicoId}/excluir/`, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': 'MTrNGMulxZG1OCJTcmWRRFS7m9M9iF6uN55mbE3Re1DDjxwj1r1P2H1gl1dQOR94' }
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const removido = historicoLexIA.find(item => item.id === historicoId);
+                        historicoLexIA = historicoLexIA.filter(item => {
+                            return removido ? item.chamado_id !== removido.chamado_id : item.id !== historicoId;
+                        });
+                        if (itemEl) {
+                            itemEl.classList.add('is-removed');
+                            setTimeout(() => renderizarHistoricoLexIA(historicoLexIA), 280);
+                        } else {
+                            renderizarHistoricoLexIA(historicoLexIA);
+                        }
+                    } else {
+                        if (itemEl) itemEl.classList.remove('is-deleting');
+                        if (botao) {
+                            botao.classList.remove('is-busy');
+                            botao.innerHTML = '<i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>';
+                            lucide.createIcons();
+                        }
+                        alertaLexIA({
+                            title: 'Nao foi possivel apagar',
+                            text: 'Tente novamente em alguns instantes.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(() => {
+                    if (itemEl) itemEl.classList.remove('is-deleting');
+                    if (botao) {
+                        botao.classList.remove('is-busy');
+                        botao.innerHTML = '<i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>';
+                        lucide.createIcons();
+                    }
+                    alertaLexIA({
+                        title: 'Erro de conexao',
+                        text: 'Nao foi possivel falar com o servidor para apagar o historico.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        }
+
+        function escapeHtmlLexIA(valor) {
+            return String(valor || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatarInlineLexIA(texto) {
+            return escapeHtmlLexIA(texto)
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>');
+        }
+
+        function limparTituloLexIA(texto) {
+            return texto
+                .replace(/^\s*#+\s*/, '')
+                .replace(/^\*\*(.+)\*\*$/, '$1')
+                .replace(/\*\*/g, '')
+                .trim();
+        }
+
+        function formatarRespostaLexIA(texto) {
+            const linhas = String(texto || '').replace(/\r\n/g, '\n').split('\n');
+            let html = '';
+            let listaAberta = false;
+
+            function fecharLista() {
+                if (listaAberta) {
+                    html += '</ul>';
+                    listaAberta = false;
+                }
+            }
+
+            linhas.forEach(linhaOriginal => {
+                const linha = linhaOriginal.trim();
+
+                if (!linha) {
+                    fecharLista();
+                    return;
+                }
+
+                if (/^-{3,}$/.test(linha)) {
+                    fecharLista();
+                    return;
+                }
+
+                const titulo = linha.match(/^#{1,6}\s+(.+)$/);
+                if (titulo) {
+                    fecharLista();
+                    html += `<h4>${formatarInlineLexIA(limparTituloLexIA(titulo[1]))}</h4>`;
+                    return;
+                }
+
+                const itemLista = linha.match(/^[-*]\s+(.+)$/);
+                if (itemLista) {
+                    if (!listaAberta) {
+                        html += '<ul>';
+                        listaAberta = true;
+                    }
+                    html += `<li>${formatarInlineLexIA(itemLista[1])}</li>`;
+                    return;
+                }
+
+                fecharLista();
+                html += `<p>${formatarInlineLexIA(linha)}</p>`;
+            });
+
+            fecharLista();
+            return html || '<p>Sem resposta.</p>';
+        }
+
+        function adicionarMensagemLexIA(texto, isUser) {
+            const chatArea = document.getElementById('lexia-chat-area');
+            const bgColor = isUser ? 'var(--bg-input)' : 'var(--bg-ficha)';
+            const borderColor = isUser ? 'var(--primary)' : 'var(--border-color)';
+            const borderRadius = isUser ? '8px 8px 0 8px' : '8px 8px 8px 0';
+            const alignSelf = isUser ? 'flex-end' : 'flex-start';
+            const conteudo = isUser ? escapeHtmlLexIA(texto) : formatarRespostaLexIA(texto);
+
+            const html = `
+                <div class="lexia-message" style="background: ${bgColor}; border: 1px solid ${borderColor}; padding: 0.75rem; border-radius: ${borderRadius}; align-self: ${alignSelf}; max-width: 85%; word-wrap: break-word;">
+                    ${conteudo}
+                </div>
+            `;
+            chatArea.insertAdjacentHTML('beforeend', html);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function enviarPerguntaLexIA() {
+            const select = document.getElementById('lexia-chamado-select');
+            const input = document.getElementById('lexia-prompt');
+            const chamadoId = select.value;
+            const promptTexto = input.value.trim();
+
+            if (!chamadoId) {
+                alertaLexIA({
+                    title: 'Selecione um chamado',
+                    text: 'Escolha um contrato/chamado antes de enviar a pergunta.',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+            if (!promptTexto) return;
+
+            adicionarMensagemLexIA(promptTexto, true);
+            input.value = '';
+
+            const chatArea = document.getElementById('lexia-chat-area');
+            const loadingHtml = `<div id="lexia-loading" style="align-self: flex-start; color: var(--primary); display: flex; gap: 0.5rem; align-items: center;"><i data-lucide="loader" class="lucide-spin" style="width: 16px; height: 16px;"></i> LexIA está analisando...</div>`;
+            chatArea.insertAdjacentHTML('beforeend', loadingHtml);
+            lucide.createIcons();
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            fetch('/api/lexia/perguntar/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': 'MTrNGMulxZG1OCJTcmWRRFS7m9M9iF6uN55mbE3Re1DDjxwj1r1P2H1gl1dQOR94'
+                },
+                body: JSON.stringify({
+                    chamado_id: chamadoId,
+                    pergunta: promptTexto
+                })
+            })
+                .then(r => r.json())
+                .then(data => {
+                    const loader = document.getElementById('lexia-loading');
+                    if (loader) loader.remove();
+
+                    if (data.status === 'success') {
+                        adicionarMensagemLexIA(data.resposta, false);
+                        if (data.historico) {
+                            historicoLexIA = [data.historico, ...historicoLexIA.filter(item => item.chamado_id !== data.historico.chamado_id)].slice(0, 30);
+                            renderizarHistoricoLexIA(historicoLexIA);
+                        }
+                    } else {
+                        adicionarMensagemLexIA(`⚠️ Erro: ${data.msg}`, false);
+                    }
+                })
+                .catch(err => {
+                    const loader = document.getElementById('lexia-loading');
+                    if (loader) loader.remove();
+                    adicionarMensagemLexIA("⚠️ Erro de conexão ao falar com a IA.", false);
+                });
+        }
+    </script>
+
+    
+<script>
+    function mudarCategoria() {
+        const cat = document.getElementById('categoriaSelect').value;
+        document.getElementById('section-cat1').classList.add('hidden');
+        document.getElementById('section-cat3').classList.add('hidden');
+        document.getElementById('section-cat4').classList.add('hidden');
+        document.getElementById('painel-assinaturas').classList.add('hidden');
+
+        if (cat) {
+            document.getElementById('section-' + cat).classList.remove('hidden');
+            montarFluxoAssinatura(cat);
+        }
+    }
+
+    function montarFluxoAssinatura(cat) {
+        const painel = document.getElementById('painel-assinaturas');
+        const fluxo = document.getElementById('fluxo-dinamico');
+        fluxo.innerHTML = '';
+        let steps = [];
+
+        if (cat === 'cat1') steps = ['Diretor Executivo', 'Diretor Regional', 'Aprovador Jurídico', '1ª Testemunha'];
+        else if (cat === 'cat3') steps = ['Aprovador Jurídico', 'Diretor Regional', 'Diretor Executivo', 'Testemunha (GDN)'];
+
+        if (steps.length > 0) {
+            painel.classList.remove('hidden');
+            steps.forEach((step, index) => {
+                fluxo.innerHTML += `<div class="approval-step"><div class="step-circle" ${index === 0 ? 'style="background-color:var(--primary);color:white;border-color:var(--primary);"' : ''}>${index + 1}</div><div class="step-title">${step}</div></div>`;
+            });
+        }
+    }
+
+    // Norma 04 – tipo de contratação
+    function verificarCondicionaisFornecedor() {
+        const tipo = document.getElementById('tipoFornecedor').value;
+        document.getElementById('cond-locacao').classList.add('hidden');
+        document.getElementById('cond-transporte').classList.add('hidden');
+        document.getElementById('cond-subcontratado').classList.add('hidden');
+
+        if (tipo === 'locacao') document.getElementById('cond-locacao').classList.remove('hidden');
+        else if (tipo === 'transporte') document.getElementById('cond-transporte').classList.remove('hidden');
+        else if (tipo === 'subcontratado') document.getElementById('cond-subcontratado').classList.remove('hidden');
+    }
+
+    // Subcontratado – toggle dentro de cliente
+    function toggleClienteSub() {
+        const val = document.querySelector('input[name="sub_dentro_cliente"]:checked').value;
+        document.getElementById('bloco-cliente-sub').style.display = val === 'sim' ? 'block' : 'none';
+    }
+
+    // Subcontratado – risco
+    function verificarBloqueioRiscoSub() {
+        const risco = document.getElementById('nivelRiscoSub').value;
+        const bloqueio = document.getElementById('bloqueio-risco-sub');
+        if (risco === 'alto' || risco === 'critico') bloqueio.classList.remove('hidden');
+        else { bloqueio.classList.add('hidden'); document.getElementById('checkExcecaoSub').checked = false; toggleExcecaoSub(); }
+    }
+
+    function toggleExcecaoSub() {
+        const check = document.getElementById('checkExcecaoSub').checked;
+        document.getElementById('justificativa-excecao-sub').classList.toggle('hidden', !check);
+    }
+
+    // Norma 02
+    function toggleMultirregional() {
+        const check = document.getElementById('checkMultirregional').checked;
+        document.getElementById('bloco-regional').classList.toggle('hidden', !check);
+    }
+
+    // Norma 01
+    function toggleNotificacao() {
+        const tipo = document.querySelector('input[name="tipo_notificacao"]:checked').value;
+        document.getElementById('bloco-emissao').classList.toggle('hidden', tipo !== 'emissao');
+        document.getElementById('bloco-recebimento').classList.toggle('hidden', tipo === 'emissao');
+    }
+
+    // Abas de documentos
+    function switchTab(btn, targetId) {
+        const tabNav = btn.parentElement;
+        const tabContainer = tabNav.parentElement;
+
+        tabNav.querySelectorAll('button').forEach(b => {
+            b.style.fontWeight = 'normal';
+            b.style.borderBottom = 'none';
+            b.style.color = 'var(--secondary)';
+        });
+        btn.style.fontWeight = '600';
+        const savedColor = btn.getAttribute('data-color') || btn.style.color;
+        if (savedColor) { btn.style.color = savedColor; btn.style.borderBottom = '2px solid ' + savedColor; }
+
+        tabContainer.querySelectorAll(':scope > div[id]').forEach(p => p.style.display = 'none');
+        const target = document.getElementById(targetId);
+        if (target) target.style.display = 'block';
+    }
+
+    // Pré-visualização de documentos
+    function previewDoc(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const li = input.closest('li');
+        let preview = li.querySelector('.doc-preview');
+
+        if (!preview) {
+            preview = document.createElement('div');
+            preview.className = 'doc-preview';
+            preview.style.cssText = 'margin-top:6px; padding-left:2px;';
+            li.appendChild(preview);
+        }
+
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
+            const reader = new FileReader();
+            reader.onload = e => { preview.innerHTML = `<img src="${e.target.result}" style="height:48px; border-radius:4px; border:1px solid #e2e8f0; object-fit:cover;"> <span style="font-size:0.75rem; color:#64748b;">${file.name}</span>`; };
+            reader.readAsDataURL(file);
+        } else if (ext === 'pdf') {
+            preview.innerHTML = `<span style="color:#dc2626; font-size:0.78rem;">📄 ${file.name}</span>`;
+        } else {
+            preview.innerHTML = `<span style="color:#64748b; font-size:0.78rem;">📁 ${file.name}</span>`;
+        }
+
+        // Atualizar label para "🔄 Alterar"
+        const label = input.closest('label');
+        if (label) { const txt = label.childNodes[0]; if (txt && txt.nodeType === 3) txt.textContent = '🔄 Alterar'; }
+    }
+
+    // -----------------------------------------------------
+    // AUTOCOMPLETE DE CR / CLIENTE
+    // TODO_BACKEND: substituir o array CR_LISTA_DADOS abaixo pelos
+    // dados reais injetados via Django context, ex:
+    //   const CR_LISTA_DADOS = ;
+    // onde crs_json é uma lista de objetos {cr, nome}
+    // -----------------------------------------------------
+    
+    // AUTOCOMPLETE DE CR / CLIENTE DINÂMICO
+    let CR_LISTA_DADOS = [];
+
+    // Busca todos os clientes do banco de dados ao carregar a página
+    fetch('/api/clientes/')
+        .then(r => r.json())
+        .then(data => {
+            // O Autocomplete espera o formato {cr, nome}. 
+            // Vamos usar o ID do banco como "CR" visual.
+            CR_LISTA_DADOS = data.map(cliente => ({
+                cr: cliente.id.toString(),
+                nome: cliente.nome
+            }));
+        })
+        .catch(err => console.error("Erro ao carregar clientes:", err));
+
+    // Estado de navegação por teclado
+    const _crState = {};
+
+    function _getCRState(key) {
+        if (!_crState[key]) _crState[key] = { idx: -1, filtered: [] };
+        return _crState[key];
+    }
+
+    function _highlight(text, query) {
+        if (!query) return text;
+        const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        return text.replace(re, '<mark style="background:#dbeafe;color:#1d4ed8;border-radius:2px;padding:0 1px;">$1</mark>');
+    }
+
+    function filtrarCR(key) {
+        const input = document.getElementById(key === 'fornecedor' ? 'crClienteFornecedor' : 'crClienteNorma02');
+        const dropdown = document.getElementById(`cr-dropdown-${key}`);
+        const clearBtn = document.getElementById(`cr-clear-${key}`);
+        const hiddenInput = document.getElementById((key === 'fornecedor' ? 'crClienteFornecedor' : 'crClienteNorma02') + '-value');
+        const q = input.value.trim().toLowerCase();
+        const state = _getCRState(key);
+
+        // Limpar seleção ao digitar
+        hiddenInput.value = '';
+        clearBtn.style.display = q ? 'flex' : 'none';
+
+        if (!q) {
+            dropdown.style.display = 'none';
+            state.idx = -1;
+            state.filtered = [];
+            return;
+        }
+
+        state.filtered = CR_LISTA_DADOS.filter(d =>
+            d.cr.toLowerCase().includes(q) || d.nome.toLowerCase().includes(q)
+        );
+
+        state.idx = -1;
+        _renderDropdown(key, q);
+    }
+
+    function _renderDropdown(key, q) {
+        const dropdown = document.getElementById(`cr-dropdown-${key}`);
+        const state = _getCRState(key);
+
+        if (!state.filtered.length) {
+            dropdown.innerHTML = '<div class="cr-no-result">Nenhum CR encontrado</div>';
+            dropdown.style.display = 'block';
+            return;
+        }
+
+        dropdown.innerHTML = state.filtered.map((d, i) => `
+            <div class="cr-item ${i === state.idx ? 'cr-item-active' : ''}" 
+                 onmousedown="selecionarCR('${key}', ${CR_LISTA_DADOS.indexOf(d)})">
+                <span class="cr-badge">${_highlight(d.cr, q)}</span>
+                <span class="cr-nome">${_highlight(d.nome, q)}</span>
+            </div>
+        `).join('');
+
+        dropdown.style.display = 'block';
+    }
+
+    function abrirCR(key) {
+        const input = document.getElementById(key === 'fornecedor' ? 'crClienteFornecedor' : 'crClienteNorma02');
+        if (input.value.trim()) filtrarCR(key);
+    }
+
+    function navCR(event, key) {
+        const state = _getCRState(key);
+        const dropdown = document.getElementById(`cr-dropdown-${key}`);
+
+        if (dropdown.style.display === 'none') return;
+
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            state.idx = Math.min(state.idx + 1, state.filtered.length - 1);
+            _renderDropdown(key, document.getElementById(key === 'fornecedor' ? 'crClienteFornecedor' : 'crClienteNorma02').value.trim().toLowerCase());
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            state.idx = Math.max(state.idx - 1, 0);
+            _renderDropdown(key, document.getElementById(key === 'fornecedor' ? 'crClienteFornecedor' : 'crClienteNorma02').value.trim().toLowerCase());
+        } else if (event.key === 'Enter') {
+            event.preventDefault();
+            if (state.idx >= 0 && state.filtered[state.idx]) {
+                selecionarCR(key, CR_LISTA_DADOS.indexOf(state.filtered[state.idx]));
+            }
+        } else if (event.key === 'Escape') {
+            dropdown.style.display = 'none';
+        }
+    }
+
+    function selecionarCR(key, globalIdx) {
+        const d = CR_LISTA_DADOS[globalIdx];
+        if (!d) return;
+
+        const inputId = key === 'fornecedor' ? 'crClienteFornecedor' : 'crClienteNorma02';
+        document.getElementById(inputId).value = `${d.cr} - ${d.nome}`;
+        document.getElementById(inputId + '-value').value = d.cr;
+
+        document.getElementById(`cr-dropdown-${key}`).style.display = 'none';
+        document.getElementById(`cr-clear-${key}`).style.display = 'flex';
+        _getCRState(key).idx = -1;
+    }
+
+    function limparCR(key) {
+        const inputId = key === 'fornecedor' ? 'crClienteFornecedor' : 'crClienteNorma02';
+        document.getElementById(inputId).value = '';
+        document.getElementById(inputId + '-value').value = '';
+        document.getElementById(`cr-dropdown-${key}`).style.display = 'none';
+        document.getElementById(`cr-clear-${key}`).style.display = 'none';
+        _getCRState(key).idx = -1;
+        document.getElementById(inputId).focus();
+    }
+
+    // Fechar dropdown ao clicar fora
+    document.addEventListener('click', function (e) {
+        ['fornecedor', 'norma02'].forEach(key => {
+            const wrap = document.getElementById(`cr-wrap-${key}`);
+            if (wrap && !wrap.contains(e.target)) {
+                const dd = document.getElementById(`cr-dropdown-${key}`);
+                if (dd) dd.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+<style>
+    /* -------------------------------------
+       CR Autocomplete 
+    ------------------------------------- */
+    .cr-autocomplete {
+        position: relative;
+    }
+
+    .cr-input-wrap {
+        display: flex;
+        align-items: center;
+        border: 1px solid #d1d5db;
+        border-radius: var(--radius-sm, 8px);
+        background: #fff;
+        transition: border-color .2s, box-shadow .2s;
+        padding: 0 .75rem 0 .65rem;
+        gap: .4rem;
+    }
+
+    .cr-input-wrap:focus-within {
+        border-color: var(--primary, #003366);
+        box-shadow: 0 0 0 3px rgba(0, 51, 102, .08);
+    }
+
+    .cr-search-icon {
+        width: 16px;
+        height: 16px;
+        color: #9ca3af;
+        flex-shrink: 0;
+        pointer-events: none;
+    }
+
+    .cr-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        padding: .55rem .25rem;
+        font-size: .9rem;
+        font-family: inherit;
+        color: #111827;
+        background: transparent;
+        min-width: 0;
+    }
+
+    .cr-input::placeholder {
+        color: #9ca3af;
+    }
+
+    .cr-clear {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #e5e7eb;
+        font-size: .65rem;
+        color: #6b7280;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background .15s, color .15s;
+    }
+
+    .cr-clear:hover {
+        background: #d1d5db;
+        color: #111827;
+    }
+
+    .cr-dropdown {
+        display: none;
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, .1);
+        max-height: 230px;
+        overflow-y: auto;
+        z-index: 9999;
+        scrollbar-width: thin;
+        scrollbar-color: #d1d5db transparent;
+    }
+
+    .cr-dropdown::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .cr-dropdown::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 4px;
+    }
+
+    .cr-item {
+        display: flex;
+        align-items: center;
+        gap: .65rem;
+        padding: .55rem .85rem;
+        cursor: pointer;
+        transition: background .12s;
+        border-bottom: 1px solid #f9fafb;
+    }
+
+    .cr-item:last-child {
+        border-bottom: none;
+    }
+
+    .cr-item:hover,
+    .cr-item-active {
+        background: #eff6ff;
+    }
+
+    .cr-badge {
+        font-size: .72rem;
+        font-weight: 700;
+        padding: .15rem .5rem;
+        border-radius: 999px;
+        background: #dbeafe;
+        color: #1d4ed8;
+        white-space: nowrap;
+        flex-shrink: 0;
+        letter-spacing: .02em;
+    }
+
+    .cr-nome {
+        font-size: .875rem;
+        color: #374151;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .cr-no-result {
+        padding: .75rem 1rem;
+        font-size: .85rem;
+        color: #9ca3af;
+        text-align: center;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Backend Integration Logic
+    document.getElementById('formNovoChamado').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Obter categoria
+        const cat = document.getElementById('categoriaSelect').value;
+        if (!cat) {
+            Swal.fire('Atenção', 'Selecione uma categoria', 'warning');
+            return;
+        }
+
+        let formData = new FormData(this);
+        formData.append('categoria', cat);
+
+        // Identificar qual autocomplete de cliente está ativo
+        let clienteVal = '';
+        if (cat === 'cat1') clienteVal = document.getElementById('crClienteFornecedor-value').value;
+        if (cat === 'cat3') clienteVal = document.getElementById('crClienteNorma02-value').value;
+
+        if (!clienteVal && (cat === 'cat1' || cat === 'cat3')) {
+            Swal.fire('Atenção', 'Por favor, selecione um Cliente/CR válido.', 'warning');
+            return;
+        }
+        formData.append('cliente_nome', clienteVal);
+
+        // Pegar anexos de todos os inputs file visíveis
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => {
+            if (input.files.length > 0) {
+                Array.from(input.files).forEach(file => {
+                    formData.append('arquivos[]', file);
+                });
+            }
+        });
+
+        Swal.fire({
+            title: 'Salvando chamado...',
+            text: 'Aguarde um momento.',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        fetch('/api/salvar-chamado/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': 'MTrNGMulxZG1OCJTcmWRRFS7m9M9iF6uN55mbE3Re1DDjxwj1r1P2H1gl1dQOR94'
+            }
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Chamado registrado!',
+                        html: `<b>${data.titulo}</b><br><small style="color:#6b7280">Número #${data.id}</small>`,
+                        confirmButtonText: 'Ver no Feed',
+                        confirmButtonColor: '#003366',
+                        showCancelButton: true,
+                        cancelButtonText: 'Registrar outro',
+                        cancelButtonColor: '#6b7280',
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/#post-' + data.id;
+                        } else {
+                            // Limpar formulário e ficar na página
+                            document.getElementById('formNovoChamado').reset();
+                            window.scrollTo(0, 0);
+                        }
+                    });
+                } else {
+                    let msgErro = data.msg || 'Ocorreu um erro ao salvar o chamado.';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao registrar',
+                        html: `<p>${msgErro}</p>`,
+                        confirmButtonColor: '#003366',
+                    });
+                    console.error('Erro backend:', data);
+                }
+            })
+            .catch(err => {
+                console.error('Erro de conexão:', err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro de conexão',
+                    text: 'Não foi possível comunicar com o servidor.',
+                    confirmButtonColor: '#003366',
+                });
+            });
+    }); // CORREÇÃO: Fechamento do addEventListener adicionado aqui
+
+    // Autocomplete dinâmico
+    async function fetchClientesCR(termo) {
+        const res = await fetch(`/api/clientes/?q=${termo}`);
+        const data = await res.json();
+        return data.map(c => c.nome);
+    } // CORREÇÃO: Fechamento da função adicionado aqui
+    
+    // Transformar Zonas de Upload Visuais em Inputs Reais
+    document.querySelectorAll('.file-upload-zone').forEach((zone, idx) => {
+        zone.style.cursor = 'pointer';
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.multiple = true;
+        input.style.display = 'none';
+        input.name = `arquivo_zone_${idx}`;
+
+        const previewContainer = document.createElement('div');
+        previewContainer.className = 'upload-preview-container';
+        previewContainer.style.marginTop = '10px';
+        previewContainer.style.fontSize = '0.8rem';
+        previewContainer.style.color = '#003366';
+
+        zone.appendChild(input);
+        zone.appendChild(previewContainer);
+
+        zone.addEventListener('click', (e) => {
+            if (e.target !== input) input.click();
+        });
+
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            zone.style.backgroundColor = '#eef2ff';
+            zone.style.borderColor = '#0057b8';
+        });
+
+        zone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            zone.style.backgroundColor = '';
+            zone.style.borderColor = '';
+        });
+
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.style.backgroundColor = '';
+            zone.style.borderColor = '';
+
+            if (e.dataTransfer.files.length > 0) {
+                input.files = e.dataTransfer.files;
+                updatePreview();
+            }
+        });
+
+        input.addEventListener('change', updatePreview);
+
+        function updatePreview() {
+            if (input.files.length > 0) {
+                const names = Array.from(input.files).map(f => `📄 ${f.name}`).join('<br>');
+                previewContainer.innerHTML = `<strong>Anexados:</strong><br>${names}`;
+            } else {
+                previewContainer.innerHTML = '';
+            }
+        }
+    }); // CORREÇÃO: Fechamento do forEach adicionado aqui
+</script>
+
+<style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});});});</script></body>
+
+</html>

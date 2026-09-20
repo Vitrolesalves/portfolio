@@ -86,6 +86,7 @@
         {i:'chart',t:'Gestão de SLA',d:'prazos e responsáveis rastreáveis'}
       ],
       stack:['Django','PostgreSQL','Ollama (LLM)','python-docx','pypdf'],
+      liveDemo:{ url:'assets/demos/conecta/dashboard.html', name:'Conecta Jurídico', note:'O frontend real da plataforma, com dados de exemplo. Navegue pelo feed e abra "Novo Chamado" para ver o formulário que se adapta à norma.' },
       links:[]
     },
     {
