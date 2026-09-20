@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - FLOW</title>
+    <title>Estatísticas de Acesso - FLOW</title>
     <meta name="application-name" content="FLOW">
     <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
     <meta name="theme-color" content="#1e3a5f">
@@ -752,41 +752,133 @@
 
     
 <style>
-  .home-title {
-    background: linear-gradient(to right, #1A2A45, #2A4570);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: 28px;
-    font-weight: bold;
-    margin: 0;
-  }
+    :root {
+        --stats-primary: #1A2A45;
+        --stats-secondary: #2A4570;
+        --stats-border: #E2E8F0;
+    }
 
-  .notifications-scroll {
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 8px;
-    scrollbar-width: thin;
-    scrollbar-color: #94a3b8 #f1f5f9;
-  }
+    .stats-title {
+        background: linear-gradient(to right, var(--stats-primary), var(--stats-secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 26px;
+        font-weight: bold;
+        margin: 0;
+        text-transform: uppercase;
+    }
 
-  .notifications-scroll::-webkit-scrollbar {
-    width: 6px;
-  }
+    .stats-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: var(--stats-primary);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
 
-  .notifications-scroll::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-  }
+    .stats-filter-card,
+    .stats-card {
+        background: #fff;
+        border: 1px solid var(--stats-border);
+        border-radius: 12px;
+    }
 
-  .notifications-scroll::-webkit-scrollbar-thumb {
-    background: #94a3b8;
-    border-radius: 3px;
-  }
+    .stats-filter-card {
+        padding: 16px 20px;
+    }
 
-  .notifications-scroll::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-  }
+    .stats-card-body {
+        padding: 20px;
+    }
+
+    .stats-card-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--stats-border);
+        font-weight: 600;
+        color: var(--stats-primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .stat-tile {
+        background: #fff;
+        border: 1px solid var(--stats-border);
+        border-radius: 12px;
+        padding: 18px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .stat-tile-number {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--stats-primary);
+        margin: 0;
+    }
+
+    .stat-tile-label {
+        font-size: 13px;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        margin: 0 0 4px 0;
+    }
+
+    .stat-tile-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #fff;
+        background: var(--stats-secondary);
+    }
+
+    .stats-table thead th {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: #64748B;
+        border-bottom: 2px solid var(--stats-border);
+        white-space: nowrap;
+    }
+
+    .stats-table td {
+        vertical-align: middle;
+    }
+
+    .rank-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #EEF2F7;
+        color: var(--stats-primary);
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .chart-box {
+        position: relative;
+        height: 320px;
+    }
+
+    .chart-box-sm {
+        position: relative;
+        height: 260px;
+    }
 </style>
 
 </head>
@@ -831,7 +923,7 @@
                 <!-- Home -->
                 <div class="nav-item">
                     <a href="home.html"
-                        class="nav-link active">
+                        class="nav-link ">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -858,7 +950,7 @@
                 
                 <div class="nav-item">
                     <a href="estatisticas-acesso.html"
-                        class="nav-link ">
+                        class="nav-link active">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -1443,7 +1535,7 @@
                     
 
                     <form method="post" action="/logout/">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="yG9aO5MCfSaufnqZQL1JC5TmPnATfvbAvmoMboqzbWVGphpOSUBqp014zz0yMDla">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="bovKvTwTAWDadtH2LJPzhizEqpkiM8Dq84KmScaQw0omnnGRNSpg4dHmaBKXjgN0">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1461,526 +1553,425 @@
                 
 
                 
-<div class="space-y-8">
-  <!-- PWA Install Banner -->
-  <script>
-    // PWA Install Detection - Detecta se o app já está instalado
-    (function() {
-        function checkIfPWAInstalled() {
-            // Verifica se está rodando em standalone mode (app instalado)
-            if (window.matchMedia('(display-mode: standalone)').matches ||
-                window.navigator.standalone === true) {
-                console.log('[PWA] App está instalado e rodando em modo standalone');
-                const statusEl = document.getElementById('pwa-status');
-                const buttonEl = document.getElementById('pwa-install-button');
-                if (statusEl) statusEl.style.display = 'block';
-                if (buttonEl) buttonEl.style.display = 'none';
-                return true;
-            }
-            return false;
-        }
-
-        // Verifica ao carregar a página
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkIfPWAInstalled);
-        } else {
-            checkIfPWAInstalled();
-        }
-
-        // Monitora mudanças no display mode
-        window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) => {
-            if (e.matches) {
-                const statusEl = document.getElementById('pwa-status');
-                const buttonEl = document.getElementById('pwa-install-button');
-                if (statusEl) statusEl.style.display = 'block';
-                if (buttonEl) buttonEl.style.display = 'none';
-            }
-        });
-    })();
-</script>
-
-
-  <!-- Welcome Section -->
-  <div class="text-center">
-    <h2 class="home-title mb-4">
-      Bem-vindo, Admin!
-    </h2>
-    <p class="text-slate-600 max-w-2xl mx-auto">
-      Sistema de gestão e monitoramento integrado. Escolha uma das opções abaixo para começar.
-    </p>
-  </div>
-
-  <!-- Monitoring and Projects Cards — visível apenas para administradores -->
-  
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-    <!-- Notificações de Monitoramento -->
-    <div class="bg-white rounded-lg border shadow-sm">
-      <div class="p-6">
-        <div class="flex items-center gap-2 mb-6">
-          <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <h3 class="text-lg font-semibold">Notificações de Monitoramento</h3>
-        </div>
-
-        <div class="notifications-scroll space-y-2">
-          
-          <div class="text-center p-4 text-slate-500">
-            <p>Nenhum dashboard com erro de atualização.</p>
-          </div>
-          
-
-          <!-- Outros sistemas (sucesso) -->
-          <div class="flex items-center justify-between p-4 bg-green-50 rounded-lg">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 bg-green-600 rounded-full"></span>
-              <span class="text-sm font-medium">Outros sistemas</span>
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <div class="stats-icon"><i class="fas fa-chart-bar"></i></div>
+            <div>
+                <h1 class="stats-title mb-0">Estatísticas de Acesso</h1>
+                <p class="text-muted mb-0" style="font-size: 13px;">Quantas pessoas acessam cada página, quem acessa mais e como isso se distribui por regional</p>
             </div>
-            <span class="text-sm text-green-600 font-medium">Sucesso</span>
-          </div>
         </div>
-
-        <p class="text-sm text-slate-600 mt-4">
-          0 erros detectados de 7
-          sistemas monitorados
-        </p>
-      </div>
     </div>
 
-    <!-- Projetos Próximos ao Prazo -->
-    <div class="bg-white rounded-lg border shadow-sm">
-      <div class="p-2">
-        <div class="flex items-center gap-2 mb-6">
-          <svg class="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-          </svg>
-          <h3 class="text-lg font-semibold">Projetos Próximos ao Prazo</h3>
+    <!-- Filtros -->
+    <form method="get" class="stats-filter-card mb-4 d-flex flex-wrap align-items-end gap-3">
+        <div>
+            <label class="form-label small text-muted mb-1">Período</label>
+            <select name="periodo" class="form-select form-select-sm" onchange="this.form.submit()">
+                
+                <option value="7" >Últimos 7 dias</option>
+                
+                <option value="30" selected>Últimos 30 dias</option>
+                
+                <option value="90" >Últimos 90 dias</option>
+                
+                <option value="all" >Desde sempre</option>
+                
+            </select>
         </div>
 
-        <div
-          class="space-y-2 h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
-          style="scrollbar-width: thin; scrollbar-color: #94a3b8 #f1f5f9;">
-          <!-- Container com altura fixa e scrollbar customizada -->
-          
-          <div class="text-center p-4 text-slate-500">
-            <p>Nenhum projeto próximo ao prazo.</p>
-          </div>
-          
+        
+        <div>
+            <label class="form-label small text-muted mb-1">Regional</label>
+            <select name="regional" class="form-select form-select-sm" onchange="this.form.submit()">
+                <option value="">Todas as regionais</option>
+                
+                <option value="159449db-c496-4ab4-bafa-821b8051e1f4" >Goiânia - GO (GO)</option>
+                
+            </select>
         </div>
+        
 
-        <p class="text-sm text-slate-600 mt-4">
-          0 projetos com prazo nos próximos 60 dias
-        </p>
-      </div>
+        <div>
+            <label class="form-label small text-muted mb-1">Ranking de usuários de uma página específica</label>
+            <select name="pagina" class="form-select form-select-sm" onchange="this.form.submit()">
+                <option value="">Selecione uma página...</option>
+                
+                <option value="ajuda" >Ajuda</option>
+                
+                <option value="torre_controle" >Auditoria</option>
+                
+                <option value="auditoria_hash_torre" >Auditoria Hash Torre</option>
+                
+                <option value="auditoria_torre" >Auditoria Torre</option>
+                
+                <option value="calendario_2026" >Calendário 2026</option>
+                
+                <option value="calendario_reservas" >Calendário de Reservas</option>
+                
+                <option value="chamado" >Chamado</option>
+                
+                <option value="chamado" >Chamado (Solicitação de Projetos/Automações)</option>
+                
+                <option value="controle_acessos" >Controle Acessos</option>
+                
+                <option value="controle_chips" >Controle de Chips</option>
+                
+                <option value="controle_ordens" >Controle de Ordens (PCM)</option>
+                
+                <option value="dashboard" >Dashboards</option>
+                
+                <option value="depara_aprova_carta" >Depara Aprova Carta</option>
+                
+                <option value="desativacao_cr" >Desativação de CR</option>
+                
+                <option value="depara_aprova" >DparAprova (Validação de Certificados)</option>
+                
+                <option value="depara_aprova_elaborar_certificado" >DparAprova — Elaborar Certificado (exclusivo SESMT)</option>
+                
+                <option value="analytics_acessos" >Estatísticas de Acesso</option>
+                
+                <option value="explorer" >Explorer</option>
+                
+                <option value="financeiro" >Financeiro</option>
+                
+                <option value="desmobilizacoes_fluxo" >Fluxo de Desmobilização</option>
+                
+                <option value="implantacoes_fluxo" >Fluxo de Implantações</option>
+                
+                <option value="qr_generator" >Gerador QR Code</option>
+                
+                <option value="cracha" >Gerador de Crachá</option>
+                
+                <option value="etiquetas_generator" >Gerador de Etiquetas</option>
+                
+                <option value="gerenciar_regionais" >Gerenciar Regionais</option>
+                
+                <option value="gestao_qualidade" >Gestão da Qualidade</option>
+                
+                <option value="gestao_salas" >Gestão de Salas</option>
+                
+                <option value="home" >Home</option>
+                
+                <option value="implantacoes_gpsvista" >Implantações GPSVista</option>
+                
+                <option value="links_importantes" >Links GPS</option>
+                
+                <option value="livro_ata" >Livro ATA</option>
+                
+                <option value="novidades_historico" >Novidades Historico</option>
+                
+                <option value="planner" >Planner</option>
+                
+                <option value="portaria_base" >Portaria Base</option>
+                
+                <option value="relatorios" >Relatórios</option>
+                
+                <option value="sala_criar" >Sala Criar</option>
+                
+                <option value="selecionar_unidade" >Selecionar Unidade</option>
+                
+                <option value="solicitacoes_cadastro" >Solicitacoes Cadastro</option>
+                
+                <option value="unidade_criar" >Unidade Criar</option>
+                
+                <option value="unidade_listar" >Unidade Listar</option>
+                
+            </select>
+        </div>
+    </form>
+
+    <!-- Stat tiles -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+            <div class="stat-tile">
+                <div>
+                    <p class="stat-tile-label">Total de Acessos</p>
+                    <p class="stat-tile-number">393</p>
+                </div>
+                <div class="stat-tile-icon"><i class="fas fa-mouse-pointer"></i></div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-tile">
+                <div>
+                    <p class="stat-tile-label">Usuários Únicos</p>
+                    <p class="stat-tile-number">3</p>
+                </div>
+                <div class="stat-tile-icon"><i class="fas fa-users"></i></div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-tile">
+                <div>
+                    <p class="stat-tile-label">Páginas Monitoradas</p>
+                    <p class="stat-tile-number">20</p>
+                </div>
+                <div class="stat-tile-icon"><i class="fas fa-file-alt"></i></div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-tile">
+                <div>
+                    <p class="stat-tile-label">Regionais Ativas</p>
+                    <p class="stat-tile-number">1</p>
+                </div>
+                <div class="stat-tile-icon"><i class="fas fa-map-marker-alt"></i></div>
+            </div>
+        </div>
     </div>
-  </div>
-  
 
-  <!-- Navigation Menu / Módulos do Sistema -->
-  <div>
-    <h3 class="text-xl font-semibold text-slate-800 mb-6">
-      Módulos do Sistema
-    </h3>
-
-    <!-- Main Navigation Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Dashboard Module -->
-      
-      <a href="dashboard.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Dashboards</h4>
-              <p class="text-sm text-slate-600">Gerencie dashboards do Power BI</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Financeiro Module -->
-      
-      <a href="financeiro.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Financeiro</h4>
-              <p class="text-sm text-slate-600">Acompanhamento e alertas do financeiro</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Gestão de Salas Module (NOVO) -->
-      
-      <a href="gestao-salas.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Gestão de Salas</h4>
-              <p class="text-sm text-slate-600">Gerencie salas e reservas</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- QR Generator Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Gerador QR Code</h4>
-              <p class="text-sm text-slate-600">Crie códigos QR personalizados</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Etiquetas Generator Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Gerador de Etiquetas</h4>
-              <p class="text-sm text-slate-600">Gere etiquetas personalizadas</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Controle de Acessos Module -->
-      
-      <a href="controle-acessos.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Controle de Acessos</h4>
-              <p class="text-sm text-slate-600">Gerencie usuários e permissões</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Portaria Base Module -->
-      <!--<a href="#" 
-               class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex items-center space-x-4">
-                        <div class="h-12 w-12 bg-cyan-100 rounded-lg flex items-center justify-center group-hover:bg-cyan-200 transition-colors">
-                            <svg class="h-6 w-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                      d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-semibold text-slate-900">Portaria Base</h4>
-                            <p class="text-sm text-slate-600">Controle de entradas na base</p>
-                        </div>
+    <!-- Charts -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-7">
+            <div class="stats-card h-100">
+                <div class="stats-card-header"><i class="fas fa-chart-bar"></i> Acessos por página</div>
+                <div class="stats-card-body">
+                    <div class="chart-box">
+                        <canvas id="chartPorPagina"></canvas>
                     </div>
                 </div>
-            </a> -->
-
-      <!-- Desativação de CR Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Desativação de CR</h4>
-              <p class="text-sm text-slate-600">Gerencie solicitações de desativação</p>
-            </div>
-          </div>
         </div>
-      </a>
-      
-
-      <!-- Planner Module -->
-      
-      <a href="planner.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-              </svg>
+        
+        <div class="col-lg-5">
+            <div class="stats-card h-100">
+                <div class="stats-card-header"><i class="fas fa-map-marker-alt"></i> Acessos por regional</div>
+                <div class="stats-card-body">
+                    <div class="chart-box">
+                        <canvas id="chartPorRegional"></canvas>
+                    </div>
+                </div>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Planner</h4>
-              <p class="text-sm text-slate-600">Gestão e acompanhamento de projetos</p>
-            </div>
-          </div>
         </div>
-      </a>
-      
-
-      <!-- Calendário 2026 Module -->
-      
-      <a href="calendario-2026.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Calendário 2026</h4>
-              <p class="text-sm text-slate-600">Eventos e reuniões RCO</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Torre de Controle Module -->
-      
-      <a href="torre-controle.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Torre de Controle</h4>
-              <p class="text-sm text-slate-600">KPI de realização de rondas por cliente</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Livro ATA Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Livro ATA</h4>
-              <p class="text-sm text-slate-600">Registro de ocorrências e atas</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Controle de Chips Module -->
-      
-      <a href="controle-chips.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Controle de Chips</h4>
-              <p class="text-sm text-slate-600">Gestão de chips e telefonia</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Relatórios Module -->
-      
-      <a href="relatorios.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Relatórios</h4>
-              <p class="text-sm text-slate-600">Relatórios de Inspeção de EPI e APR - Viagem Segura</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Implantações Sistêmicas Module -->
-      
-      <a href="implantacoes-sistemicas.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Implantações Sistêmicas</h4>
-              <p class="text-sm text-slate-600">Gerencie implantações sistêmicas nos contratos</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Fluxo de Implantações Module -->
-      
-      <a href="implantacoes.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Fluxo de Implantações</h4>
-              <p class="text-sm text-slate-600">Acompanhe o status e fluxo de implantações</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Fluxo de Desmobilização Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Fluxo de Desmobilização</h4>
-              <p class="text-sm text-slate-600">Monitore o encerramento e desmobilização de CRs</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Explorer/Arquivos Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Arquivos (Explorer)</h4>
-              <p class="text-sm text-slate-600">Acesse e gerencie os arquivos do sistema</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
+        
     </div>
-  </div>
+
+    <div class="row g-4 mb-4">
+        <!-- Ranking geral -->
+        <div class="col-lg-6">
+            <div class="stats-card h-100">
+                <div class="stats-card-header"><i class="fas fa-trophy"></i> Quem mais acessa o sistema</div>
+                <div class="stats-card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table stats-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Usuário</th>
+                                    <th>Regional</th>
+                                    <th class="text-end">Acessos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr>
+                                    <td><span class="rank-badge">1</span></td>
+                                    <td>Local Test</td>
+                                    <td>—</td>
+                                    <td class="text-end fw-bold">224</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td><span class="rank-badge">2</span></td>
+                                    <td>Admin</td>
+                                    <td>—</td>
+                                    <td class="text-end fw-bold">167</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td><span class="rank-badge">3</span></td>
+                                    <td>Daniel Supremo</td>
+                                    <td>Goiânia - GO</td>
+                                    <td class="text-end fw-bold">2</td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ranking por página selecionada -->
+        <div class="col-lg-6">
+            <div class="stats-card h-100">
+                <div class="stats-card-header">
+                    <i class="fas fa-user-check"></i>
+                    Quem mais acessa
+                    
+                        (escolha uma página no filtro acima)
+                    
+                </div>
+                <div class="stats-card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table stats-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Usuário</th>
+                                    <th>Regional</th>
+                                    <th class="text-end">Acessos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr><td colspan="4" class="text-center text-muted py-4">Selecione uma página no filtro acima.</td></tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resumo por página -->
+    <div class="stats-card mb-4">
+        <div class="stats-card-header"><i class="fas fa-list"></i> Resumo por página</div>
+        <div class="stats-card-body p-0">
+            <div class="table-responsive">
+                <table class="table stats-table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Página</th>
+                            <th class="text-end">Total de acessos</th>
+                            <th class="text-end">Usuários únicos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>Home</td>
+                            <td class="text-end fw-bold">163</td>
+                            <td class="text-end">2</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gerador de Crachá</td>
+                            <td class="text-end fw-bold">44</td>
+                            <td class="text-end">3</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Dashboards</td>
+                            <td class="text-end fw-bold">43</td>
+                            <td class="text-end">2</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gestão da Qualidade</td>
+                            <td class="text-end fw-bold">43</td>
+                            <td class="text-end">2</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gerador QR Code</td>
+                            <td class="text-end fw-bold">40</td>
+                            <td class="text-end">2</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Relatórios</td>
+                            <td class="text-end fw-bold">4</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Auditoria Torre</td>
+                            <td class="text-end fw-bold">3</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chamado (Solicitação de Projetos/Automações)</td>
+                            <td class="text-end fw-bold">3</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Financeiro</td>
+                            <td class="text-end fw-bold">3</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gerenciar Regionais</td>
+                            <td class="text-end fw-bold">3</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Fluxo de Implantações</td>
+                            <td class="text-end fw-bold">3</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Estatísticas de Acesso</td>
+                            <td class="text-end fw-bold">2</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Calendário de Reservas</td>
+                            <td class="text-end fw-bold">2</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Chamado</td>
+                            <td class="text-end fw-bold">2</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Controle Acessos</td>
+                            <td class="text-end fw-bold">2</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Controle de Ordens (PCM)</td>
+                            <td class="text-end fw-bold">2</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>DparAprova (Validação de Certificados)</td>
+                            <td class="text-end fw-bold">2</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Depara Aprova Carta</td>
+                            <td class="text-end fw-bold">2</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>DparAprova — Elaborar Certificado (exclusivo SESMT)</td>
+                            <td class="text-end fw-bold">2</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Gestão de Salas</td>
+                            <td class="text-end fw-bold">2</td>
+                            <td class="text-end">1</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script id="data-por-pagina" type="application/json">[{"page_key": "home", "page_label": "Home", "total": 163, "usuarios": 2}, {"page_key": "cracha", "page_label": "Gerador de Crach\u00e1", "total": 44, "usuarios": 3}, {"page_key": "dashboard", "page_label": "Dashboards", "total": 43, "usuarios": 2}, {"page_key": "gestao_qualidade", "page_label": "Gest\u00e3o da Qualidade", "total": 43, "usuarios": 2}, {"page_key": "qr_generator", "page_label": "Gerador QR Code", "total": 40, "usuarios": 2}, {"page_key": "relatorios", "page_label": "Relat\u00f3rios", "total": 4, "usuarios": 1}, {"page_key": "auditoria_torre", "page_label": "Auditoria Torre", "total": 3, "usuarios": 1}, {"page_key": "chamado", "page_label": "Chamado (Solicita\u00e7\u00e3o de Projetos/Automa\u00e7\u00f5es)", "total": 3, "usuarios": 1}, {"page_key": "financeiro", "page_label": "Financeiro", "total": 3, "usuarios": 1}, {"page_key": "gerenciar_regionais", "page_label": "Gerenciar Regionais", "total": 3, "usuarios": 1}, {"page_key": "implantacoes_fluxo", "page_label": "Fluxo de Implanta\u00e7\u00f5es", "total": 3, "usuarios": 1}, {"page_key": "analytics_acessos", "page_label": "Estat\u00edsticas de Acesso", "total": 2, "usuarios": 1}, {"page_key": "calendario_reservas", "page_label": "Calend\u00e1rio de Reservas", "total": 2, "usuarios": 1}, {"page_key": "chamado", "page_label": "Chamado", "total": 2, "usuarios": 1}, {"page_key": "controle_acessos", "page_label": "Controle Acessos", "total": 2, "usuarios": 1}, {"page_key": "controle_ordens", "page_label": "Controle de Ordens (PCM)", "total": 2, "usuarios": 1}, {"page_key": "depara_aprova", "page_label": "DparAprova (Valida\u00e7\u00e3o de Certificados)", "total": 2, "usuarios": 1}, {"page_key": "depara_aprova_carta", "page_label": "Depara Aprova Carta", "total": 2, "usuarios": 1}, {"page_key": "depara_aprova_elaborar_certificado", "page_label": "DparAprova \u2014 Elaborar Certificado (exclusivo SESMT)", "total": 2, "usuarios": 1}, {"page_key": "gestao_salas", "page_label": "Gest\u00e3o de Salas", "total": 2, "usuarios": 1}]</script>
+<script id="data-por-regional" type="application/json">[{"regional_id": "159449db-c496-4ab4-bafa-821b8051e1f4", "regional__nome": "Goi\u00e2nia - GO", "regional__estado": "GO", "total": 2, "usuarios": 1}]</script>
 
             </main>
 
@@ -2046,6 +2037,59 @@
 
 
     
+<script src="static/vendor/chartjs/chart.min.js"></script>
+<script>
+    (function () {
+        const porPagina = JSON.parse(document.getElementById('data-por-pagina').textContent).slice(0, 10);
+        const ctxPagina = document.getElementById('chartPorPagina');
+        if (ctxPagina) {
+            new Chart(ctxPagina.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: porPagina.map(p => p.page_label),
+                    datasets: [{
+                        label: 'Acessos',
+                        data: porPagina.map(p => p.total),
+                        backgroundColor: '#2A4570',
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true, ticks: { precision: 0 } } }
+                }
+            });
+        }
+
+        const porRegionalEl = document.getElementById('data-por-regional');
+        const ctxRegional = document.getElementById('chartPorRegional');
+        if (porRegionalEl && ctxRegional) {
+            const porRegional = JSON.parse(porRegionalEl.textContent);
+            new Chart(ctxRegional.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: porRegional.map(r => `${r.regional__nome} (${r.regional__estado})`),
+                    datasets: [{
+                        label: 'Acessos',
+                        data: porRegional.map(r => r.total),
+                        backgroundColor: '#1A2A45',
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+                }
+            });
+        }
+    })();
+</script>
+
 <style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});});});</script><script src="static/demo-fill.js"></script></body>
 
 </html>

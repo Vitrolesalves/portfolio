@@ -1,0 +1,4703 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Financeiro - FLOW</title>
+    <meta name="application-name" content="FLOW">
+    <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FLOW">
+    <link rel="manifest" href="static/manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="static/img/icon-192x192.png?v=gpsflow2">
+    <link rel="icon" type="image/png" sizes="512x512" href="static/img/icon-512x512.png?v=gpsflow2">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/img/icon-192x192.png?v=gpsflow2">
+    <link rel="shortcut icon" href="static/img/logo.png?v=gpsflow2">
+
+    <!-- Figtree: clean, structured, distinctly corporate without being generic -->
+    <link rel="stylesheet" href="static/vendor/figtree/figtree.css">
+
+    <link href="static/vendor/bootstrap-5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/tailwind-build.css">
+    <script src="static/vendor/date-fns-3.6.0/date-fns.min.js"></script>
+    <script src="static/vendor/date-fns-3.6.0/date-fns-ptBR.min.js"></script>
+    <script defer src="static/js/alpine-3.min.js"></script>
+    <link rel="stylesheet" href="static/vendor/fontawesome-5.15.4/css/all.min.css">
+    <script src="static/vendor/jquery-3.6.0/jquery.min.js"></script>
+
+    <style>
+        /* ── Alpine.js safety net ───────────────────────────
+           Se o script do Alpine (CDN externo) demorar ou falhar em
+           carregar, elementos com x-show ficam visíveis por padrão (o
+           navegador não sabe que deveriam começar escondidos), o que
+           trava a tela com overlays/menus abertos. x-cloak é removido
+           pelo próprio Alpine assim que ele inicializa; até lá, esta
+           regra garante que o elemento comece escondido. */
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* ── Tokens ─────────────────────────────────────── */
+        :root {
+            --f: 'Figtree', system-ui, sans-serif;
+
+            /* Brand navy — extraído diretamente da imagem de login */
+            --navy: #1a2a45;
+            --navy-dark: #111e33;
+            --navy-mid: #1e3558;
+            --navy-light: #2a4570;
+            --navy-faint: #e8f0f9;
+
+            /* Accent blue */
+            --blue: #2563eb;
+            --blue-light: #3b82f6;
+            --blue-faint: #eff6ff;
+            --blue-ring: rgba(37, 99, 235, 0.2);
+
+            /* Greens / warnings / danger */
+            --green: #16a34a;
+            --green-faint: #f0fdf4;
+            --amber: #d97706;
+            --amber-faint: #fffbeb;
+            --red: #dc2626;
+            --red-faint: #fef2f2;
+            --sky: #0ea5e9;
+
+            /* Grays */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-150: #eaeff5;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+
+            /* Layout */
+            --sidebar-w: 15.5rem;
+            --sidebar-ic: 3.5rem;
+            --topbar-h: 3.5rem;
+            --sidebar-bg: linear-gradient(175deg, #1a2a45 0%, #1e3558 60%, #162035 100%);
+
+            /* Radii */
+            --r-sm: 4px;
+            --r: 6px;
+            --r-md: 8px;
+            --r-lg: 12px;
+            --r-xl: 16px;
+
+            /* Shadows */
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, .05);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, .07), 0 1px 2px rgba(0, 0, 0, .04);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, .07), 0 2px 4px rgba(0, 0, 0, .04);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, .09), 0 3px 8px rgba(0, 0, 0, .05);
+        }
+
+        /* ── Reset ──────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        body {
+            font-family: var(--f);
+            background: var(--gray-150);
+            color: var(--gray-700);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ── Shell ──────────────────────────────────────── */
+        .shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ══════════════════════════════════════════════════
+           SIDEBAR
+        ═══════════════════════════════════════════════════ */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--sidebar-bg);
+            border-right: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            transition: width .25s ease;
+            overflow: hidden;
+            box-shadow: 3px 0 16px rgba(0, 0, 0, .18);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-ic);
+        }
+
+        /* Brand strip at the top of the sidebar */
+        .sidebar-brand {
+            height: var(--topbar-h);
+            background: rgba(0, 0, 0, .2);
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            padding: 0 1rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .brand-icon {
+            width: 1.75rem;
+            height: 1.75rem;
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .brand-icon svg {
+            width: 1rem;
+            height: 1rem;
+            color: #fff;
+        }
+
+        .brand-label {
+            overflow: hidden;
+            transition: opacity .2s, transform .2s;
+        }
+
+        .sidebar.collapsed .brand-label {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-6px);
+        }
+
+        .brand-name {
+            font-size: .8125rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+            white-space: nowrap;
+            letter-spacing: -.01em;
+        }
+
+        .brand-sub {
+            font-size: .625rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, .55);
+            white-space: nowrap;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            margin-top: 1px;
+        }
+
+        /* Nav scroll area */
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: .75rem .5rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, .12) transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, .12);
+            border-radius: 99px;
+        }
+
+        /* Section label */
+        .nav-section {
+            font-size: .625rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .3);
+            padding: .25rem .625rem;
+            margin-top: .5rem;
+            margin-bottom: .25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity .15s, margin .15s;
+        }
+
+        .sidebar.collapsed .nav-section {
+            opacity: 0;
+            margin-top: -1.25rem;
+            pointer-events: none;
+        }
+
+        /* Nav item */
+        .nav-item {
+            position: relative;
+            margin-bottom: 1px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem .625rem;
+            border-radius: var(--r);
+            color: rgba(255, 255, 255, .65);
+            font-size: .8125rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: var(--f);
+            white-space: nowrap;
+            overflow: hidden;
+            transition: background .12s, color .12s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .95);
+        }
+
+        /* Active: left accent bar + highlight */
+        .nav-link.active {
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 65%;
+            background: #60a5fa;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: .5rem;
+        }
+
+        .nav-icon {
+            width: 1.0625rem;
+            height: 1.0625rem;
+            flex-shrink: 0;
+            opacity: .6;
+            transition: opacity .12s;
+        }
+
+        .nav-link:hover .nav-icon,
+        .nav-link.active .nav-icon {
+            opacity: 1;
+        }
+
+        .nav-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: opacity .15s, width .15s;
+        }
+
+        .sidebar.collapsed .nav-text {
+            opacity: 0;
+            width: 0;
+            pointer-events: none;
+        }
+
+        .nav-chevron {
+            width: .8125rem;
+            height: .8125rem;
+            flex-shrink: 0;
+            color: rgba(255, 255, 255, .3);
+            transition: transform .18s ease;
+            margin-left: auto;
+        }
+
+        .sidebar.collapsed .nav-chevron {
+            display: none;
+        }
+
+        .nav-link.expanded .nav-chevron {
+            transform: rotate(90deg);
+        }
+
+        /* Sub-nav */
+        .nav-sub {
+            margin-left: 1.625rem;
+            padding-left: .625rem;
+            border-left: 1.5px solid rgba(255, 255, 255, .12);
+            margin-top: 1px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .sidebar.collapsed .nav-sub {
+            display: none;
+        }
+
+        .nav-sub-link {
+            display: flex;
+            align-items: center;
+            gap: .4375rem;
+            padding: .375rem .5rem;
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .5);
+            font-size: .75rem;
+            font-weight: 500;
+            font-family: var(--f);
+            text-decoration: none;
+            transition: background .12s, color .12s;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .nav-sub-link:hover {
+            background: rgba(255, 255, 255, .07);
+            color: rgba(255, 255, 255, .9);
+        }
+
+        .nav-sub-link.active {
+            color: #93c5fd;
+            font-weight: 600;
+        }
+
+        .nav-sub-icon {
+            width: .875rem;
+            height: .875rem;
+            flex-shrink: 0;
+            opacity: .65;
+        }
+
+        .nav-sub-link:hover .nav-sub-icon,
+        .nav-sub-link.active .nav-sub-icon {
+            opacity: 1;
+        }
+
+        /* Tooltip (collapsed state) */
+        .nav-tip {
+            position: fixed;
+            left: calc(var(--sidebar-ic) + .5rem);
+            background: var(--gray-900);
+            color: #fff;
+            font-family: var(--f);
+            font-size: .75rem;
+            font-weight: 500;
+            padding: .3125rem .6875rem;
+            border-radius: var(--r-sm);
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 9999;
+            box-shadow: var(--shadow-md);
+            transition: opacity .12s, visibility .12s;
+        }
+
+        .sidebar.collapsed .nav-item:hover .nav-tip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ══════════════════════════════════════════════════
+           MAIN AREA
+        ═══════════════════════════════════════════════════ */
+        .main {
+            flex: 1;
+            min-width: 0;
+            margin-left: var(--sidebar-w);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: margin-left .25s ease;
+        }
+
+        .main.collapsed {
+            margin-left: var(--sidebar-ic);
+        }
+
+        .main.embed-mode {
+            margin-left: 0 !important;
+        }
+
+        /* ── Top bar ────────────────────────────────────── */
+        .topbar {
+            height: var(--topbar-h);
+            background: #1a2a45;
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .topbar-toggle {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .85);
+            cursor: pointer;
+            transition: background .12s, color .12s;
+            flex-shrink: 0;
+        }
+
+        .topbar-toggle:hover {
+            background: rgba(255, 255, 255, .18);
+            color: #fff;
+        }
+
+        .topbar-toggle svg {
+            width: .9375rem;
+            height: .9375rem;
+        }
+
+        .topbar-title {
+            font-size: .9375rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -.015em;
+            flex: 1;
+        }
+
+        /* Breadcrumb strip below topbar */
+        .breadcrumb-bar {
+            background: var(--navy-dark);
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            gap: .375rem;
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+        }
+
+        .breadcrumb-item {
+            font-size: .6875rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .45);
+            letter-spacing: .02em;
+        }
+
+        .breadcrumb-sep {
+            color: rgba(255, 255, 255, .2);
+            font-size: .625rem;
+        }
+
+        .breadcrumb-item.current {
+            color: rgba(255, 255, 255, .75);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            margin-left: auto;
+        }
+
+        /* User chip */
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .25rem .625rem .25rem .25rem;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 99px;
+        }
+
+        .user-avatar {
+            width: 1.625rem;
+            height: 1.625rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .2);
+            border: 1px solid rgba(255, 255, 255, .25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .625rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: .05em;
+            flex-shrink: 0;
+        }
+
+        .user-name {
+            font-size: .75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .9);
+            max-width: 9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Logout button */
+        .btn-exit {
+            display: inline-flex;
+            align-items: center;
+            gap: .3125rem;
+            padding: .3125rem .75rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .75);
+            font-family: var(--f);
+            font-size: .6875rem;
+            font-weight: 600;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background .12s, border-color .12s, color .12s;
+        }
+
+        .btn-exit:hover {
+            background: rgba(220, 38, 38, .25);
+            border-color: rgba(220, 38, 38, .4);
+            color: #fca5a5;
+        }
+
+        .btn-exit svg {
+            width: .8125rem;
+            height: .8125rem;
+        }
+
+        /* ── Page body ──────────────────────────────────── */
+        .page-body {
+            flex: 1;
+            padding: 1.5rem;
+        }
+
+        /* ── Messages ───────────────────────────────────── */
+        .msg-stack {
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .msg {
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            padding: .75rem 1rem;
+            border-radius: var(--r-md);
+            font-size: .8125rem;
+            font-weight: 500;
+            border: 1px solid transparent;
+            animation: msgIn .2s ease;
+        }
+
+        .msg.success {
+            background: var(--green-faint);
+            border-color: rgba(22, 163, 74, .2);
+            color: #14532d;
+        }
+
+        .msg.error {
+            background: var(--red-faint);
+            border-color: rgba(220, 38, 38, .2);
+            color: #7f1d1d;
+        }
+
+        .msg.warning {
+            background: var(--amber-faint);
+            border-color: rgba(217, 119, 6, .2);
+            color: #78350f;
+        }
+
+        .msg.info {
+            background: var(--blue-faint);
+            border-color: rgba(37, 99, 235, .2);
+            color: #1e3a8a;
+        }
+
+        /* ── Footer ─────────────────────────────────────── */
+        .app-footer {
+            background: linear-gradient(90deg, #111e33 0%, #1a2a45 100%);
+            border-top: 1px solid rgba(255, 255, 255, .07);
+            padding: .875rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-footer p {
+            margin: 0;
+            font-size: .6875rem;
+            color: rgba(255, 255, 255, .3);
+            letter-spacing: .03em;
+        }
+
+        /* ── Mobile overlay ─────────────────────────────── */
+        .m-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            z-index: 199;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ── Animations ─────────────────────────────────── */
+        @keyframes msgIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-in {
+            /* fill-mode "none" (padrão, sem "both") é de propósito: um
+               transform "parado" em translateY(0) depois que a animação
+               termina ainda cria um novo containing block pra elementos
+               position:fixed dentro da página (spec do CSS) -- isso fazia
+               modais fullscreen (ex.: visualização de dashboard do Power BI)
+               calcularem left/top relativos ao <main>, não à viewport,
+               "empurrando" o modal pro canto errado. Sem fill-mode, o
+               transform some de vez quando a animação acaba. */
+            animation: fadeUp .3s ease;
+        }
+
+        /* ── Responsive ─────────────────────────────────── */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .25s ease, width .25s ease;
+                width: var(--sidebar-w) !important;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0 !important;
+            }
+
+            .topbar-desktop {
+                display: none !important;
+            }
+
+            .topbar-mobile {
+                display: flex !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .topbar-mobile {
+                display: none !important;
+            }
+
+            .topbar-desktop {
+                display: flex !important;
+            }
+        }
+    </style>
+
+    
+<style>
+    /* Premium Dashboard Variables */
+    :root {
+        --finance-primary: #1A2A45;
+        --finance-secondary: #2A4570;
+        --finance-dark: #111E33;
+        --finance-light: #F8FAFC;
+        --finance-success: #10B981;
+        --finance-warning: #F59E0B;
+        --finance-danger: #EF4444;
+        --finance-brown: #C2410C;
+        --border-color: #E2E8F0;
+    }
+
+    .finance-title {
+        background: linear-gradient(to right, var(--finance-primary), var(--finance-secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 26px;
+        font-weight: bold;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    .finance-icon {
+        width: 48px;
+        height: 48px;
+        background: var(--finance-primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 20px;
+    }
+
+    /* Filter Sidebar */
+    .filter-card {
+        background: white;
+        border-radius: 0.6rem;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        border: 1px solid var(--border-color);
+        position: sticky;
+        top: 20px;
+    }
+
+    .filter-card-header {
+        background: #F8FAFC;
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem 1.25rem;
+        font-weight: 700;
+        color: #1E293B;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-card-body {
+        padding: 1.25rem;
+        max-height: calc(100vh - 160px);
+        overflow-y: auto;
+    }
+
+    /* Select elements */
+    .filter-select {
+        width: 100%;
+        min-height: 100px;
+        border: 1px solid #CBD5E1;
+        border-radius: 0.375rem;
+        font-size: 0.825rem;
+        padding: 0.35rem;
+        background: white;
+    }
+
+    /* Custom Premium Multiselect Dropdown */
+    .custom-multiselect-wrapper {
+        position: relative;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .custom-multiselect-button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        min-height: 38px;
+        padding: 0.375rem 0.75rem;
+        background-color: #fff;
+        border: 1px solid #CBD5E1;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        font-size: 0.825rem;
+        color: #334155;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .custom-multiselect-button:hover {
+        border-color: var(--finance-secondary);
+    }
+
+    .custom-multiselect-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 90%;
+    }
+
+    .custom-multiselect-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1050;
+        display: none;
+        width: 100%;
+        max-height: 300px;
+        margin-top: 0.25rem;
+        background-color: #fff;
+        border: 1px solid #CBD5E1;
+        border-radius: 0.375rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .custom-multiselect-dropdown.show {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .custom-multiselect-search-container {
+        padding: 0.5rem;
+        border-bottom: 1px solid #E2E8F0;
+        background-color: #F8FAFC;
+    }
+
+    .custom-multiselect-search {
+        font-size: 0.8rem;
+        border-radius: 0.25rem;
+    }
+
+    .custom-multiselect-actions {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.4rem 0.75rem;
+        font-size: 0.75rem;
+        border-bottom: 1px solid #E2E8F0;
+        background-color: #F8FAFC;
+    }
+
+    .custom-multiselect-actions button {
+        font-size: 0.725rem;
+        font-weight: 600;
+    }
+
+    .custom-multiselect-options {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0.35rem 0;
+        max-height: 200px;
+    }
+
+    .custom-multiselect-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.4rem 0.75rem;
+        margin: 0;
+        font-size: 0.8rem;
+        color: #334155;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        user-select: none;
+    }
+
+    .custom-multiselect-option:hover {
+        background-color: #F1F5F9;
+    }
+
+    .custom-multiselect-option input[type="checkbox"] {
+        cursor: pointer;
+        width: 14px;
+        height: 14px;
+        border-radius: 0.25rem;
+        border: 1px solid #CBD5E1;
+    }
+
+    .filter-label {
+        font-size: 0.775rem;
+        font-weight: 700;
+        color: #475569;
+        text-transform: uppercase;
+        margin-bottom: 0.35rem;
+        display: block;
+    }
+
+    /* KPI Grid */
+    .finance-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .finance-stat-card {
+        background: white;
+        border-radius: 0.5rem;
+        padding: 1.25rem;
+        border-left: 4px solid var(--finance-primary);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: all 0.25s ease;
+    }
+
+    .finance-stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .finance-stat-card.success { border-left-color: var(--finance-success); }
+    .finance-stat-card.warning { border-left-color: var(--finance-warning); }
+    .finance-stat-card.danger { border-left-color: var(--finance-danger); }
+    .finance-stat-card.info { border-left-color: var(--finance-secondary); }
+
+    .finance-stat-info h3 {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #64748B;
+        text-transform: uppercase;
+        margin: 0 0 0.35rem 0;
+        letter-spacing: 0.03em;
+    }
+
+    .finance-stat-number {
+        font-size: 1.45rem;
+        font-weight: 700;
+        color: #1E293B;
+        margin: 0;
+    }
+
+    .finance-stat-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+    }
+
+    .finance-stat-card.info .finance-stat-icon { background: rgba(42, 69, 112, 0.1); color: var(--finance-secondary); }
+    .finance-stat-card.success .finance-stat-icon { background: rgba(16, 185, 129, 0.1); color: var(--finance-success); }
+    .finance-stat-card.warning .finance-stat-icon { background: rgba(245, 158, 11, 0.1); color: var(--finance-warning); }
+    .finance-stat-card.danger .finance-stat-icon { background: rgba(239, 68, 68, 0.1); color: var(--finance-danger); }
+
+    /* Risk Chips Row */
+    .risk-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .risk-chip {
+        border: 1px solid var(--border-color);
+        border-left: 5px solid var(--risk-color);
+        border-radius: 6px;
+        padding: 0.65rem 0.85rem;
+        background: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .risk-chip strong {
+        font-size: 1.2rem;
+        color: #1E293B;
+    }
+
+    .risk-chip span {
+        color: #64748B;
+        font-size: 0.775rem;
+        font-weight: 600;
+    }
+
+    /* Tabs Panel */
+    .finance-card {
+        background: white;
+        border-radius: 0.6rem;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+    }
+
+    /* Module Navigation (top-level, above content) */
+    .finance-module-nav {
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 0.6rem;
+        display: flex;
+        gap: 0.25rem;
+        padding: 0.4rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        flex-wrap: wrap;
+    }
+
+    .finance-tab-btn {
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.375rem;
+        padding: 0.55rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #64748B;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .finance-tab-btn i {
+        pointer-events: none;
+        font-size: 0.82rem;
+    }
+
+    /* Highlight "Atualizar Dados" tab — subtle, not loud */
+    .finance-tab-btn.tab-data-btn {
+        color: var(--finance-secondary);
+    }
+
+    .finance-tab-btn.tab-data-btn i {
+        color: var(--finance-secondary);
+    }
+
+    .finance-tab-btn.tab-data-btn.active,
+    .finance-tab-btn.tab-data-btn.active i {
+        color: white;
+    }
+
+    /* Sub-tab icons don't capture clicks */
+    .sub-tab-btn i {
+        pointer-events: none;
+        font-size: 0.68rem;
+    }
+
+    .finance-tab-btn:hover {
+        color: var(--finance-primary);
+        background: #F1F5F9;
+    }
+
+    .finance-tab-btn.active {
+        background: var(--finance-primary);
+        color: white;
+        font-weight: 700;
+        box-shadow: 0 1px 3px rgba(26, 42, 69, 0.25);
+    }
+
+    .finance-tab-content {
+        padding: 1.5rem;
+        display: none;
+    }
+
+    .finance-tab-content.active {
+        display: block;
+    }
+
+    /* Contextual header — top of each main tab */
+    .tab-context-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.9rem 1rem;
+        margin-bottom: 1.25rem;
+        border-left: 3px solid var(--finance-primary);
+        background: linear-gradient(90deg, rgba(241, 245, 249, 0.6), rgba(241, 245, 249, 0));
+        border-radius: 0 0.4rem 0.4rem 0;
+    }
+
+    .tab-context-header .tab-context-icon {
+        flex-shrink: 0;
+        width: 2rem;
+        height: 2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.4rem;
+        background: var(--finance-primary);
+        color: white;
+        font-size: 0.85rem;
+    }
+
+    .tab-context-header .tab-context-title {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--finance-primary);
+        line-height: 1.25;
+    }
+
+    .tab-context-header .tab-context-subtitle {
+        margin: 0.1rem 0 0 0;
+        font-size: 0.78rem;
+        color: #64748B;
+        line-height: 1.35;
+    }
+
+    /* Sub-tabs */
+    .sub-tabs-nav {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.25rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem;
+    }
+
+    .sub-tab-btn {
+        background: transparent;
+        border: none;
+        padding: 0.4rem 0.80rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #64748B;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        transition: all 0.2s;
+    }
+
+    .sub-tab-btn:hover {
+        background: #F1F5F9;
+        color: var(--finance-primary);
+    }
+
+    .sub-tab-btn.active {
+        background: var(--finance-secondary);
+        color: white;
+    }
+
+    .sub-tab-content {
+        display: none;
+    }
+
+    .sub-tab-content.active {
+        display: block;
+    }
+
+    /* Custom Tables */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .finance-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .finance-table th {
+        background: #F8FAFC;
+        padding: 0.75rem 0.85rem;
+        font-size: 0.725rem;
+        font-weight: 700;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .finance-table td {
+        padding: 0.75rem 0.85rem;
+        font-size: 0.8rem;
+        color: #334155;
+        border-bottom: 1px solid var(--border-color);
+        vertical-align: middle;
+    }
+
+    .finance-table tr:hover {
+        background: #F8FAFC;
+    }
+
+    /* Chat styling */
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        height: 520px;
+        background: #F8FAFC;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 1.25rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .chat-message {
+        max-width: 80%;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.85rem;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+    }
+
+    .chat-message.assistant {
+        background: white;
+        border: 1px solid var(--border-color);
+        color: #1E293B;
+        align-self: flex-start;
+        border-top-left-radius: 0;
+        flex-shrink: 0;
+        overflow: visible;
+    }
+
+    .chat-message.user {
+        background: var(--finance-secondary);
+        color: white;
+        align-self: flex-end;
+        border-top-right-radius: 0;
+        white-space: pre-wrap;
+    }
+
+    .chat-message.assistant > :first-child {
+        margin-top: 0;
+    }
+
+    .chat-message.assistant > :last-child {
+        margin-bottom: 0;
+    }
+
+    .chat-message.assistant p {
+        margin: 0 0 0.65rem;
+    }
+
+    .chat-message.assistant h1,
+    .chat-message.assistant h2,
+    .chat-message.assistant h3,
+    .chat-message.assistant h4 {
+        color: var(--finance-primary);
+        font-weight: 700;
+        line-height: 1.25;
+        margin: 1rem 0 0.5rem;
+    }
+
+    .chat-message.assistant h1 { font-size: 1.2rem; }
+    .chat-message.assistant h2 { font-size: 1.08rem; }
+    .chat-message.assistant h3,
+    .chat-message.assistant h4 { font-size: 0.95rem; }
+
+    .chat-message.assistant ul,
+    .chat-message.assistant ol {
+        margin: 0.5rem 0 0.75rem;
+        padding-left: 1.35rem;
+    }
+
+    .chat-message.assistant li + li {
+        margin-top: 0.3rem;
+    }
+
+    .chat-message.assistant blockquote {
+        border-left: 3px solid var(--finance-secondary);
+        color: #475569;
+        margin: 0.75rem 0;
+        padding: 0.25rem 0 0.25rem 0.75rem;
+    }
+
+    .chat-message.assistant code {
+        background: #E2E8F0;
+        border-radius: 0.25rem;
+        color: #0F172A;
+        font-size: 0.8rem;
+        padding: 0.1rem 0.3rem;
+    }
+
+    .chat-message.assistant pre {
+        background: #0F172A;
+        border-radius: 0.375rem;
+        margin: 0.75rem 0;
+        overflow-x: auto;
+        padding: 0.75rem;
+        white-space: pre;
+    }
+
+    .chat-message.assistant pre code {
+        background: transparent;
+        color: #E2E8F0;
+        padding: 0;
+    }
+
+    .chat-message.assistant table {
+        border-collapse: collapse;
+        display: block;
+        margin: 0.75rem 0;
+        max-width: 100%;
+        overflow-x: auto;
+        width: max-content;
+    }
+
+    .chat-message.assistant th,
+    .chat-message.assistant td {
+        border: 1px solid #CBD5E1;
+        padding: 0.4rem 0.55rem;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .chat-message.assistant th {
+        background: #F1F5F9;
+        font-weight: 700;
+    }
+
+    .chat-message.assistant a {
+        color: #1D4ED8;
+        text-decoration: underline;
+    }
+
+    .chat-message.assistant hr {
+        border: 0;
+        border-top: 1px solid #CBD5E1;
+        margin: 0.9rem 0;
+    }
+
+
+    .chat-filter-summary {
+        align-items: flex-start;
+        background: #EFF6FF;
+        border-bottom: 1px solid #DBEAFE;
+        color: #64748B;
+        display: flex;
+        flex-shrink: 0;
+        font-size: 0.78rem;
+        gap: 0.35rem;
+        padding: 0.65rem 1.25rem;
+    }
+
+    .chat-filter-values {
+        color: #1D4ED8;
+        flex: 1;
+        font-weight: 700;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .chat-filter-summary.expanded .chat-filter-values {
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+    }
+
+    .chat-filter-toggle {
+        background: transparent;
+        border: 0;
+        color: #1D4ED8;
+        cursor: pointer;
+        flex: 0 0 auto;
+        font-size: inherit;
+        font-weight: 700;
+        padding: 0;
+    }
+
+    .chat-filter-toggle[hidden] {
+        display: none;
+    }
+    .ai-response-meta {
+        border-top: 1px solid #E2E8F0;
+        color: #64748B;
+        font-size: 0.7rem;
+        margin-top: 0.75rem;
+        padding-top: 0.45rem;
+    }
+
+
+    .thinking-bubble {
+        background: #F1F5F9 !important;
+        border: 1px dashed #CBD5E1 !important;
+        color: #475569 !important;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-style: italic;
+    }
+
+    .loading-dots {
+        animation: blink 1.4s infinite both;
+        font-weight: bold;
+    }
+
+    @keyframes blink {
+        0% { opacity: .2; }
+        20% { opacity: 1; }
+        100% { opacity: .2; }
+    }
+
+    .chat-input-area {
+        background: white;
+        border-top: 1px solid var(--border-color);
+        padding: 0.75rem 1rem;
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .chat-input {
+        flex: 1;
+        border: 1px solid #CBD5E1;
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.85rem;
+        font-size: 0.85rem;
+    }
+
+    .chat-input:focus {
+        outline: none;
+        border-color: var(--finance-secondary);
+    }
+
+    .chat-presets {
+        align-items: start;
+        background: #F1F5F9;
+        border-top: 1px solid var(--border-color);
+        display: grid;
+        gap: 0.5rem;
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding: 0.5rem 1rem;
+    }
+
+    .question-suggestions-grid {
+        display: grid;
+        gap: 0.5rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        min-width: 0;
+    }
+
+    .question-suggestions-grid .preset-btn {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .chat-preset-actions {
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .chat-presets {
+            grid-template-columns: 1fr;
+        }
+
+        .question-suggestions-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .chat-preset-actions {
+            justify-content: space-between;
+        }
+    }
+
+    .preset-btn {
+        background: white;
+        border: 1px solid #CBD5E1;
+        padding: 0.35rem 0.65rem;
+        font-size: 0.75rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        color: #475569;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .preset-btn:hover {
+        background: var(--finance-primary);
+        color: white;
+        border-color: var(--finance-primary);
+    }
+
+    .suggestion-generator-btn {
+        border-color: #93C5FD;
+        color: #1D4ED8;
+    }
+
+
+    /* Email template preview container */
+    .email-preview-card {
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        height: 380px;
+        background: white;
+        overflow-y: auto;
+        padding: 1.5rem;
+    }
+
+    /* File uploader wrapper */
+    .dropzone-wrapper {
+        border: 2px dashed #CBD5E1;
+        background: #F8FAFC;
+        border-radius: 0.5rem;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        color: #64748B;
+        transition: all 0.2s;
+    }
+
+    .dropzone-wrapper:hover {
+        border-color: var(--finance-secondary);
+        background: rgba(42, 69, 112, 0.03);
+    }
+
+    /* Custom form elements */
+    .finance-input, .finance-select {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #CBD5E1;
+        border-radius: 0.375rem;
+        font-size: 0.85rem;
+    }
+
+    /* Loading Overlay */
+    .global-loader {
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        display: none;
+    }
+
+    .spinner {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #CBD5E1;
+        border-top-color: var(--finance-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* === Upload guided area === */
+    .upload-intro {
+        background: #F8FAFC;
+        border-left: 3px solid var(--finance-secondary);
+        border-radius: 0.375rem;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1.25rem;
+        font-size: 0.82rem;
+        color: #475569;
+        line-height: 1.5;
+    }
+
+    .upload-intro strong {
+        color: var(--finance-primary);
+    }
+
+    .upload-step-card .step-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--finance-primary);
+        color: white;
+        font-size: 0.72rem;
+        font-weight: 700;
+        margin-right: 0.4rem;
+    }
+
+    .upload-action-bar {
+        background: #F8FAFC;
+        border: 1px solid var(--border-color);
+        border-radius: 0.375rem;
+        padding: 0.85rem 1rem;
+        margin-top: 1rem;
+    }
+
+    .upload-action-bar .step-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--finance-primary);
+        color: white;
+        font-size: 0.72rem;
+        font-weight: 700;
+        margin-right: 0.4rem;
+    }
+
+    .upload-danger-zone {
+        border: 1px solid #FECACA;
+        background: #FEF2F2;
+        border-radius: 0.375rem;
+        padding: 0.85rem 1rem;
+        margin-top: 1rem;
+    }
+
+    .upload-danger-zone .danger-label {
+        color: var(--finance-danger);
+        font-weight: 700;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .email-workflow-step {
+        align-items: center;
+        background: #f8fafc;
+        border: 1px solid #dbe4f0;
+        border-radius: 10px;
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+
+    .email-step-copy {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .email-step-label {
+        color: #1d4ed8;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+    }
+
+    .email-step-title {
+        color: var(--finance-navy);
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+    }
+
+    .email-step-description {
+        color: #64748b;
+        font-size: 0.8rem;
+        margin: 0;
+    }
+
+    .email-report-mode-group {
+        display: grid;
+        gap: 0.6rem;
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+        margin: 0.9rem 0 0.75rem;
+    }
+
+    .email-report-mode-option {
+        cursor: pointer;
+        min-width: 0;
+        position: relative;
+    }
+
+    .email-report-mode-option input {
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+    }
+
+    .email-report-mode-card {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        display: block;
+        height: 100%;
+        padding: 0.7rem 0.8rem;
+    }
+
+    .email-report-mode-option input:checked + .email-report-mode-card {
+        background: #eff6ff;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 1px #2563eb;
+    }
+
+    .email-report-mode-option input:focus-visible + .email-report-mode-card {
+        outline: 3px solid rgba(37, 99, 235, 0.25);
+        outline-offset: 2px;
+    }
+
+    .email-report-mode-title {
+        color: #14233b;
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+    }
+
+    .email-report-mode-description {
+        color: #64748b;
+        display: block;
+        font-size: 0.72rem;
+        line-height: 1.35;
+    }
+
+    @media (max-width: 900px) {
+        .email-report-mode-group {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .email-preview-shell {
+        background: #fff;
+        border: 1px solid #dbe4f0;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+
+    .email-preview-header {
+        align-items: center;
+        background: #f8fafc;
+        border-bottom: 1px solid #dbe4f0;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+    }
+
+    .email-preview-card {
+        background: #eef2f7;
+        height: 720px;
+        min-height: 420px;
+        overflow: hidden;
+    }
+
+    .email-preview-frame {
+        border: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .email-preview-placeholder {
+        align-items: center;
+        color: #64748b;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        height: 100%;
+        justify-content: center;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .email-preview-placeholder i {
+        color: #94a3b8;
+        font-size: 1.75rem;
+    }
+
+    .email-recipient-panel {
+        background: #fff;
+        border: 1px solid #dbe4f0;
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    .email-actions {
+        align-items: center;
+        display: flex;
+        gap: 0.6rem;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+
+    .email-send-status {
+        border-radius: 8px;
+        display: none;
+        font-size: 0.82rem;
+        margin-top: 0.75rem;
+        padding: 0.7rem 0.85rem;
+    }
+
+    .email-send-status.is-info {
+        background: #eff6ff;
+        color: #1d4ed8;
+        display: block;
+    }
+
+    .email-send-status.is-success {
+        background: #dcfce7;
+        color: #166534;
+        display: block;
+    }
+
+    .email-send-status.is-error {
+        background: #fee2e2;
+        color: #991b1b;
+        display: block;
+    }
+
+    @media (max-width: 768px) {
+        .email-workflow-step {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .email-preview-card {
+            height: 620px;
+        }
+
+        .email-actions {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .email-actions .btn {
+            width: 100%;
+        }
+    }
+
+</style>
+
+</head>
+
+<body x-data="{
+    collapsed: false,
+    mobileOpen: false,
+    geradores: false,
+    acompanhamento: false,
+    gestaoReservas: false,
+    auditoria: false,
+    projetos: false,
+    psico: false,
+    gestaoAVista: false,
+    deparaAprova: false
+}">
+
+    <div class="shell">
+
+        <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+        
+        <aside class="sidebar" :class="{ 'collapsed': collapsed, 'mobile-open': mobileOpen }">
+
+            <!-- Brand strip -->
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div class="brand-label">
+                    <div class="brand-name">FLOW</div>
+                    <div class="brand-sub">Qualidade &amp; Operações</div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <div class="nav-section">Menu</div>
+
+                <!-- Home -->
+                <div class="nav-item">
+                    <a href="home.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <div class="nav-tip">Home</div>
+                </div>
+
+                
+                <div class="nav-item">
+                    <a href="controle-acessos.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="nav-text">Controle de Usuários</span>
+                    </a>
+                    <div class="nav-tip">Controle de Usuários</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="estatisticas-acesso.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span class="nav-text">Estatísticas de Acesso</span>
+                    </a>
+                    <div class="nav-tip">Estatísticas de Acesso</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="gerenciar-regionais.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="nav-text">Gerenciar Regionais</span>
+                    </a>
+                    <div class="nav-tip">Gerenciar Regionais</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) gestaoAVista = !gestaoAVista"
+                        class="nav-link "
+                        :class="{ 'expanded': gestaoAVista && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span class="nav-text">Gestão a Vista</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Gestão a Vista</div>
+                    <div x-show="gestaoAVista && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="dashboard.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span>Dashboards</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="financeiro.html"
+                        class="nav-link active">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="nav-text">Financeiro</span>
+                    </a>
+                    <div class="nav-tip">Financeiro</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) gestaoReservas = !gestaoReservas"
+                        class="nav-link "
+                        :class="{ 'expanded': gestaoReservas && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <span class="nav-text">Gestão de Reservas</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Gestão de Reservas</div>
+                    <div x-show="gestaoReservas && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="gestao-salas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span>Gestão de Salas</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Reserva de Salas</span>
+                        </a>
+                        
+                        
+                        <a href="calendario-reservas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Calendário de Reservas</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) projetos = !projetos"
+                        class="nav-link "
+                        :class="{ 'expanded': projetos && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                        <span class="nav-text">Projetos</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Projetos</div>
+                    <div x-show="projetos && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="planner.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                            <span>Planner</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                            </svg>
+                            <span>Arquivos</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) auditoria = !auditoria"
+                        class="nav-link "
+                        :class="{ 'expanded': auditoria && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                        </svg>
+                        <span class="nav-text">Auditoria</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Auditoria</div>
+                    <div x-show="auditoria && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="auditoria.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span>Auditor de Ronda</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="relatorios.html" class="nav-link">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">Relatórios</span>
+                    </a>
+                    <div class="nav-tip">Relatórios</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="qualidade.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        <span class="nav-text">Gestão da Qualidade</span>
+                    </a>
+                    <div class="nav-tip">Gestão da Qualidade</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="nav-text">Gestão de Ordens</span>
+                    </a>
+                    <div class="nav-tip">Gestão de Ordens</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) deparaAprova = !deparaAprova"
+                        class="nav-link "
+                        :class="{ 'expanded': deparaAprova && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">DparAprova</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">DparAprova — Validação de Certificados</div>
+                    <div x-show="deparaAprova && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span>Validação de Certificado</span>
+                        </a>
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            <span>Carta de Validação</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 17v-2a4 4 0 014-4h4m0 0l-3-3m3 3l-3 3M4 7h6m-6 4h6m-6 4h4" />
+                            </svg>
+                            <span>Elaborar Certificado</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="chamados.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                        </svg>
+                        <span class="nav-text">Chamado</span>
+                    </a>
+                    <div class="nav-tip">Chamado — Solicitação de Projetos e Automações</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="calendario-2026.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span class="nav-text">Calendário 2026</span>
+                    </a>
+                    <div class="nav-tip">Calendário 2026</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) psico = !psico"
+                        class="nav-link "
+                        :class="{ 'expanded': psico && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3M9 12h.01M9 16h.01m3-3h3m-3 3h3" />
+                        </svg>
+                        <span class="nav-text">Psico NR1</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Psico NR1</div>
+                    <div x-show="psico && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+                            </svg>
+                            <span>Avaliação Psicossocial</span>
+                        </a>
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <span>Base Layout 1</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) geradores = !geradores"
+                        class="nav-link "
+                        :class="{ 'expanded': geradores && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                        </svg>
+                        <span class="nav-text">Geradores</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Geradores</div>
+                    <div x-show="geradores && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                            </svg>
+                            <span>Gerador QR Code</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                            </svg>
+                            <span>Gerador de Etiquetas</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
+                            </svg>
+                            <span>Gerador de Crachá</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) acompanhamento = !acompanhamento"
+                        class="nav-link "
+                        :class="{ 'expanded': acompanhamento && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">Acompanhamento</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Acompanhamento</div>
+                    <div x-show="acompanhamento && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>Desativação de CR</span>
+                        </a>
+                        
+                        
+                        <a href="controle-chips.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                            <span>Controle de Chips</span>
+                        </a>
+                        
+                        
+                        <a href="implantacoes-sistemicas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                            </svg>
+                            <span>Implantações Sistêmicas</span>
+                        </a>
+                        
+                        
+                        <a href="implantacoes.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+                            </svg>
+                            <span>Fluxo de Implantações</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            <span>Fluxo de Desmobilização</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h3m-7 5h10a2 2 0 002-2V7.414a1 1 0 00-.293-.707l-3.414-3.414A1 1 0 0012.586 3H6a2 2 0 00-2 2v13a2 2 0 002 2z" />
+                            </svg>
+                            <span>Livro de Ocorrência (PDF)</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        <span class="nav-text">Links GPS</span>
+                    </a>
+                    <div class="nav-tip">Links GPS — Fácil Acesso</div>
+                </div>
+                
+
+                <div class="nav-item">
+                    <a href="novidades.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                        </svg>
+                        <span class="nav-text">Novidades</span>
+                    </a>
+                    <div class="nav-tip">Novidades — o que mudou no sistema</div>
+                </div>
+
+                <!-- Ajuda — manter SEMPRE como ÚLTIMO item do menu -->
+                <div class="nav-item">
+                    <a href="ajuda.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="nav-text">Ajuda</span>
+                    </a>
+                    <div class="nav-tip">Ajuda — Tour pelo sistema</div>
+                </div>
+
+            </nav>
+        </aside>
+        
+
+        <!-- ══ MAIN ═════════════════════════════════════════════════ -->
+        <div class="main " :class="{ 'collapsed': collapsed }">
+
+            
+            <!-- Top bar -->
+            <header class="topbar">
+                <!-- Desktop collapse toggle -->
+                <button @click="collapsed = !collapsed" class="topbar-toggle topbar-desktop" title="Recolher menu">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </button>
+                <!-- Mobile open toggle -->
+                <button @click="mobileOpen = !mobileOpen" class="topbar-toggle topbar-mobile" title="Abrir menu">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+
+                <span class="topbar-title">FLOW</span>
+
+                <div class="topbar-right">
+                    
+                    <div class="me-3 d-flex align-items-center gap-2">
+                        <span class="text-white text-xs opacity-75 font-semibold">Filtro Regional:</span>
+                        <select
+                            onchange="window.location.href='/alterar-regional-ativa/?regional_id=' + this.value"
+                            class="form-select form-select-sm py-1 px-2 border-0 bg-white bg-opacity-10 text-white rounded font-medium text-xs cursor-pointer focus:ring-1 focus:ring-blue-500"
+                            style="width: auto; min-width: 120px; font-size: 11px;">
+                            <option value="GLOBAL" class="text-slate-800" selected>Todas as Regionais</option>
+                            
+                            <option value="159449db-c496-4ab4-bafa-821b8051e1f4" class="text-slate-800" >Goiânia - GO (GO)</option>
+                            
+                        </select>
+                    </div>
+                    
+
+                    
+                    <div class="user-chip">
+                        <div class="user-avatar">
+                            AD
+                        </div>
+                        <span class="user-name">
+                            administrador
+                            
+                            (Global)
+                            
+                        </span>
+                    </div>
+                    
+
+                    <form method="post" action="/logout/">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="GeoQHrRA7bfgMFymBbMTQbgiwdHgAKokDUDs4Kvx3f0sWzxbDkmAD6o0gp7V7SyU">
+                        <button type="submit" class="btn-exit">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Sair
+                        </button>
+                    </form>
+                </div>
+            </header>
+            
+
+            <!-- Page content -->
+            <main class="page-body page-in">
+                
+
+                
+<!-- Loading overlay -->
+<div class="global-loader" id="globalLoader">
+    <div class="spinner"></div>
+    <h5 class="fw-bold text-slate-800" id="loaderMessage">Carregando painel financeiro...</h5>
+</div>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <div class="finance-icon"><i class="fas fa-wallet"></i></div>
+            <h1 class="finance-title">Painel Financeiro</h1>
+        </div>
+        <div>
+            <span class="badge bg-secondary px-3 py-2 fs-7">Carteira Exemplo</span>
+        </div>
+    </div>
+
+    <!-- Module Navigation (top-level, above content) -->
+    <div class="finance-module-nav">
+        <button class="finance-tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')"><i class="fas fa-chart-line"></i> Acompanhamento</button>
+        <button class="finance-tab-btn" data-tab="fechamento" onclick="switchTab('fechamento')"><i class="fas fa-file-signature"></i> Fechamento</button>
+        <button class="finance-tab-btn" data-tab="chat" onclick="switchTab('chat')"><i class="fas fa-robot"></i> Análise IA</button>
+        
+        <button class="finance-tab-btn tab-data-btn" data-tab="upload" onclick="switchTab('upload')" title="Enviar planilhas"><i class="fas fa-file-import"></i> Atualizar Dados</button>
+        
+        <button class="finance-tab-btn" data-tab="email" onclick="switchTab('email')"><i class="fas fa-envelope"></i> Alertas por E-mail</button>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="row g-4">
+        <!-- Sidebar filters (3/12 cols) — contextual to Acompanhamento -->
+        <div class="col-lg-3" id="filter-sidebar">
+            <div class="filter-card">
+                <div class="filter-card-header" id="filter-panel-title">
+                    <i class="fas fa-filter text-primary"></i> Filtros de Acompanhamento
+                </div>
+                <div class="filter-card-body d-flex flex-column gap-3">
+                    <div>
+                        <label class="filter-label">Mês</label>
+                        <select class="filter-select" id="filter-meses" multiple onchange="onFilterChange()"></select>
+                    </div>
+                    <div>
+                        <label class="filter-label">Classificação Alerta</label>
+                        <select class="filter-select" id="filter-alertas" multiple onchange="onFilterChange()">
+                            <option value="sem_orcamento">Sem orçamento</option>
+                            <option value="estourado">Estourado</option>
+                            <option value="critico">Crítico</option>
+                            <option value="atencao">Atenção</option>
+                            <option value="sem_alerta">Sem Alerta</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="filter-label">PEC</label>
+                        <select class="filter-select" id="filter-pecs" multiple onchange="onFilterChange()"></select>
+                    </div>
+                    <div>
+                        <label class="filter-label">CC. SUP</label>
+                        <select class="filter-select" id="filter-cc-sups" multiple onchange="onFilterChange()"></select>
+                    </div>
+                    <div>
+                        <label class="filter-label">Conta Contábil</label>
+                        <select class="filter-select" id="filter-contas" multiple onchange="onFilterChange()"></select>
+                    </div>
+                    <div id="filter-fornecedor-group">
+                        <label class="filter-label">Fornecedor</label>
+                        <select class="filter-select" id="filter-fornecedores" multiple onchange="onFilterChange()"></select>
+                    </div>
+                    <button class="btn btn-outline-secondary btn-sm mt-2 w-100" onclick="clearFilters()">
+                        <i class="fas fa-sync-alt"></i> Limpar Filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Workspace -->
+        <div class="col-lg-9" id="content-area">
+            <div class="finance-card">
+                <!-- Tab: Dashboard (Acompanhamento) -->
+                <div class="finance-tab-content active" id="tab-dashboard">
+                    <div class="tab-context-header">
+                        <span class="tab-context-icon"><i class="fas fa-chart-line"></i></span>
+                        <div>
+                            <h5 class="tab-context-title">Acompanhamento financeiro</h5>
+                            <p class="tab-context-subtitle">Resumo da carteira, alertas e evolução do orçamento x compras.</p>
+                        </div>
+                    </div>
+                    <!-- Stats cards grid -->
+                    <div class="finance-stats-grid">
+                        <div class="finance-stat-card info">
+                            <div class="finance-stat-info">
+                                <h3>Receita Orçada</h3>
+                                <p class="finance-stat-number" id="kpi-receita-orcada">R$ 0,00</p>
+                            </div>
+                            <div class="finance-stat-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                        </div>
+                        <div class="finance-stat-card danger">
+                            <div class="finance-stat-info">
+                                <h3>Orçamento Custos</h3>
+                                <p class="finance-stat-number" id="kpi-orcamento-custos">R$ 0,00</p>
+                            </div>
+                            <div class="finance-stat-icon"><i class="fas fa-calculator"></i></div>
+                        </div>
+                        <div class="finance-stat-card success">
+                            <div class="finance-stat-info">
+                                <h3>Margem Orçada</h3>
+                                <p class="finance-stat-number" id="kpi-margem-orcada">R$ 0,00</p>
+                            </div>
+                            <div class="finance-stat-icon"><i class="fas fa-percentage"></i></div>
+                        </div>
+                        <div class="finance-stat-card info">
+                            <div class="finance-stat-info">
+                                <h3>Compras Realizadas</h3>
+                                <p class="finance-stat-number" id="kpi-realizado-custos">R$ 0,00</p>
+                            </div>
+                            <div class="finance-stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="finance-stats-grid">
+                        <div class="finance-stat-card info">
+                            <div class="finance-stat-info">
+                                <h3>Saldo Orçamento</h3>
+                                <p class="finance-stat-number" id="kpi-saldo-custos">R$ 0,00</p>
+                            </div>
+                        </div>
+                        <div class="finance-stat-card warning">
+                            <div class="finance-stat-info">
+                                <h3>Excesso Total</h3>
+                                <p class="finance-stat-number" id="kpi-excesso-total">R$ 0,00</p>
+                            </div>
+                        </div>
+                        <div class="finance-stat-card danger">
+                            <div class="finance-stat-info">
+                                <h3>Alertas Ativos</h3>
+                                <p class="finance-stat-number" id="kpi-alertas-total">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk chips row -->
+                    <div class="risk-row">
+                        <div class="risk-chip" style="--risk-color: var(--finance-brown)">
+                            <span>Sem Orçamento</span>
+                            <strong id="chip-sem-orcamento">0</strong>
+                        </div>
+                        <div class="risk-chip" style="--risk-color: var(--finance-danger)">
+                            <span>Estourado</span>
+                            <strong id="chip-estourado">0</strong>
+                        </div>
+                        <div class="risk-chip" style="--risk-color: var(--finance-brown)">
+                            <span>Crítico</span>
+                            <strong id="chip-critico">0</strong>
+                        </div>
+                        <div class="risk-chip" style="--risk-color: var(--finance-warning)">
+                            <span>Atenção</span>
+                            <strong id="chip-atencao">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="sub-tabs-nav">
+                        <button class="sub-tab-btn active" onclick="switchSubTab('dashboard', 'overview')"><i class="fas fa-chart-pie"></i> Visão Geral</button>
+                        <button class="sub-tab-btn" onclick="switchSubTab('dashboard', 'alerts')"><i class="fas fa-exclamation-triangle"></i> Alertas</button>
+                        <button class="sub-tab-btn" onclick="switchSubTab('dashboard', 'nobudget')"><i class="fas fa-unlink"></i> Sem Orçamento</button>
+                        <button class="sub-tab-btn" onclick="switchSubTab('dashboard', 'detail')"><i class="fas fa-list-alt"></i> Base Completa</button>
+                    </div>
+
+                    <!-- Subtab: Visão Geral (charts) -->
+                    <div class="sub-tab-content active" id="subtab-dashboard-overview">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card p-3 border">
+                                    <h6 class="fw-bold mb-3">Distribuição dos Alertas</h6>
+                                    <div style="height: 250px; position: relative;">
+                                        <canvas id="chartAlertDistribution"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card p-3 border">
+                                    <h6 class="fw-bold mb-3">Orçado x Compras por Mês</h6>
+                                    <div style="height: 250px; position: relative;">
+                                        <canvas id="chartBudgetVsSpent"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card p-3 border">
+                                    <h6 class="fw-bold mb-3">Maiores Excessos Identificados</h6>
+                                    <div style="height: 300px; position: relative;">
+                                        <canvas id="chartTopExcesses"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subtab: Alertas -->
+                    <div class="sub-tab-content" id="subtab-dashboard-alerts">
+                        <div class="sub-tabs-nav bg-light p-2 rounded mb-3">
+                            <button class="sub-tab-btn active" onclick="switchAlertSubTab('blown')"><i class="fas fa-fire"></i> Contas Estouradas</button>
+                            <button class="sub-tab-btn" onclick="switchAlertSubTab('nearlimit')"><i class="fas fa-tachometer-alt"></i> Próximas do Limite</button>
+                        </div>
+                        <div id="alert-subtab-blown" class="alert-subtab-content">
+                            <div class="table-responsive">
+                                <table class="finance-table" id="table-blown">
+                                    <thead>
+                                        <tr>
+                                            <th>Mês</th>
+                                            <th>PEC</th>
+                                            <th>CC. SUP</th>
+                                            <th>Conta</th>
+                                            <th>Orçado</th>
+                                            <th>Comprado</th>
+                                            <th>Excesso</th>
+                                            <th>Fornecedores</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="alert-subtab-nearlimit" class="alert-subtab-content" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="finance-table" id="table-nearlimit">
+                                    <thead>
+                                        <tr>
+                                            <th>Alerta</th>
+                                            <th>Mês</th>
+                                            <th>PEC</th>
+                                            <th>CC. SUP</th>
+                                            <th>Conta</th>
+                                            <th>Orçado</th>
+                                            <th>Comprado</th>
+                                            <th>Consumo %</th>
+                                            <th>Fornecedores</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subtab: Sem Orçamento -->
+                    <div class="sub-tab-content" id="subtab-dashboard-nobudget">
+                        <div class="alert alert-info py-2 fs-7 mb-3">
+                            Abaixo estão listadas as compras localizadas que não possuem correspondência direta na tabela orçada do BI.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="finance-table" id="table-nobudget">
+                                <thead>
+                                    <tr>
+                                        <th>Mês</th>
+                                        <th>PEC</th>
+                                        <th>CC. SUP</th>
+                                        <th>Conta</th>
+                                        <th>Valor Comprado</th>
+                                        <th>Fornecedores</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Subtab: Base detalhada -->
+                    <div class="sub-tab-content" id="subtab-dashboard-detail">
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            <table class="finance-table" id="table-detail">
+                                <thead>
+                                    <tr>
+                                        <th>Alerta</th>
+                                        <th>Mês</th>
+                                        <th>PEC</th>
+                                        <th>CC. SUP</th>
+                                        <th>Conta</th>
+                                        <th>Orçado</th>
+                                        <th>Comprado</th>
+                                        <th>Saldo</th>
+                                        <th>Excesso</th>
+                                        <th>Consumo %</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Fechamento -->
+                <div class="finance-tab-content" id="tab-fechamento">
+                    <div class="tab-context-header">
+                        <span class="tab-context-icon"><i class="fas fa-file-signature"></i></span>
+                        <div>
+                            <h5 class="tab-context-title">Fechamento mensal</h5>
+                            <p class="tab-context-subtitle">Orçado x Realizado oficial do RE X OR.</p>
+                        </div>
+                    </div>
+                    <!-- Closing stats summary -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <div class="p-3 border rounded bg-light text-center">
+                                <h6 class="fs-8 text-uppercase fw-bold text-slate-600 mb-1">Orçado</h6>
+                                <h4 class="fw-bold text-slate-800" id="close-kpi-orcado">R$ 0,00</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 border rounded bg-light text-center">
+                                <h6 class="fs-8 text-uppercase fw-bold text-slate-600 mb-1">Realizado Contábil RE X OR</h6>
+                                <h4 class="fw-bold text-slate-800" id="close-kpi-realizado">R$ 0,00</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 border rounded bg-light text-center">
+                                <h6 class="fs-8 text-uppercase fw-bold text-slate-600 mb-1">Saldo</h6>
+                                <h4 class="fw-bold text-slate-800" id="close-kpi-saldo">R$ 0,00</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 border rounded bg-light text-center">
+                                <h6 class="fs-8 text-uppercase fw-bold text-slate-600 mb-1">Excesso</h6>
+                                <h4 class="fw-bold text-slate-800" id="close-kpi-excesso">R$ 0,00</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-tabs-nav">
+                        <button class="sub-tab-btn active" onclick="switchSubTab('fechamento', 'blown')"><i class="fas fa-fire"></i> Estouradas</button>
+                        <button class="sub-tab-btn" onclick="switchSubTab('fechamento', 'detail')"><i class="fas fa-list-alt"></i> Base Completa</button>
+                    </div>
+
+                    <!-- Closing subtabs -->
+                    <div class="sub-tab-content active" id="subtab-fechamento-blown">
+                        <div class="table-responsive">
+                            <table class="finance-table" id="table-closing-blown">
+                                <thead>
+                                    <tr>
+                                        <th>Mês</th>
+                                        <th>PEC</th>
+                                        <th>CC. SUP</th>
+                                        <th>Conta</th>
+                                        <th>Orçado</th>
+                                        <th>Realizado Contábil RE X OR</th>
+                                        <th>Excesso</th>
+                                        <th>Situação</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="sub-tab-content" id="subtab-fechamento-detail">
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            <table class="finance-table" id="table-closing-detail">
+                                <thead>
+                                    <tr>
+                                        <th>Mês</th>
+                                        <th>PEC</th>
+                                        <th>CC. SUP</th>
+                                        <th>Conta</th>
+                                        <th>Orçado</th>
+                                        <th>Realizado Contábil RE X OR</th>
+                                        <th>Consumo %</th>
+                                        <th>Excesso</th>
+                                        <th>Situação</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Chat -->
+                <div class="finance-tab-content" id="tab-chat">
+                    <div class="tab-context-header">
+                        <span class="tab-context-icon"><i class="fas fa-robot"></i></span>
+                        <div class="me-auto">
+                            <h5 class="tab-context-title">Análise IA</h5>
+                            <p class="tab-context-subtitle">Pergunte sobre desvios, contas críticas e fechamento financeiro.</p>
+                        </div>
+                        <div class="d-flex gap-2 align-items-center">
+                            <label class="fs-8 fw-semibold text-slate-500 mb-0">Modo:</label>
+                            <select class="form-select form-select-sm" id="chat-answer-mode" style="width: 170px;" onchange="resetQuestionSuggestions(); updateChatFilterSummary()">
+                                <option value="auto">Automático</option>
+                                <option value="daily">Acompanhamento Diário</option>
+                                <option value="closing">Fechamento Mensal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Chat UI -->
+                    <div class="chat-container">
+                        <div class="chat-filter-summary" aria-live="polite">
+                            <span>Filtros ativos:</span>
+                            <strong class="chat-filter-values" id="chatActiveFilters">Nenhum filtro selecionado (todos os dados)</strong>
+                            <button type="button" class="chat-filter-toggle" id="chatFilterToggle" onclick="toggleChatFilterSummary()" aria-expanded="false" hidden>mais...</button>
+                        </div>
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="chat-message assistant">
+                                Olá! Sou o assistente financeiro do GPS Flow. Estou pronto para analisar a carteira atual, responder sobre os desvios, verificar contas estouradas, compras sem orçamento e ajudar no fechamento. Como posso ajudar você hoje?
+                            </div>
+                        </div>
+                        <div class="chat-presets">
+                            <div class="question-suggestions-grid">
+                            <button class="preset-btn" onclick="sendPresetPrompt('Faça um resumo executivo curto')">Resumo Executivo</button>
+                            <button class="preset-btn" onclick="sendPresetPrompt('Quais contas precisam de atenção?')">Contas em Atenção</button>
+                            <button class="preset-btn" onclick="sendPresetPrompt('Quais contas estouraram no fechamento?')">Estouros de Fechamento</button>
+                            <button class="preset-btn" onclick="sendPresetPrompt('Quais contas estão perto do limite no fechamento?')">Limites do Fechamento</button>
+                            </div>
+                            <div class="chat-preset-actions">
+                            <button class="preset-btn suggestion-generator-btn" onclick="generateQuestionSuggestions()"><i class="fas fa-lightbulb"></i> Sugerir perguntas</button>
+                            <button class="preset-btn btn-outline-danger ms-auto bg-transparent border-0 text-danger" onclick="clearChat()">Limpar Chat</button>
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" class="chat-input" id="chatInput" placeholder="Envie sua pergunta aqui..." onkeypress="handleChatKey(event)">
+                            <button class="btn btn-primary btn-sm px-3" onclick="submitChatPrompt()"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Email -->
+                <div class="finance-tab-content" id="tab-email">
+                    <div class="tab-context-header">
+                        <span class="tab-context-icon"><i class="fas fa-envelope"></i></span>
+                        <div>
+                            <h5 class="tab-context-title">Alertas por E-mail</h5>
+                            <p class="tab-context-subtitle">Gere uma comunicação executiva com os principais pontos de atenção.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="email-workflow-step">
+                        <div class="email-step-copy">
+                            <div class="email-step-label">Etapa 1</div>
+                            <div class="email-step-title">Escolha o conte&uacute;do, a compet&ecirc;ncia e gere a pr&eacute;via</div>
+                            <fieldset class="email-report-mode-group" aria-label="Conte&uacute;do do relat&oacute;rio por e-mail">
+                                <label class="email-report-mode-option">
+                                    <input type="radio" name="email-report-mode" value="daily" checked onchange="invalidateEmailDraft('O conte&uacute;do mudou. Gere uma nova pr&eacute;via.'); updateEmailMonthHint()">
+                                    <span class="email-report-mode-card">
+                                        <span class="email-report-mode-title">Acompanhamento di&aacute;rio</span>
+                                        <span class="email-report-mode-description">Compras Produto realizadas comparadas ao or&ccedil;amento.</span>
+                                    </span>
+                                </label>
+                                <label class="email-report-mode-option">
+                                    <input type="radio" name="email-report-mode" value="closing" onchange="invalidateEmailDraft('O conte&uacute;do mudou. Gere uma nova pr&eacute;via.'); updateEmailMonthHint()">
+                                    <span class="email-report-mode-card">
+                                        <span class="email-report-mode-title">Fechamento</span>
+                                        <span class="email-report-mode-description">Realizado cont&aacute;bil RE X OR comparado ao or&ccedil;amento.</span>
+                                    </span>
+                                </label>
+                                <label class="email-report-mode-option">
+                                    <input type="radio" name="email-report-mode" value="both" onchange="invalidateEmailDraft('O conte&uacute;do mudou. Gere uma nova pr&eacute;via.'); updateEmailMonthHint()">
+                                    <span class="email-report-mode-card">
+                                        <span class="email-report-mode-title">Ambos</span>
+                                        <span class="email-report-mode-description">Acompanhamento di&aacute;rio e fechamento em se&ccedil;&otilde;es separadas.</span>
+                                    </span>
+                                </label>
+                            </fieldset>
+                            <p class="email-step-description" id="email-month-hint">Sem m&ecirc;s selecionado, ser&aacute; usada a compet&ecirc;ncia mais recente da base.</p>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="email-generate-btn" onclick="generateEmailDraft()">
+                            <i class="fas fa-file-alt"></i> Gerar pr&eacute;via
+                        </button>
+                    </div>
+
+                    <div class="email-preview-shell">
+                        <div class="email-preview-header">
+                            <span class="fw-semibold fs-8"><i class="fas fa-eye text-primary me-1"></i> Pr&eacute;via do relat&oacute;rio</span>
+                            <span class="badge bg-secondary" id="email-preview-badge">Aguardando gera&ccedil;&atilde;o</span>
+                        </div>
+                        <div class="email-preview-card" id="emailDraftPreview">
+                            <div class="email-preview-placeholder">
+                                <i class="fas fa-envelope-open-text"></i>
+                                <strong>Nenhuma pr&eacute;via gerada</strong>
+                                <span>Selecione um &uacute;nico m&ecirc;s no filtro ou use automaticamente a compet&ecirc;ncia mais recente.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="email-recipient-panel">
+                        <div class="email-step-label">Etapa 2</div>
+                        <div class="email-step-title mb-3">Confira o destinat&aacute;rio e envie o relat&oacute;rio</div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fs-8 fw-semibold" for="email-to">Destinat&aacute;rio</label>
+                                <input type="text" class="finance-input" id="email-to" value="responsavel@empresa.com" placeholder="nome@empresa.com; outro@empresa.com" autocomplete="email" inputmode="email" aria-describedby="email-to-help">
+                                <div class="form-text" id="email-to-help">O destinat&aacute;rio &eacute; edit&aacute;vel. Separe v&aacute;rios endere&ccedil;os com ponto e v&iacute;rgula.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fs-8 fw-semibold" for="email-subject">Assunto</label>
+                                <input type="text" class="finance-input" id="email-subject" value="Relatorio Financeiro" readonly>
+                            </div>
+                        </div>
+                        <div class="email-actions">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="email-download-btn" onclick="downloadEmailDraftHTML()" disabled>
+                                <i class="fas fa-file-code"></i> Salvar HTML
+                            </button>
+                            
+                            <button type="button" class="btn btn-success btn-sm" id="email-send-btn" onclick="sendEmailDraft()" disabled>
+                                <i class="fas fa-paper-plane"></i> Enviar e-mail
+                            </button>
+                            
+                        </div>
+                        <div class="email-send-status" id="email-send-status" role="status" aria-live="polite"></div>
+                    </div>
+                </div>
+
+                
+                <!-- Tab: Upload (Atualizar Dados) -->
+                <div class="finance-tab-content" id="tab-upload">
+                    <div class="tab-context-header">
+                        <span class="tab-context-icon"><i class="fas fa-file-import"></i></span>
+                        <div>
+                            <h5 class="tab-context-title">Atualizar Dados</h5>
+                            <p class="tab-context-subtitle">Envie planilhas e reprocesse a base do painel.</p>
+                        </div>
+                    </div>
+
+                    <div class="upload-intro">
+                        <strong>Como funciona:</strong> Selecione o tipo de planilha e o mês de referência, escolha o arquivo Excel e clique em <strong>Enviar e Processar</strong>. O sistema substitui automaticamente a planilha anterior do mesmo tipo/mês.
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="card p-3 border h-100 upload-step-card">
+                                <h6 class="fw-bold mb-3"><span class="step-badge">1</span> Parâmetros da Planilha</h6>
+                                <div class="d-flex flex-column gap-3">
+                                    <div>
+                                        <label class="form-label fs-8 fw-bold">Tipo da Planilha</label>
+                                        <select class="finance-select" id="upload-dataset">
+                                            <option value="compras">Compras Produto</option>
+                                            <option value="resultado">Resultado RE X OR</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="form-label fs-8 fw-bold">Mês de Referência</label>
+                                        <select class="finance-select" id="upload-month">
+                                            <option value="2026-01">Janeiro 2026</option>
+                                            <option value="2026-02">Fevereiro 2026</option>
+                                            <option value="2026-03">Março 2026</option>
+                                            <option value="2026-04">Abril 2026</option>
+                                            <option value="2026-05">Maio 2026</option>
+                                            <option value="2026-06" selected>Junho 2026</option>
+                                            <option value="2026-07">Julho 2026</option>
+                                            <option value="2026-08">Agosto 2026</option>
+                                            <option value="2026-09">Setembro 2026</option>
+                                            <option value="2026-10">Outubro 2026</option>
+                                            <option value="2026-11">Novembro 2026</option>
+                                            <option value="2026-12">Dezembro 2026</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="card p-3 border h-100 upload-step-card">
+                                <h6 class="fw-bold mb-3"><span class="step-badge">2</span> Selecionar Arquivo Excel</h6>
+                                <div class="dropzone-wrapper" onclick="document.getElementById('uploadFileEl').click()">
+                                    <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-secondary"></i>
+                                    <h6 class="fw-bold mb-1" id="dropzone-text">Arraste ou clique para selecionar o arquivo Excel (.xlsx, .xls)</h6>
+                                    <span class="fs-8 text-muted">Tamanho máximo de 20MB.</span>
+                                    <input type="file" id="uploadFileEl" style="display: none;" onchange="handleFileSelected(this)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action bar: step 3 -->
+                    <div class="upload-action-bar">
+                        <h6 class="fw-bold mb-2"><span class="step-badge">3</span> Enviar e Processar</h6>
+                        <p class="fs-8 text-muted mb-2">Após enviar, o sistema processa automaticamente a base. Use <strong>Processar Base Atual</strong> se quiser recalcular sem enviar novo arquivo.</p>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary btn-sm px-4" id="btnUploadSubmit" onclick="uploadSpreadsheet()" disabled>
+                                    <i class="fas fa-upload"></i> Enviar e Processar
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="runPipelineOnly()">
+                                    <i class="fas fa-sync-alt"></i> Processar Base Atual
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Danger zone -->
+                    
+                    <div class="upload-danger-zone">
+                        <div class="danger-label"><i class="fas fa-exclamation-circle"></i> Ação Irreversível</div>
+                        <p class="fs-8 text-muted mb-2">Remove permanentemente todas as planilhas e dados financeiros do sistema. Use apenas se precisar recomeçar do zero.</p>
+                        <button class="btn btn-outline-danger btn-sm" onclick="clearFinancialData()">
+                            <i class="fas fa-trash-alt"></i> Limpar Todos os Dados
+                        </button>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ChartJS & AJAX Controllers -->
+<script src="static/vendor/chartjs/chart.min.js"></script>
+<script>
+    // System State
+    const state = {
+        filters: {
+            meses: [],
+            alertas: [],
+            pecs: [],
+            cc_sups: [],
+            contas: [],
+            fornecedores: []
+        },
+        filtersInitialized: false,
+        chatHistory: [],
+        charts: {},
+        currentTab: 'dashboard',
+        currentSubTabs: {
+            dashboard: 'overview',
+            fechamento: 'blown'
+        },
+        currentAlertSubTab: 'blown',
+        selectedFile: null
+    };
+
+    // CSRF token renderizado direto pelo Django -- nao ler via cookie por nome
+    // fixo aqui: staging usa CSRF_COOKIE_NAME diferente ('staging_csrftoken')
+    // do padrao de producao ('csrftoken'), e os dois ambientes compartilham o
+    // mesmo dominio (gpsrco.com.br), so a porta muda. Ler o cookie fixo por
+    // nome pega o token errado (ou nenhum) em staging e quebra o CSRF.
+    const csrftoken = 'GeoQHrRA7bfgMFymBbMTQbgiwdHgAKokDUDs4Kvx3f0sWzxbDkmAD6o0gp7V7SyU';
+
+    // Loader controls
+    function showLoader(message = "Carregando...") {
+        document.getElementById('loaderMessage').textContent = message;
+        document.getElementById('globalLoader').style.display = 'flex';
+    }
+    function hideLoader() {
+        document.getElementById('globalLoader').style.display = 'none';
+    }
+
+    // Money formatter helper
+    function formatMoney(value) {
+        if (value === null || value === undefined) return "R$ 0,00";
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+    }
+
+    // Converte razao (0.8) em percentual formatado (80,0%).
+    // O consumo_pct vem como razao, nao como percentual.
+    function formatPct(ratio) {
+        const value = (Number(ratio) || 0) * 100;
+        return value.toFixed(1).replace('.', ',') + '%';
+    }
+
+    // Initialize Page
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchDashboardData();
+        updateChatFilterSummary();
+        updateEmailMonthHint();
+    });
+
+    // Fetch dynamic JSON data
+    function fetchDashboardData() {
+        showLoader("Analisando registros financeiros...");
+        fetch("/financeiro/api/data/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify(state.filters)
+        })
+        .then(res => {
+            if (!res.ok) {
+                return res.json().then(errData => {
+                    throw new Error(errData.error || "Erro interno do servidor");
+                }).catch(() => {
+                    throw new Error("Erro de comunicação com o servidor.");
+                });
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            const { changedSelects, prunedFilters } = populateFilterDropdowns(data.filter_options);
+            if (!state.filtersInitialized) {
+                initCustomMultiselects();
+                state.filtersInitialized = true;
+            } else {
+                changedSelects.forEach(select => select.dispatchEvent(new Event('sync-custom')));
+            }
+
+            if (prunedFilters.length > 0) {
+                updateChatFilterSummary();
+                updateEmailMonthHint();
+                resetQuestionSuggestions();
+                if (prunedFilters.includes('meses')) {
+                    invalidateEmailDraft('O filtro de m\u00eas selecionado n\u00e3o est\u00e1 mais dispon\u00edvel. Gere uma nova pr\u00e9via.');
+                }
+                fetchDashboardData();
+                return;
+            }
+
+            updateKPIs(data.kpis);
+            updateClosingKPIs(data.closing_kpis);
+            updateAlertChips(data.alert_counts);
+            initOrUpdateCharts(data.charts);
+            populateTables(data.tables);
+            hideLoader();
+        })
+        .catch(err => {
+            console.error("Fetch dashboard error:", err);
+            hideLoader();
+            alert("Não foi possível carregar os dados financeiros do servidor:\n" + err.message);
+        });
+    }
+
+    // Populate Filter Options
+    function populateFilterDropdowns(options) {
+        const changedSelects = [];
+        const prunedFilters = [];
+        const buildOptions = (elementId, values, stateKey) => {
+            const el = document.getElementById(elementId);
+            const nextValues = (values || []).map(value => String(value));
+            const currentValues = Array.from(el.options).map(option => option.value);
+            const optionsUnchanged = currentValues.length === nextValues.length
+                && currentValues.every((value, index) => value === nextValues[index]);
+            if (optionsUnchanged) return;
+
+            const selectedValues = new Set(Array.from(el.selectedOptions).map(option => option.value));
+            if (Array.from(selectedValues).some(value => !nextValues.includes(value))) {
+                prunedFilters.push(stateKey);
+            }
+            el.innerHTML = '';
+            nextValues.forEach(val => {
+                const opt = document.createElement('option');
+                opt.value = val;
+                opt.textContent = val;
+                opt.selected = selectedValues.has(val);
+                el.appendChild(opt);
+            });
+            state.filters[stateKey] = Array.from(el.selectedOptions).map(option => option.value);
+            changedSelects.push(el);
+        };
+
+        buildOptions('filter-meses', options.meses, 'meses');
+        buildOptions('filter-pecs', options.pecs, 'pecs');
+        if (options.cc_sups) buildOptions('filter-cc-sups', options.cc_sups, 'cc_sups');
+        buildOptions('filter-contas', options.contas, 'contas');
+        buildOptions('filter-fornecedores', options.fornecedores, 'fornecedores');
+        return { changedSelects, prunedFilters };
+    }
+
+    // Clear Filters
+    function clearFilters() {
+        const resetSelect = (id) => {
+            const el = document.getElementById(id);
+            for (let i = 0; i < el.options.length; i++) {
+                el.options[i].selected = false;
+            }
+        };
+        resetSelect('filter-meses');
+        resetSelect('filter-alertas');
+        resetSelect('filter-pecs');
+        if (document.getElementById('filter-cc-sups')) resetSelect('filter-cc-sups');
+        resetSelect('filter-contas');
+        resetSelect('filter-fornecedores');
+        
+        // Sync custom multiselects UI
+        document.querySelectorAll('.filter-select').forEach(s => s.dispatchEvent(new Event('sync-custom')));
+        
+        onFilterChange();
+    }
+
+    // Read selected options
+    function getSelectedOptions(elementId) {
+        const el = document.getElementById(elementId);
+        if (!el) return [];
+        return Array.from(el.selectedOptions).map(opt => opt.value);
+    }
+
+    const CHAT_FILTER_FIELDS = [
+        { label: 'M\u00eas', elementId: 'filter-meses' },
+        { label: 'Classifica\u00e7\u00e3o', elementId: 'filter-alertas' },
+        { label: 'PEC', elementId: 'filter-pecs' },
+        { label: 'CC. SUP', elementId: 'filter-cc-sups' },
+        { label: 'Conta cont\u00e1bil', elementId: 'filter-contas' },
+        { label: 'Fornecedor', elementId: 'filter-fornecedores' }
+    ];
+
+    function getSelectedOptionLabels(elementId) {
+        const element = document.getElementById(elementId);
+        if (!element) return [];
+        return Array.from(element.selectedOptions).map(option => option.textContent.trim());
+    }
+
+    const CHAT_FILTER_COLLAPSE_THRESHOLD = 140;
+    let chatFiltersExpanded = false;
+
+    function updateChatFilterSummary() {
+        const valuesElement = document.getElementById('chatActiveFilters');
+        if (!valuesElement) return;
+
+        const answerMode = document.getElementById('chat-answer-mode')?.value || 'auto';
+        const activeFilters = CHAT_FILTER_FIELDS
+            .filter(field => answerMode !== 'closing' || field.elementId !== 'filter-fornecedores')
+            .map(field => {
+                const values = getSelectedOptionLabels(field.elementId);
+                return values.length ? `${field.label}: ${values.join(', ')}` : null;
+            })
+            .filter(Boolean);
+
+        const fullText = activeFilters.length
+            ? activeFilters.join(' | ')
+            : 'Nenhum filtro selecionado (todos os dados)';
+        const summaryElement = valuesElement.closest('.chat-filter-summary');
+        const toggleElement = document.getElementById('chatFilterToggle');
+        const filtersChanged = valuesElement.dataset.fullText !== fullText;
+        const shouldCollapse = fullText.length > CHAT_FILTER_COLLAPSE_THRESHOLD;
+
+        if (filtersChanged || !shouldCollapse) {
+            chatFiltersExpanded = false;
+        }
+
+        valuesElement.dataset.fullText = fullText;
+        valuesElement.textContent = fullText;
+        summaryElement?.classList.toggle('expanded', chatFiltersExpanded && shouldCollapse);
+
+        if (toggleElement) {
+            toggleElement.hidden = !shouldCollapse;
+            toggleElement.textContent = chatFiltersExpanded ? 'menos' : 'mais...';
+            toggleElement.setAttribute('aria-expanded', String(chatFiltersExpanded));
+        }
+    }
+
+    function toggleChatFilterSummary() {
+        chatFiltersExpanded = !chatFiltersExpanded;
+        updateChatFilterSummary();
+    }
+
+
+    // Handle filter modification
+    function onFilterChange() {
+        const previousMonths = JSON.stringify(state.filters.meses || []);
+        state.filters.meses = getSelectedOptions('filter-meses');
+        state.filters.alertas = getSelectedOptions('filter-alertas');
+        state.filters.pecs = getSelectedOptions('filter-pecs');
+        state.filters.cc_sups = getSelectedOptions('filter-cc-sups');
+        state.filters.contas = getSelectedOptions('filter-contas');
+        state.filters.fornecedores = getSelectedOptions('filter-fornecedores');
+        if (previousMonths !== JSON.stringify(state.filters.meses)) {
+            invalidateEmailDraft('O filtro de m\u00eas mudou. Gere uma nova pr\u00e9via.');
+        }
+        updateEmailMonthHint();
+        resetQuestionSuggestions();
+        fetchDashboardData();
+        updateChatFilterSummary();
+    }
+
+    // Update KPI panels
+    function updateKPIs(kpis) {
+        document.getElementById('kpi-receita-orcada').textContent = formatMoney(kpis.receita_orcada);
+        document.getElementById('kpi-orcamento-custos').textContent = formatMoney(kpis.orcamento_custos);
+        document.getElementById('kpi-margem-orcada').textContent = formatMoney(kpis.margem_orcada);
+        document.getElementById('kpi-realizado-custos').textContent = formatMoney(kpis.realizado_custos);
+        document.getElementById('kpi-saldo-custos').textContent = formatMoney(kpis.saldo_custos);
+        document.getElementById('kpi-excesso-total').textContent = formatMoney(kpis.excesso_total);
+        document.getElementById('kpi-alertas-total').textContent = kpis.alertas_total;
+    }
+
+    // Update Closing KPIs
+    function updateClosingKPIs(kpis) {
+        document.getElementById('close-kpi-orcado').textContent = formatMoney(kpis.orcado_custos);
+        document.getElementById('close-kpi-realizado').textContent = formatMoney(kpis.realizado_fechado);
+        document.getElementById('close-kpi-saldo').textContent = formatMoney(kpis.saldo);
+        document.getElementById('close-kpi-excesso').textContent = formatMoney(kpis.excesso);
+    }
+
+    // Update risk labels
+    function updateAlertChips(counts) {
+        document.getElementById('chip-sem-orcamento').textContent = counts.sem_orcamento;
+        document.getElementById('chip-estourado').textContent = counts.estourado;
+        document.getElementById('chip-critico').textContent = counts.critico;
+        document.getElementById('chip-atencao').textContent = counts.atencao;
+    }
+
+    // Draw Chart.js widgets
+    function initOrUpdateCharts(chartData) {
+        // 1. Alert Distribution
+        if (state.charts.alertDist) {
+            state.charts.alertDist.data.datasets[0].data = chartData.alert_distribution.values;
+            state.charts.alertDist.update();
+        } else {
+            const ctx = document.getElementById('chartAlertDistribution').getContext('2d');
+            state.charts.alertDist = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.alert_distribution.labels,
+                    datasets: [{
+                        label: 'Quantidade',
+                        data: chartData.alert_distribution.values,
+                        backgroundColor: ['#7c2d12', '#b91c1c', '#c2410c', '#a16207', '#047857'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // 2. Budget vs Spent
+        if (state.charts.budgetVsSpent) {
+            state.charts.budgetVsSpent.data.labels = chartData.budget_vs_spent.months;
+            state.charts.budgetVsSpent.data.datasets[0].data = chartData.budget_vs_spent.budgeted;
+            state.charts.budgetVsSpent.data.datasets[1].data = chartData.budget_vs_spent.spent;
+            state.charts.budgetVsSpent.update();
+        } else {
+            const ctx = document.getElementById('chartBudgetVsSpent').getContext('2d');
+            state.charts.budgetVsSpent = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.budget_vs_spent.months,
+                    datasets: [
+                        {
+                            label: 'Orçado',
+                            data: chartData.budget_vs_spent.budgeted,
+                            backgroundColor: '#1A2A45',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Comprado',
+                            data: chartData.budget_vs_spent.spent,
+                            backgroundColor: '#2A4570',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        // 3. Top Excesses
+        if (state.charts.topExcess) {
+            state.charts.topExcess.data.labels = chartData.top_excesses.labels;
+            state.charts.topExcess.data.datasets[0].data = chartData.top_excesses.values;
+            state.charts.topExcess.data.datasets[0].backgroundColor = chartData.top_excesses.colors;
+            state.charts.topExcess.update();
+        } else {
+            const ctx = document.getElementById('chartTopExcesses').getContext('2d');
+            state.charts.topExcess = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.top_excesses.labels,
+                    datasets: [{
+                        label: 'Excesso',
+                        data: chartData.top_excesses.values,
+                        backgroundColor: chartData.top_excesses.colors,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+    }
+
+    // Populate Data Tables
+    // P1: renderizacao DOM segura. Campos da API sao inseridos via
+    // createElement/textContent; innerHTML so e usado para HTML estatico
+    // e totalmente controlado (linha vazia, <strong>, <br>, <small>).
+    function populateTables(tables) {
+        // Constroi <td> com texto seguro (textContent) e classes opcionais.
+        const td = (text, classes) => {
+            const cell = document.createElement('td');
+            if (classes) cell.className = classes;
+            cell.textContent = text;
+            return cell;
+        };
+
+        // Constroi <td> com conteudo estruturado estatico:
+        //   <strong>{conta}</strong><br><small class="text-muted">{descricao}</small>
+        // Os valores dinamicos sao definidos via textContent (nao interpolados).
+        const tdConta = (conta, descricao) => {
+            const cell = document.createElement('td');
+            const strong = document.createElement('strong');
+            strong.textContent = conta;
+            cell.appendChild(strong);
+            cell.appendChild(document.createElement('br'));
+            const small = document.createElement('small');
+            small.className = 'text-muted';
+            small.textContent = descricao || '';
+            cell.appendChild(small);
+            return cell;
+        };
+
+        // Constroi <td> com badge de alerta (HTML estatico + texto via textContent).
+        const tdBadge = (nivelAlerta, labelClass) => {
+            const cell = document.createElement('td');
+            const span = document.createElement('span');
+            span.className = `badge ${labelClass}`;
+            span.textContent = nivelAlerta;
+            cell.appendChild(span);
+            return cell;
+        };
+
+        // Constroi <td> com <small>{text}</small>.
+        const tdSmall = (text) => {
+            const cell = document.createElement('td');
+            const small = document.createElement('small');
+            small.textContent = text;
+            cell.appendChild(small);
+            return cell;
+        };
+
+        // Constroi <td> com <small class="badge bg-light text-dark">{text}</small>.
+        const tdSmallBadge = (text) => {
+            const cell = document.createElement('td');
+            const small = document.createElement('small');
+            small.className = 'badge bg-light text-dark';
+            small.textContent = text;
+            cell.appendChild(small);
+            return cell;
+        };
+
+        const fillTable = (id, rows, buildRow) => {
+            const tbody = document.getElementById(id).querySelector('tbody');
+            tbody.innerHTML = '';
+            if (rows.length === 0) {
+                const tr = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.colSpan = 12;
+                cell.className = 'text-center text-muted py-4';
+                cell.textContent = 'Nenhum registro encontrado.';
+                tr.appendChild(cell);
+                tbody.appendChild(tr);
+                return;
+            }
+            rows.forEach(row => {
+                const tr = document.createElement('tr');
+                buildRow(tr, row);
+                tbody.appendChild(tr);
+            });
+        };
+
+        // Sem Orçamento
+        fillTable('table-nobudget', tables.sem_orcamento, (tr, row) => {
+            tr.appendChild(td(row.mes));
+            tr.appendChild(td(row.pec));
+            tr.appendChild(td(row.cc_sup || '-'));
+            tr.appendChild(tdConta(row.conta_contabil, row.descricao_conta));
+            tr.appendChild(td(formatMoney(row.realizado_abs), 'text-danger fw-bold'));
+            tr.appendChild(tdSmall(row.fornecedores || '-'));
+        });
+
+        // Estouradas
+        fillTable('table-blown', tables.estouradas, (tr, row) => {
+            tr.appendChild(td(row.mes));
+            tr.appendChild(td(row.pec));
+            tr.appendChild(td(row.cc_sup || '-'));
+            tr.appendChild(tdConta(row.conta_contabil, row.descricao_conta));
+            tr.appendChild(td(formatMoney(row.orcado_abs)));
+            tr.appendChild(td(formatMoney(row.realizado_abs), 'fw-bold'));
+            tr.appendChild(td(formatMoney(row.excesso_abs), 'text-danger fw-bold'));
+            tr.appendChild(tdSmall(row.fornecedores || '-'));
+        });
+
+        // Perto do limite
+        fillTable('table-nearlimit', tables.perto_de_estourar, (tr, row) => {
+            const labelClass = row.nivel_alerta === 'critico' ? 'bg-danger' : 'bg-warning text-dark';
+            tr.appendChild(tdBadge(row.nivel_alerta, labelClass));
+            tr.appendChild(td(row.mes));
+            tr.appendChild(td(row.pec));
+            tr.appendChild(td(row.cc_sup || '-'));
+            tr.appendChild(tdConta(row.conta_contabil, row.descricao_conta));
+            tr.appendChild(td(formatMoney(row.orcado_abs)));
+            tr.appendChild(td(formatMoney(row.realizado_abs), 'fw-bold'));
+            tr.appendChild(td(formatPct(row.consumo_pct), 'fw-bold'));
+            tr.appendChild(tdSmall(row.fornecedores || '-'));
+        });
+
+        // Base Detalhada
+        fillTable('table-detail', tables.base_detalhada, (tr, row) => {
+            const labelClass = row.nivel_alerta === 'sem_orcamento' || row.nivel_alerta === 'estourado' || row.nivel_alerta === 'critico' ? 'text-danger fw-bold' : '';
+            const alertaCell = document.createElement('td');
+            const alertaSpan = document.createElement('span');
+            alertaSpan.className = 'fw-bold';
+            alertaSpan.textContent = row.nivel_alerta || 'sem_alerta';
+            alertaCell.appendChild(alertaSpan);
+            tr.appendChild(alertaCell);
+            tr.appendChild(td(row.mes));
+            tr.appendChild(td(row.pec));
+            tr.appendChild(td(row.cc_sup || '-'));
+            tr.appendChild(tdConta(row.conta_contabil, row.descricao_conta));
+            tr.appendChild(td(formatMoney(row.orcado_abs)));
+            tr.appendChild(td(formatMoney(row.realizado_abs), labelClass));
+            tr.appendChild(td(formatMoney(row.saldo_abs)));
+            tr.appendChild(td(row.excesso_abs > 0 ? formatMoney(row.excesso_abs) : '-', 'text-danger'));
+            tr.appendChild(td(formatPct(row.consumo_pct)));
+        });
+
+        // Closing: Estouradas
+        fillTable('table-closing-blown', tables.closing_estouradas, (tr, row) => {
+            const labelClass = row.nivel_alerta_fechamento === 'estourado' ? 'bg-danger' : 'bg-warning text-dark';
+            tr.appendChild(td(row.mes));
+            tr.appendChild(td(row.pec));
+            tr.appendChild(td(row.cc_sup || '-'));
+            tr.appendChild(tdConta(row.conta_contabil, row.descricao_conta));
+            tr.appendChild(td(formatMoney(row.orcado_abs)));
+            tr.appendChild(td(formatMoney(row.realizado_fechado_abs), 'fw-bold text-danger'));
+            tr.appendChild(td(formatMoney(row.excesso_fechamento), 'text-danger fw-bold'));
+            tr.appendChild(tdBadge(row.nivel_alerta_fechamento || 'sem_alerta', labelClass));
+        });
+
+        // Closing: Base Detalhada
+        fillTable('table-closing-detail', tables.closing_base_detalhada, (tr, row) => {
+            const labelClass = row.nivel_alerta_fechamento === 'estourado' ? 'bg-danger' : 'bg-light text-dark';
+            tr.appendChild(td(row.mes));
+            tr.appendChild(td(row.pec));
+            tr.appendChild(td(row.cc_sup || '-'));
+            tr.appendChild(tdConta(row.conta_contabil, row.descricao_conta));
+            tr.appendChild(td(formatMoney(row.orcado_abs)));
+            tr.appendChild(td(formatMoney(row.realizado_fechado_abs), 'fw-bold'));
+            tr.appendChild(td(formatPct(row.consumo_pct_fechamento)));
+            tr.appendChild(td(row.excesso_fechamento > 0 ? formatMoney(row.excesso_fechamento) : '-', 'text-danger'));
+            tr.appendChild(tdBadge(row.nivel_alerta_fechamento || 'sem_alerta', labelClass));
+        });
+    }
+
+    // Switch Main Tabs
+    function switchTab(tabId) {
+        document.querySelectorAll('.finance-tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.finance-tab-content').forEach(content => content.classList.remove('active'));
+
+        // Ativa a aba pelo tabId (funciona para cliques diretos, ícones e CTAs)
+        const navBtn = document.querySelector(`.finance-tab-btn[data-tab="${tabId}"]`);
+        if (navBtn) navBtn.classList.add('active');
+
+        document.getElementById(`tab-${tabId}`).classList.add('active');
+        state.currentTab = tabId;
+
+        const filterTitle = document.getElementById('filter-panel-title');
+        if (filterTitle) {
+            filterTitle.textContent = tabId === 'fechamento' ? 'Filtros de Fechamento' : 'Filtros de Acompanhamento';
+        }
+
+        // Fornecedor pertence somente ao Acompanhamento (Compras Produto).
+        // Mantem os demais filtros, inclusive Mes, ativos no fechamento.
+        const supplierFilterGroup = document.getElementById('filter-fornecedor-group');
+        if (supplierFilterGroup) {
+            supplierFilterGroup.style.display = tabId === 'fechamento' ? 'none' : '';
+        }
+
+        // Filtros laterais são contextuais: só aparecem em Acompanhamento.
+        // Nas demais abas o conteúdo ocupa largura total.
+        const filterSidebar = document.getElementById('filter-sidebar');
+        const contentArea = document.getElementById('content-area');
+        filterSidebar.style.display = '';
+        contentArea.classList.remove('col-lg-12');
+        contentArea.classList.add('col-lg-9');
+
+        // The report is generated only by explicit user action.
+        if (tabId === 'email') {
+            updateEmailMonthHint();
+        }
+    }
+
+    // Switch subtabs
+    function switchSubTab(parentTab, subTabId) {
+        const parent = document.getElementById(`tab-${parentTab}`);
+        parent.querySelectorAll(`.sub-tabs-nav .sub-tab-btn`).forEach(btn => btn.classList.remove('active'));
+        parent.querySelectorAll(`.sub-tab-content`).forEach(content => content.classList.remove('active'));
+
+        const event = window.event;
+        if (event) {
+            const btn = event.target.closest('.sub-tab-btn');
+            if (btn) btn.classList.add('active');
+        }
+
+        document.getElementById(`subtab-${parentTab}-${subTabId}`).classList.add('active');
+        state.currentSubTabs[parentTab] = subTabId;
+    }
+
+    // Switch alert sub-tabs
+    function switchAlertSubTab(subId) {
+        document.querySelectorAll(`#subtab-dashboard-alerts .sub-tabs-nav .sub-tab-btn`).forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll(`.alert-subtab-content`).forEach(el => el.style.display = 'none');
+
+        const event = window.event;
+        if (event) {
+            const btn = event.target.closest('.sub-tab-btn');
+            if (btn) btn.classList.add('active');
+        }
+
+        document.getElementById(`alert-subtab-${subId}`).style.display = 'block';
+        state.currentAlertSubTab = subId;
+    }
+
+    /* AI Chat functionality */
+    function renderAssistantMarkdown(element, content, renderedHtml = '') {
+        const markdown = String(content ?? '').replace(/^[\u200B-\u200F\uFEFF]/, '');
+
+        if (renderedHtml) {
+            // response_html is generated and escaped by the financial backend.
+            element.innerHTML = renderedHtml;
+        } else {
+            element.textContent = markdown;
+        }
+    }
+
+    function appendChatMessage(role, content) {
+        const chatPanel = document.getElementById('chatMessages');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `chat-message ${role}`;
+        if (role === 'assistant') {
+            renderAssistantMarkdown(msgDiv, content);
+        } else {
+            msgDiv.textContent = content;
+        }
+        chatPanel.appendChild(msgDiv);
+        chatPanel.scrollTop = chatPanel.scrollHeight;
+
+        state.chatHistory.push({ role, content });
+        if (state.chatHistory.length > 20) {
+            state.chatHistory.shift();
+        }
+    }
+
+    function typeAssistantMessage(content, renderedHtml, model) {
+        const markdown = String(content ?? '');
+        const chatPanel = document.getElementById('chatMessages');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-message assistant';
+        msgDiv.textContent = '';
+        chatPanel.appendChild(msgDiv);
+        
+        state.chatHistory.push({ role: 'assistant', content: markdown });
+        if (state.chatHistory.length > 20) {
+            state.chatHistory.shift();
+        }
+        
+        let index = 0;
+        const speed = 5; // ms entre lotes de caracteres
+        const charsPerTick = 3; // digita 3 caracteres por vez para ser bem rápido
+        
+        function type() {
+            if (index < markdown.length) {
+                msgDiv.textContent += markdown.slice(index, index + charsPerTick);
+                index += charsPerTick;
+                chatPanel.scrollTop = chatPanel.scrollHeight;
+                setTimeout(type, speed);
+            } else {
+                renderAssistantMarkdown(msgDiv, markdown, renderedHtml);
+                if (model) {
+                    const meta = document.createElement('div');
+                    meta.className = 'ai-response-meta';
+                    meta.textContent = 'Resposta gerada por IA - ' + model;
+                    msgDiv.appendChild(meta);
+                }
+                chatPanel.scrollTop = chatPanel.scrollHeight;
+            }
+        }
+        type();
+    }
+
+    function handleChatKey(e) {
+        if (e.key === 'Enter') {
+            submitChatPrompt();
+        }
+    }
+
+    let thinkingInterval = null;
+
+    function showThinkingIndicator(prompt) {
+        const chatPanel = document.getElementById('chatMessages');
+        removeThinkingIndicator();
+
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-message assistant thinking-bubble';
+        msgDiv.id = 'chatThinkingIndicator';
+        
+        const clean = prompt.toLowerCase();
+        let phrases = [];
+        
+        if (clean.includes('conta') || clean.includes('estour') || clean.includes('atenç') || clean.includes('atenc')) {
+            phrases = [
+                "Analisando limite de gastos...",
+                "Varrendo contas sob atenção...",
+                "Buscando desvios e estouros de orçamento...",
+                "Calculando saldos restantes..."
+            ];
+        } else if (clean.includes('pec') || clean.includes('contrato') || clean.includes('fornece')) {
+            phrases = [
+                "Buscando informações das PECs...",
+                "Mapeando fornecedores por contrato...",
+                "Correlacionando compras executadas...",
+                "Agrupando maiores desvios..."
+            ];
+        } else if (clean.includes('sem or') || clean.includes('sem_or')) {
+            phrases = [
+                "Buscando compras sem orçamento...",
+                "Identificando lançamentos sem limite cadastrado...",
+                "Sumarizando impacto na margem financeira..."
+            ];
+        } else if (clean.includes('fechamento') || clean.includes('mensal') || clean.includes('realizado')) {
+            phrases = [
+                "Acessando base de fechamento mensal...",
+                "Comparando orçado com realizado oficial...",
+                "Calculando consumo e excesso do RE X OR..."
+            ];
+        } else {
+            phrases = [
+                "Analisando sua pergunta...",
+                "Consultando base do painel financeiro...",
+                "Processando inteligência de dados...",
+                "Estruturando resposta analítica..."
+            ];
+        }
+
+        let phraseIdx = 0;
+        msgDiv.innerHTML = `<span class="thinking-text">${phrases[0]}</span><span class="loading-dots">...</span>`;
+        chatPanel.appendChild(msgDiv);
+        chatPanel.scrollTop = chatPanel.scrollHeight;
+
+        thinkingInterval = setInterval(() => {
+            phraseIdx = (phraseIdx + 1) % phrases.length;
+            const textEl = msgDiv.querySelector('.thinking-text');
+            if (textEl) {
+                textEl.textContent = phrases[phraseIdx];
+            }
+        }, 1600);
+    }
+
+    function removeThinkingIndicator() {
+        if (thinkingInterval) {
+            clearInterval(thinkingInterval);
+            thinkingInterval = null;
+        }
+        const indicator = document.getElementById('chatThinkingIndicator');
+        if (indicator) {
+            indicator.remove();
+        }
+    }
+
+    function submitChatPrompt() {
+        const input = document.getElementById('chatInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        input.value = '';
+        appendChatMessage('user', text);
+        showThinkingIndicator(text);
+
+        const answerMode = document.getElementById('chat-answer-mode').value;
+
+        fetch("/financeiro/api/chat/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                prompt: text,
+                history: state.chatHistory,
+                answer_mode: answerMode,
+                filters: state.filters
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            removeThinkingIndicator();
+            if (data.error) {
+                appendChatMessage('assistant', "Erro na consulta à IA: " + data.error);
+            } else {
+                typeAssistantMessage(data.response, data.response_html, data.model);
+            }
+        })
+        .catch(err => {
+            console.error("Chat error:", err);
+            removeThinkingIndicator();
+            appendChatMessage('assistant', "Desculpe, ocorreu uma falha de rede ao conectar com o assistente.");
+        });
+    }
+
+    const DEFAULT_QUESTION_SUGGESTIONS = [
+        'Fa\u00e7a um resumo executivo curto.',
+        'Quais contas precisam de aten\u00e7\u00e3o?',
+        'Quais contas estouraram no fechamento?',
+        'Quais contas est\u00e3o perto do limite no fechamento?'
+    ];
+
+    function getQuestionSuggestionButtons() {
+        return Array.from(document.querySelectorAll('.chat-presets .preset-btn'))
+            .filter(button =>
+                !button.classList.contains('suggestion-generator-btn')
+                && !button.classList.contains('btn-outline-danger')
+            )
+            .slice(0, 4);
+    }
+
+    function applyQuestionSuggestions(questions) {
+        getQuestionSuggestionButtons().forEach((button, index) => {
+            const question = questions[index];
+            if (!question) return;
+            button.title = question;
+            button.textContent = question;
+            button.onclick = () => sendPresetPrompt(question);
+        });
+    }
+
+    function resetQuestionSuggestions() {
+        applyQuestionSuggestions(DEFAULT_QUESTION_SUGGESTIONS);
+    }
+
+    function generateQuestionSuggestions() {
+        const pecs = getSelectedOptionLabels('filter-pecs');
+        const ccSups = getSelectedOptionLabels('filter-cc-sups');
+        const accounts = getSelectedOptionLabels('filter-contas');
+        const suppliers = getSelectedOptionLabels('filter-fornecedores');
+        const alerts = getSelectedOptionLabels('filter-alertas');
+        const months = getSelectedOptionLabels('filter-meses');
+        const answerMode = document.getElementById('chat-answer-mode')?.value || 'auto';
+        const hasActiveFilters = pecs.length || ccSups.length || accounts.length
+            || suppliers.length || alerts.length || months.length;
+        const pool = [
+            'Fa\u00e7a um resumo executivo dos dados dispon\u00edveis.',
+            'Quais s\u00e3o os principais riscos financeiros?',
+            'Quais PECs e contas precisam de mais aten\u00e7\u00e3o?',
+            'Como est\u00e1 o saldo financeiro no recorte atual?',
+            'Quais s\u00e3o os maiores desvios encontrados?'
+        ];
+
+        if (hasActiveFilters) {
+            pool.push(
+                'Fa\u00e7a um resumo executivo somente dos filtros ativos.',
+                'Quais riscos existem apenas dentro dos filtros ativos?'
+            );
+        }
+
+        if (answerMode !== 'closing') {
+            pool.push(
+                'Quais contas est\u00e3o estouradas no acompanhamento di\u00e1rio?',
+                'Quais compras est\u00e3o sem or\u00e7amento?',
+                'Quais contas est\u00e3o perto de estourar?',
+                'Quais PECs possuem as maiores compras realizadas?',
+                'Compare o or\u00e7amento de custos com as compras realizadas.'
+            );
+        }
+
+        if (answerMode !== 'daily') {
+            pool.push(
+                'Fa\u00e7a um resumo do fechamento mensal.',
+                'Quais contas estouraram no fechamento?',
+                'Qual \u00e9 o saldo entre or\u00e7ado e realizado cont\u00e1bil?',
+                'Qual \u00e9 o consumo do or\u00e7amento no fechamento?',
+                'Quais contas est\u00e3o perto de estourar no fechamento?'
+            );
+        }
+
+        if (pecs.length === 1) {
+            pool.push(
+                'Fa\u00e7a um resumo financeiro do PEC selecionado.',
+                'Quais contas do PEC selecionado exigem aten\u00e7\u00e3o?'
+            );
+        } else if (pecs.length > 1) {
+            pool.push('Compare or\u00e7amento, compras e saldo dos PECs selecionados.');
+        }
+
+        if (ccSups.length) {
+            const hasRevenue = ccSups.some(value => value.toUpperCase().includes('RECEITA'));
+            pool.push(
+                hasRevenue
+                    ? 'Explique a receita or\u00e7ada, o realizado e o saldo da CC. SUP selecionada.'
+                    : 'Fa\u00e7a um resumo da CC. SUP selecionada e confirme se ela \u00e9 receita ou custo.',
+                'Quais PECs e contas comp\u00f5em a CC. SUP selecionada?'
+            );
+        }
+
+        if (accounts.length) {
+            pool.push('Analise or\u00e7amento, realizado, saldo e riscos da conta cont\u00e1bil selecionada.');
+        }
+        if (suppliers.length) {
+            pool.push('Quais compras e contas est\u00e3o relacionadas ao fornecedor selecionado?');
+        }
+        if (alerts.length) {
+            pool.push('Quais s\u00e3o os principais riscos nas classifica\u00e7\u00f5es selecionadas?');
+        }
+        if (months.length > 1) {
+            pool.push('Compare os resultados financeiros entre os meses selecionados.');
+        }
+
+        const shuffled = [...new Set(pool)];
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+            const randomIndex = Math.floor(Math.random() * (index + 1));
+            [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+        }
+        applyQuestionSuggestions(shuffled.slice(0, 4));
+    }
+
+    function sendPresetPrompt(text) {
+        appendChatMessage('user', text);
+        showThinkingIndicator(text);
+        
+        const answerMode = document.getElementById('chat-answer-mode').value;
+        fetch("/financeiro/api/chat/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                prompt: text,
+                history: state.chatHistory,
+                answer_mode: answerMode,
+                filters: state.filters
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            removeThinkingIndicator();
+            if (data.error) {
+                appendChatMessage('assistant', "Erro na consulta à IA: " + data.error);
+            } else {
+                typeAssistantMessage(data.response, data.response_html, data.model);
+            }
+        })
+        .catch(err => {
+            console.error("Chat error:", err);
+            removeThinkingIndicator();
+            appendChatMessage('assistant', "Desculpe, ocorreu uma falha de rede.");
+        });
+    }
+
+    function clearChat() {
+        document.getElementById('chatMessages').innerHTML = '';
+        state.chatHistory = [];
+        appendChatMessage('assistant', "Histórico limpo. Como posso ajudar com sua carteira financeira?");
+        updateChatFilterSummary();
+    }
+
+    /* Email state is managed by the manual workflow below. */
+    let lastDraftHTML = '';
+
+    /* Spreadsheet upload / pipeline execution */
+    function handleFileSelected(input) {
+        if (input.files && input.files[0]) {
+            state.selectedFile = input.files[0];
+            document.getElementById('dropzone-text').innerHTML = `<strong>Arquivo selecionado:</strong> ${input.files[0].name}`;
+            document.getElementById('btnUploadSubmit').disabled = false;
+        } else {
+            state.selectedFile = null;
+            document.getElementById('dropzone-text').innerHTML = 'Arraste ou clique para selecionar o arquivo Excel (.xlsx, .xls)';
+            document.getElementById('btnUploadSubmit').disabled = true;
+        }
+    }
+
+    function uploadSpreadsheet() {
+        if (!state.selectedFile) return;
+
+        const dataset = document.getElementById('upload-dataset').value;
+        const month = document.getElementById('upload-month').value;
+
+        const formData = new FormData();
+        formData.append('file', state.selectedFile);
+        formData.append('dataset', dataset);
+        formData.append('month', month);
+
+        showLoader("Fazendo upload da planilha...");
+
+        fetch("/financeiro/api/upload/", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                hideLoader();
+                alert("Erro no upload: " + data.error);
+            } else {
+                runPipelineOnly();
+            }
+        })
+        .catch(err => {
+            console.error("Upload error:", err);
+            hideLoader();
+            alert("Erro de rede durante o upload.");
+        });
+    }
+
+    function runPipelineOnly() {
+        showLoader("Processando pipeline financeiro (agregando compras e RE x OR)...");
+        fetch("/financeiro/api/run-pipeline/", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            hideLoader();
+            if (data.error) {
+                alert("Erro no processamento: " + data.error);
+            } else {
+                alert(`Sucesso! Processadas ${data.result.raw_rows} linhas de compras, ${data.result.budget_rows} linhas de RE x OR e ${data.result.closing_rows} fechamentos.`);
+                // Reset dropzone UI
+                state.selectedFile = null;
+                document.getElementById('uploadFileEl').value = '';
+                document.getElementById('dropzone-text').innerHTML = 'Arraste ou clique para selecionar o arquivo Excel (.xlsx, .xls)';
+                document.getElementById('btnUploadSubmit').disabled = true;
+
+                // Reload dashboard data
+                invalidateEmailDraft('Os dados foram atualizados. Gere uma nova pr\u00e9via.');
+                fetchDashboardData();
+            }
+        })
+        .catch(err => {
+            console.error("Pipeline run error:", err);
+            hideLoader();
+            alert("Erro de rede ao executar o pipeline.");
+        });
+    }
+
+    
+    function clearFinancialData() {
+        if (!confirm("Tem certeza de que deseja apagar permanentemente todas as planilhas e dados financeiros do sistema? Essa ação não pode ser desfeita.")) {
+            return;
+        }
+        
+        showLoader("Limpando base de dados...");
+        
+        fetch("/financeiro/api/clear/", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            hideLoader();
+            if (data.error) {
+                alert("Erro ao limpar dados: " + data.error);
+            } else {
+                alert("Sucesso: " + data.message);
+                // Reload dashboard data
+                location.reload();
+            }
+        })
+        .catch(err => {
+            console.error("Clear data error:", err);
+            hideLoader();
+            alert("Erro de rede ao limpar os dados.");
+        });
+    }
+    
+
+    // Custom Premium Multiselect Dropdowns implementation
+    function initCustomMultiselects() {
+        const selects = document.querySelectorAll('.filter-select');
+        selects.forEach(select => {
+            // Prevent double initialization
+            if (select.nextElementSibling && select.nextElementSibling.classList.contains('custom-multiselect-wrapper')) {
+                select.nextElementSibling.remove();
+            }
+            
+            select.style.display = 'none';
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'custom-multiselect-wrapper';
+            
+            const button = document.createElement('div');
+            button.className = 'custom-multiselect-button';
+            button.innerHTML = '<span class="custom-multiselect-text">Selecione...</span><i class="fas fa-chevron-down text-muted" style="font-size: 0.75rem;"></i>';
+            
+            const dropdown = document.createElement('div');
+            dropdown.className = 'custom-multiselect-dropdown';
+            
+            // Search bar (for elements with many options)
+            const hasSearch = ['filter-pecs', 'filter-cc-sups', 'filter-contas', 'filter-fornecedores'].includes(select.id);
+            let searchInput = null;
+            if (hasSearch) {
+                const searchContainer = document.createElement('div');
+                searchContainer.className = 'custom-multiselect-search-container';
+                searchInput = document.createElement('input');
+                searchInput.type = 'text';
+                searchInput.className = 'form-control form-control-sm custom-multiselect-search';
+                searchInput.placeholder = 'Buscar...';
+                searchContainer.appendChild(searchInput);
+                dropdown.appendChild(searchContainer);
+            }
+            
+            // Helper buttons: Select All / Clear
+            const actionsContainer = document.createElement('div');
+            actionsContainer.className = 'custom-multiselect-actions';
+            
+            const selectAllBtn = document.createElement('button');
+            selectAllBtn.type = 'button';
+            selectAllBtn.className = 'btn btn-link btn-xs p-0 text-decoration-none me-2';
+            selectAllBtn.style.fontSize = '0.725rem';
+            selectAllBtn.textContent = 'Selecionar Todos';
+            
+            const clearAllBtn = document.createElement('button');
+            clearAllBtn.type = 'button';
+            clearAllBtn.className = 'btn btn-link btn-xs p-0 text-decoration-none text-danger';
+            clearAllBtn.style.fontSize = '0.725rem';
+            clearAllBtn.textContent = 'Limpar';
+            
+            actionsContainer.appendChild(selectAllBtn);
+            actionsContainer.appendChild(clearAllBtn);
+            dropdown.appendChild(actionsContainer);
+
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'custom-multiselect-options';
+            
+            const updateButtonText = () => {
+                const selected = Array.from(select.selectedOptions).map(opt => opt.text);
+                const textEl = button.querySelector('.custom-multiselect-text');
+                if (selected.length === 0) {
+                    textEl.textContent = 'Selecione...';
+                    textEl.style.color = '#94a3b8';
+                } else if (selected.length === select.options.length) {
+                    textEl.textContent = 'Todos selecionados';
+                    textEl.style.color = '';
+                } else if (selected.length > 2) {
+                    textEl.textContent = `${selected.length} selecionados`;
+                    textEl.style.color = '';
+                } else {
+                    textEl.textContent = selected.join(', ');
+                    textEl.style.color = '';
+                }
+            };
+            
+            const rebuildOptions = () => {
+                optionsContainer.innerHTML = '';
+                Array.from(select.options).forEach((opt) => {
+                    const label = document.createElement('label');
+                    label.className = 'custom-multiselect-option';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = opt.selected;
+                    checkbox.value = opt.value;
+                    
+                    checkbox.addEventListener('change', () => {
+                        opt.selected = checkbox.checked;
+                        updateButtonText();
+                        onFilterChange();
+                    });
+                    
+                    label.appendChild(checkbox);
+                    label.appendChild(document.createTextNode(' ' + opt.text));
+                    optionsContainer.appendChild(label);
+                });
+                updateButtonText();
+            };
+            
+            rebuildOptions();
+            dropdown.appendChild(optionsContainer);
+            
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                document.querySelectorAll('.custom-multiselect-dropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.remove('show');
+                });
+                dropdown.classList.toggle('show');
+                if (dropdown.classList.contains('show') && searchInput) {
+                    searchInput.value = '';
+                    searchInput.dispatchEvent(new Event('input'));
+                    searchInput.focus();
+                }
+            });
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    const query = searchInput.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    const options = optionsContainer.querySelectorAll('.custom-multiselect-option');
+                    options.forEach(optionLabel => {
+                        const text = optionLabel.textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                        if (text.includes(query)) {
+                            optionLabel.style.display = 'flex';
+                        } else {
+                            optionLabel.style.display = 'none';
+                        }
+                    });
+                });
+            }
+            
+            selectAllBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                Array.from(select.options).forEach(opt => opt.selected = true);
+                optionsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+                updateButtonText();
+                onFilterChange();
+            });
+            
+            clearAllBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                Array.from(select.options).forEach(opt => opt.selected = false);
+                optionsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                updateButtonText();
+                onFilterChange();
+            });
+            
+            wrapper.appendChild(button);
+            wrapper.appendChild(dropdown);
+            select.parentNode.appendChild(wrapper);
+            
+            select.addEventListener('sync-custom', () => {
+                rebuildOptions();
+            });
+        });
+    }
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.custom-multiselect-wrapper')) {
+            document.querySelectorAll('.custom-multiselect-dropdown').forEach(d => {
+                d.classList.remove('show');
+            });
+        }
+    });
+    /* Current manual email workflow */
+    let lastDraftToken = '';
+    let lastDraftCompetence = '';
+
+    function updateEmailMonthHint() {
+        const hint = document.getElementById('email-month-hint');
+        if (!hint) return;
+        const months = state.filters.meses || [];
+        const selectedMode = document.querySelector('input[name="email-report-mode"]:checked');
+        const reportMode = selectedMode ? selectedMode.value : 'daily';
+        const sourceLabel = reportMode === 'closing'
+            ? 'base de fechamento'
+            : reportMode === 'both'
+                ? 'compet\u00eancia comum entre acompanhamento e fechamento'
+                : 'base de acompanhamento';
+        if (months.length === 0) {
+            hint.textContent = 'Sem m\u00eas selecionado, ser\u00e1 usada a compet\u00eancia mais recente da ' + sourceLabel + '.';
+        } else if (months.length === 1) {
+            hint.textContent = 'Compet\u00eancia selecionada: ' + months[0] + ' (' + sourceLabel + '). Os demais filtros n\u00e3o alteram o relat\u00f3rio.';
+        } else {
+            hint.textContent = 'Selecione apenas um m\u00eas para gerar o relat\u00f3rio.';
+        }
+    }
+
+    function setEmailStatus(message = '', type = 'info') {
+        const status = document.getElementById('email-send-status');
+        if (!status) return;
+        status.className = 'email-send-status';
+        status.textContent = message;
+        if (message) status.classList.add('is-' + type);
+    }
+
+    function setEmailPlaceholder(message) {
+        const preview = document.getElementById('emailDraftPreview');
+        if (!preview) return;
+        preview.innerHTML = '';
+        const placeholder = document.createElement('div');
+        placeholder.className = 'email-preview-placeholder';
+        const icon = document.createElement('i');
+        icon.className = 'fas fa-envelope-open-text';
+        const strong = document.createElement('strong');
+        strong.textContent = message;
+        placeholder.append(icon, strong);
+        preview.appendChild(placeholder);
+    }
+
+    function invalidateEmailDraft(message = '') {
+        lastDraftHTML = '';
+        lastDraftToken = '';
+        lastDraftCompetence = '';
+        const sendButton = document.getElementById('email-send-btn');
+        const downloadButton = document.getElementById('email-download-btn');
+        const subject = document.getElementById('email-subject');
+        const badge = document.getElementById('email-preview-badge');
+        if (sendButton) sendButton.disabled = true;
+        if (downloadButton) downloadButton.disabled = true;
+        if (subject) subject.value = 'Relatorio Financeiro';
+        if (badge) {
+            badge.className = 'badge bg-secondary';
+            badge.textContent = 'Aguardando gera\u00e7\u00e3o';
+        }
+        setEmailPlaceholder('Nenhuma pr\u00e9via gerada');
+        setEmailStatus(message, message ? 'info' : 'info');
+    }
+
+    function renderEmailPreview(html) {
+        const preview = document.getElementById('emailDraftPreview');
+        preview.innerHTML = '';
+        const iframe = document.createElement('iframe');
+        iframe.className = 'email-preview-frame';
+        iframe.title = 'Pr\u00e9via do relat\u00f3rio financeiro';
+        iframe.setAttribute('sandbox', '');
+        iframe.srcdoc = html;
+        preview.appendChild(iframe);
+    }
+
+    async function readEmailResponse(response) {
+        let data = {};
+        try {
+            data = await response.json();
+        } catch (error) {
+            throw new Error('O servidor retornou uma resposta inv\u00e1lida.');
+        }
+        if (!response.ok || data.error) {
+            const error = new Error(data.error || 'N\u00e3o foi poss\u00edvel concluir a opera\u00e7\u00e3o.');
+            error.status = response.status;
+            throw error;
+        }
+        return data;
+    }
+
+    async function generateEmailDraft() {
+        const months = state.filters.meses || [];
+        const selectedReportMode = document.querySelector('input[name="email-report-mode"]:checked');
+        const reportMode = selectedReportMode ? selectedReportMode.value : '';
+        if (!reportMode) {
+            setEmailStatus('Selecione o conte\u00fado do relat\u00f3rio.', 'error');
+            return;
+        }
+        if (months.length > 1) {
+            setEmailStatus('Selecione apenas um m\u00eas antes de gerar a pr\u00e9via.', 'error');
+            return;
+        }
+
+        const generateButton = document.getElementById('email-generate-btn');
+        invalidateEmailDraft();
+        generateButton.disabled = true;
+        generateButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando...';
+        setEmailStatus('Montando o relat\u00f3rio com os dados da compet\u00eancia...', 'info');
+
+        try {
+            const response = await fetch("/financeiro/api/email/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({
+                    action: 'generate',
+                    report_mode: reportMode,
+                    filters: { meses: months }
+                })
+            });
+            const data = await readEmailResponse(response);
+            lastDraftHTML = data.html;
+            lastDraftToken = data.draft_token;
+            lastDraftCompetence = data.competence;
+            document.getElementById('email-subject').value = data.subject;
+            const sendButton = document.getElementById('email-send-btn');
+            if (sendButton) sendButton.disabled = false;
+            document.getElementById('email-download-btn').disabled = false;
+            const badge = document.getElementById('email-preview-badge');
+            badge.className = 'badge bg-primary';
+            badge.textContent = (data.report_label || '') + ' - ' + data.competence;
+            renderEmailPreview(data.html);
+            setEmailStatus('Pr\u00e9via gerada. Confira o relat\u00f3rio e informe o destinat\u00e1rio.', 'success');
+        } catch (error) {
+            console.error('Email preview error:', error);
+            setEmailPlaceholder('N\u00e3o foi poss\u00edvel gerar a pr\u00e9via');
+            setEmailStatus(error.message, 'error');
+        } finally {
+            generateButton.disabled = false;
+            generateButton.innerHTML = '<i class="fas fa-file-alt"></i> Gerar pr\u00e9via';
+        }
+    }
+
+    function parseEmailRecipients(rawValue) {
+        const recipients = rawValue
+            .split(/[;,]/)
+            .map(value => value.trim())
+            .filter(Boolean);
+        const validator = document.createElement('input');
+        validator.type = 'email';
+        const invalid = recipients.filter(recipient => {
+            validator.value = recipient;
+            return !validator.checkValidity();
+        });
+        return { recipients, invalid };
+    }
+
+    async function sendEmailDraft() {
+        const sendButton = document.getElementById('email-send-btn');
+        if (!sendButton) return;
+        const recipientInput = document.getElementById('email-to');
+        if (!lastDraftToken) {
+            setEmailStatus('Gere uma nova pr\u00e9via antes de enviar.', 'error');
+            return;
+        }
+
+        recipientInput.setCustomValidity('');
+        const { recipients, invalid } = parseEmailRecipients(recipientInput.value);
+        if (!recipients.length || invalid.length) {
+            const validationMessage = invalid.length
+                ? 'Endere\u00e7o inv\u00e1lido: ' + invalid.join(', ')
+                : 'Informe pelo menos um destinat\u00e1rio.';
+            recipientInput.setCustomValidity(validationMessage);
+            recipientInput.reportValidity();
+            setEmailStatus(validationMessage, 'error');
+            return;
+        }
+
+        const recipientLabel = recipients.length === 1
+            ? recipients[0]
+            : recipients.length + ' destinat\u00e1rios';
+        const confirmation = 'Enviar o relat\u00f3rio de ' + lastDraftCompetence + ' para ' + recipientLabel + '?';
+        if (!window.confirm(confirmation)) return;
+
+        sendButton.disabled = true;
+        sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+        setEmailStatus('Enviando o relat\u00f3rio...', 'info');
+
+        try {
+            const response = await fetch("/financeiro/api/email/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({
+                    action: 'send',
+                    recipients: recipients,
+                    draft_token: lastDraftToken
+                })
+            });
+            const data = await readEmailResponse(response);
+            lastDraftToken = '';
+            sendButton.disabled = true;
+            const sentTo = (data.recipients || recipients).join(', ');
+            setEmailStatus(data.message + ' Destinat\u00e1rio(s): ' + sentTo, 'success');
+        } catch (error) {
+            console.error('Email send error:', error);
+            if (error.status === 409) {
+                invalidateEmailDraft();
+            }
+            setEmailStatus(error.message, 'error');
+        } finally {
+            sendButton.disabled = !lastDraftToken;
+            sendButton.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar e-mail';
+        }
+    }
+    function downloadEmailDraftHTML() {
+        if (!lastDraftHTML) return;
+        const blob = new Blob([lastDraftHTML], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const subject = document.getElementById('email-subject').value || 'relatorio_financeiro';
+        link.href = url;
+        link.download = subject.replace(/[^\w.-]+/g, '_') + '.html';
+        link.click();
+        URL.revokeObjectURL(url);
+    }
+
+</script>
+
+            </main>
+
+            
+            <footer class="app-footer">
+                <p>&copy; Projetos &amp; TI — Regional Centro Oeste &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; Todos os direitos
+                    reservados</p>
+            </footer>
+            
+        </div>
+
+    </div>
+
+    <!-- Mobile overlay -->
+    <div x-show="mobileOpen" x-cloak @click="mobileOpen = false" class="m-overlay"
+        x-transition:enter="transition-opacity ease-linear duration-200" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+    </div>
+
+    
+
+    <script src="static/vendor/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/notifications.min.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => {
+                        setInterval(() => reg.update(), 3600000);
+                        reg.addEventListener('updatefound', () => {
+                            const w = reg.installing;
+                            w.addEventListener('statechange', () => {
+                                if (w.state === 'installed' && navigator.serviceWorker.controller) {
+                                    if (confirm('Nova versão disponível! Deseja atualizar?')) {
+                                        w.postMessage({ type: 'SKIP_WAITING' });
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    }).catch(e => console.log('[PWA] Erro:', e));
+
+                let refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (refreshing) return;
+                    refreshing = true;
+                    window.location.reload();
+                });
+            });
+        }
+        window.addEventListener('online', () => typeof showNotification === 'function' && showNotification('Conexão restaurada!', 'success'));
+        window.addEventListener('offline', () => typeof showNotification === 'function' && showNotification('Você está offline.', 'warning'));
+        window.clearPWACache = () => navigator.serviceWorker?.controller?.postMessage({ type: 'CLEAR_CACHE' });
+    </script>
+
+    
+
+
+    
+
+
+
+    
+<style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});});});</script><script src="static/demo-fill.js"></script></body>
+
+</html>

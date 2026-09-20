@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - FLOW</title>
+    <title>Ajuda — Tour pelo sistema</title>
     <meta name="application-name" content="FLOW">
     <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
     <meta name="theme-color" content="#1e3a5f">
@@ -752,41 +752,21 @@
 
     
 <style>
-  .home-title {
-    background: linear-gradient(to right, #1A2A45, #2A4570);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: 28px;
-    font-weight: bold;
-    margin: 0;
-  }
-
-  .notifications-scroll {
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 8px;
-    scrollbar-width: thin;
-    scrollbar-color: #94a3b8 #f1f5f9;
-  }
-
-  .notifications-scroll::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .notifications-scroll::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-  }
-
-  .notifications-scroll::-webkit-scrollbar-thumb {
-    background: #94a3b8;
-    border-radius: 3px;
-  }
-
-  .notifications-scroll::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-  }
+    .ajuda-icon {
+        width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
+        display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
+    }
+    .ajuda-title {
+        background: linear-gradient(to right, #1A2A45, #2A4570);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 26px;
+        font-weight: bold;
+        margin: 0;
+        text-transform: uppercase;
+    }
+    .ajuda-card { border: none; border-radius: 14px; box-shadow: var(--shadow-md); overflow: hidden; }
 </style>
 
 </head>
@@ -831,7 +811,7 @@
                 <!-- Home -->
                 <div class="nav-item">
                     <a href="home.html"
-                        class="nav-link active">
+                        class="nav-link ">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -1375,7 +1355,7 @@
                 <!-- Ajuda — manter SEMPRE como ÚLTIMO item do menu -->
                 <div class="nav-item">
                     <a href="ajuda.html"
-                        class="nav-link ">
+                        class="nav-link active">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -1410,7 +1390,7 @@
                     </svg>
                 </button>
 
-                <span class="topbar-title">FLOW</span>
+                <span class="topbar-title">Ajuda</span>
 
                 <div class="topbar-right">
                     
@@ -1443,7 +1423,7 @@
                     
 
                     <form method="post" action="/logout/">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="yG9aO5MCfSaufnqZQL1JC5TmPnATfvbAvmoMboqzbWVGphpOSUBqp014zz0yMDla">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="3zWeFbbI0cAdkUF7vnUt9TRJ7D0GXgQu0fbQ2uPFWglpuOEWxwuaWOZrRPqluo04">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1461,525 +1441,609 @@
                 
 
                 
-<div class="space-y-8">
-  <!-- PWA Install Banner -->
-  <script>
-    // PWA Install Detection - Detecta se o app já está instalado
-    (function() {
-        function checkIfPWAInstalled() {
-            // Verifica se está rodando em standalone mode (app instalado)
-            if (window.matchMedia('(display-mode: standalone)').matches ||
-                window.navigator.standalone === true) {
-                console.log('[PWA] App está instalado e rodando em modo standalone');
-                const statusEl = document.getElementById('pwa-status');
-                const buttonEl = document.getElementById('pwa-install-button');
-                if (statusEl) statusEl.style.display = 'block';
-                if (buttonEl) buttonEl.style.display = 'none';
-                return true;
-            }
-            return false;
-        }
+<div class="container-fluid py-3">
 
-        // Verifica ao carregar a página
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkIfPWAInstalled);
-        } else {
-            checkIfPWAInstalled();
-        }
-
-        // Monitora mudanças no display mode
-        window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) => {
-            if (e.matches) {
-                const statusEl = document.getElementById('pwa-status');
-                const buttonEl = document.getElementById('pwa-install-button');
-                if (statusEl) statusEl.style.display = 'block';
-                if (buttonEl) buttonEl.style.display = 'none';
-            }
-        });
-    })();
-</script>
-
-
-  <!-- Welcome Section -->
-  <div class="text-center">
-    <h2 class="home-title mb-4">
-      Bem-vindo, Admin!
-    </h2>
-    <p class="text-slate-600 max-w-2xl mx-auto">
-      Sistema de gestão e monitoramento integrado. Escolha uma das opções abaixo para começar.
-    </p>
-  </div>
-
-  <!-- Monitoring and Projects Cards — visível apenas para administradores -->
-  
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-    <!-- Notificações de Monitoramento -->
-    <div class="bg-white rounded-lg border shadow-sm">
-      <div class="p-6">
-        <div class="flex items-center gap-2 mb-6">
-          <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <h3 class="text-lg font-semibold">Notificações de Monitoramento</h3>
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="ajuda-icon"><i class="fas fa-question-circle"></i></div>
+        <div>
+            <h1 class="ajuda-title mb-0">Ajuda — Tour pelo sistema</h1>
+            <p class="text-muted mb-0 small">
+                O mesmo tour do primeiro acesso, sempre disponível aqui. Navegue pelos slides ou clique
+                direto num item do menu em miniatura.
+            </p>
         </div>
-
-        <div class="notifications-scroll space-y-2">
-          
-          <div class="text-center p-4 text-slate-500">
-            <p>Nenhum dashboard com erro de atualização.</p>
-          </div>
-          
-
-          <!-- Outros sistemas (sucesso) -->
-          <div class="flex items-center justify-between p-4 bg-green-50 rounded-lg">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 bg-green-600 rounded-full"></span>
-              <span class="text-sm font-medium">Outros sistemas</span>
-            </div>
-            <span class="text-sm text-green-600 font-medium">Sucesso</span>
-          </div>
-        </div>
-
-        <p class="text-sm text-slate-600 mt-4">
-          0 erros detectados de 7
-          sistemas monitorados
-        </p>
-      </div>
     </div>
 
-    <!-- Projetos Próximos ao Prazo -->
-    <div class="bg-white rounded-lg border shadow-sm">
-      <div class="p-2">
-        <div class="flex items-center gap-2 mb-6">
-          <svg class="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-          </svg>
-          <h3 class="text-lg font-semibold">Projetos Próximos ao Prazo</h3>
-        </div>
+    <div class="card ajuda-card">
+        
 
-        <div
-          class="space-y-2 h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
-          style="scrollbar-width: thin; scrollbar-color: #94a3b8 #f1f5f9;">
-          <!-- Container com altura fixa e scrollbar customizada -->
-          
-          <div class="text-center p-4 text-slate-500">
-            <p>Nenhum projeto próximo ao prazo.</p>
-          </div>
-          
-        </div>
+<style>
+    /* ══ Tutorial deck ══════════════════════════════════════ */
+    .tut-deck { display: flex; flex-direction: column; background: var(--gray-50); border-radius: var(--r-lg); overflow: hidden; }
 
-        <p class="text-sm text-slate-600 mt-4">
-          0 projetos com prazo nos próximos 60 dias
-        </p>
-      </div>
-    </div>
-  </div>
-  
+    .tut-body { display: flex; min-height: 26rem; }
 
-  <!-- Navigation Menu / Módulos do Sistema -->
-  <div>
-    <h3 class="text-xl font-semibold text-slate-800 mb-6">
-      Módulos do Sistema
-    </h3>
+    /* Mini réplica do menu lateral real */
+    .tut-mini-sidebar { width: 12.5rem; flex-shrink: 0; background: var(--sidebar-bg); padding: .6rem .45rem; display: none; flex-direction: column; gap: 1px; overflow-y: auto; max-height: 34rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.15) transparent; }
+    @media (min-width: 768px) { .tut-mini-sidebar { display: flex; } }
+    .tut-mini-brand { display: flex; align-items: center; gap: .45rem; padding: .35rem .5rem .65rem; border-bottom: 1px solid rgba(255,255,255,.09); margin-bottom: .45rem; }
+    .tut-mini-brand-icon { width: 1.4rem; height: 1.4rem; border-radius: 4px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); display: flex; align-items: center; justify-content: center; color: #fff; font-size: .6rem; }
+    .tut-mini-brand span { color: #fff; font-size: .66rem; font-weight: 700; letter-spacing: .01em; }
+    .tut-nav-item { display: flex; align-items: center; gap: .45rem; color: rgba(255,255,255,.62); font-size: .68rem; font-weight: 500; padding: .34rem .55rem; border-radius: 6px; cursor: pointer; transition: .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tut-nav-item i { width: .85rem; text-align: center; font-size: .62rem; flex-shrink: 0; }
+    .tut-nav-item:hover { color: #fff; background: rgba(255,255,255,.07); }
+    .tut-nav-item.on { color: #fff; background: rgba(255,255,255,.16); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); font-weight: 700; }
+    .tut-nav-item.on i { color: var(--sky); }
 
-    <!-- Main Navigation Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Dashboard Module -->
-      
-      <a href="dashboard.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Dashboards</h4>
-              <p class="text-sm text-slate-600">Gerencie dashboards do Power BI</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+    /* Palco dos slides */
+    .tut-stage { flex: 1; position: relative; display: flex; align-items: stretch; min-width: 0; }
+    .tut-slide { display: none; flex: 1; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1.6rem 1.8rem 1.2rem; animation: tutFade .25s ease; }
+    .tut-slide.on { display: flex; }
+    @keyframes tutFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-      <!-- Financeiro Module -->
-      
-      <a href="financeiro.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Financeiro</h4>
-              <p class="text-sm text-slate-600">Acompanhamento e alertas do financeiro</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+    .tut-slide h5 { font-weight: 800; color: var(--gray-900); margin: .9rem 0 .3rem; letter-spacing: -.01em; }
+    .tut-slide h5 i { color: var(--navy); margin-right: .45rem; }
+    .tut-points { list-style: none; padding: 0; margin: .35rem 0 0; display: flex; flex-direction: column; gap: .22rem; }
+    .tut-points li { font-size: .82rem; color: var(--gray-600); }
+    .tut-points li i { color: var(--green); font-size: .68rem; margin-right: .35rem; }
+    .tut-badge-admin { display: inline-block; background: var(--amber-faint); color: var(--amber); font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: .18rem .55rem; border-radius: 999px; margin-top: .5rem; }
 
-      <!-- Gestão de Salas Module (NOVO) -->
-      
-      <a href="gestao-salas.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Gestão de Salas</h4>
-              <p class="text-sm text-slate-600">Gerencie salas e reservas</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+    /* ══ Mocks (miniaturas visuais das páginas) ══════════════ */
+    .tm { width: 100%; max-width: 23rem; background: #fff; border: 1px solid var(--gray-200); border-radius: 10px; box-shadow: var(--shadow-md); padding: .8rem; text-align: left; }
+    .tm-chrome { display: flex; gap: .28rem; margin-bottom: .65rem; }
+    .tm-chrome span { width: .5rem; height: .5rem; border-radius: 50%; background: var(--gray-200); }
+    .tm-chrome span:first-child { background: #fca5a5; }
+    .tm-chrome span:nth-child(2) { background: #fcd34d; }
+    .tm-chrome span:nth-child(3) { background: #86efac; }
 
-      <!-- QR Generator Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Gerador QR Code</h4>
-              <p class="text-sm text-slate-600">Crie códigos QR personalizados</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+    .tm-row { display: flex; gap: .45rem; margin-bottom: .5rem; }
+    .tm-row:last-child { margin-bottom: 0; }
 
-      <!-- Etiquetas Generator Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Gerador de Etiquetas</h4>
-              <p class="text-sm text-slate-600">Gere etiquetas personalizadas</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+    .tm-line { height: .42rem; border-radius: 3px; background: var(--gray-200); }
+    .tm-line.dk { background: var(--gray-300); }
+    .w25 { width: 25%; } .w40 { width: 40%; } .w55 { width: 55%; } .w70 { width: 70%; } .w85 { width: 85%; } .w100 { width: 100%; }
 
-      <!-- Controle de Acessos Module -->
-      
-      <a href="controle-acessos.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Controle de Acessos</h4>
-              <p class="text-sm text-slate-600">Gerencie usuários e permissões</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+    .tm-stat { flex: 1; border-radius: 7px; padding: .5rem .55rem; color: #fff; }
+    .tm-stat b { display: block; font-size: .85rem; line-height: 1; }
+    .tm-stat small { font-size: .5rem; text-transform: uppercase; letter-spacing: .03em; opacity: .85; }
+    .tm-navy { background: linear-gradient(135deg, var(--navy), var(--navy-mid)); }
+    .tm-green { background: linear-gradient(135deg, #22c55e, #15803d); }
+    .tm-red { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+    .tm-amber { background: linear-gradient(135deg, #f59e0b, #b45309); }
+    .tm-sky { background: linear-gradient(135deg, #0ea5e9, #0369a1); }
 
-      <!-- Portaria Base Module -->
-      <!--<a href="#" 
-               class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex items-center space-x-4">
-                        <div class="h-12 w-12 bg-cyan-100 rounded-lg flex items-center justify-center group-hover:bg-cyan-200 transition-colors">
-                            <svg class="h-6 w-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                      d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+    .tm-panel { flex: 1; border: 1px solid var(--gray-200); border-radius: 7px; padding: .5rem; }
+    .tm-bars { display: flex; align-items: flex-end; gap: .3rem; height: 3rem; margin-top: .4rem; }
+    .tm-bars span { flex: 1; border-radius: 3px 3px 0 0; background: var(--navy); opacity: .85; }
+    .tm-bars .sky { background: var(--sky); }
+
+    .tm-trow { display: flex; align-items: center; gap: .5rem; padding: .34rem .45rem; border-radius: 5px; background: var(--gray-50); margin-bottom: .3rem; }
+    .tm-trow:last-child { margin-bottom: 0; }
+    .tm-dot { width: .55rem; height: .55rem; border-radius: 50%; flex-shrink: 0; }
+    .tm-dot.g { background: var(--green); } .tm-dot.r { background: var(--red); } .tm-dot.a { background: var(--amber); }
+    .tm-pill { font-size: .5rem; font-weight: 700; padding: .12rem .45rem; border-radius: 999px; text-transform: uppercase; flex-shrink: 0; margin-left: auto; }
+    .tm-pill.g { background: #dcfce7; color: #15803d; } .tm-pill.r { background: #fee2e2; color: #b91c1c; } .tm-pill.a { background: #fef3c7; color: #92400e; }
+
+    .tm-btn { display: inline-flex; align-items: center; gap: .3rem; background: var(--navy); color: #fff; font-size: .58rem; font-weight: 600; padding: .3rem .65rem; border-radius: 5px; }
+    .tm-drop { border: 2px dashed var(--gray-300); border-radius: 7px; padding: .8rem; text-align: center; color: var(--gray-400); font-size: .62rem; margin-bottom: .5rem; }
+    .tm-drop i { display: block; font-size: 1rem; margin-bottom: .25rem; color: var(--navy); }
+
+    .tm-kcol { flex: 1; background: var(--gray-100); border-radius: 7px; padding: .4rem; }
+    .tm-kcol > small { display: block; font-size: .52rem; font-weight: 700; text-transform: uppercase; color: var(--gray-500); margin-bottom: .3rem; }
+    .tm-kcard { background: #fff; border: 1px solid var(--gray-200); border-radius: 5px; padding: .32rem .4rem; margin-bottom: .3rem; box-shadow: var(--shadow-xs); }
+    .tm-kcard:last-child { margin-bottom: 0; }
+
+    .tm-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: .22rem; }
+    .tm-cal span { aspect-ratio: 1; border-radius: 4px; background: var(--gray-100); position: relative; }
+    .tm-cal span.ev::after { content: ''; position: absolute; bottom: .12rem; left: 50%; transform: translateX(-50%); width: .28rem; height: .28rem; border-radius: 50%; background: var(--sky); }
+    .tm-cal span.ev.g::after { background: var(--green); }
+    .tm-cal span.ev.a::after { background: var(--amber); }
+    .tm-cal span.hoje { background: var(--navy); }
+
+    .tm-qr { width: 4.2rem; height: 4.2rem; border-radius: 6px; flex-shrink: 0; background:
+        linear-gradient(90deg, var(--navy) 25%, transparent 25%, transparent 50%, var(--navy) 50%, var(--navy) 60%, transparent 60%, transparent 75%, var(--navy) 75%),
+        linear-gradient(var(--navy) 25%, transparent 25%, transparent 45%, var(--navy) 45%, var(--navy) 55%, transparent 55%, transparent 80%, var(--navy) 80%);
+        background-size: 100% 100%; border: 3px solid var(--navy); }
+
+    .tm-steps { display: flex; align-items: center; gap: .25rem; }
+    .tm-step { flex: 1; text-align: center; font-size: .5rem; font-weight: 700; padding: .34rem .15rem; border-radius: 5px; background: var(--gray-100); color: var(--gray-500); }
+    .tm-step.done { background: var(--green-faint); color: var(--green); }
+    .tm-step.now { background: var(--navy); color: #fff; }
+    .tm-arrow { color: var(--gray-300); font-size: .55rem; flex-shrink: 0; }
+
+    .tm-switch { width: 1.5rem; height: .8rem; border-radius: 999px; background: var(--green); position: relative; margin-left: auto; flex-shrink: 0; }
+    .tm-switch::after { content: ''; position: absolute; top: .09rem; right: .12rem; width: .62rem; height: .62rem; border-radius: 50%; background: #fff; }
+    .tm-switch.off { background: var(--gray-300); }
+    .tm-switch.off::after { right: auto; left: .12rem; }
+
+    .tm-link-card { flex: 1; border: 1px solid var(--gray-200); border-radius: 7px; padding: .5rem; display: flex; flex-direction: column; gap: .3rem; align-items: flex-start; }
+    .tm-link-ic { width: 1.3rem; height: 1.3rem; border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; font-size: .55rem; }
+
+    .tut-hero-icon { width: 4.2rem; height: 4.2rem; border-radius: 16px; background: linear-gradient(135deg, var(--navy), var(--navy-mid)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.7rem; box-shadow: var(--shadow-lg); }
+
+    /* Rodapé: navegação do deck */
+    .tut-footer { display: flex; align-items: center; gap: .8rem; padding: .8rem 1.2rem; background: #fff; border-top: 1px solid var(--gray-200); }
+    .tut-progress { font-size: .72rem; font-weight: 700; color: var(--gray-500); min-width: 3.2rem; }
+    .tut-dots { flex: 1; display: flex; justify-content: center; gap: .32rem; flex-wrap: wrap; }
+    .tut-dot { width: .5rem; height: .5rem; border-radius: 999px; border: none; padding: 0; background: var(--gray-300); cursor: pointer; transition: .18s; }
+    .tut-dot.on { background: var(--navy); width: 1.15rem; }
+    .tut-btn { border: none; border-radius: 8px; font-size: .8rem; font-weight: 700; padding: .45rem 1rem; transition: .15s; }
+    .tut-btn-prev { background: var(--gray-100); color: var(--gray-600); }
+    .tut-btn-prev:disabled { opacity: .4; cursor: default; }
+    .tut-btn-next, .tut-btn-finish { background: var(--navy); color: #fff; }
+    .tut-btn-next:hover, .tut-btn-finish:hover { background: var(--navy-mid); }
+    .tut-btn-finish { background: var(--green); }
+    .tut-btn-finish:hover { background: #15803d; }
+</style>
+
+<div class="tut-deck">
+    <div class="tut-body">
+
+        <!-- Mini menu lateral (réplica do menu real, item ativo acompanha o slide) -->
+        <aside class="tut-mini-sidebar">
+            <div class="tut-mini-brand">
+                <div class="tut-mini-brand-icon"><i class="fas fa-chart-bar"></i></div>
+                <span>FLOW</span>
+            </div>
+            <div class="tut-nav-item" data-key="home"><i class="fas fa-home"></i>Home</div>
+            
+            <div class="tut-nav-item" data-key="admin"><i class="fas fa-users-cog"></i>Controle de Usuários</div>
+            
+            
+            <div class="tut-nav-item" data-key="admin"><i class="fas fa-map-marker-alt"></i>Gerenciar Regionais</div>
+            
+            
+            <div class="tut-nav-item" data-key="dashboard"><i class="fas fa-chart-bar"></i>Gestão a Vista</div>
+            
+            
+            <div class="tut-nav-item" data-key="financeiro"><i class="fas fa-dollar-sign"></i>Financeiro</div>
+            
+            
+            <div class="tut-nav-item" data-key="reservas"><i class="fas fa-building"></i>Gestão de Reservas</div>
+            
+            
+            <div class="tut-nav-item" data-key="projetos"><i class="fas fa-clipboard-list"></i>Projetos</div>
+            
+            
+            <div class="tut-nav-item" data-key="auditoria"><i class="fas fa-shield-alt"></i>Auditoria</div>
+            
+            
+            <div class="tut-nav-item" data-key="relatorios"><i class="fas fa-file-alt"></i>Relatórios</div>
+            
+            
+            <div class="tut-nav-item" data-key="qualidade"><i class="fas fa-shield-alt"></i>Gestão da Qualidade</div>
+            
+            
+            <div class="tut-nav-item" data-key="controle-ordens"><i class="fas fa-project-diagram"></i>Gestão de Ordens</div>
+            
+            
+            <div class="tut-nav-item" data-key="depara-aprova"><i class="fas fa-file-contract"></i>DparAprova</div>
+            
+            
+            <div class="tut-nav-item" data-key="calendario"><i class="fas fa-calendar-alt"></i>Calendário 2026</div>
+            
+            
+            <div class="tut-nav-item" data-key="psico"><i class="fas fa-heartbeat"></i>Psico NR1</div>
+            
+            
+            <div class="tut-nav-item" data-key="geradores"><i class="fas fa-qrcode"></i>Geradores</div>
+            
+            
+            <div class="tut-nav-item" data-key="acompanhamento"><i class="fas fa-tasks"></i>Acompanhamento</div>
+            
+            
+            <div class="tut-nav-item" data-key="links"><i class="fas fa-link"></i>Links GPS</div>
+            
+            <div class="tut-nav-item" data-key="ajuda"><i class="fas fa-question-circle"></i>Ajuda</div>
+        </aside>
+
+        <!-- Slides -->
+        <div class="tut-stage">
+
+            <div class="tut-slide" data-key="">
+                <div class="tut-hero-icon"><i class="fas fa-chart-bar"></i></div>
+                <h5>Bem-vindo ao FLOW!</h5>
+                <ul class="tut-points">
+                    <li>Aqui você acompanha qualidade e operações num só lugar.</li>
+                    <li>Vamos fazer um tour rápido e visual pelas abas do sistema.</li>
+                    <li><b>Leva menos de 2 minutos.</b></li>
+                </ul>
+            </div>
+
+            <div class="tut-slide" data-key="">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-row">
+                        <div style="width:30%; background:var(--sidebar-bg); border-radius:7px; padding:.45rem; display:flex; flex-direction:column; gap:.3rem;">
+                            <div class="tm-line w85" style="background:rgba(255,255,255,.35)"></div>
+                            <div class="tm-line w70" style="background:rgba(255,255,255,.2)"></div>
+                            <div class="tm-line w85" style="background:rgba(255,255,255,.2)"></div>
+                            <div class="tm-line w55" style="background:rgba(255,255,255,.2)"></div>
+                            <div class="tm-line w70" style="background:rgba(255,255,255,.2)"></div>
                         </div>
-                        <div>
-                            <h4 class="text-lg font-semibold text-slate-900">Portaria Base</h4>
-                            <p class="text-sm text-slate-600">Controle de entradas na base</p>
+                        <div style="flex:1; display:flex; flex-direction:column; gap:.4rem;">
+                            <div class="tm-line dk w100" style="height:.65rem;"></div>
+                            <div class="tm-line w85"></div>
+                            <div class="tm-line w70"></div>
+                            <div class="tm-line w85"></div>
                         </div>
                     </div>
                 </div>
-            </a> -->
+                <h5><i class="fas fa-bars"></i>O menu é sua bússola</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Tudo fica no <b>menu azul à esquerda</b>.</li>
+                    <li><i class="fas fa-check"></i>Itens com <b>seta ›</b> abrem sub-opções.</li>
+                    <li><i class="fas fa-check"></i>Dá para recolher o menu e navegar só pelos ícones.</li>
+                </ul>
+            </div>
 
-      <!-- Desativação de CR Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+            <div class="tut-slide" data-key="home">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-row">
+                        <div class="tm-stat tm-navy"><b>12</b><small>Painéis</small></div>
+                        <div class="tm-stat tm-sky"><b>34</b><small>Reservas</small></div>
+                        <div class="tm-stat tm-green"><b>OK</b><small>Sistemas</small></div>
+                    </div>
+                    <div class="tm-row"><div class="tm-line w70"></div></div>
+                    <div class="tm-row"><div class="tm-line w55"></div></div>
+                </div>
+                <h5><i class="fas fa-home"></i>Home</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Sua página inicial, com a visão geral do dia.</li>
+                    <li><i class="fas fa-check"></i>Sempre dá para voltar clicando em <b>Home</b>.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Desativação de CR</h4>
-              <p class="text-sm text-slate-600">Gerencie solicitações de desativação</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
 
-      <!-- Planner Module -->
-      
-      <a href="planner.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-              </svg>
+            
+            <div class="tut-slide" data-key="admin">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-trow"><i class="fas fa-user-circle" style="color:var(--gray-400)"></i><div class="tm-line w40"></div><div class="tm-switch"></div></div>
+                    <div class="tm-trow"><i class="fas fa-user-circle" style="color:var(--gray-400)"></i><div class="tm-line w55"></div><div class="tm-switch"></div></div>
+                    <div class="tm-trow"><i class="fas fa-user-circle" style="color:var(--gray-400)"></i><div class="tm-line w40"></div><div class="tm-switch off"></div></div>
+                </div>
+                <h5><i class="fas fa-users-cog"></i>Administração</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i><b>Controle de Usuários</b>: crie contas e escolha o que cada um vê.</li>
+                    <li><i class="fas fa-check"></i><b>Gerenciar Regionais</b>: cada regional com seus próprios dados.</li>
+                </ul>
+                <span class="tut-badge-admin"><i class="fas fa-lock"></i> visível só para administradores</span>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Planner</h4>
-              <p class="text-sm text-slate-600">Gestão e acompanhamento de projetos</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+            
 
-      <!-- Calendário 2026 Module -->
-      
-      <a href="calendario-2026.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+            
+            <div class="tut-slide" data-key="dashboard">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-row">
+                        <div class="tm-panel"><div class="tm-line w55"></div><div class="tm-bars"><span style="height:45%"></span><span style="height:80%" class="sky"></span><span style="height:60%"></span><span style="height:95%" class="sky"></span></div></div>
+                        <div class="tm-panel"><div class="tm-line w40"></div><div class="tm-bars"><span style="height:70%" class="sky"></span><span style="height:40%"></span><span style="height:85%"></span><span style="height:55%" class="sky"></span></div></div>
+                    </div>
+                </div>
+                <h5><i class="fas fa-chart-bar"></i>Gestão a Vista</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i><b>Dashboards</b>: painéis de indicadores por cliente e serviço.</li>
+                    <li><i class="fas fa-check"></i>Clique em um card para abrir o painel completo.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Calendário 2026</h4>
-              <p class="text-sm text-slate-600">Eventos e reuniões RCO</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+            
 
-      <!-- Torre de Controle Module -->
-      
-      <a href="torre-controle.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
-              </svg>
+            
+            <div class="tut-slide" data-key="financeiro">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-drop"><i class="fas fa-cloud-upload-alt"></i>Arraste a planilha aqui</div>
+                    <div class="tm-trow"><i class="fas fa-file-excel" style="color:var(--green)"></i><div class="tm-line w55"></div><span class="tm-pill g">ok</span></div>
+                    <div class="tm-trow"><i class="fas fa-file-excel" style="color:var(--green)"></i><div class="tm-line w40"></div><span class="tm-pill a">processando</span></div>
+                </div>
+                <h5><i class="fas fa-dollar-sign"></i>Financeiro</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Envie as planilhas pelo <b>upload guiado</b>.</li>
+                    <li><i class="fas fa-check"></i>Acompanhe o processamento e consulte os dados.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Torre de Controle</h4>
-              <p class="text-sm text-slate-600">KPI de realização de rondas por cliente</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+            
 
-      <!-- Livro ATA Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
+            
+            <div class="tut-slide" data-key="reservas">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-cal">
+                        <span></span><span></span><span class="ev"></span><span></span><span class="ev g"></span><span></span><span></span>
+                        <span></span><span class="hoje"></span><span></span><span class="ev"></span><span></span><span></span><span class="ev a"></span>
+                    </div>
+                    <div class="tm-row" style="margin-top:.5rem; margin-bottom:0;"><span class="tm-btn"><i class="fas fa-plus"></i>Reservar sala</span></div>
+                </div>
+                <h5><i class="fas fa-building"></i>Gestão de Reservas</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Reserve salas de reunião em poucos cliques.</li>
+                    <li><i class="fas fa-check"></i>Veja todas as reservas no <b>calendário</b>.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Livro ATA</h4>
-              <p class="text-sm text-slate-600">Registro de ocorrências e atas</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+            
 
-      <!-- Controle de Chips Module -->
-      
-      <a href="controle-chips.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
+            
+            <div class="tut-slide" data-key="projetos">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-row" style="margin-bottom:0;">
+                        <div class="tm-kcol"><small>A fazer</small><div class="tm-kcard"><div class="tm-line w85"></div></div><div class="tm-kcard"><div class="tm-line w55"></div></div></div>
+                        <div class="tm-kcol"><small>Fazendo</small><div class="tm-kcard"><div class="tm-line w70"></div></div></div>
+                        <div class="tm-kcol"><small>Feito</small><div class="tm-kcard"><div class="tm-line w55"></div></div><div class="tm-kcard"><div class="tm-line w85"></div></div></div>
+                    </div>
+                </div>
+                <h5><i class="fas fa-clipboard-list"></i>Projetos</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i><b>Planner</b>: projetos em quadro — arraste os cards entre etapas.</li>
+                    <li><i class="fas fa-check"></i><b>Arquivos</b>: documentos organizados por área.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Controle de Chips</h4>
-              <p class="text-sm text-slate-600">Gestão de chips e telefonia</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+            
 
-      <!-- Relatórios Module -->
-      
-      <a href="relatorios.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+            
+            <div class="tut-slide" data-key="auditoria">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-trow"><i class="fas fa-shield-alt" style="color:var(--navy)"></i><div class="tm-line w55"></div><span class="tm-pill g">auditado</span></div>
+                    <div class="tm-trow"><i class="fas fa-shield-alt" style="color:var(--navy)"></i><div class="tm-line w40"></div><span class="tm-pill a">pendente</span></div>
+                </div>
+                <h5><i class="fas fa-shield-alt"></i>Auditoria</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i><b>Auditor de Ronda</b>: auditorias e planos de ação.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Relatórios</h4>
-              <p class="text-sm text-slate-600">Relatórios de Inspeção de EPI e APR - Viagem Segura</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+            
 
-      <!-- Implantações Sistêmicas Module -->
-      
-      <a href="implantacoes-sistemicas.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+            
+            <div class="tut-slide" data-key="relatorios">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-trow"><i class="fas fa-file-pdf" style="color:var(--red)"></i><div class="tm-line w55"></div><i class="fas fa-download" style="color:var(--gray-400); margin-left:auto;"></i></div>
+                    <div class="tm-trow"><i class="fas fa-file-excel" style="color:var(--green)"></i><div class="tm-line w70"></div><i class="fas fa-download" style="color:var(--gray-400); margin-left:auto;"></i></div>
+                    <div class="tm-trow"><i class="fas fa-file-pdf" style="color:var(--red)"></i><div class="tm-line w40"></div><i class="fas fa-download" style="color:var(--gray-400); margin-left:auto;"></i></div>
+                </div>
+                <h5><i class="fas fa-file-alt"></i>Relatórios</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Relatórios prontos para consultar e baixar.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Implantações Sistêmicas</h4>
-              <p class="text-sm text-slate-600">Gerencie implantações sistêmicas nos contratos</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+            
 
-      <!-- Fluxo de Implantações Module -->
-      
-      <a href="implantacoes.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
-              </svg>
+            
+            <div class="tut-slide" data-key="qualidade">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-trow"><i class="fas fa-check-square" style="color:var(--green)"></i><div class="tm-line w70"></div></div>
+                    <div class="tm-trow"><i class="fas fa-check-square" style="color:var(--green)"></i><div class="tm-line w55"></div></div>
+                    <div class="tm-trow"><i class="far fa-square" style="color:var(--gray-400)"></i><div class="tm-line w40"></div></div>
+                </div>
+                <h5><i class="fas fa-shield-alt"></i>Gestão da Qualidade</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Documentos, checklists e indicadores da Qualidade.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Fluxo de Implantações</h4>
-              <p class="text-sm text-slate-600">Acompanhe o status e fluxo de implantações</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+            
 
-      <!-- Fluxo de Desmobilização Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
+            
+            <div class="tut-slide" data-key="controle-ordens">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-row">
+                        <div class="tm-stat tm-navy"><b>87%</b><small>No prazo</small></div>
+                        <div class="tm-stat tm-amber"><b>12</b><small>Backlog</small></div>
+                    </div>
+                    <div class="tm-cal">
+                        <span></span><span class="ev"></span><span></span><span class="hoje"></span><span class="ev g"></span><span></span><span></span>
+                    </div>
+                </div>
+                <h5><i class="fas fa-project-diagram"></i>Gestão de Ordens (PCM)</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Planejamento, calendário, CPS e backlog das ordens de serviço.</li>
+                    <li><i class="fas fa-check"></i>Acompanhe prazo x realizado e o dashboard de cumprimento.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Fluxo de Desmobilização</h4>
-              <p class="text-sm text-slate-600">Monitore o encerramento e desmobilização de CRs</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
+            
 
-      <!-- Explorer/Arquivos Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
+            
+            <div class="tut-slide" data-key="depara-aprova">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-trow"><i class="fas fa-file-contract" style="color:var(--navy)"></i><div class="tm-line w70"></div></div>
+                    <div class="tm-trow"><span class="tm-dot g"></span><div class="tm-line w55"></div><span class="tm-pill g">ok</span></div>
+                </div>
+                <h5><i class="fas fa-file-contract"></i>DparAprova</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Anexe o certificado (imagem ou PDF) e a IA compara com o manual oficial do cliente selecionado.</li>
+                    <li><i class="fas fa-check"></i>Resultado em tabelas: conteúdo programático, dados obrigatórios e pendências.</li>
+                </ul>
             </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Arquivos (Explorer)</h4>
-              <p class="text-sm text-slate-600">Acesse e gerencie os arquivos do sistema</p>
+            
+
+            
+            <div class="tut-slide" data-key="calendario">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-cal">
+                        <span class="ev g"></span><span></span><span></span><span class="ev"></span><span></span><span></span><span class="ev a"></span>
+                        <span></span><span></span><span class="hoje"></span><span></span><span class="ev"></span><span></span><span></span>
+                    </div>
+                </div>
+                <h5><i class="fas fa-calendar-alt"></i>Calendário 2026</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Eventos e datas importantes do ano, num lugar só.</li>
+                </ul>
             </div>
-          </div>
+            
+
+            
+            <div class="tut-slide" data-key="psico">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-trow"><i class="fas fa-heartbeat" style="color:var(--red)"></i><div class="tm-line w55"></div><span class="tm-pill g">ativo</span></div>
+                    <div class="tm-row" style="margin:.45rem 0 0;">
+                        <div class="tm-panel"><div class="tm-line w40" style="margin-bottom:.3rem;"></div><div class="tm-line dk w85"></div></div>
+                        <div class="tm-panel"><div class="tm-line w55" style="margin-bottom:.3rem;"></div><div class="tm-line dk w70"></div></div>
+                    </div>
+                </div>
+                <h5><i class="fas fa-heartbeat"></i>Psico NR1</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Projetos de <b>Avaliação Psicossocial</b> (NR-1).</li>
+                    <li><i class="fas fa-check"></i>Base de colaboradores para as avaliações.</li>
+                </ul>
+            </div>
+            
+
+            
+            <div class="tut-slide" data-key="geradores">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-row" style="margin-bottom:0; align-items:center;">
+                        <div class="tm-qr"></div>
+                        <div style="flex:1; display:flex; flex-direction:column; gap:.35rem;">
+                            <div class="tm-line dk w70"></div>
+                            <div class="tm-line w55"></div>
+                            <span class="tm-btn"><i class="fas fa-download"></i>Baixar PDF</span>
+                        </div>
+                    </div>
+                </div>
+                <h5><i class="fas fa-qrcode"></i>Geradores</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Gere <b>QR Codes</b> e <b>etiquetas</b> em PDF.</li>
+                    <li><i class="fas fa-check"></i>Preencha os dados, clique em gerar e baixe.</li>
+                </ul>
+            </div>
+            
+
+            
+            <div class="tut-slide" data-key="acompanhamento">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-steps">
+                        <div class="tm-step done">Início</div><i class="fas fa-chevron-right tm-arrow"></i>
+                        <div class="tm-step done">Análise</div><i class="fas fa-chevron-right tm-arrow"></i>
+                        <div class="tm-step now">Execução</div><i class="fas fa-chevron-right tm-arrow"></i>
+                        <div class="tm-step">Concluído</div>
+                    </div>
+                </div>
+                <h5><i class="fas fa-tasks"></i>Acompanhamento</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Fluxos de <b>implantação</b>, <b>desmobilização</b>, <b>chips</b> e <b>CRs</b>.</li>
+                    <li><i class="fas fa-check"></i>Cada card mostra em que etapa o processo está.</li>
+                </ul>
+            </div>
+            
+
+            
+            <div class="tut-slide" data-key="links">
+                <div class="tm">
+                    <div class="tm-chrome"><span></span><span></span><span></span></div>
+                    <div class="tm-row" style="margin-bottom:0;">
+                        <div class="tm-link-card"><div class="tm-link-ic" style="background:linear-gradient(135deg,#0ea5e9,#0369a1)"><i class="fas fa-external-link-alt"></i></div><div class="tm-line w85"></div></div>
+                        <div class="tm-link-card"><div class="tm-link-ic" style="background:linear-gradient(135deg,#2563eb,#1e3a8a)"><i class="fas fa-external-link-alt"></i></div><div class="tm-line w70"></div></div>
+                        <div class="tm-link-card"><div class="tm-link-ic" style="background:linear-gradient(135deg,#16a34a,#15803d)"><i class="fas fa-external-link-alt"></i></div><div class="tm-line w85"></div></div>
+                    </div>
+                </div>
+                <h5><i class="fas fa-link"></i>Links GPS</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Atalhos para os sistemas do grupo (GPS 360, GPS Vista...).</li>
+                    <li><i class="fas fa-check"></i>Clique em <b>Abrir</b> e o sistema abre em outra aba.</li>
+                </ul>
+            </div>
+            
+
+            <div class="tut-slide" data-key="ajuda">
+                <div class="tut-hero-icon" style="background:linear-gradient(135deg,#16a34a,#15803d)"><i class="fas fa-question"></i></div>
+                <h5>Precisou rever? É só abrir a Ajuda</h5>
+                <ul class="tut-points">
+                    <li><i class="fas fa-check"></i>Este tour fica guardado na aba <b>Ajuda</b>.</li>
+                    <li><i class="fas fa-check"></i>Sempre o <b>último item do menu</b>, quando precisar.</li>
+                    <li><i class="fas fa-check"></i>Bom trabalho! 🚀</li>
+                </ul>
+            </div>
+
         </div>
-      </a>
-      
+    </div>
+
+    <!-- Navegação do deck -->
+    <div class="tut-footer">
+        <span class="tut-progress">1 / 1</span>
+        <button type="button" class="tut-btn tut-btn-prev"><i class="fas fa-chevron-left"></i></button>
+        <div class="tut-dots"></div>
+        <button type="button" class="tut-btn tut-btn-next">Próximo <i class="fas fa-chevron-right"></i></button>
+        <button type="button" class="tut-btn tut-btn-finish d-none"><i class="fas fa-check"></i> Começar a usar</button>
+    </div>
+</div>
+
+<script>
+    (function () {
+        if (window.__tutDeckInitRegistered) return;
+        window.__tutDeckInitRegistered = true;
+
+        function tutInitDeck(deck) {
+            if (deck.dataset.tutInit) return;
+            deck.dataset.tutInit = '1';
+
+            var slides = Array.prototype.slice.call(deck.querySelectorAll('.tut-slide'));
+            var items = Array.prototype.slice.call(deck.querySelectorAll('.tut-nav-item'));
+            var prev = deck.querySelector('.tut-btn-prev');
+            var next = deck.querySelector('.tut-btn-next');
+            var finish = deck.querySelector('.tut-btn-finish');
+            var progress = deck.querySelector('.tut-progress');
+            var dotsBox = deck.querySelector('.tut-dots');
+            var current = 0;
+
+            slides.forEach(function (_, idx) {
+                var d = document.createElement('button');
+                d.type = 'button';
+                d.className = 'tut-dot';
+                d.addEventListener('click', function () { go(idx); });
+                dotsBox.appendChild(d);
+            });
+            var dots = Array.prototype.slice.call(dotsBox.children);
+
+            items.forEach(function (it) {
+                it.addEventListener('click', function () {
+                    for (var i = 0; i < slides.length; i++) {
+                        if (slides[i].dataset.key === it.dataset.key) { go(i); return; }
+                    }
+                });
+            });
+
+            function go(n) {
+                current = Math.max(0, Math.min(slides.length - 1, n));
+                var key = slides[current].dataset.key;
+                slides.forEach(function (s, i) { s.classList.toggle('on', i === current); });
+                dots.forEach(function (d, i) { d.classList.toggle('on', i === current); });
+                items.forEach(function (it) { it.classList.toggle('on', key !== '' && it.dataset.key === key); });
+                progress.textContent = (current + 1) + ' / ' + slides.length;
+                prev.disabled = current === 0;
+                next.classList.toggle('d-none', current === slides.length - 1);
+                finish.classList.toggle('d-none', current !== slides.length - 1);
+            }
+
+            prev.addEventListener('click', function () { go(current - 1); });
+            next.addEventListener('click', function () { go(current + 1); });
+            finish.addEventListener('click', function () {
+                deck.dispatchEvent(new CustomEvent('tutorial:finish', { bubbles: true }));
+            });
+
+            go(0);
+        }
+
+        function initAll() {
+            document.querySelectorAll('.tut-deck').forEach(tutInitDeck);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAll);
+        } else {
+            initAll();
+        }
+    })();
+</script>
 
     </div>
-  </div>
+
 </div>
 
             </main>

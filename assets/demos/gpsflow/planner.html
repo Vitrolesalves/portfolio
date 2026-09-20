@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - FLOW</title>
+    <title>FLOW</title>
     <meta name="application-name" content="FLOW">
     <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
     <meta name="theme-color" content="#1e3a5f">
@@ -751,42 +751,73 @@
     </style>
 
     
+<script src="static/vendor/sortablejs-1.15.0/Sortable.min.js"></script>
+<script src="static/vendor/sweetalert2/sweetalert2.all.min.js"></script>
 <style>
-  .home-title {
-    background: linear-gradient(to right, #1A2A45, #2A4570);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: 28px;
-    font-weight: bold;
-    margin: 0;
-  }
-
-  .notifications-scroll {
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 8px;
-    scrollbar-width: thin;
-    scrollbar-color: #94a3b8 #f1f5f9;
-  }
-
-  .notifications-scroll::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .notifications-scroll::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-  }
-
-  .notifications-scroll::-webkit-scrollbar-thumb {
-    background: #94a3b8;
-    border-radius: 3px;
-  }
-
-  .notifications-scroll::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-  }
+    :root {
+        --crm-ink: #0f172a;
+        --crm-muted: #64748b;
+        --crm-border: #e2e8f0;
+        --crm-bg: #f8fafc;
+    }
+    .crm-container { min-height: calc(100vh - 60px); padding: 1.25rem; background: radial-gradient(circle at top left, rgba(37,99,235,.09), transparent 30rem), var(--crm-bg); }
+    .crm-header { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1.25rem; }
+    .crm-icon {
+        width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
+        display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
+    }
+    .crm-title {
+        background: linear-gradient(to right, #1A2A45, #2A4570);
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        margin:0; font-weight:800; letter-spacing:0; font-size: 26px; text-transform: uppercase;
+    }
+    .crm-subtitle { color:var(--crm-muted); margin:0; }
+    .btn-crm { background: linear-gradient(135deg,#0f172a,#2563eb); color:#fff; border:0; box-shadow:0 12px 30px rgba(37,99,235,.25); }
+    .btn-crm:hover { color:#fff; transform:translateY(-1px); }
+    .crm-framework { display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap:.85rem; margin-bottom:1rem; }
+    .crm-framework-card { background:#fff; border:1px solid var(--crm-border); border-radius:20px; padding:1rem; box-shadow:0 14px 34px rgba(15,23,42,.07); position:relative; overflow:hidden; }
+    .crm-framework-card:before { content:""; position:absolute; inset:0 auto 0 0; width:5px; background:linear-gradient(180deg,#2563eb,#16a34a); }
+    .crm-framework-card small { color:var(--crm-muted); text-transform:uppercase; letter-spacing:.08em; font-weight:900; }
+    .crm-framework-card strong { display:block; color:var(--crm-ink); font-size:1.05rem; margin:.25rem 0; }
+    .crm-framework-card p { margin:0; color:#475569; font-size:.86rem; }
+    .crm-metrics { display:grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap:.85rem; margin-bottom:1rem; }
+    .crm-metric { background:rgba(255,255,255,.88); border:1px solid var(--crm-border); border-radius:18px; padding:1rem; box-shadow:0 10px 25px rgba(15,23,42,.05); }
+    .crm-metric small { color:var(--crm-muted); text-transform:uppercase; letter-spacing:.08em; font-weight:800; }
+    .crm-metric strong { display:block; font-size:1.75rem; color:var(--crm-ink); }
+    .active-filters-bar { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1rem; }
+    .filter-chip { background:#dbeafe; color:#1d4ed8; border:1px solid #bfdbfe; border-radius:999px; padding:.4rem .7rem; font-size:.85rem; font-weight:700; }
+    .filter-chip i { margin-left:.4rem; cursor:pointer; }
+    .kanban-wrapper { display:flex; gap:1rem; overflow-x:auto; padding-bottom:1rem; align-items:flex-start; }
+    .kanban-column { min-width:330px; max-width:330px; background:rgba(255,255,255,.7); border:1px solid var(--crm-border); border-radius:22px; overflow:hidden; box-shadow:0 18px 40px rgba(15,23,42,.07); }
+    .kanban-column-header { padding:1rem; background:#fff; border-bottom:1px solid var(--crm-border); display:flex; justify-content:space-between; align-items:center; }
+    .kanban-column-title { display:flex; align-items:center; gap:.55rem; font-weight:900; color:var(--crm-ink); }
+    .kanban-column-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+    .kanban-column-count { background:#f1f5f9; color:#334155; border-radius:999px; padding:.2rem .65rem; font-weight:900; }
+    .kanban-items-container { min-height:220px; padding:1rem; max-height:calc(100vh - 290px); overflow-y:auto; }
+    .kanban-card { background:#fff; border:1px solid var(--crm-border); border-left:5px solid #94a3b8; border-radius:18px; padding:1rem; margin-bottom:.9rem; cursor:pointer; box-shadow:0 10px 22px rgba(15,23,42,.06); transition:.18s ease; position:relative; }
+    .kanban-card:hover { transform:translateY(-2px); box-shadow:0 16px 30px rgba(15,23,42,.12); }
+    .priority-Crítica { border-left-color:#7f1d1d; } .priority-Alto { border-left-color:#dc2626; } .priority-Médio { border-left-color:#f59e0b; } .priority-Baixo { border-left-color:#16a34a; }
+    .card-actions { position:absolute; right:.75rem; top:.75rem; opacity:0; transition:.18s; } .kanban-card:hover .card-actions { opacity:1; }
+    .tag { display:inline-flex; align-items:center; gap:.25rem; font-size:.68rem; font-weight:900; letter-spacing:.05em; text-transform:uppercase; border-radius:999px; padding:.25rem .55rem; }
+    .tag-service { background:#eff6ff; color:#1d4ed8; } .tag-priority { background:#fff7ed; color:#c2410c; } .tag-5w2h { background:#ecfdf5; color:#047857; }
+    .card-title { font-size:1rem; font-weight:900; color:var(--crm-ink); line-height:1.25; padding-right:1.4rem; }
+    .card-client { color:#334155; font-weight:800; margin-top:.15rem; }
+    .card-desc { color:var(--crm-muted); font-size:.84rem; margin:.6rem 0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+    .card-meta { display:grid; gap:.35rem; color:#475569; font-size:.78rem; margin:.7rem 0; }
+    .card-footer { border-top:1px dashed var(--crm-border); padding-top:.75rem; display:flex; justify-content:space-between; align-items:center; gap:.5rem; color:#64748b; font-size:.78rem; }
+    .user-pill { background:#0f172a; color:white; border-radius:999px; padding:.24rem .55rem; font-size:.72rem; font-weight:800; }
+    .sortable-ghost { opacity:.45; border:2px dashed #94a3b8; }
+    .view-toggle { background:#fff; border:1px solid var(--crm-border); border-radius:999px; padding:.25rem; display:inline-flex; gap:.25rem; box-shadow:0 10px 24px rgba(15,23,42,.06); }
+    .view-toggle button { border:0; background:transparent; border-radius:999px; padding:.45rem .85rem; font-weight:800; color:#475569; }
+    .view-toggle button.active { background:#0f172a; color:#fff; }
+    .crm-grid-panel { display:none; background:#fff; border:1px solid var(--crm-border); border-radius:22px; box-shadow:0 18px 40px rgba(15,23,42,.07); overflow:hidden; }
+    .crm-grid-panel.active { display:block; }
+    .kanban-wrapper.hidden { display:none; }
+    .pipeline-row { display:grid; grid-template-columns:70px 1fr 110px 90px 44px; gap:.5rem; align-items:center; }
+    .crm-modal-overlay { display:none; position:fixed; inset:0; z-index:20000; background:rgba(15,23,42,.55); backdrop-filter: blur(3px); overflow-y:auto; padding:3rem 1rem; }
+    .crm-modal-overlay.active { display:flex; justify-content:center; align-items:flex-start; }
+    .crm-modal-box { width:min(1040px,100%); background:#fff; border-radius:22px; box-shadow:0 30px 70px rgba(0,0,0,.25); overflow:hidden; }
+    .section-title { font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:#2563eb; font-weight:900; margin:1rem 0 .6rem; }
 </style>
 
 </head>
@@ -798,7 +829,7 @@
     acompanhamento: false,
     gestaoReservas: false,
     auditoria: false,
-    projetos: false,
+    projetos: true,
     psico: false,
     gestaoAVista: false,
     deparaAprova: false
@@ -831,7 +862,7 @@
                 <!-- Home -->
                 <div class="nav-item">
                     <a href="home.html"
-                        class="nav-link active">
+                        class="nav-link ">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -984,7 +1015,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) projetos = !projetos"
-                        class="nav-link "
+                        class="nav-link active"
                         :class="{ 'expanded': projetos && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1001,7 +1032,7 @@
                         x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
                         
                         <a href="planner.html"
-                            class="nav-sub-link ">
+                            class="nav-sub-link active">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -1443,7 +1474,7 @@
                     
 
                     <form method="post" action="/logout/">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="yG9aO5MCfSaufnqZQL1JC5TmPnATfvbAvmoMboqzbWVGphpOSUBqp014zz0yMDla">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="T4kVTHRec7dYC8tmIH99Lrz6bakfoc3iQKzxg0vb8bYaM2sbKQJQymHOVmKUVkdS">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1461,526 +1492,428 @@
                 
 
                 
-<div class="space-y-8">
-  <!-- PWA Install Banner -->
-  <script>
-    // PWA Install Detection - Detecta se o app já está instalado
-    (function() {
-        function checkIfPWAInstalled() {
-            // Verifica se está rodando em standalone mode (app instalado)
-            if (window.matchMedia('(display-mode: standalone)').matches ||
-                window.navigator.standalone === true) {
-                console.log('[PWA] App está instalado e rodando em modo standalone');
-                const statusEl = document.getElementById('pwa-status');
-                const buttonEl = document.getElementById('pwa-install-button');
-                if (statusEl) statusEl.style.display = 'block';
-                if (buttonEl) buttonEl.style.display = 'none';
-                return true;
-            }
-            return false;
-        }
-
-        // Verifica ao carregar a página
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkIfPWAInstalled);
-        } else {
-            checkIfPWAInstalled();
-        }
-
-        // Monitora mudanças no display mode
-        window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) => {
-            if (e.matches) {
-                const statusEl = document.getElementById('pwa-status');
-                const buttonEl = document.getElementById('pwa-install-button');
-                if (statusEl) statusEl.style.display = 'block';
-                if (buttonEl) buttonEl.style.display = 'none';
-            }
-        });
-    })();
-</script>
-
-
-  <!-- Welcome Section -->
-  <div class="text-center">
-    <h2 class="home-title mb-4">
-      Bem-vindo, Admin!
-    </h2>
-    <p class="text-slate-600 max-w-2xl mx-auto">
-      Sistema de gestão e monitoramento integrado. Escolha uma das opções abaixo para começar.
-    </p>
-  </div>
-
-  <!-- Monitoring and Projects Cards — visível apenas para administradores -->
-  
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-    <!-- Notificações de Monitoramento -->
-    <div class="bg-white rounded-lg border shadow-sm">
-      <div class="p-6">
-        <div class="flex items-center gap-2 mb-6">
-          <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <h3 class="text-lg font-semibold">Notificações de Monitoramento</h3>
-        </div>
-
-        <div class="notifications-scroll space-y-2">
-          
-          <div class="text-center p-4 text-slate-500">
-            <p>Nenhum dashboard com erro de atualização.</p>
-          </div>
-          
-
-          <!-- Outros sistemas (sucesso) -->
-          <div class="flex items-center justify-between p-4 bg-green-50 rounded-lg">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 bg-green-600 rounded-full"></span>
-              <span class="text-sm font-medium">Outros sistemas</span>
+<div class="crm-container">
+    <div class="crm-header">
+        <div class="d-flex align-items-center gap-3">
+            <div class="crm-icon"><i class="fas fa-chart-line"></i></div>
+            <div>
+                <h1 class="crm-title mb-0">Gestão de Projetos e Demandas 5W2H</h1>
+                <p class="crm-subtitle">Kanban operacional para implantação, acompanhamento, ocorrências e desenvolvimento de sistemas com CRM e 5W2H integrados.</p>
             </div>
-            <span class="text-sm text-green-600 font-medium">Sucesso</span>
-          </div>
         </div>
-
-        <p class="text-sm text-slate-600 mt-4">
-          0 erros detectados de 7
-          sistemas monitorados
-        </p>
-      </div>
+        <div class="d-flex gap-2 flex-wrap justify-content-end">
+            <div class="view-toggle me-1"><button type="button" id="btnViewKanban" class="active" onclick="setCRMView('kanban')"><i class="fas fa-columns me-1"></i>Kanban</button><button type="button" id="btnViewGrid" onclick="setCRMView('grid')"><i class="fas fa-table me-1"></i>Grid</button></div>
+            <button class="btn btn-white bg-white border shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTodosProjetos"><i class="fas fa-filter me-1"></i>Filtros</button>
+            <button class="btn btn-outline-dark bg-white shadow-sm" data-bs-toggle="modal" data-bs-target="#modalPipeline"><i class="fas fa-sliders me-1"></i>Pipeline</button>
+            <button class="btn btn-outline-primary bg-white shadow-sm" data-bs-toggle="modal" data-bs-target="#modalNovoTipoServico"><i class="fas fa-tag me-1"></i>Nova Categoria</button>
+            <button class="btn btn-crm px-4" data-bs-toggle="modal" data-bs-target="#modalNovoProjeto"><i class="fas fa-plus me-1"></i>Nova Demanda</button>
+        </div>
     </div>
 
-    <!-- Projetos Próximos ao Prazo -->
-    <div class="bg-white rounded-lg border shadow-sm">
-      <div class="p-2">
-        <div class="flex items-center gap-2 mb-6">
-          <svg class="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-          </svg>
-          <h3 class="text-lg font-semibold">Projetos Próximos ao Prazo</h3>
-        </div>
+    <div id="active-filters-display" class="active-filters-bar" style="display:none"></div>
 
-        <div
-          class="space-y-2 h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
-          style="scrollbar-width: thin; scrollbar-color: #94a3b8 #f1f5f9;">
-          <!-- Container com altura fixa e scrollbar customizada -->
-          
-          <div class="text-center p-4 text-slate-500">
-            <p>Nenhum projeto próximo ao prazo.</p>
-          </div>
-          
+    <div class="crm-framework">
+        <div class="crm-framework-card">
+            <small><i class="fas fa-circle-nodes me-1 text-primary"></i>Visão 360º</small>
+            <strong>Cliente, demanda, histórico e valor em um só lugar</strong>
+            <p>Consolida contato, unidade, saúde do relacionamento, próximas interações, anexos, comentários e 5W2H.</p>
         </div>
-
-        <p class="text-sm text-slate-600 mt-4">
-          0 projetos com prazo nos próximos 60 dias
-        </p>
-      </div>
+        <div class="crm-framework-card">
+            <small><i class="fas fa-gears me-1 text-warning"></i>CRM Operacional</small>
+            <strong>Automação do funil e suporte diário</strong>
+            <p>Etapas padronizadas, SLA, prioridade, responsáveis, checklist, progresso e relatório automático na conclusão.</p>
+        </div>
+        <div class="crm-framework-card">
+            <small><i class="fas fa-users-gear me-1 text-success"></i>CRM Colaborativo</small>
+            <strong>Comunicação entre departamentos</strong>
+            <p>Registra áreas envolvidas, stakeholders, papéis, dependências e resumo compartilhado para todos trabalharem alinhados.</p>
+        </div>
     </div>
-  </div>
-  
 
-  <!-- Navigation Menu / Módulos do Sistema -->
-  <div>
-    <h3 class="text-xl font-semibold text-slate-800 mb-6">
-      Módulos do Sistema
-    </h3>
-
-    <!-- Main Navigation Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Dashboard Module -->
-      
-      <a href="dashboard.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Dashboards</h4>
-              <p class="text-sm text-slate-600">Gerencie dashboards do Power BI</p>
-            </div>
-          </div>
+    <div class="crm-metrics">
+        
+        <div class="crm-metric">
+            <small><i class="fas fa-inbox me-1" style="color:#2563eb"></i>Entrada / Backlog</small>
+            <strong id="stats-entrada">0</strong>
         </div>
-      </a>
-      
-
-      <!-- Financeiro Module -->
-      
-      <a href="financeiro.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Financeiro</h4>
-              <p class="text-sm text-slate-600">Acompanhamento e alertas do financeiro</p>
-            </div>
-          </div>
+        
+        <div class="crm-metric">
+            <small><i class="fas fa-filter-circle-dollar me-1" style="color:#7c3aed"></i>Triagem</small>
+            <strong id="stats-triagem">0</strong>
         </div>
-      </a>
-      
-
-      <!-- Gestão de Salas Module (NOVO) -->
-      
-      <a href="gestao-salas.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Gestão de Salas</h4>
-              <p class="text-sm text-slate-600">Gerencie salas e reservas</p>
-            </div>
-          </div>
+        
+        <div class="crm-metric">
+            <small><i class="fas fa-list-check me-1" style="color:#0891b2"></i>Planejamento 5W2H</small>
+            <strong id="stats-planejamento">0</strong>
         </div>
-      </a>
-      
-
-      <!-- QR Generator Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Gerador QR Code</h4>
-              <p class="text-sm text-slate-600">Crie códigos QR personalizados</p>
-            </div>
-          </div>
+        
+        <div class="crm-metric">
+            <small><i class="fas fa-gears me-1" style="color:#f59e0b"></i>Em Execução</small>
+            <strong id="stats-execucao">0</strong>
         </div>
-      </a>
-      
-
-      <!-- Etiquetas Generator Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Gerador de Etiquetas</h4>
-              <p class="text-sm text-slate-600">Gere etiquetas personalizadas</p>
-            </div>
-          </div>
+        
+        <div class="crm-metric">
+            <small><i class="fas fa-clock me-1" style="color:#ea580c"></i>Aguardando Terceiros / Cliente</small>
+            <strong id="stats-aguardando">0</strong>
         </div>
-      </a>
-      
-
-      <!-- Controle de Acessos Module -->
-      
-      <a href="controle-acessos.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Controle de Acessos</h4>
-              <p class="text-sm text-slate-600">Gerencie usuários e permissões</p>
-            </div>
-          </div>
+        
+        <div class="crm-metric">
+            <small><i class="fas fa-vial-circle-check me-1" style="color:#4f46e5"></i>Validação / Testes</small>
+            <strong id="stats-validacao">0</strong>
         </div>
-      </a>
-      
-
-      <!-- Portaria Base Module -->
-      <!--<a href="#" 
-               class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex items-center space-x-4">
-                        <div class="h-12 w-12 bg-cyan-100 rounded-lg flex items-center justify-center group-hover:bg-cyan-200 transition-colors">
-                            <svg class="h-6 w-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                      d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-semibold text-slate-900">Portaria Base</h4>
-                            <p class="text-sm text-slate-600">Controle de entradas na base</p>
-                        </div>
-                    </div>
-                </div>
-            </a> -->
-
-      <!-- Desativação de CR Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Desativação de CR</h4>
-              <p class="text-sm text-slate-600">Gerencie solicitações de desativação</p>
-            </div>
-          </div>
+        
+        <div class="crm-metric">
+            <small><i class="fas fa-circle-check me-1" style="color:#16a34a"></i>Concluído</small>
+            <strong id="stats-concluido">0</strong>
         </div>
-      </a>
-      
-
-      <!-- Planner Module -->
-      
-      <a href="planner.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Planner</h4>
-              <p class="text-sm text-slate-600">Gestão e acompanhamento de projetos</p>
-            </div>
-          </div>
+        
+        <div class="crm-metric">
+            <small><i class="fas fa-ban me-1" style="color:#64748b"></i>Cancelado / Suspenso</small>
+            <strong id="stats-cancelado">0</strong>
         </div>
-      </a>
-      
-
-      <!-- Calendário 2026 Module -->
-      
-      <a href="calendario-2026.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Calendário 2026</h4>
-              <p class="text-sm text-slate-600">Eventos e reuniões RCO</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Torre de Controle Module -->
-      
-      <a href="torre-controle.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Torre de Controle</h4>
-              <p class="text-sm text-slate-600">KPI de realização de rondas por cliente</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Livro ATA Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Livro ATA</h4>
-              <p class="text-sm text-slate-600">Registro de ocorrências e atas</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Controle de Chips Module -->
-      
-      <a href="controle-chips.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Controle de Chips</h4>
-              <p class="text-sm text-slate-600">Gestão de chips e telefonia</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Relatórios Module -->
-      
-      <a href="relatorios.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Relatórios</h4>
-              <p class="text-sm text-slate-600">Relatórios de Inspeção de EPI e APR - Viagem Segura</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Implantações Sistêmicas Module -->
-      
-      <a href="implantacoes-sistemicas.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Implantações Sistêmicas</h4>
-              <p class="text-sm text-slate-600">Gerencie implantações sistêmicas nos contratos</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Fluxo de Implantações Module -->
-      
-      <a href="implantacoes.html"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Fluxo de Implantações</h4>
-              <p class="text-sm text-slate-600">Acompanhe o status e fluxo de implantações</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Fluxo de Desmobilização Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Fluxo de Desmobilização</h4>
-              <p class="text-sm text-slate-600">Monitore o encerramento e desmobilização de CRs</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
-      <!-- Explorer/Arquivos Module -->
-      
-      <a href="#"
-        class="group bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow duration-200">
-        <div class="p-6">
-          <div class="flex items-center space-x-4">
-            <div
-              class="h-12 w-12 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-slate-200 transition-colors">
-              <svg class="h-6 w-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-lg font-semibold text-slate-900">Arquivos (Explorer)</h4>
-              <p class="text-sm text-slate-600">Acesse e gerencie os arquivos do sistema</p>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-
+        
     </div>
-  </div>
+
+    <div class="kanban-wrapper" id="kanbanView">
+        
+        <div class="kanban-column" data-stage-id="" data-status-id="Entrada / Backlog" id="col-entrada">
+            <div class="kanban-column-header">
+                <div class="kanban-column-title"><span class="kanban-column-dot" style="background:#2563eb"></span>Entrada / Backlog</div>
+                <span class="kanban-column-count" id="badge-entrada">0</span>
+            </div>
+            <div class="kanban-items-container" id="kanban-entrada">
+                
+                <div class="text-center text-muted small py-4">Sem demandas nesta etapa.</div>
+                
+            </div>
+        </div>
+        
+        <div class="kanban-column" data-stage-id="" data-status-id="Triagem" id="col-triagem">
+            <div class="kanban-column-header">
+                <div class="kanban-column-title"><span class="kanban-column-dot" style="background:#7c3aed"></span>Triagem</div>
+                <span class="kanban-column-count" id="badge-triagem">0</span>
+            </div>
+            <div class="kanban-items-container" id="kanban-triagem">
+                
+                <div class="text-center text-muted small py-4">Sem demandas nesta etapa.</div>
+                
+            </div>
+        </div>
+        
+        <div class="kanban-column" data-stage-id="" data-status-id="Planejamento 5W2H" id="col-planejamento">
+            <div class="kanban-column-header">
+                <div class="kanban-column-title"><span class="kanban-column-dot" style="background:#0891b2"></span>Planejamento 5W2H</div>
+                <span class="kanban-column-count" id="badge-planejamento">0</span>
+            </div>
+            <div class="kanban-items-container" id="kanban-planejamento">
+                
+                <div class="text-center text-muted small py-4">Sem demandas nesta etapa.</div>
+                
+            </div>
+        </div>
+        
+        <div class="kanban-column" data-stage-id="" data-status-id="Em Execução" id="col-execucao">
+            <div class="kanban-column-header">
+                <div class="kanban-column-title"><span class="kanban-column-dot" style="background:#f59e0b"></span>Em Execução</div>
+                <span class="kanban-column-count" id="badge-execucao">0</span>
+            </div>
+            <div class="kanban-items-container" id="kanban-execucao">
+                
+                <div class="text-center text-muted small py-4">Sem demandas nesta etapa.</div>
+                
+            </div>
+        </div>
+        
+        <div class="kanban-column" data-stage-id="" data-status-id="Aguardando Terceiros / Cliente" id="col-aguardando">
+            <div class="kanban-column-header">
+                <div class="kanban-column-title"><span class="kanban-column-dot" style="background:#ea580c"></span>Aguardando Terceiros / Cliente</div>
+                <span class="kanban-column-count" id="badge-aguardando">0</span>
+            </div>
+            <div class="kanban-items-container" id="kanban-aguardando">
+                
+                <div class="text-center text-muted small py-4">Sem demandas nesta etapa.</div>
+                
+            </div>
+        </div>
+        
+        <div class="kanban-column" data-stage-id="" data-status-id="Validação / Testes" id="col-validacao">
+            <div class="kanban-column-header">
+                <div class="kanban-column-title"><span class="kanban-column-dot" style="background:#4f46e5"></span>Validação / Testes</div>
+                <span class="kanban-column-count" id="badge-validacao">0</span>
+            </div>
+            <div class="kanban-items-container" id="kanban-validacao">
+                
+                <div class="text-center text-muted small py-4">Sem demandas nesta etapa.</div>
+                
+            </div>
+        </div>
+        
+        <div class="kanban-column" data-stage-id="" data-status-id="Concluído" id="col-concluido">
+            <div class="kanban-column-header">
+                <div class="kanban-column-title"><span class="kanban-column-dot" style="background:#16a34a"></span>Concluído</div>
+                <span class="kanban-column-count" id="badge-concluido">0</span>
+            </div>
+            <div class="kanban-items-container" id="kanban-concluido">
+                
+                <div class="text-center text-muted small py-4">Sem demandas nesta etapa.</div>
+                
+            </div>
+        </div>
+        
+        <div class="kanban-column" data-stage-id="" data-status-id="Cancelado / Suspenso" id="col-cancelado">
+            <div class="kanban-column-header">
+                <div class="kanban-column-title"><span class="kanban-column-dot" style="background:#64748b"></span>Cancelado / Suspenso</div>
+                <span class="kanban-column-count" id="badge-cancelado">0</span>
+            </div>
+            <div class="kanban-items-container" id="kanban-cancelado">
+                
+                <div class="text-center text-muted small py-4">Sem demandas nesta etapa.</div>
+                
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="crm-grid-panel" id="gridView">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light"><tr><th>Demanda</th><th>Cliente</th><th>Etapa</th><th>Prioridade</th><th>Tipo</th><th>Responsáveis</th><th>Prazo</th><th>Progresso</th><th></th></tr></thead>
+                <tbody>
+                    <tr><td colspan="9" class="text-center text-muted py-4">Nenhuma demanda encontrada.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
 </div>
+
+<div class="modal fade" id="modalTodosProjetos" tabindex="-1">
+    <div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title fw-bold">Filtros do CRM</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-4">
+        <div class="row g-3">
+            <div class="col-md-6"><label class="form-label small">Buscar por demanda, cliente, solicitante, contato, sistema, e-mail ou telefone</label><input type="text" class="form-control" id="filter_nome" value="" placeholder="Buscar..."></div>
+            <div class="col-md-3"><label class="form-label small">Responsável</label><select class="form-select" id="filter_responsavel"><option value="">Todos</option><option value="6e4bdc36-9bbf-4b60-8416-75b1acf5fbcd" >Daniel Supremo</option><option value="cd81641b-ab34-49e6-9c9f-2eb263fadff4" >Admin</option><option value="afec8481-b126-4c13-b53d-93836c7b7cf9" >Local Test</option><option value="e3aadefc-e71e-4e86-bc46-0d7f6a09012b" >Smoke DPA</option></select></div>
+            <div class="col-md-3"><label class="form-label small">Prioridade</label><select class="form-select" id="filter_prioridade"><option value="all">Todas</option><option value="Alto" >Alta</option><option value="Médio" >Média</option><option value="Baixo" >Baixa</option></select></div>
+            <div class="col-md-4"><label class="form-label small">Categoria</label><select class="form-select" id="filter_tipo"><option value="all">Todas</option></select></div>
+            <div class="col-md-4"><label class="form-label small">Tipo da demanda</label><select class="form-select" id="filter_tipo_demanda"><option value="all">Todos</option><option value="implantacao" >Implantação</option><option value="acompanhamento" >Acompanhamento</option><option value="ocorrencia" >Ocorrência</option><option value="desenvolvimento" >Desenvolvimento de Sistemas</option><option value="melhoria" >Melhoria</option><option value="suporte" >Suporte</option><option value="treinamento" >Treinamento</option></select></div>
+            <div class="col-md-4"><label class="form-label small">Etapa do pipeline</label><select class="form-select" id="filter_etapa"><option value="all">Todas</option></select></div>
+        </div>
+        <div class="text-end mt-4"><button class="btn btn-outline-secondary me-2" onclick="limparFiltros()">Limpar</button><button class="btn btn-primary" onclick="aplicarFiltros()">Aplicar</button></div>
+    </div></div></div>
+</div>
+
+<div class="modal fade" id="modalNovoProjeto" tabindex="-1">
+    <div class="modal-dialog modal-xl"><div class="modal-content"><div class="modal-header"><h5 class="modal-title fw-bold">Nova Demanda</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-4">
+        <form id="formNovoProjeto"><div class="section-title">Dados da demanda</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-6"><label class="form-label small">Título da demanda / projeto</label><input type="text" class="form-control" name="nome" required placeholder="Ex: Implantação do painel na Unidade X"></div>
+    <div class="col-md-3"><label class="form-label small">Categoria</label><select class="form-select" name="tipo_servico" required></select></div>
+    <div class="col-md-3"><label class="form-label small">Etapa do Pipeline</label><select class="form-select" name="etapa"></select></div>
+
+    <div class="col-md-3"><label class="form-label small">Tipo da demanda</label><select class="form-select" name="tipo_demanda"><option value="implantacao">Implantação</option><option value="acompanhamento">Acompanhamento</option><option value="ocorrencia">Ocorrência</option><option value="desenvolvimento">Desenvolvimento de Sistemas</option><option value="melhoria">Melhoria</option><option value="suporte">Suporte</option><option value="treinamento">Treinamento</option></select></div>
+    <div class="col-md-3"><label class="form-label small">Prioridade</label><select class="form-select" name="prioridade"><option value="Crítica">Crítica</option><option value="Alto">Alto</option><option value="Médio" selected>Médio</option><option value="Baixo">Baixo</option></select></div>
+    <div class="col-md-3"><label class="form-label small">Impacto</label><select class="form-select" name="impacto"><option value="Baixo" >Baixo</option><option value="Médio" selected>Médio</option><option value="Alto" >Alto</option><option value="Crítico" >Crítico</option></select></div>
+    <div class="col-md-3"><label class="form-label small">Progresso (%)</label><input type="number" class="form-control" name="percentual_progresso" min="0" max="100" value="0"></div>
+
+    <div class="col-md-4"><label class="form-label small">Cliente / Unidade</label><input type="text" class="form-control" name="cliente" placeholder="Cliente, contrato ou unidade"></div>
+    <div class="col-md-4"><label class="form-label small">Solicitante</label><input type="text" class="form-control" name="solicitante" placeholder="Quem abriu a demanda"></div>
+    <div class="col-md-4"><label class="form-label small">Contato</label><input type="text" class="form-control" name="contato" placeholder="Pessoa de contato"></div>
+    <div class="col-md-3"><label class="form-label small">Telefone</label><input type="text" class="form-control" name="telefone"></div>
+    <div class="col-md-3"><label class="form-label small">E-mail</label><input type="email" class="form-control" name="email"></div>
+    <div class="col-md-3"><label class="form-label small">SLA</label><input type="text" class="form-control" name="sla" placeholder="Ex: 24h, 3 dias úteis"></div>
+    <div class="col-md-3"><label class="form-label small">Origem / Canal</label><input type="text" class="form-control" name="origem_lead" placeholder="Chamado, reunião, WhatsApp..."></div>
+
+    <div class="col-md-3"><label class="form-label small">Início</label><input type="date" class="form-control" name="data_inicial" required></div>
+    <div class="col-md-3"><label class="form-label small">Prazo / Entrega prevista</label><input type="date" class="form-control" name="data_conclusao" required></div>
+    <div class="col-md-3"><label class="form-label small">Valor / esforço estimado (R$)</label><input type="text" class="form-control" name="valor_estimado" placeholder="0,00"></div>
+    <div class="col-md-3"><label class="form-label small">Probabilidade / confiança (%)</label><input type="number" class="form-control" name="probabilidade" min="0" max="100" value="0"></div>
+    <div class="col-md-6"><label class="form-label small">Próxima ação</label><input type="text" class="form-control" name="proxima_acao" placeholder="Ex: Validar acesso com o cliente"></div>
+    <div class="col-md-3"><label class="form-label small">Responsável técnico</label><input type="text" class="form-control" name="responsavel_tecnico"></div>
+    <div class="col-md-3"><label class="form-label small">Validador / aprovador</label><input type="text" class="form-control" name="validador"></div>
+</div>
+
+<div class="section-title">CRM profissional: 360º, operacional e colaborativo</div>
+<div class="alert alert-primary py-2 small mb-3">Use esta seção para transformar o card em um registro de relacionamento: visão completa do cliente, automação do fluxo operacional e colaboração entre departamentos.</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-4"><label class="form-label small">Tipo de CRM predominante</label><select class="form-select" name="crm_tipo"><option value="operacional">Operacional</option><option value="analitico_360">Analítico / Visão 360º</option><option value="colaborativo">Colaborativo</option></select></div>
+    <div class="col-md-4"><label class="form-label small">Saúde do relacionamento</label><input type="text" class="form-control" name="saude_relacionamento" placeholder="Ex: Saudável, Atenção, Crítico"></div>
+    <div class="col-md-4"><label class="form-label small">Canal de relacionamento</label><select class="form-select" name="canal_relacionamento"><option value="">Não informado</option><option value="reuniao">Reunião</option><option value="email">E-mail</option><option value="telefone">Telefone</option><option value="whatsapp">WhatsApp</option><option value="chamado">Chamado / Service Desk</option><option value="presencial">Presencial</option><option value="outro">Outro</option></select></div>
+    <div class="col-md-6"><label class="form-label small">Visão 360º do cliente/demanda</label><textarea class="form-control" name="visao_360" rows="3" placeholder="Contexto do cliente, histórico, dores, valor, riscos e oportunidades."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Resumo colaborativo</label><textarea class="form-control" name="resumo_colaborativo" rows="3" placeholder="O que todas as áreas precisam saber para atuar alinhadas?"></textarea></div>
+    <div class="col-md-3"><label class="form-label small">Última interação</label><input type="date" class="form-control" name="ultima_interacao"></div>
+    <div class="col-md-3"><label class="form-label small">Próxima interação</label><input type="date" class="form-control" name="proxima_interacao"></div>
+    <div class="col-md-3"><label class="form-label small">Departamentos envolvidos</label><input type="text" class="form-control" name="departamentos_envolvidos" placeholder="TI, Operações, Comercial..."></div>
+    <div class="col-md-3"><label class="form-label small">Stakeholders e papéis</label><textarea class="form-control" name="stakeholders" rows="1" placeholder="Decisor, solicitante, aprovador..."></textarea></div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-md-6"><label class="form-label small">Responsáveis</label><div id="responsaveis-container" class="d-flex flex-column gap-2"></div><button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="addResponsavel()"><i class="fas fa-plus"></i> Adicionar</button></div>
+    <div class="col-md-6"><label class="form-label small">Observações / contexto</label><textarea class="form-control" name="observacao" rows="5" placeholder="Contexto, riscos, pendências, histórico e observações gerais..."></textarea></div>
+</div>
+
+<div class="section-title">Informações por etapa do Kanban</div>
+<div class="alert alert-info py-2 small mb-3">Preencha principalmente os campos da etapa atual. Ex.: em <b>Triagem</b>, detalhe diagnóstico e priorização; em <b>Planejamento 5W2H</b>, detalhe entregáveis, riscos e dependências.</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-6"><label class="form-label small">Triagem - diagnóstico</label><textarea class="form-control" name="triagem_diagnostico" rows="2" placeholder="O que foi entendido na análise inicial? Escopo, impacto e urgência."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Triagem - priorização / impacto</label><textarea class="form-control" name="triagem_priorizacao" rows="2" placeholder="Critério usado para priorizar, impacto operacional, SLA ou risco."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Planejamento - entregáveis</label><textarea class="form-control" name="planejamento_entregaveis" rows="2" placeholder="Quais entregáveis, etapas e responsáveis foram definidos?"></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Planejamento - riscos / dependências</label><textarea class="form-control" name="planejamento_riscos" rows="2" placeholder="Acessos, aprovações, fornecedor, cliente, ambiente, bloqueios."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Execução - andamento</label><textarea class="form-control" name="execucao_andamento" rows="2" placeholder="O que já foi executado, pendências e próximos passos."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Validação - resultado</label><textarea class="form-control" name="validacao_resultado" rows="2" placeholder="Resultado dos testes, homologação e aceite."></textarea></div>
+</div>
+
+<div class="section-title">Método 5W2H</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-6"><label class="form-label small">What / O quê?</label><textarea class="form-control" name="w2h_what" rows="2" placeholder="O que será feito ou entregue?"></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Why / Por quê?</label><textarea class="form-control" name="w2h_why" rows="2" placeholder="Por que isso precisa ser feito?"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">Where / Onde?</label><input type="text" class="form-control" name="w2h_where" placeholder="Unidade, contrato, sistema, módulo..."></div>
+    <div class="col-md-4"><label class="form-label small">When / Quando?</label><input type="date" class="form-control" name="w2h_when"></div>
+    <div class="col-md-4"><label class="form-label small">Who / Quem?</label><input type="text" class="form-control" name="w2h_who" placeholder="Dono, executor e aprovador"></div>
+    <div class="col-md-8"><label class="form-label small">How / Como?</label><textarea class="form-control" name="w2h_how" rows="2" placeholder="Como a ação será realizada?"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">How much / Quanto custa?</label><input type="text" class="form-control" name="w2h_how_much" placeholder="0,00"></div>
+</div>
+
+<div class="section-title">Campos específicos</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-4"><label class="form-label small">Módulo / Sistema</label><input type="text" class="form-control" name="modulo_sistema" placeholder="Ex: Painel TV, Portal, Integração"></div>
+    <div class="col-md-4"><label class="form-label small">Ambiente</label><select class="form-select" name="ambiente"><option value="">Não se aplica</option><option value="producao">Produção</option><option value="homologacao">Homologação</option><option value="desenvolvimento">Desenvolvimento</option></select></div>
+    <div class="col-md-4"><label class="form-label small">Link / PR / commit / documentação</label><input type="url" class="form-control" name="link_referencia" placeholder="https://..."></div>
+
+    <div class="col-md-4"><label class="form-label small">Etapa da implantação</label><input type="text" class="form-control" name="etapa_implantacao" placeholder="Diagnóstico, configuração, treinamento..."></div>
+    <div class="col-md-4"><label class="form-label small">Go-live previsto</label><input type="date" class="form-control" name="go_live_previsto"></div>
+    <div class="col-md-4 d-flex align-items-end"><div class="form-check mb-2"><input class="form-check-input" type="checkbox" name="treinamento_realizado" id="treinamento_realizado"><label class="form-check-label" for="treinamento_realizado">Treinamento realizado</label></div></div>
+
+    <div class="col-md-3"><label class="form-label small">Severidade da ocorrência</label><select class="form-select" name="severidade"><option value="">Não se aplica</option><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option><option value="Crítico">Crítico</option></select></div>
+    <div class="col-md-9"><label class="form-label small">Critério de aceite / homologação</label><textarea class="form-control" name="criterio_aceite" rows="2" placeholder="Como saberemos que está pronto e validado?"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">Causa raiz</label><textarea class="form-control" name="causa_raiz" rows="2"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">Ação corretiva</label><textarea class="form-control" name="acao_corretiva" rows="2"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">Ação preventiva</label><textarea class="form-control" name="acao_preventiva" rows="2"></textarea></div>
+</div>
+
+<div class="section-title">Execução e arquivos</div>
+<div class="row g-3">
+    <div class="col-md-6"><label class="form-label small">Checklist</label><div id="checklist-container" class="d-flex flex-column gap-2"></div><button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="addChecklistItem()"><i class="fas fa-plus"></i> Adicionar item</button></div>
+    <div class="col-md-6"><label class="form-label small fw-bold"><i class="fas fa-paperclip me-1 text-muted"></i>Anexos / Evidências</label><div id="attachments-container" class="d-flex flex-column gap-2 mb-2"></div><input type="file" id="new-project-file-input" style="display:none" multiple onchange="handleNewProjectFileSelected(this)"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('new-project-file-input').click()"><i class="fas fa-plus"></i> Adicionar arquivo</button></div>
+</div>
+</form>
+    </div><div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" onclick="salvarProjeto()">Salvar</button></div></div></div>
+</div>
+
+<div class="crm-modal-overlay" id="overlayEditarProjeto" onclick="if(event.target===this) fecharEditarProjeto()"><div class="crm-modal-box">
+    <div class="modal-header"><h5 class="modal-title fw-bold">Editar Demanda</h5><button type="button" class="btn-close" onclick="fecharEditarProjeto()"></button></div>
+    <div class="modal-body p-4"><form id="formEditarProjeto"><input type="hidden" name="project_id"><div class="section-title">Dados da demanda</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-6"><label class="form-label small">Título da demanda / projeto</label><input type="text" class="form-control" name="nome" required placeholder="Ex: Implantação do painel na Unidade X"></div>
+    <div class="col-md-3"><label class="form-label small">Categoria</label><select class="form-select" name="tipo_servico" required></select></div>
+    <div class="col-md-3"><label class="form-label small">Etapa do Pipeline</label><select class="form-select" name="etapa"></select></div>
+
+    <div class="col-md-3"><label class="form-label small">Tipo da demanda</label><select class="form-select" name="tipo_demanda"><option value="implantacao">Implantação</option><option value="acompanhamento">Acompanhamento</option><option value="ocorrencia">Ocorrência</option><option value="desenvolvimento">Desenvolvimento de Sistemas</option><option value="melhoria">Melhoria</option><option value="suporte">Suporte</option><option value="treinamento">Treinamento</option></select></div>
+    <div class="col-md-3"><label class="form-label small">Prioridade</label><select class="form-select" name="prioridade"><option value="Crítica">Crítica</option><option value="Alto">Alto</option><option value="Médio" selected>Médio</option><option value="Baixo">Baixo</option></select></div>
+    <div class="col-md-3"><label class="form-label small">Impacto</label><select class="form-select" name="impacto"><option value="Baixo" >Baixo</option><option value="Médio" selected>Médio</option><option value="Alto" >Alto</option><option value="Crítico" >Crítico</option></select></div>
+    <div class="col-md-3"><label class="form-label small">Progresso (%)</label><input type="number" class="form-control" name="percentual_progresso" min="0" max="100" value="0"></div>
+
+    <div class="col-md-4"><label class="form-label small">Cliente / Unidade</label><input type="text" class="form-control" name="cliente" placeholder="Cliente, contrato ou unidade"></div>
+    <div class="col-md-4"><label class="form-label small">Solicitante</label><input type="text" class="form-control" name="solicitante" placeholder="Quem abriu a demanda"></div>
+    <div class="col-md-4"><label class="form-label small">Contato</label><input type="text" class="form-control" name="contato" placeholder="Pessoa de contato"></div>
+    <div class="col-md-3"><label class="form-label small">Telefone</label><input type="text" class="form-control" name="telefone"></div>
+    <div class="col-md-3"><label class="form-label small">E-mail</label><input type="email" class="form-control" name="email"></div>
+    <div class="col-md-3"><label class="form-label small">SLA</label><input type="text" class="form-control" name="sla" placeholder="Ex: 24h, 3 dias úteis"></div>
+    <div class="col-md-3"><label class="form-label small">Origem / Canal</label><input type="text" class="form-control" name="origem_lead" placeholder="Chamado, reunião, WhatsApp..."></div>
+
+    <div class="col-md-3"><label class="form-label small">Início</label><input type="date" class="form-control" name="data_inicial" required></div>
+    <div class="col-md-3"><label class="form-label small">Prazo / Entrega prevista</label><input type="date" class="form-control" name="data_conclusao" required></div>
+    <div class="col-md-3"><label class="form-label small">Valor / esforço estimado (R$)</label><input type="text" class="form-control" name="valor_estimado" placeholder="0,00"></div>
+    <div class="col-md-3"><label class="form-label small">Probabilidade / confiança (%)</label><input type="number" class="form-control" name="probabilidade" min="0" max="100" value="0"></div>
+    <div class="col-md-6"><label class="form-label small">Próxima ação</label><input type="text" class="form-control" name="proxima_acao" placeholder="Ex: Validar acesso com o cliente"></div>
+    <div class="col-md-3"><label class="form-label small">Responsável técnico</label><input type="text" class="form-control" name="responsavel_tecnico"></div>
+    <div class="col-md-3"><label class="form-label small">Validador / aprovador</label><input type="text" class="form-control" name="validador"></div>
+</div>
+
+<div class="section-title">CRM profissional: 360º, operacional e colaborativo</div>
+<div class="alert alert-primary py-2 small mb-3">Use esta seção para transformar o card em um registro de relacionamento: visão completa do cliente, automação do fluxo operacional e colaboração entre departamentos.</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-4"><label class="form-label small">Tipo de CRM predominante</label><select class="form-select" name="crm_tipo"><option value="operacional">Operacional</option><option value="analitico_360">Analítico / Visão 360º</option><option value="colaborativo">Colaborativo</option></select></div>
+    <div class="col-md-4"><label class="form-label small">Saúde do relacionamento</label><input type="text" class="form-control" name="saude_relacionamento" placeholder="Ex: Saudável, Atenção, Crítico"></div>
+    <div class="col-md-4"><label class="form-label small">Canal de relacionamento</label><select class="form-select" name="canal_relacionamento"><option value="">Não informado</option><option value="reuniao">Reunião</option><option value="email">E-mail</option><option value="telefone">Telefone</option><option value="whatsapp">WhatsApp</option><option value="chamado">Chamado / Service Desk</option><option value="presencial">Presencial</option><option value="outro">Outro</option></select></div>
+    <div class="col-md-6"><label class="form-label small">Visão 360º do cliente/demanda</label><textarea class="form-control" name="visao_360" rows="3" placeholder="Contexto do cliente, histórico, dores, valor, riscos e oportunidades."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Resumo colaborativo</label><textarea class="form-control" name="resumo_colaborativo" rows="3" placeholder="O que todas as áreas precisam saber para atuar alinhadas?"></textarea></div>
+    <div class="col-md-3"><label class="form-label small">Última interação</label><input type="date" class="form-control" name="ultima_interacao"></div>
+    <div class="col-md-3"><label class="form-label small">Próxima interação</label><input type="date" class="form-control" name="proxima_interacao"></div>
+    <div class="col-md-3"><label class="form-label small">Departamentos envolvidos</label><input type="text" class="form-control" name="departamentos_envolvidos" placeholder="TI, Operações, Comercial..."></div>
+    <div class="col-md-3"><label class="form-label small">Stakeholders e papéis</label><textarea class="form-control" name="stakeholders" rows="1" placeholder="Decisor, solicitante, aprovador..."></textarea></div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-md-6"><label class="form-label small">Responsáveis</label><div id="edit-responsaveis-container" class="d-flex flex-column gap-2"></div><button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="addResponsavelEdit()"><i class="fas fa-plus"></i> Adicionar</button></div>
+    <div class="col-md-6"><label class="form-label small">Observações / contexto</label><textarea class="form-control" name="observacao" rows="5" placeholder="Contexto, riscos, pendências, histórico e observações gerais..."></textarea></div>
+</div>
+
+<div class="section-title">Informações por etapa do Kanban</div>
+<div class="alert alert-info py-2 small mb-3">Preencha principalmente os campos da etapa atual. Ex.: em <b>Triagem</b>, detalhe diagnóstico e priorização; em <b>Planejamento 5W2H</b>, detalhe entregáveis, riscos e dependências.</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-6"><label class="form-label small">Triagem - diagnóstico</label><textarea class="form-control" name="triagem_diagnostico" rows="2" placeholder="O que foi entendido na análise inicial? Escopo, impacto e urgência."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Triagem - priorização / impacto</label><textarea class="form-control" name="triagem_priorizacao" rows="2" placeholder="Critério usado para priorizar, impacto operacional, SLA ou risco."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Planejamento - entregáveis</label><textarea class="form-control" name="planejamento_entregaveis" rows="2" placeholder="Quais entregáveis, etapas e responsáveis foram definidos?"></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Planejamento - riscos / dependências</label><textarea class="form-control" name="planejamento_riscos" rows="2" placeholder="Acessos, aprovações, fornecedor, cliente, ambiente, bloqueios."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Execução - andamento</label><textarea class="form-control" name="execucao_andamento" rows="2" placeholder="O que já foi executado, pendências e próximos passos."></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Validação - resultado</label><textarea class="form-control" name="validacao_resultado" rows="2" placeholder="Resultado dos testes, homologação e aceite."></textarea></div>
+</div>
+
+<div class="section-title">Método 5W2H</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-6"><label class="form-label small">What / O quê?</label><textarea class="form-control" name="w2h_what" rows="2" placeholder="O que será feito ou entregue?"></textarea></div>
+    <div class="col-md-6"><label class="form-label small">Why / Por quê?</label><textarea class="form-control" name="w2h_why" rows="2" placeholder="Por que isso precisa ser feito?"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">Where / Onde?</label><input type="text" class="form-control" name="w2h_where" placeholder="Unidade, contrato, sistema, módulo..."></div>
+    <div class="col-md-4"><label class="form-label small">When / Quando?</label><input type="date" class="form-control" name="w2h_when"></div>
+    <div class="col-md-4"><label class="form-label small">Who / Quem?</label><input type="text" class="form-control" name="w2h_who" placeholder="Dono, executor e aprovador"></div>
+    <div class="col-md-8"><label class="form-label small">How / Como?</label><textarea class="form-control" name="w2h_how" rows="2" placeholder="Como a ação será realizada?"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">How much / Quanto custa?</label><input type="text" class="form-control" name="w2h_how_much" placeholder="0,00"></div>
+</div>
+
+<div class="section-title">Campos específicos</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-4"><label class="form-label small">Módulo / Sistema</label><input type="text" class="form-control" name="modulo_sistema" placeholder="Ex: Painel TV, Portal, Integração"></div>
+    <div class="col-md-4"><label class="form-label small">Ambiente</label><select class="form-select" name="ambiente"><option value="">Não se aplica</option><option value="producao">Produção</option><option value="homologacao">Homologação</option><option value="desenvolvimento">Desenvolvimento</option></select></div>
+    <div class="col-md-4"><label class="form-label small">Link / PR / commit / documentação</label><input type="url" class="form-control" name="link_referencia" placeholder="https://..."></div>
+
+    <div class="col-md-4"><label class="form-label small">Etapa da implantação</label><input type="text" class="form-control" name="etapa_implantacao" placeholder="Diagnóstico, configuração, treinamento..."></div>
+    <div class="col-md-4"><label class="form-label small">Go-live previsto</label><input type="date" class="form-control" name="go_live_previsto"></div>
+    <div class="col-md-4 d-flex align-items-end"><div class="form-check mb-2"><input class="form-check-input" type="checkbox" name="treinamento_realizado" id="edit_treinamento_realizado"><label class="form-check-label" for="edit_treinamento_realizado">Treinamento realizado</label></div></div>
+
+    <div class="col-md-3"><label class="form-label small">Severidade da ocorrência</label><select class="form-select" name="severidade"><option value="">Não se aplica</option><option value="Baixo">Baixo</option><option value="Médio">Médio</option><option value="Alto">Alto</option><option value="Crítico">Crítico</option></select></div>
+    <div class="col-md-9"><label class="form-label small">Critério de aceite / homologação</label><textarea class="form-control" name="criterio_aceite" rows="2" placeholder="Como saberemos que está pronto e validado?"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">Causa raiz</label><textarea class="form-control" name="causa_raiz" rows="2"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">Ação corretiva</label><textarea class="form-control" name="acao_corretiva" rows="2"></textarea></div>
+    <div class="col-md-4"><label class="form-label small">Ação preventiva</label><textarea class="form-control" name="acao_preventiva" rows="2"></textarea></div>
+</div>
+
+<div class="section-title">Execução e arquivos</div>
+<div class="row g-3">
+    <div class="col-md-6"><label class="form-label small">Checklist</label><div id="edit-checklist-container" class="d-flex flex-column gap-2"></div><button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="addChecklistItemEdit()"><i class="fas fa-plus"></i> Adicionar item</button></div>
+    <div class="col-md-6"><label class="form-label small fw-bold"><i class="fas fa-paperclip me-1 text-muted"></i>Anexos / Evidências</label><div id="edit-attachments-container" class="d-flex flex-column gap-2 mb-2"></div><input type="file" id="edit-project-file-input" style="display:none" multiple onchange="handleEditProjectFileSelected(this)"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('edit-project-file-input').click()"><i class="fas fa-plus"></i> Adicionar arquivo</button></div>
+</div>
+</form></div>
+    <div class="modal-footer"><button type="button" id="btnRelatorioEditar" class="btn btn-success d-none" onclick="baixarRelatorioDoFormulario()"><i class="fas fa-file-pdf me-1"></i>Baixar Relatório</button><button type="button" class="btn btn-outline-secondary" onclick="fecharEditarProjeto()">Cancelar</button><button type="button" class="btn btn-primary" onclick="atualizarProjeto()">Salvar Alterações</button></div>
+</div></div>
+
+<div class="modal fade" id="modalNovoTipoServico" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title fw-bold">Nova Categoria</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="formNovoTipoServico"><input type="text" class="form-control" name="nome" placeholder="Ex: Prospecção, Renovação, Upsell" required></form></div><div class="modal-footer"><button type="button" class="btn btn-primary" onclick="salvarTipoServico()">Salvar</button></div></div></div></div>
+
+<div class="modal fade" id="modalPipeline" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title fw-bold">Pipeline personalizável de etapas</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body">
+    <div class="alert alert-info small">Edite nome, cor e ordem das etapas. Cards podem ser arrastados no Kanban entre estas etapas.</div>
+    <div id="pipelineRows" class="d-flex flex-column gap-2">
+        
+    </div>
+    <hr>
+    <div class="pipeline-row">
+        <input type="number" class="form-control form-control-sm" id="newStageOrder" value="999" disabled>
+        <input type="text" class="form-control form-control-sm" id="newStageName" placeholder="Nova etapa: Ex. Homologação cliente">
+        <input type="color" class="form-control form-control-color" id="newStageColor" value="#2563eb">
+        <button type="button" class="btn btn-sm btn-success" onclick="criarPipelineStage()">Adicionar</button>
+        <span></span>
+    </div>
+</div></div></div></div>
+
+<select id="usuarios-template" style="display:none"><option value="">Selecione...</option><option value="6e4bdc36-9bbf-4b60-8416-75b1acf5fbcd">Daniel Supremo</option><option value="cd81641b-ab34-49e6-9c9f-2eb263fadff4">Admin</option><option value="afec8481-b126-4c13-b53d-93836c7b7cf9">Local Test</option><option value="e3aadefc-e71e-4e86-bc46-0d7f6a09012b">Smoke DPA</option></select>
 
             </main>
 
@@ -2046,6 +1979,77 @@
 
 
     
+<script>
+const URL_PLANNER = '/planner/';
+const CSRF_TOKEN = 'T4kVTHRec7dYC8tmIH99Lrz6bakfoc3iQKzxg0vb8bYaM2sbKQJQymHOVmKUVkdS';
+const CRM_COLUMNS = [{ id:'kanban-entrada', badge:'badge-entrada', card:'stats-entrada', stageId:'' },{ id:'kanban-triagem', badge:'badge-triagem', card:'stats-triagem', stageId:'' },{ id:'kanban-planejamento', badge:'badge-planejamento', card:'stats-planejamento', stageId:'' },{ id:'kanban-execucao', badge:'badge-execucao', card:'stats-execucao', stageId:'' },{ id:'kanban-aguardando', badge:'badge-aguardando', card:'stats-aguardando', stageId:'' },{ id:'kanban-validacao', badge:'badge-validacao', card:'stats-validacao', stageId:'' },{ id:'kanban-concluido', badge:'badge-concluido', card:'stats-concluido', stageId:'' },{ id:'kanban-cancelado', badge:'badge-cancelado', card:'stats-cancelado', stageId:'' }];
+let newProjectFiles = [], editProjectNewFiles = [], editProjectExistingAttachments = [], editProjectRemovedAttachmentIds = [];
+function moneyToDecimal(value){ return (value || '').toString().replace(/\./g,'').replace(',', '.'); }
+function renderActiveFilters(){ const params=new URLSearchParams(window.location.search), c=document.getElementById('active-filters-display'); const labels={filter_nome:'Busca',filter_responsavel:'Responsável',filter_prioridade:'Prioridade',filter_tipo:'Categoria',filter_tipo_demanda:'Tipo',filter_etapa:'Etapa'}; let has=false; c.innerHTML=''; params.forEach((v,k)=>{ if(v && v!=='all' && labels[k]){ has=true; const chip=document.createElement('span'); chip.className='filter-chip'; chip.innerHTML=`${labels[k]}: ${v}<i class="fas fa-times" onclick="removeFilter('${k}')"></i>`; c.appendChild(chip); }}); c.style.display=has?'flex':'none'; }
+function removeFilter(key){ const url=new URL(window.location.href); url.searchParams.delete(key); window.location.href=url.toString(); }
+function aplicarFiltros(){ const url=new URL(window.location.href); ['filter_nome','filter_responsavel','filter_prioridade','filter_tipo','filter_tipo_demanda','filter_etapa'].forEach(id=>url.searchParams.set(id,document.getElementById(id).value)); url.searchParams.delete('page'); window.location.href=url.toString(); }
+function irParaPagina(n){ const url=new URL(window.location.href); url.searchParams.set('page', n); window.location.href=url.toString(); }
+function refreshCounters(){ fetch(`${URL_PLANNER}?action=get_counters`).then(r=>r.json()).then(d=>{ if(d.status!=='success') return; Object.keys(d.counters).forEach(key=>{ if(key==='total') return; const val=d.counters[key]; ['stats-','badge-'].forEach(prefix=>{ const el=document.getElementById(prefix+key); if(el) el.innerText=val; }); }); }).catch(()=>{}); }
+function limparFiltros(){ window.location.href=window.location.pathname; }
+function addResponsavel(containerId='responsaveis-container'){ const div=document.createElement('div'); div.className='d-flex gap-2'; div.innerHTML=`<select class="form-select form-select-sm">${document.getElementById('usuarios-template').innerHTML}</select><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>`; document.getElementById(containerId).appendChild(div); }
+function addResponsavelEdit(){ addResponsavel('edit-responsaveis-container'); }
+function addChecklistItem(containerId='checklist-container'){ const div=document.createElement('div'); div.className='d-flex gap-2 align-items-center'; div.innerHTML='<input type="checkbox" class="form-check-input"><input type="text" class="form-control form-control-sm" placeholder="Ação do checklist..."><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>'; document.getElementById(containerId).appendChild(div); }
+function addChecklistItemEdit(){ addChecklistItem('edit-checklist-container'); }
+function getResponsaveis(id){ return JSON.stringify(Array.from(document.querySelectorAll(`#${id} select`)).map(s=>({id:s.value})).filter(x=>x.id)); }
+function getChecklist(id){ return JSON.stringify(Array.from(document.querySelectorAll(`#${id} div`)).map(d=>({text:d.querySelector('input[type=text]').value, completed:d.querySelector('input[type=checkbox]').checked})).filter(x=>x.text)); }
+function appendCommonData(data, mode){ const prefix=mode==='edit'?'edit-':''; ['valor_estimado','w2h_how_much'].forEach(name=>{ const input=document.querySelector(`#form${mode==='edit'?'Editar':'Novo'}Projeto [name=${name}]`); if(input) data.set(name, moneyToDecimal(input.value)); }); data.append('responsaveis', getResponsaveis(prefix+'responsaveis-container')); data.append('checklist_items', getChecklist(prefix+'checklist-container')); }
+function baixarRelatorio(id){ window.open(`${URL_PLANNER}?action=download_report&project_id=${id}`, '_blank'); }
+function baixarRelatorioDoFormulario(){ const id=document.querySelector('#formEditarProjeto [name=project_id]').value; if(id) baixarRelatorio(id); }
+function updateProjectStatus(id,status){ const data=new FormData(); data.append('action','update_project_status'); data.append('project_id',id); data.append('status',status); data.append('csrfmiddlewaretoken',CSRF_TOKEN); fetch(URL_PLANNER,{method:'POST',body:data}).then(r=>r.json()).then(d=>{ if(d.status!=='success'){ Swal.fire('Erro', d.message || 'Não foi possível alterar o status.', 'error'); location.reload(); return; } if(d.report_url){ Swal.fire({title:'Demanda concluída',text:'O relatório de conclusão já está disponível para baixar.',icon:'success',showCancelButton:true,confirmButtonText:'Baixar relatório',cancelButtonText:'Continuar'}).then(res=>{ if(res.isConfirmed) window.open(d.report_url,'_blank'); location.reload(); }); } }); }
+function salvarProjeto(){ const form=document.getElementById('formNovoProjeto'); if(!form.checkValidity()){ form.reportValidity(); return; } const data=new FormData(form); data.append('action','create_project'); data.append('csrfmiddlewaretoken',CSRF_TOKEN); appendCommonData(data,'new'); newProjectFiles.forEach(f=>data.append('arquivos',f)); fetch(URL_PLANNER,{method:'POST',body:data}).then(r=>r.json()).then(d=>d.status==='success'?location.reload():Swal.fire('Erro',d.message,'error')); }
+function editarProjeto(id){ editProjectNewFiles=[]; editProjectExistingAttachments=[]; editProjectRemovedAttachmentIds=[]; fetch(`${URL_PLANNER}?action=get_project&project_id=${id}`).then(r=>r.json()).then(d=>{ if(d.status!=='success') return Swal.fire('Erro',d.message,'error'); const p=d.project, form=document.getElementById('formEditarProjeto'); Object.keys(p).forEach(k=>{ const el=form.querySelector(`[name=${k}]`); if(!el) return; if(el.type === 'checkbox') el.checked = !!p[k]; else el.value=p[k] ?? ''; }); form.querySelector('[name=project_id]').value=id; const rc=document.getElementById('edit-responsaveis-container'); rc.innerHTML=''; p.responsaveis.forEach(r=>{ addResponsavelEdit(); rc.lastElementChild.querySelector('select').value=r.id; }); const cc=document.getElementById('edit-checklist-container'); cc.innerHTML=''; p.checklist_items.forEach(c=>{ addChecklistItemEdit(); cc.lastElementChild.querySelector('input[type=text]').value=c.text; cc.lastElementChild.querySelector('input[type=checkbox]').checked=c.completed; }); editProjectExistingAttachments=p.attachments||[]; renderEditProjectFiles(); const reportBtn=document.getElementById('btnRelatorioEditar'); if(reportBtn) reportBtn.classList.toggle('d-none', p.status !== 'Concluído'); document.getElementById('overlayEditarProjeto').classList.add('active'); document.body.style.overflow='hidden'; }); }
+function fecharEditarProjeto(){ document.getElementById('overlayEditarProjeto').classList.remove('active'); document.body.style.overflow=''; }
+function atualizarProjeto(){ const form=document.getElementById('formEditarProjeto'); const data=new FormData(form); data.append('action','update_project'); data.append('csrfmiddlewaretoken',CSRF_TOKEN); appendCommonData(data,'edit'); editProjectNewFiles.forEach(f=>data.append('arquivos',f)); data.append('removed_attachments', JSON.stringify(editProjectRemovedAttachmentIds)); fetch(URL_PLANNER,{method:'POST',body:data}).then(r=>r.json()).then(d=>d.status==='success'?location.reload():Swal.fire('Erro',d.message,'error')); }
+function excluirProjeto(id){ Swal.fire({title:'Excluir demanda?',text:'Esta ação não pode ser desfeita.',icon:'warning',showCancelButton:true,confirmButtonText:'Sim, excluir',cancelButtonText:'Cancelar'}).then(res=>{ if(!res.isConfirmed) return; const data=new FormData(); data.append('action','delete_project'); data.append('project_id',id); data.append('csrfmiddlewaretoken',CSRF_TOKEN); fetch(URL_PLANNER,{method:'POST',body:data}).then(r=>r.json()).then(d=>{ if(d.status==='success'){ document.querySelector(`.kanban-card[data-project-id="${id}"]`)?.remove(); document.querySelector(`tr[data-project-id="${id}"]`)?.remove(); refreshCounters(); } else Swal.fire('Erro',d.message,'error'); }); }); }
+function salvarTipoServico(){ const form=document.getElementById('formNovoTipoServico'), data=new FormData(form); data.append('action','create_service_type'); data.append('csrfmiddlewaretoken',CSRF_TOKEN); fetch(URL_PLANNER,{method:'POST',body:data}).then(()=>location.reload()); }
+function handleNewProjectFileSelected(input){ for(const f of input.files) newProjectFiles.push(f); input.value=''; renderNewProjectFiles(); }
+function handleEditProjectFileSelected(input){ for(const f of input.files) editProjectNewFiles.push(f); input.value=''; renderEditProjectFiles(); }
+function renderNewProjectFiles(){ const c=document.getElementById('attachments-container'); if(!c) return; c.innerHTML=newProjectFiles.map((f,i)=>{ const url=URL.createObjectURL(f); return `<div class="d-flex justify-content-between align-items-center p-2 bg-light border rounded"><span><i class="fas fa-paperclip me-1"></i>${f.name}</span><span><a class="btn btn-sm btn-outline-primary me-1" href="${url}" target="_blank"><i class="fas fa-eye"></i> Visualizar</a><button type="button" class="btn btn-sm btn-link text-danger" onclick="newProjectFiles.splice(${i},1);renderNewProjectFiles()"><i class="fas fa-times"></i></button></span></div>`; }).join(''); }
+function renderEditProjectFiles(){ const c=document.getElementById('edit-attachments-container'); if(!c) return; c.innerHTML=''; editProjectExistingAttachments.forEach(a=>{ if(!editProjectRemovedAttachmentIds.includes(a.id)) c.insertAdjacentHTML('beforeend',`<div class="d-flex justify-content-between align-items-center p-2 bg-light border rounded"><span><i class="fas fa-paperclip me-1"></i>${a.nome}</span><span><a class="btn btn-sm btn-outline-primary me-1" href="${a.url}" target="_blank"><i class="fas fa-eye"></i> Visualizar</a><a class="btn btn-sm btn-outline-secondary me-1" href="${a.url}" download><i class="fas fa-download"></i></a><button type="button" class="btn btn-sm btn-link text-danger" onclick="editProjectRemovedAttachmentIds.push('${a.id}');renderEditProjectFiles()"><i class="fas fa-times"></i></button></span></div>`); }); editProjectNewFiles.forEach((f,i)=>{ const url=URL.createObjectURL(f); c.insertAdjacentHTML('beforeend',`<div class="d-flex justify-content-between align-items-center p-2 bg-light border rounded"><span><i class="fas fa-paperclip me-1"></i>${f.name} <span class="badge bg-info">Novo</span></span><span><a class="btn btn-sm btn-outline-primary me-1" href="${url}" target="_blank"><i class="fas fa-eye"></i> Visualizar</a><button type="button" class="btn btn-sm btn-link text-danger" onclick="editProjectNewFiles.splice(${i},1);renderEditProjectFiles()"><i class="fas fa-times"></i></button></span></div>`); }); }
+
+const SERVER_VIEW_MODE = 'kanban';
+function applyViewUI(view){ const kanban=document.getElementById('kanbanView'), grid=document.getElementById('gridView'); document.getElementById('btnViewKanban').classList.toggle('active', view==='kanban'); document.getElementById('btnViewGrid').classList.toggle('active', view==='grid'); kanban.classList.toggle('hidden', view==='grid'); grid.classList.toggle('active', view==='grid'); }
+function setCRMView(view){
+    localStorage.setItem('crmView', view);
+    if(view===SERVER_VIEW_MODE){ applyViewUI(view); return; }
+    // A view "grid"/"kanban" só é montada pelo servidor sob demanda (evita
+    // renderizar as duas de uma vez) -- trocar de aba recarrega a página
+    // com ?view=, igual ao resto das ações do Planner (filtros, salvar etc.).
+    const url=new URL(window.location.href);
+    url.searchParams.set('view', view);
+    url.searchParams.delete('page');
+    window.location.href=url.toString();
+}
+function criarPipelineStage(){ const nome=document.getElementById('newStageName').value.trim(); if(!nome) return Swal.fire('Atenção','Informe o nome da etapa.','warning'); const data=new FormData(); data.append('action','create_pipeline_stage'); data.append('nome',nome); data.append('cor',document.getElementById('newStageColor').value); data.append('csrfmiddlewaretoken',CSRF_TOKEN); fetch(URL_PLANNER,{method:'POST',body:data}).then(r=>r.json()).then(d=>d.status==='success'?location.reload():Swal.fire('Erro',d.message,'error')); }
+function salvarPipelineStage(id){ const row=document.querySelector(`[data-stage-id="${id}"]`); const data=new FormData(); data.append('action','update_pipeline_stage'); data.append('stage_id',id); data.append('nome',row.querySelector('.stage-name').value); data.append('cor',row.querySelector('.stage-color').value); data.append('ordem',row.querySelector('.stage-order').value); data.append('csrfmiddlewaretoken',CSRF_TOKEN); fetch(URL_PLANNER,{method:'POST',body:data}).then(r=>r.json()).then(d=>d.status==='success'?location.reload():Swal.fire('Erro',d.message,'error')); }
+function excluirPipelineStage(id){ Swal.fire({title:'Excluir etapa?',text:'Só será permitido se ela não tiver demandas.',icon:'warning',showCancelButton:true,confirmButtonText:'Excluir'}).then(res=>{ if(!res.isConfirmed) return; const data=new FormData(); data.append('action','delete_pipeline_stage'); data.append('stage_id',id); data.append('csrfmiddlewaretoken',CSRF_TOKEN); fetch(URL_PLANNER,{method:'POST',body:data}).then(r=>r.json()).then(d=>d.status==='success'?location.reload():Swal.fire('Erro',d.message,'error')); }); }
+document.addEventListener('DOMContentLoaded',()=>{
+    document.querySelectorAll('.modal').forEach(m=>document.body.appendChild(m));
+    renderActiveFilters();
+    // Respeita a última visão escolhida pelo usuário (localStorage) quando a
+    // URL não especifica ?view= -- como agora só a visão ativa é montada no
+    // servidor, isso exige um redirect (uma vez) em vez de um toggle local.
+    const urlParams=new URLSearchParams(window.location.search);
+    const storedView=localStorage.getItem('crmView');
+    if(!urlParams.has('view') && storedView && storedView!==SERVER_VIEW_MODE){
+        const url=new URL(window.location.href);
+        url.searchParams.set('view', storedView);
+        window.location.replace(url.toString());
+        return;
+    }
+    applyViewUI(SERVER_VIEW_MODE);
+    localStorage.setItem('crmView', SERVER_VIEW_MODE);
+    document.querySelectorAll('.kanban-items-container').forEach(container=>new Sortable(container,{group:'crm',animation:160,ghostClass:'sortable-ghost',onEnd:evt=>{ const statusId=evt.to.closest('.kanban-column').dataset.statusId; const oldStatusId=evt.from.closest('.kanban-column').dataset.statusId; if(statusId!==oldStatusId) updateProjectStatus(evt.item.dataset.projectId,statusId); }}));
+    addResponsavel();
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') fecharEditarProjeto(); });
+</script>
+
 <style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});});});</script><script src="static/demo-fill.js"></script></body>
 
 </html>

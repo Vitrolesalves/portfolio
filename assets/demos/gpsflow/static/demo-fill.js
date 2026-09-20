@@ -1,0 +1,91 @@
+/* demo-fill.js — popula os previews com dados fictícios (apenas visual) */
+(function () {
+  function ri(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  var NAMES = ['Ana Souza', 'Carlos Pereira', 'Mariana Lima', 'Rafael Alves', 'Juliana Costa', 'Bruno Rocha', 'Patrícia Gomes', 'Fernando Dias', 'Camila Ribeiro', 'Lucas Martins', 'Beatriz Nunes', 'Thiago Barros', 'Renata Melo', 'Gustavo Ferreira', 'Larissa Cardoso', 'Diego Santana'];
+  var LOCAIS = ['Portaria Central', 'Subsolo · Sala Técnica', 'Bloco A · 3º andar', 'Almoxarifado', 'Doca de Carga', 'Guarita 02', 'CPD', 'Refeitório', 'Pátio Externo', 'Recepção', 'Torre Norte', 'Estacionamento G2'];
+  var STATUS = [['Conforme', '#16a34a'], ['Em andamento', '#d97706'], ['Pendente', '#dc2626'], ['Concluído', '#2563eb'], ['Aprovado', '#16a34a'], ['Aberto', '#0ea5e9'], ['Em análise', '#7c3aed']];
+  var PRIOR = [['Alta', '#dc2626'], ['Média', '#d97706'], ['Baixa', '#16a34a'], ['Crítica', '#b91c1c']];
+  var TEMAS = ['Treinamento NR-35', 'Auditoria de ronda', 'Revisão de EPI', 'Inspeção de extintores', 'Reciclagem de brigada', 'Análise de risco', 'Vistoria técnica', 'Plano de ação corretiva', 'Checklist de portaria', 'Avaliação psicossocial', 'Manutenção preventiva', 'Controle de acesso', 'Ronda noturna', 'Inspeção de hidrantes'];
+  var TIPOS = ['Preventiva', 'Corretiva', 'Rotina', 'Emergencial', 'Programada'];
+  var SISTEMAS = ['GPS Flow', 'Planilha', 'SAP', 'WhatsApp', 'E-mail', 'Power BI'];
+  var MESES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set'];
+  function date() { var d = ri(1, 28), m = ri(1, 12); return (d < 10 ? '0' + d : d) + '/' + (m < 10 ? '0' + m : m) + '/2026'; }
+  function cr() { return 'CR-' + ri(1000, 9999); }
+  function money() { return 'R$ ' + ri(1, 90) + '.' + String(ri(0, 999)).padStart(3, '0') + ',00'; }
+  function badge(t, c) { return '<span style="display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;color:#fff;background:' + c + '">' + t + '</span>'; }
+  var FA = !!document.querySelector('link[href*="fontawesome"],.fas,.far,[class^="fa-"],[class*=" fa-"]');
+  function acoes() { return FA ? '<i class="fas fa-eye" style="color:#2563eb;cursor:default"></i> <i class="fas fa-pen" style="color:#16a34a;margin-left:9px;cursor:default"></i> <i class="fas fa-trash" style="color:#dc2626;margin-left:9px;cursor:default"></i>' : '<span style="color:#2563eb">ver</span> · <span style="color:#dc2626">excluir</span>'; }
+  function cellFor(h) {
+    h = (h || '').toLowerCase();
+    if (/a[çc][õo]es|^\s*$/.test(h)) return acoes();
+    if (/data|dia|per[íi]odo|aberto|criad|venc|prazo/.test(h)) return date();
+    if (/status|situa|conformidade/.test(h)) { var s = pick(STATUS); return badge(s[0], s[1]); }
+    if (/prioridade/.test(h)) { var p = pick(PRIOR); return badge(p[0], p[1]); }
+    if (/respons|gerente|colaborador|solicitante|criador|quem|usu[áa]rio|auditor|supervisor|executa/.test(h)) return pick(NAMES);
+    if (/contrato|c[óo]digo|\bcr\b/.test(h)) return cr();
+    if (/local|unidade|posto|sala|regional|[áa]rea|guarita/.test(h)) return pick(LOCAIS);
+    if (/tema|atividade|assunto|item|t[íi]tulo|ocorr|descri|projeto|automa|entrada|sa[íi]da/.test(h)) return pick(TEMAS);
+    if (/tipo|categoria/.test(h)) return pick(TIPOS);
+    if (/consumo|%/.test(h)) return ri(20, 98) + '%';
+    if (/valor|or[çc]ado|comprado|excesso|total|custo|pec|conta/.test(h)) return money();
+    if (/email|e-mail/.test(h)) { var nm = pick(NAMES).toLowerCase().normalize('NFD').replace(/[^a-z ]/g, '').replace(/ /g, '.'); return nm + '@empresa.com.br'; }
+    if (/telefone|contato|fone/.test(h)) return '(62) 9' + ri(1000, 9999) + '-' + ri(1000, 9999);
+    if (/tempo|m[ée]dia/.test(h)) return ri(1, 8) + 'h ' + ri(0, 59) + 'min';
+    if (/ferramenta|sistema/.test(h)) return pick(SISTEMAS);
+    if (/m[êe]s/.test(h)) return pick(MESES) + '/26';
+    if (/problema|risco/.test(h)) return pick(['Retrabalho manual', 'Sem rastreio', 'Prazo apertado', 'Baixa evidência', '—']);
+    if (/evid|anexo/.test(h)) return '📎 ' + ri(1, 5);
+    if (/#|^n[ºo]$|qtd|quant|n[úu]mero|fornecedor|pec|sup/.test(h)) return ri(1, 40);
+    return pick(TEMAS);
+  }
+  function fillTables() {
+    document.querySelectorAll('table').forEach(function (t) {
+      var heads = [].map.call(t.querySelectorAll('thead th'), function (th) { return th.textContent.trim(); });
+      if (!heads.length) return;
+      var tb = t.querySelector('tbody'); if (!tb) return;
+      var real = [].filter.call(tb.querySelectorAll('tr'), function (tr) { return tr.children.length > 1 && !/nenhum|nenhuma|sem registro|não há|vazio|no data|carregando/i.test(tr.textContent); });
+      if (real.length > 0) return;
+      tb.innerHTML = '';
+      var n = ri(5, 9);
+      for (var r = 0; r < n; r++) {
+        var tr = document.createElement('tr');
+        heads.forEach(function (hd) { var td = document.createElement('td'); td.innerHTML = cellFor(hd); td.style.padding = '11px 12px'; td.style.borderBottom = '1px solid #eef1f5'; td.style.fontSize = '.86rem'; td.style.verticalAlign = 'middle'; tr.appendChild(td); });
+        tb.appendChild(tr);
+      }
+    });
+  }
+  function fillKPIs() {
+    document.querySelectorAll('h1,h2,h3,h4,span,div,strong,b,p').forEach(function (el) {
+      if (el.children.length === 0 && el.textContent.trim() === '0') {
+        var fs = parseFloat(getComputedStyle(el).fontSize) || 0;
+        if (fs >= 20) el.textContent = String(ri(1, 140));
+      }
+    });
+  }
+  function hideEmpties() {
+    document.querySelectorAll('p,div,span,td,h3,h4').forEach(function (el) {
+      if (el.children.length === 0 && /^(nenhum|nenhuma|sem registros|não há registros|sem dados)/i.test(el.textContent.trim()) && !el.closest('tbody')) el.style.display = 'none';
+    });
+  }
+  function fillCharts() {
+    try {
+      var C = window.Chart; if (!C) return;
+      var reg = C.instances || (C.registry && C.registry.instances) || {};
+      Object.keys(reg).forEach(function (k) {
+        var c = reg[k]; if (!c || !c.data) return;
+        var ds = c.data.datasets || [];
+        var empty = !ds.length || ds.every(function (d) { return !d.data || !d.data.length || d.data.every(function (v) { return !v; }); });
+        if (!empty) return;
+        var labels = (c.data.labels && c.data.labels.length) ? c.data.labels : null;
+        if (!labels) { labels = []; var m = ri(5, 7); for (var i = 0; i < m; i++) labels.push(pick(['CR-1042', 'CR-2087', 'CR-3310', 'Portaria', 'Facilities', 'Segurança', 'Limpeza', 'Jan', 'Fev', 'Mar', 'Abr'])); c.data.labels = labels; }
+        var palette = ['#2563eb', '#16a34a', '#d97706', '#dc2626', '#0ea5e9', '#7c3aed', '#0891b2'];
+        ds.forEach(function (d, di) { d.data = labels.map(function () { return ri(3, 80); }); if (d.backgroundColor == null || (Array.isArray(d.backgroundColor) && !d.backgroundColor.length)) d.backgroundColor = c.config.type === 'line' ? palette[di % palette.length] : palette; if (d.borderColor == null) d.borderColor = palette[di % palette.length]; });
+        c.update('none');
+      });
+    } catch (e) { }
+  }
+  function run() { try { fillTables(); fillKPIs(); hideEmpties(); } catch (e) { } setTimeout(fillCharts, 700); setTimeout(fillCharts, 1600); }
+  if (document.readyState === 'complete') setTimeout(run, 300);
+  else window.addEventListener('load', function () { setTimeout(run, 350); });
+})();

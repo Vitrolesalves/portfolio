@@ -1,0 +1,3304 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOW</title>
+    <meta name="application-name" content="FLOW">
+    <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FLOW">
+    <link rel="manifest" href="static/manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="static/img/icon-192x192.png?v=gpsflow2">
+    <link rel="icon" type="image/png" sizes="512x512" href="static/img/icon-512x512.png?v=gpsflow2">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/img/icon-192x192.png?v=gpsflow2">
+    <link rel="shortcut icon" href="static/img/logo.png?v=gpsflow2">
+
+    <!-- Figtree: clean, structured, distinctly corporate without being generic -->
+    <link rel="stylesheet" href="static/vendor/figtree/figtree.css">
+
+    <link href="static/vendor/bootstrap-5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/tailwind-build.css">
+    <script src="static/vendor/date-fns-3.6.0/date-fns.min.js"></script>
+    <script src="static/vendor/date-fns-3.6.0/date-fns-ptBR.min.js"></script>
+    <script defer src="static/js/alpine-3.min.js"></script>
+    <link rel="stylesheet" href="static/vendor/fontawesome-5.15.4/css/all.min.css">
+    <script src="static/vendor/jquery-3.6.0/jquery.min.js"></script>
+
+    <style>
+        /* ── Alpine.js safety net ───────────────────────────
+           Se o script do Alpine (CDN externo) demorar ou falhar em
+           carregar, elementos com x-show ficam visíveis por padrão (o
+           navegador não sabe que deveriam começar escondidos), o que
+           trava a tela com overlays/menus abertos. x-cloak é removido
+           pelo próprio Alpine assim que ele inicializa; até lá, esta
+           regra garante que o elemento comece escondido. */
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* ── Tokens ─────────────────────────────────────── */
+        :root {
+            --f: 'Figtree', system-ui, sans-serif;
+
+            /* Brand navy — extraído diretamente da imagem de login */
+            --navy: #1a2a45;
+            --navy-dark: #111e33;
+            --navy-mid: #1e3558;
+            --navy-light: #2a4570;
+            --navy-faint: #e8f0f9;
+
+            /* Accent blue */
+            --blue: #2563eb;
+            --blue-light: #3b82f6;
+            --blue-faint: #eff6ff;
+            --blue-ring: rgba(37, 99, 235, 0.2);
+
+            /* Greens / warnings / danger */
+            --green: #16a34a;
+            --green-faint: #f0fdf4;
+            --amber: #d97706;
+            --amber-faint: #fffbeb;
+            --red: #dc2626;
+            --red-faint: #fef2f2;
+            --sky: #0ea5e9;
+
+            /* Grays */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-150: #eaeff5;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+
+            /* Layout */
+            --sidebar-w: 15.5rem;
+            --sidebar-ic: 3.5rem;
+            --topbar-h: 3.5rem;
+            --sidebar-bg: linear-gradient(175deg, #1a2a45 0%, #1e3558 60%, #162035 100%);
+
+            /* Radii */
+            --r-sm: 4px;
+            --r: 6px;
+            --r-md: 8px;
+            --r-lg: 12px;
+            --r-xl: 16px;
+
+            /* Shadows */
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, .05);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, .07), 0 1px 2px rgba(0, 0, 0, .04);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, .07), 0 2px 4px rgba(0, 0, 0, .04);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, .09), 0 3px 8px rgba(0, 0, 0, .05);
+        }
+
+        /* ── Reset ──────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        body {
+            font-family: var(--f);
+            background: var(--gray-150);
+            color: var(--gray-700);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ── Shell ──────────────────────────────────────── */
+        .shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ══════════════════════════════════════════════════
+           SIDEBAR
+        ═══════════════════════════════════════════════════ */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--sidebar-bg);
+            border-right: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            transition: width .25s ease;
+            overflow: hidden;
+            box-shadow: 3px 0 16px rgba(0, 0, 0, .18);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-ic);
+        }
+
+        /* Brand strip at the top of the sidebar */
+        .sidebar-brand {
+            height: var(--topbar-h);
+            background: rgba(0, 0, 0, .2);
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            padding: 0 1rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .brand-icon {
+            width: 1.75rem;
+            height: 1.75rem;
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .brand-icon svg {
+            width: 1rem;
+            height: 1rem;
+            color: #fff;
+        }
+
+        .brand-label {
+            overflow: hidden;
+            transition: opacity .2s, transform .2s;
+        }
+
+        .sidebar.collapsed .brand-label {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-6px);
+        }
+
+        .brand-name {
+            font-size: .8125rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+            white-space: nowrap;
+            letter-spacing: -.01em;
+        }
+
+        .brand-sub {
+            font-size: .625rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, .55);
+            white-space: nowrap;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            margin-top: 1px;
+        }
+
+        /* Nav scroll area */
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: .75rem .5rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, .12) transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, .12);
+            border-radius: 99px;
+        }
+
+        /* Section label */
+        .nav-section {
+            font-size: .625rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .3);
+            padding: .25rem .625rem;
+            margin-top: .5rem;
+            margin-bottom: .25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity .15s, margin .15s;
+        }
+
+        .sidebar.collapsed .nav-section {
+            opacity: 0;
+            margin-top: -1.25rem;
+            pointer-events: none;
+        }
+
+        /* Nav item */
+        .nav-item {
+            position: relative;
+            margin-bottom: 1px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem .625rem;
+            border-radius: var(--r);
+            color: rgba(255, 255, 255, .65);
+            font-size: .8125rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: var(--f);
+            white-space: nowrap;
+            overflow: hidden;
+            transition: background .12s, color .12s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .95);
+        }
+
+        /* Active: left accent bar + highlight */
+        .nav-link.active {
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 65%;
+            background: #60a5fa;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: .5rem;
+        }
+
+        .nav-icon {
+            width: 1.0625rem;
+            height: 1.0625rem;
+            flex-shrink: 0;
+            opacity: .6;
+            transition: opacity .12s;
+        }
+
+        .nav-link:hover .nav-icon,
+        .nav-link.active .nav-icon {
+            opacity: 1;
+        }
+
+        .nav-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: opacity .15s, width .15s;
+        }
+
+        .sidebar.collapsed .nav-text {
+            opacity: 0;
+            width: 0;
+            pointer-events: none;
+        }
+
+        .nav-chevron {
+            width: .8125rem;
+            height: .8125rem;
+            flex-shrink: 0;
+            color: rgba(255, 255, 255, .3);
+            transition: transform .18s ease;
+            margin-left: auto;
+        }
+
+        .sidebar.collapsed .nav-chevron {
+            display: none;
+        }
+
+        .nav-link.expanded .nav-chevron {
+            transform: rotate(90deg);
+        }
+
+        /* Sub-nav */
+        .nav-sub {
+            margin-left: 1.625rem;
+            padding-left: .625rem;
+            border-left: 1.5px solid rgba(255, 255, 255, .12);
+            margin-top: 1px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .sidebar.collapsed .nav-sub {
+            display: none;
+        }
+
+        .nav-sub-link {
+            display: flex;
+            align-items: center;
+            gap: .4375rem;
+            padding: .375rem .5rem;
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .5);
+            font-size: .75rem;
+            font-weight: 500;
+            font-family: var(--f);
+            text-decoration: none;
+            transition: background .12s, color .12s;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .nav-sub-link:hover {
+            background: rgba(255, 255, 255, .07);
+            color: rgba(255, 255, 255, .9);
+        }
+
+        .nav-sub-link.active {
+            color: #93c5fd;
+            font-weight: 600;
+        }
+
+        .nav-sub-icon {
+            width: .875rem;
+            height: .875rem;
+            flex-shrink: 0;
+            opacity: .65;
+        }
+
+        .nav-sub-link:hover .nav-sub-icon,
+        .nav-sub-link.active .nav-sub-icon {
+            opacity: 1;
+        }
+
+        /* Tooltip (collapsed state) */
+        .nav-tip {
+            position: fixed;
+            left: calc(var(--sidebar-ic) + .5rem);
+            background: var(--gray-900);
+            color: #fff;
+            font-family: var(--f);
+            font-size: .75rem;
+            font-weight: 500;
+            padding: .3125rem .6875rem;
+            border-radius: var(--r-sm);
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 9999;
+            box-shadow: var(--shadow-md);
+            transition: opacity .12s, visibility .12s;
+        }
+
+        .sidebar.collapsed .nav-item:hover .nav-tip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ══════════════════════════════════════════════════
+           MAIN AREA
+        ═══════════════════════════════════════════════════ */
+        .main {
+            flex: 1;
+            min-width: 0;
+            margin-left: var(--sidebar-w);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: margin-left .25s ease;
+        }
+
+        .main.collapsed {
+            margin-left: var(--sidebar-ic);
+        }
+
+        .main.embed-mode {
+            margin-left: 0 !important;
+        }
+
+        /* ── Top bar ────────────────────────────────────── */
+        .topbar {
+            height: var(--topbar-h);
+            background: #1a2a45;
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .topbar-toggle {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .85);
+            cursor: pointer;
+            transition: background .12s, color .12s;
+            flex-shrink: 0;
+        }
+
+        .topbar-toggle:hover {
+            background: rgba(255, 255, 255, .18);
+            color: #fff;
+        }
+
+        .topbar-toggle svg {
+            width: .9375rem;
+            height: .9375rem;
+        }
+
+        .topbar-title {
+            font-size: .9375rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -.015em;
+            flex: 1;
+        }
+
+        /* Breadcrumb strip below topbar */
+        .breadcrumb-bar {
+            background: var(--navy-dark);
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            gap: .375rem;
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+        }
+
+        .breadcrumb-item {
+            font-size: .6875rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .45);
+            letter-spacing: .02em;
+        }
+
+        .breadcrumb-sep {
+            color: rgba(255, 255, 255, .2);
+            font-size: .625rem;
+        }
+
+        .breadcrumb-item.current {
+            color: rgba(255, 255, 255, .75);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            margin-left: auto;
+        }
+
+        /* User chip */
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .25rem .625rem .25rem .25rem;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 99px;
+        }
+
+        .user-avatar {
+            width: 1.625rem;
+            height: 1.625rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .2);
+            border: 1px solid rgba(255, 255, 255, .25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .625rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: .05em;
+            flex-shrink: 0;
+        }
+
+        .user-name {
+            font-size: .75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .9);
+            max-width: 9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Logout button */
+        .btn-exit {
+            display: inline-flex;
+            align-items: center;
+            gap: .3125rem;
+            padding: .3125rem .75rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .75);
+            font-family: var(--f);
+            font-size: .6875rem;
+            font-weight: 600;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background .12s, border-color .12s, color .12s;
+        }
+
+        .btn-exit:hover {
+            background: rgba(220, 38, 38, .25);
+            border-color: rgba(220, 38, 38, .4);
+            color: #fca5a5;
+        }
+
+        .btn-exit svg {
+            width: .8125rem;
+            height: .8125rem;
+        }
+
+        /* ── Page body ──────────────────────────────────── */
+        .page-body {
+            flex: 1;
+            padding: 1.5rem;
+        }
+
+        /* ── Messages ───────────────────────────────────── */
+        .msg-stack {
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .msg {
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            padding: .75rem 1rem;
+            border-radius: var(--r-md);
+            font-size: .8125rem;
+            font-weight: 500;
+            border: 1px solid transparent;
+            animation: msgIn .2s ease;
+        }
+
+        .msg.success {
+            background: var(--green-faint);
+            border-color: rgba(22, 163, 74, .2);
+            color: #14532d;
+        }
+
+        .msg.error {
+            background: var(--red-faint);
+            border-color: rgba(220, 38, 38, .2);
+            color: #7f1d1d;
+        }
+
+        .msg.warning {
+            background: var(--amber-faint);
+            border-color: rgba(217, 119, 6, .2);
+            color: #78350f;
+        }
+
+        .msg.info {
+            background: var(--blue-faint);
+            border-color: rgba(37, 99, 235, .2);
+            color: #1e3a8a;
+        }
+
+        /* ── Footer ─────────────────────────────────────── */
+        .app-footer {
+            background: linear-gradient(90deg, #111e33 0%, #1a2a45 100%);
+            border-top: 1px solid rgba(255, 255, 255, .07);
+            padding: .875rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-footer p {
+            margin: 0;
+            font-size: .6875rem;
+            color: rgba(255, 255, 255, .3);
+            letter-spacing: .03em;
+        }
+
+        /* ── Mobile overlay ─────────────────────────────── */
+        .m-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            z-index: 199;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ── Animations ─────────────────────────────────── */
+        @keyframes msgIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-in {
+            /* fill-mode "none" (padrão, sem "both") é de propósito: um
+               transform "parado" em translateY(0) depois que a animação
+               termina ainda cria um novo containing block pra elementos
+               position:fixed dentro da página (spec do CSS) -- isso fazia
+               modais fullscreen (ex.: visualização de dashboard do Power BI)
+               calcularem left/top relativos ao <main>, não à viewport,
+               "empurrando" o modal pro canto errado. Sem fill-mode, o
+               transform some de vez quando a animação acaba. */
+            animation: fadeUp .3s ease;
+        }
+
+        /* ── Responsive ─────────────────────────────────── */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .25s ease, width .25s ease;
+                width: var(--sidebar-w) !important;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0 !important;
+            }
+
+            .topbar-desktop {
+                display: none !important;
+            }
+
+            .topbar-mobile {
+                display: flex !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .topbar-mobile {
+                display: none !important;
+            }
+
+            .topbar-desktop {
+                display: flex !important;
+            }
+        }
+    </style>
+
+    
+<script src="static/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+<style>
+    /* Light Theme Variables - Ajustadas para o padrão do sistema */
+    :root {
+        /* Usar cores do sistema onde possível, definindo apenas as específicas do calendário */
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc; /* Cor padrão do base.html */
+        --bg-tertiary: #e9ecef;
+        --text-primary: #334155; /* Cor padrão do sistema */
+        --text-secondary: #64748b;
+        --border-color: #e2e8f0;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+        /* Cores de Eventos (Mantidas) */
+        --color-feriado: #FF0000;
+        --color-live: #00FFFF;
+        --color-apresentacao-resultado: #FF0099;
+        --color-alinhamento-estrategico: #FFFF00;
+        --color-apresentacao-presidencia: #9933FF;
+        --color-apresentacao-trimestral: #00FF00;
+        --color-apresentacao-pp: #99CC00;
+        --color-divulgacao-ata: #CC6600;
+        --color-workshop: #996633;
+        --color-aniversariante: #FFCC00;
+        --color-confraternizacao: #FF9900;
+        --color-outro: #999999;
+        --color-ciclo-planejamento-cintya: #FF00FF;
+        --color-semana-kaisen-visitas: #E6E6E6;
+        --color-circuito-infra-servicos: #D4A574;
+        --color-consultoria-lean: #006400;
+        --color-trilha-treinamentos: #00CC66;
+        --color-aniversariante-mes: #FFFF00;
+        --color-confraternizacao-go: #99FF66;
+        --color-confraternizacao-df: #FF8800;
+    }
+
+    /* Main Container */
+    .calendar-container {
+        background: var(--bg-primary);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .calendar-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+        background: white; /* Fundo Branco */
+    }
+
+    .calendar-icon {
+        width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
+        display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
+    }
+
+    .calendar-header h1 {
+        /* Gradiente no Texto */
+        background: linear-gradient(to right, #1A2A45, #2A4570);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: #0d6efd;
+        font-size: 26px;
+        font-weight: 700;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 1200px) {
+        .calendar-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .calendar-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .event-badge {
+            font-size: 0.5rem;
+            padding: 1px 2px;
+        }
+
+        .calendar-table td {
+            min-height: 50px;
+            font-size: 0.7rem;
+        }
+    }
+
+    /* Month Card */
+    .month-card {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.75rem;
+        box-shadow: var(--shadow);
+    }
+
+    .month-header {
+        background: linear-gradient(135deg, #1e293b, #334155); 
+        color: white;
+        padding: 0.5rem;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Calendar Table */
+    .calendar-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed; /* Importante para a divisão vertical */
+    }
+
+    .calendar-table th {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.35rem 0.15rem;
+        text-align: center;
+        border: 1px solid var(--border-color);
+    }
+
+    .calendar-table td {
+        border: 1px solid var(--border-color);
+        padding: 0; /* Padding zero para o container vertical ocupar tudo */
+        text-align: center;
+        vertical-align: top;
+        height: 50px; /* Altura fixa para alinhar */
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        background-clip: padding-box;
+    }
+
+    .calendar-table td.empty {
+        background: var(--bg-secondary);
+        cursor: default;
+    }
+
+    .calendar-table td.today {
+        outline: 2px solid #0F172A;
+        outline-offset: -2px;
+        z-index: 5;
+    }
+
+    /* --- ESTILOS NOVOS: DIVISÃO VERTICAL (1 a 3 Eventos) --- */
+    .vertical-split-container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .vertical-event-item {
+        flex: 1; /* Ocupa espaço proporcional */
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        writing-mode: vertical-rl; /* Texto na vertical */
+        text-orientation: mixed;
+        overflow: hidden;
+        border-right: 1px solid rgba(255,255,255,0.3);
+        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .vertical-event-item:last-child {
+        border-right: none;
+    }
+
+    .day-number-overlay {
+        position: absolute;
+        top: 2px;
+        right: 3px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #334155;
+        background: rgba(255,255,255,0.7);
+        padding: 0 3px;
+        border-radius: 4px;
+        z-index: 10;
+        pointer-events: none;
+    }
+    
+    /* Quando o fundo for escuro, ajusta o numero */
+    .vertical-split-container ~ .day-number-overlay {
+        color: #000;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 2px rgba(0,0,0,0.3);
+    }
+
+    /* --- ESTILOS ANTIGOS (Para +3 eventos) --- */
+    .day-content-standard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        height: 100%;
+        padding: 2px;
+    }
+
+    .event-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .event-badge {
+        font-size: 0.55rem;
+        font-weight: 700;
+        padding: 1px 4px;
+        border-radius: 3px;
+        background: rgba(0,0,0,0.3);
+        color: white;
+        text-transform: uppercase;
+        white-space: nowrap;
+        line-height: 1.2;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Sidebar */
+    .sidebar-container {
+        position: sticky;
+        top: 1rem;
+    }
+
+    .sidebar-card {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: var(--shadow);
+        margin-bottom: 1rem;
+    }
+
+    .sidebar-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #0F172A;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #0F172A;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Legend */
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.35rem;
+        margin-bottom: 0.35rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .legend-item:hover {
+        background: var(--bg-secondary);
+    }
+
+    .legend-color {
+        width: 25px;
+        height: 18px;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+        flex-shrink: 0;
+    }
+
+    .legend-label {
+        font-size: 0.75rem;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    /* Feriados List */
+    .feriados-table {
+        width: 100%;
+        font-size: 0.75rem;
+    }
+
+    .feriados-table th {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        font-weight: 600;
+        padding: 0.4rem;
+        text-align: left;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .feriados-table td {
+        padding: 0.4rem;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-secondary);
+    }
+
+    .feriados-table tr:hover {
+        background: var(--bg-secondary);
+    }
+
+    /* Eventos do Ano */
+    .eventos-ano-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .evento-ano-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.35rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .evento-ano-item:hover {
+        background: var(--bg-secondary);
+    }
+
+    .evento-ano-color {
+        width: 25px;
+        height: 18px;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+        flex-shrink: 0;
+    }
+
+    .evento-ano-label {
+        font-size: 0.75rem;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    /* Floating Add Button */
+    .fab-button {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0F172A 0%, #0a58ca 100%);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 300;
+        transition: all 0.3s ease;
+        z-index: 1500;
+    }
+
+    .fab-button:hover {
+        transform: scale(1.1) rotate(90deg);
+        box-shadow: 0 6px 16px rgba(13, 110, 253, 0.6);
+    }
+
+    /* Modal Styles */
+    .cal-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.55);
+        backdrop-filter: blur(3px);
+        z-index: 99999;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 5rem 1rem 2rem;
+        overflow-y: auto;
+    }
+
+    .cal-modal-box {
+        background: var(--bg-primary);
+        border-radius: 12px;
+        max-width: 600px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        position: relative;
+    }
+
+    /* Header do Modal Personalizado */
+    .cal-modal-header {
+        background: linear-gradient(135deg, #1e293b, #334155);
+        color: white;
+        padding: 1.5rem 4rem 1.5rem 1.5rem;
+        border-radius: 12px 12px 0 0;
+        position: relative;
+    }
+
+    .cal-modal-header h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .cal-modal-header p {
+        margin: 0.5rem 0 0 0;
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+
+    .cal-modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .cal-modal-close:hover {
+        background: rgba(255,255,255,0.3);
+        transform: rotate(90deg);
+    }
+
+    .cal-modal-body {
+        padding: 1.5rem;
+    }
+
+    /* Form Styles */
+    .cal-form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .cal-form-label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .cal-form-input,
+    .cal-form-select,
+    .cal-form-textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: inherit;
+    }
+
+    .cal-form-input:focus,
+    .cal-form-select:focus,
+    .cal-form-textarea:focus {
+        outline: none;
+        border-color: #0F172A;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+    }
+
+    .cal-form-textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .cal-form-color-input {
+        width: 100%;
+        height: 50px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    /* Recurrence Section */
+    .cal-recurrence-box {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        padding: 1rem;
+        border-radius: 6px;
+        margin-bottom: 1.25rem;
+    }
+
+    .cal-recurrence-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .cal-recurrence-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .cal-monthly-option-group {
+        grid-column: span 2;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .cal-monthly-radio-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .cal-monthly-select-inline {
+        display: inline-block;
+        width: auto;
+        padding: 0.3rem;
+        font-size: 0.85rem;
+        margin: 0 0.3rem;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        background: white;
+    }
+
+    /* Buttons */
+    .cal-btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-family: inherit;
+    }
+
+    .cal-btn-primary {
+        background: linear-gradient(135deg, #0F172A 0%, #1a2849 100%);
+        color: white;
+    }
+
+    .cal-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+    }
+
+    .cal-btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .cal-btn-secondary:hover {
+        background: #5c636a;
+    }
+
+    .cal-btn-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+    .cal-btn-danger:hover {
+        background: #bb2d3b;
+    }
+
+    .cal-btn-sm {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .cal-btn-group {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    /* Event Item in Modal */
+    .cal-event-item {
+        background: var(--bg-secondary);
+        border-left: 4px solid;
+        padding: 1rem;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+    }
+
+    .cal-event-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 0.5rem;
+    }
+
+    .cal-event-item-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    .cal-event-item-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: white;
+        margin-top: 0.5rem;
+    }
+
+    .cal-event-item-description {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        line-height: 1.5;
+    }
+
+    .cal-event-item-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+    }
+
+    /* Loading Spinner */
+    .cal-spinner {
+        border: 3px solid var(--bg-tertiary);
+        border-top: 3px solid #0F172A;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 0.8s linear infinite;
+        margin: 2rem auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Alert Messages */
+    .cal-alert {
+        padding: 1rem;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+        border-left: 4px solid;
+    }
+
+    .cal-alert-success {
+        background: #d1e7dd;
+        border-color: #0f5132;
+        color: #0f5132;
+    }
+
+    .cal-alert-error {
+        background: #f8d7da;
+        border-color: #842029;
+        color: #842029;
+    }
+
+    .cal-alert-info {
+        background: #cff4fc;
+        border-color: #055160;
+        color: #055160;
+    }
+
+    /* Empty State */
+    .cal-empty-state {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-secondary);
+    }
+
+    .cal-empty-state svg {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+</style>
+
+</head>
+
+<body x-data="{
+    collapsed: false,
+    mobileOpen: false,
+    geradores: false,
+    acompanhamento: false,
+    gestaoReservas: false,
+    auditoria: false,
+    projetos: false,
+    psico: false,
+    gestaoAVista: false,
+    deparaAprova: false
+}">
+
+    <div class="shell">
+
+        <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+        
+        <aside class="sidebar" :class="{ 'collapsed': collapsed, 'mobile-open': mobileOpen }">
+
+            <!-- Brand strip -->
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div class="brand-label">
+                    <div class="brand-name">FLOW</div>
+                    <div class="brand-sub">Qualidade &amp; Operações</div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <div class="nav-section">Menu</div>
+
+                <!-- Home -->
+                <div class="nav-item">
+                    <a href="home.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <div class="nav-tip">Home</div>
+                </div>
+
+                
+                <div class="nav-item">
+                    <a href="controle-acessos.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="nav-text">Controle de Usuários</span>
+                    </a>
+                    <div class="nav-tip">Controle de Usuários</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="estatisticas-acesso.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span class="nav-text">Estatísticas de Acesso</span>
+                    </a>
+                    <div class="nav-tip">Estatísticas de Acesso</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="gerenciar-regionais.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="nav-text">Gerenciar Regionais</span>
+                    </a>
+                    <div class="nav-tip">Gerenciar Regionais</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) gestaoAVista = !gestaoAVista"
+                        class="nav-link "
+                        :class="{ 'expanded': gestaoAVista && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span class="nav-text">Gestão a Vista</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Gestão a Vista</div>
+                    <div x-show="gestaoAVista && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="dashboard.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span>Dashboards</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="financeiro.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="nav-text">Financeiro</span>
+                    </a>
+                    <div class="nav-tip">Financeiro</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) gestaoReservas = !gestaoReservas"
+                        class="nav-link "
+                        :class="{ 'expanded': gestaoReservas && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <span class="nav-text">Gestão de Reservas</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Gestão de Reservas</div>
+                    <div x-show="gestaoReservas && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="gestao-salas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span>Gestão de Salas</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Reserva de Salas</span>
+                        </a>
+                        
+                        
+                        <a href="calendario-reservas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Calendário de Reservas</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) projetos = !projetos"
+                        class="nav-link "
+                        :class="{ 'expanded': projetos && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                        <span class="nav-text">Projetos</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Projetos</div>
+                    <div x-show="projetos && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="planner.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                            <span>Planner</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                            </svg>
+                            <span>Arquivos</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) auditoria = !auditoria"
+                        class="nav-link "
+                        :class="{ 'expanded': auditoria && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                        </svg>
+                        <span class="nav-text">Auditoria</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Auditoria</div>
+                    <div x-show="auditoria && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="auditoria.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span>Auditor de Ronda</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="relatorios.html" class="nav-link">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">Relatórios</span>
+                    </a>
+                    <div class="nav-tip">Relatórios</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="qualidade.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        <span class="nav-text">Gestão da Qualidade</span>
+                    </a>
+                    <div class="nav-tip">Gestão da Qualidade</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="nav-text">Gestão de Ordens</span>
+                    </a>
+                    <div class="nav-tip">Gestão de Ordens</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) deparaAprova = !deparaAprova"
+                        class="nav-link "
+                        :class="{ 'expanded': deparaAprova && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">DparAprova</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">DparAprova — Validação de Certificados</div>
+                    <div x-show="deparaAprova && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span>Validação de Certificado</span>
+                        </a>
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            <span>Carta de Validação</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 17v-2a4 4 0 014-4h4m0 0l-3-3m3 3l-3 3M4 7h6m-6 4h6m-6 4h4" />
+                            </svg>
+                            <span>Elaborar Certificado</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="chamados.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                        </svg>
+                        <span class="nav-text">Chamado</span>
+                    </a>
+                    <div class="nav-tip">Chamado — Solicitação de Projetos e Automações</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="calendario-2026.html"
+                        class="nav-link active">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span class="nav-text">Calendário 2026</span>
+                    </a>
+                    <div class="nav-tip">Calendário 2026</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) psico = !psico"
+                        class="nav-link "
+                        :class="{ 'expanded': psico && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3M9 12h.01M9 16h.01m3-3h3m-3 3h3" />
+                        </svg>
+                        <span class="nav-text">Psico NR1</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Psico NR1</div>
+                    <div x-show="psico && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+                            </svg>
+                            <span>Avaliação Psicossocial</span>
+                        </a>
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <span>Base Layout 1</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) geradores = !geradores"
+                        class="nav-link "
+                        :class="{ 'expanded': geradores && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                        </svg>
+                        <span class="nav-text">Geradores</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Geradores</div>
+                    <div x-show="geradores && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                            </svg>
+                            <span>Gerador QR Code</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                            </svg>
+                            <span>Gerador de Etiquetas</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
+                            </svg>
+                            <span>Gerador de Crachá</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) acompanhamento = !acompanhamento"
+                        class="nav-link "
+                        :class="{ 'expanded': acompanhamento && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">Acompanhamento</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Acompanhamento</div>
+                    <div x-show="acompanhamento && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>Desativação de CR</span>
+                        </a>
+                        
+                        
+                        <a href="controle-chips.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                            <span>Controle de Chips</span>
+                        </a>
+                        
+                        
+                        <a href="implantacoes-sistemicas.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                            </svg>
+                            <span>Implantações Sistêmicas</span>
+                        </a>
+                        
+                        
+                        <a href="implantacoes.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+                            </svg>
+                            <span>Fluxo de Implantações</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            <span>Fluxo de Desmobilização</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h3m-7 5h10a2 2 0 002-2V7.414a1 1 0 00-.293-.707l-3.414-3.414A1 1 0 0012.586 3H6a2 2 0 00-2 2v13a2 2 0 002 2z" />
+                            </svg>
+                            <span>Livro de Ocorrência (PDF)</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        <span class="nav-text">Links GPS</span>
+                    </a>
+                    <div class="nav-tip">Links GPS — Fácil Acesso</div>
+                </div>
+                
+
+                <div class="nav-item">
+                    <a href="novidades.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                        </svg>
+                        <span class="nav-text">Novidades</span>
+                    </a>
+                    <div class="nav-tip">Novidades — o que mudou no sistema</div>
+                </div>
+
+                <!-- Ajuda — manter SEMPRE como ÚLTIMO item do menu -->
+                <div class="nav-item">
+                    <a href="ajuda.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="nav-text">Ajuda</span>
+                    </a>
+                    <div class="nav-tip">Ajuda — Tour pelo sistema</div>
+                </div>
+
+            </nav>
+        </aside>
+        
+
+        <!-- ══ MAIN ═════════════════════════════════════════════════ -->
+        <div class="main " :class="{ 'collapsed': collapsed }">
+
+            
+            <!-- Top bar -->
+            <header class="topbar">
+                <!-- Desktop collapse toggle -->
+                <button @click="collapsed = !collapsed" class="topbar-toggle topbar-desktop" title="Recolher menu">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </button>
+                <!-- Mobile open toggle -->
+                <button @click="mobileOpen = !mobileOpen" class="topbar-toggle topbar-mobile" title="Abrir menu">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+
+                <span class="topbar-title">FLOW</span>
+
+                <div class="topbar-right">
+                    
+                    <div class="me-3 d-flex align-items-center gap-2">
+                        <span class="text-white text-xs opacity-75 font-semibold">Filtro Regional:</span>
+                        <select
+                            onchange="window.location.href='/alterar-regional-ativa/?regional_id=' + this.value"
+                            class="form-select form-select-sm py-1 px-2 border-0 bg-white bg-opacity-10 text-white rounded font-medium text-xs cursor-pointer focus:ring-1 focus:ring-blue-500"
+                            style="width: auto; min-width: 120px; font-size: 11px;">
+                            <option value="GLOBAL" class="text-slate-800" selected>Todas as Regionais</option>
+                            
+                            <option value="159449db-c496-4ab4-bafa-821b8051e1f4" class="text-slate-800" >Goiânia - GO (GO)</option>
+                            
+                        </select>
+                    </div>
+                    
+
+                    
+                    <div class="user-chip">
+                        <div class="user-avatar">
+                            AD
+                        </div>
+                        <span class="user-name">
+                            administrador
+                            
+                            (Global)
+                            
+                        </span>
+                    </div>
+                    
+
+                    <form method="post" action="/logout/">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="rF7TrY4IpJtSVERixlrC7178QO8Di5KrolmvOhIFlNe45yQ7zu1jUWfQA0yiPdU1">
+                        <button type="submit" class="btn-exit">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Sair
+                        </button>
+                    </form>
+                </div>
+            </header>
+            
+
+            <!-- Page content -->
+            <main class="page-body page-in">
+                
+
+                
+<div x-data='calendarApp()' 
+x-init='init()'>
+    <div class='calendar-container'>
+        <div class='calendar-header'>
+            <div class='calendar-icon'><i class='fas fa-calendar-alt'></i></div>
+            <h1>Calendário de Reuniões 2026</h1>
+        </div>
+
+        <div class='row'>
+            <div class='col-lg-9'>
+                <div class='calendar-grid'>
+                    <template x-for='mes in meses' 
+                    :key='mes.numero'>
+                        <div class='month-card'>
+                            <div class='month-header' 
+                            x-text='mes.nome'></div>
+                            <table class='calendar-table'>
+                                <thead>
+                                    <tr>
+                                        <th>Dom</th>
+                                        <th>Seg</th>
+                                        <th>Ter</th>
+                                        <th>Qua</th>
+                                        <th>Qui</th>
+                                        <th>Sex</th>
+                                        <th>Sáb</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template 
+                                    x-for='(semana, semanaIndex) in mes.semanas' 
+                                    :key='`${mes.numero}-semana-${semanaIndex}`'>
+                                        <tr>
+                                            <template
+                                            x-for='(dia, diaIndex) in semana'
+                                            :key='`${mes.numero}-${semanaIndex}-${diaIndex}`'>
+                                                <td
+                                                :class='{
+                                                    "empty": !dia.numero,
+                                                    "today": dia.isToday
+                                                }'
+                                                @click='dia.numero && openDayModal(mes, dia)'>
+                                                    <template x-if="dia.numero">
+                                                        <div style="width: 100%; height: 100%; position: relative;">
+                                                            <span class="day-number-overlay" x-text="dia.numero"></span>
+
+                                                            <template x-if="dia.eventos && dia.eventos.length > 0 && dia.eventos.length <= 3">
+                                                                <div class="vertical-split-container">
+                                                                    <template x-for="evento in dia.eventos" :key="evento.id">
+                                                                        <div class="vertical-event-item"
+                                                                             :style="'background-color: ' + evento.cor"
+                                                                             :title="evento.titulo">
+                                                                            <span x-text="getEventoSigla(evento)"></span>
+                                                                        </div>
+                                                                    </template>
+                                                                </div>
+                                                            </template>
+
+                                                            <template x-if="dia.eventos && dia.eventos.length > 3">
+                                                                <div class="day-content-standard">
+                                                                    <div class="event-badges">
+                                                                        <template x-for="evento in dia.eventos.slice(0, 2)" :key="evento.id">
+                                                                            <span class="event-badge" 
+                                                                                  :style="'background-color: ' + evento.cor"
+                                                                                  x-text="getEventoSigla(evento)"></span>
+                                                                        </template>
+                                                                        <span class="event-badge" 
+                                                                              style="background-color: #6c757d;"
+                                                                              x-text="`+${dia.eventos.length - 2}`"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                    </template>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div 
+            class='col-lg-3'>
+                <div 
+                class='sidebar-container'>
+                    <div 
+                    class='sidebar-card'>
+                        <div 
+                        class='sidebar-title'>
+                            <svg 
+                            style='width: 20px; height: 20px;' 
+                            fill='none' 
+                            stroke='currentColor' 
+                            viewBox='0 0 24 24'>
+                                <path 
+                                stroke-linecap='round' 
+                                stroke-linejoin='round' 
+                                stroke-width='2' 
+                                d='M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01'/>
+                            </svg>
+                            Legenda
+                        </div>
+                        <template 
+                        x-for='tipo in eventTypes' 
+                        :key='tipo.value'>
+                            <div 
+                            class='legend-item'>
+                                <div 
+                                class='legend-color' 
+                                :style='"background-color: " + tipo.cor'></div>
+                                <div 
+                                class='legend-label' 
+                                x-text='tipo.label'></div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div 
+                    class='sidebar-card'>
+                        <div 
+                        class='sidebar-title'>
+                            <svg 
+                            style='width: 20px; height: 20px;' 
+                            fill='none' 
+                            stroke='currentColor' 
+                            viewBox='0 0 24 24'>
+                                <path 
+                                stroke-linecap='round' 
+                                stroke-linejoin='round' 
+                                stroke-width='2' 
+                                d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
+                            </svg>
+                            Feriados 2026
+                        </div>
+                        <table 
+                        class='feriados-table'>
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Feriado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template 
+                                x-for='feriado in feriados' 
+                                :key='feriado.id || feriado.data'>
+                                    <tr>
+                                        <td 
+                                        x-text='formatDate(feriado.data)'></td>
+                                        <td 
+                                        x-text='feriado.titulo'></td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div 
+                    class='sidebar-card'>
+                        <div 
+                        class='sidebar-title'>
+                            <svg 
+                            style='width: 20px; height: 20px;' 
+                            fill='none' 
+                            stroke='currentColor' 
+                            viewBox='0 0 24 24'>
+                                <path 
+                                stroke-linecap='round' 
+                                stroke-linejoin='round' 
+                                stroke-width='2' 
+                                d='M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4'/>
+                            </svg>
+                            Eventos do Ano
+                        </div>
+                        <div 
+                        class='eventos-ano-list'>
+                            <template 
+                            x-for='tipo in eventosAnoAtivos' 
+                            :key='tipo.value'>
+                                <div 
+                                class='evento-ano-item'>
+                                    <div 
+                                    class='evento-ano-color' 
+                                    :style='"background-color: " + tipo.cor'></div>
+                                    <div 
+                                    class='evento-ano-label' 
+                                    x-text='tipo.label'></div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button 
+    class='fab-button' 
+    @click='openCreateModal()' 
+    title='Adicionar Evento'>
+        +
+    </button>
+
+    <button 
+    class='cal-btn cal-btn-danger' 
+    style='position: fixed; bottom: 2rem; left: 2rem; z-index: 999; border-radius: 50px; padding: 1rem 1.5rem; box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);' 
+    @click='deleteAllEvents()' 
+    title='APAGAR TODOS OS EVENTOS'>
+        🗑️ Limpar Tudo
+    </button>
+
+    <template 
+    x-if='showDayModal'>
+        <div 
+        class='cal-modal-overlay' 
+        @click.self='closeDayModal()'>
+            <div 
+            class='cal-modal-box'>
+                <div 
+                class='cal-modal-header'>
+                    <h3 
+                    x-text='"Eventos do dia " + selectedDay.numero'></h3>
+                    <p 
+                    x-text='selectedMonth.nome + " de 2026"'></p>
+                    <button 
+                    class='cal-modal-close' 
+                    @click='closeDayModal()'>
+                        <svg 
+                        style='width: 20px; height: 20px;' 
+                        fill='none' 
+                        stroke='currentColor' 
+                        viewBox='0 0 24 24'>
+                            <path 
+                            stroke-linecap='round' 
+                            stroke-linejoin='round' 
+                            stroke-width='2' 
+                            d='M6 18L18 6M6 6l12 12'/>
+                        </svg>
+                    </button>
+                </div>
+                <div 
+                class='cal-modal-body'>
+                    <template 
+                    x-if='selectedDay.eventos && selectedDay.eventos.length > 0'>
+                        <div>
+                            <template 
+                            x-for='evento in selectedDay.eventos' 
+                            :key='evento.id'>
+                                <div 
+                                class='cal-event-item' 
+                                :style='"border-left-color: " + evento.cor'>
+                                    <div 
+                                    class='cal-event-item-header'>
+                                        <div>
+                                            <div 
+                                            class='cal-event-item-title' 
+                                            x-text='evento.titulo'></div>
+                                            <div 
+                                            class='cal-event-item-badge' 
+                                            :style='"background-color: " + evento.cor' 
+                                            x-text='evento.tipo_display'></div>
+                                        </div>
+                                    </div>
+                                    <div 
+                                    class='cal-event-item-description'>
+                                        <strong>Data:</strong>
+                                        <span 
+                                        x-text='formatDate(evento.data_inicio)'></span>
+                                        <template 
+                                        x-if='evento.data_fim'>
+                                            <span> até <span 
+                                            x-text='formatDate(evento.data_fim)'></span></span>
+                                        </template>
+                                    </div>
+                                    <div 
+                                    class='cal-event-item-description' 
+                                    x-text='evento.descricao || "Sem descrição"' 
+                                    x-show='evento.descricao'></div>
+                                    <div 
+                                    class='cal-event-item-actions'>
+                                        <button 
+                                        class='cal-btn cal-btn-primary cal-btn-sm' @click='editEvent(evento)'>
+                                            <svg style='width: 16px; height: 16px;' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                                <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z'/>
+                                            </svg>
+                                            Editar
+                                        </button>
+                                        <button class='cal-btn cal-btn-danger cal-btn-sm' @click='deleteEvent(evento)'>
+                                            <svg style='width: 16px; height: 16px;' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                                <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'/>
+                                            </svg>
+                                            Excluir
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                            <button class='cal-btn cal-btn-primary' style='width: 100%; margin-top: 1rem;' @click='addEventToDay()'>
+                                + Adicionar evento neste dia
+                            </button>
+                        </div>
+                    </template>
+                    <template x-if='!selectedDay.eventos || selectedDay.eventos.length === 0'>
+                        <div class='cal-empty-state'>
+                            <svg fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
+                            </svg>
+                            <p>Nenhum evento neste dia.</p>
+                            <button class='cal-btn cal-btn-primary' @click='addEventToDay()'>
+                                + Adicionar evento
+                            </button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template x-if='showFormModal'>
+        <div class='cal-modal-overlay' @click.self='closeFormModal()'>
+            <div class='cal-modal-box'>
+                <div class='cal-modal-header'>
+                    <h3 x-text='formMode === "create" ? "Criar Evento" : "Editar Evento"'></h3>
+                    <button class='cal-modal-close' @click='closeFormModal()'>
+                        <svg style='width: 20px; height: 20px;' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12'/>
+                        </svg>
+                    </button>
+                </div>
+                <div class='cal-modal-body'>
+                    <div x-show='alertMessage' x-transition>
+                        <div class='cal-alert' :class='alertType === "success" ? "cal-alert-success" : "cal-alert-error"' x-text='alertMessage'></div>
+                    </div>
+
+                    <form @submit.prevent='saveEvent()'>
+                        <div class='cal-form-group'>
+                            <label class='cal-form-label'>Data Início</label>
+                            <input type='date' class='cal-form-input' x-model='formData.data_inicio' required @change="updateRecurrenceDefaults()">
+                        </div>
+
+                        <div class='cal-form-group'>
+                            <label class='cal-form-label'>Data Fim (opcional - deixe vazio para evento de 1 dia)</label>
+                            <input type='date' class='cal-form-input' x-model='formData.data_fim' :min='formData.data_inicio'>
+                        </div>
+
+                        <div class="cal-recurrence-box" x-show="formMode === 'create'">
+                            <div class="cal-recurrence-header">
+                                <input type="checkbox" id="checkRecorrencia" x-model="formData.recorrente" style="width: 16px; height: 16px;">
+                                <label for="checkRecorrencia" class="form-label" style="margin:0; cursor: pointer;">Repetir Evento</label>
+                            </div>
+                            <div class="cal-recurrence-options" x-show="formData.recorrente" x-transition>
+                                <div style="grid-column: span 2;">
+                                    <label class="form-label" style="font-size: 0.8rem;">Frequência</label>
+                                    <select class="form-select" x-model="formData.frequencia">
+                                        <option value="daily">Diariamente</option>
+                                        <option value="weekly">Semanalmente</option>
+                                        <option value="monthly">Mensalmente</option>
+                                    </select>
+                                </div>
+
+                                <div style="grid-column: span 2;" x-show="formData.frequencia === 'weekly'">
+                                    <label class="form-label" style="font-size: 0.8rem;">Em quais dias?</label>
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px;">
+                                        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.8rem; cursor: pointer;">
+                                            <input type="checkbox" value="0" x-model="formData.dias_semana"> Dom
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.8rem; cursor: pointer;">
+                                            <input type="checkbox" value="1" x-model="formData.dias_semana"> Seg
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.8rem; cursor: pointer;">
+                                            <input type="checkbox" value="2" x-model="formData.dias_semana"> Ter
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.8rem; cursor: pointer;">
+                                            <input type="checkbox" value="3" x-model="formData.dias_semana"> Qua
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.8rem; cursor: pointer;">
+                                            <input type="checkbox" value="4" x-model="formData.dias_semana"> Qui
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.8rem; cursor: pointer;">
+                                            <input type="checkbox" value="5" x-model="formData.dias_semana"> Sex
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.8rem; cursor: pointer;">
+                                            <input type="checkbox" value="6" x-model="formData.dias_semana"> Sáb
+                                        </label>
+                                    </div>
+                                    <small style="color: #6c757d; font-size: 0.75rem;" x-show="formData.dias_semana.length === 0">
+                                        *Se nenhum dia for marcado, repetirá a cada 7 dias a partir da data de início.
+                                    </small>
+                                </div>
+
+                                <div class="cal-monthly-option-group" x-show="formData.frequencia === 'monthly'">
+                                    <div class="cal-monthly-radio-item">
+                                        <input type="radio" id="monthlyFixed" value="dia_fixo" x-model="formData.mensal_tipo">
+                                        <label for="monthlyFixed" style="margin: 0; font-size: 0.85rem; cursor: pointer;">
+                                            No dia <span x-text="new Date(formData.data_inicio).getDate() + 1"></span>
+                                        </label>
+                                    </div>
+                                    <div class="cal-monthly-radio-item">
+                                        <input type="radio" id="monthlyRelative" value="dia_relativo" x-model="formData.mensal_tipo">
+                                        <label for="monthlyRelative" style="margin: 0; font-size: 0.85rem; cursor: pointer; display:flex; align-items:center; flex-wrap:wrap;">
+                                            No(a)
+                                            <select class="form-select monthly-select-inline" x-model="formData.mensal_ordinal" :disabled="formData.mensal_tipo !== 'dia_relativo'">
+                                                <option value="1">primeiro(a)</option>
+                                                <option value="2">segundo(a)</option>
+                                                <option value="3">terceiro(a)</option>
+                                                <option value="4">quarto(a)</option>
+                                                <option value="-1">último(a)</option>
+                                            </select>
+                                            <select class="form-select monthly-select-inline" x-model="formData.mensal_dia_semana" :disabled="formData.mensal_tipo !== 'dia_relativo'">
+                                                <option value="0">Domingo</option>
+                                                <option value="1">Segunda-feira</option>
+                                                <option value="2">Terça-feira</option>
+                                                <option value="3">Quarta-feira</option>
+                                                <option value="4">Quinta-feira</option>
+                                                <option value="5">Sexta-feira</option>
+                                                <option value="6">Sábado</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div style="grid-column: span 2;">
+                                    <label class="form-label" style="font-size: 0.8rem;">Repetir até</label>
+                                    <input type="date" class="form-input" x-model="formData.data_fim_recorrencia" :min="formData.data_inicio">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='cal-form-group'>
+                            <label class='cal-form-label'>Título</label>
+                            <input type='text' class='cal-form-input' x-model='formData.titulo' maxlength='255' required>
+                        </div>
+
+                        <div class='cal-form-group'>
+                            <label class='cal-form-label'>Tipo de Evento</label>
+                            <select class='cal-form-select' x-model='formData.tipo' @change='updateColorFromType()' required>
+                                <option value=''>Selecione...</option>
+                                <template x-for='tipo in eventTypes' :key='tipo.value'>
+                                    <option :value='tipo.value' x-text='tipo.label'></option>
+                                </template>
+                            </select>
+                        </div>
+
+                        <div class='cal-form-group'>
+                            <label class='cal-form-label'>Legenda Personalizada (opcional - máx 10 caracteres)</label>
+                            <input type='text' class='cal-form-input' x-model='formData.legenda' maxlength='10' placeholder='Ex: FER, LIVE, WKS...'>
+                            <small style='color: #6c757d; font-size: 0.85rem;'>Deixe vazio para usar a abreviação automática</small>
+                        </div>
+
+                        <div class='cal-form-group'>
+                            <label class='cal-form-label'>Cor</label>
+                            <input type='color' class='cal-form-color-input' x-model='formData.cor' required>
+                        </div>
+
+                        <div class='cal-form-group'>
+                            <label class='cal-form-label'>Descrição (opcional)</label>
+                            <textarea class='cal-form-textarea' x-model='formData.descricao' rows='4'></textarea>
+                        </div>
+
+                        <div class='cal-btn-group'>
+                            <button type='submit' class='cal-btn cal-btn-primary' :disabled='loading'>
+                                <template x-if='!loading'>
+                                    <span x-text='formMode === "create" ? "Criar Evento" : "Atualizar Evento"'></span>
+                                </template>
+                                <template x-if='loading'>
+                                    <span>Salvando...</span>
+                                </template>
+                            </button>
+                            <button type='button' class='cal-btn cal-btn-secondary' @click='closeFormModal()' :disabled='loading'>
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template x-if='loading && !showFormModal'>
+        <div class='cal-spinner'></div>
+    </template>
+</div>
+
+<script>
+function calendarApp() {
+    return {
+        // State
+        ano: 2026,
+        meses: [],
+        eventos: [],
+        feriados: [],
+        loading: false,
+        showDayModal: false,
+        showFormModal: false,
+        selectedMonth: null,
+        selectedDay: null,
+        formMode: 'create',
+        formData: {
+            id: null,
+            data_inicio: '',
+            data_fim: '',
+            titulo: '',
+            tipo: '',
+            legenda: '',
+            descricao: '',
+            cor: '#0d6efd',
+            recorrente: false,
+            frequencia: 'weekly',
+            dias_semana: [], 
+            mensal_tipo: 'dia_fixo',
+            mensal_ordinal: '1',
+            mensal_dia_semana: '1',
+            data_fim_recorrencia: ''
+        },
+        alertMessage: '',
+        alertType: 'success',
+
+        // Event Types (Mantido igual)
+        eventTypes: [
+            { value: 'feriado', label: 'Feriado Nacional / Municipal (Goiânia)', cor: '#B0B0B0' },
+            { value: 'live', label: 'LIVE NOSSA GPS ', cor: '#FFFFFF' },
+            { value: 'apresentacao_resultado', label: 'Apresentação Resultado Mensal GC- DR', cor: '#FF0000' },
+            { value: 'alinhamento_estrategico', label: 'Alinhamento Estratégico Mensal - GR - DR', cor: '#FFBF00' },
+            { value: 'apresentacao_presidencia', label: 'Aprensentação DE P/ Presidência', cor: '#6401E8' },
+            { value: 'apresentacao_trimestral', label: 'Apresentação Ciclo Trimestral - GC P/ PRESIDÊNCIA', cor: '#75933B' },
+            { value: 'apresentacao_pp', label: 'Apresentação PP - Coodernador - DR', cor: '#323299' },
+            { value: 'divulgacao_ata', label: 'Divulgação Ata Resultado', cor: '#974605' },
+            { value: 'workshop', label: 'Workshop Direcionadores ', cor: '#0C0C0C' },
+            { value: 'aniversariante', label: 'Aniversariante', cor: '#FFCC00' },
+            { value: 'confraternizacao', label: 'Confraternização', cor: '#FF9900' },
+            { value: 'outro', label: 'Outro', cor: '#999999' },
+            { value: 'ciclo_planejamento_cintya', label: 'Ciclo de planejamento - Cintya', cor: '#FF00FF' },
+            { value: 'semana_kaisen_visitas', label: 'Semana Kaisen e Visitas a Clientes-Rafael, Allan e time', cor: '#91CDDB' },
+            { value: 'circuito_infra_servicos', label: 'Circuito infra-serviços - Edi e time', cor: '#D8E4BC' },
+            { value: 'consultoria_lean', label: 'Consultoria Lean - Start do projeto', cor: '#E6B8B6' },
+            { value: 'trilha_treinamentos', label: 'Trilha de treinamentos', cor: '#00AF50' },
+            { value: 'aniversariante_mes', label: 'Aniversariante do mês', cor: '#FFC000' },
+            { value: 'confraternizacao_go', label: 'Confraternização - GO', cor: '#CBFF99' },
+            { value: 'confraternizacao_df', label: 'Confraternização - DF', cor: '#CB9900' }
+        ],
+
+        get eventosAnoAtivos() {
+            const tiposComEventos = new Set(this.eventos.filter(e => e.tipo !== 'feriado').map(e => e.tipo));
+            return this.eventTypes.filter(t => t.value !== 'feriado' && tiposComEventos.has(t.value));
+        },
+
+        async init() {
+            this.buildCalendar();
+            await this.loadEventos();
+            this.buildCalendar();
+        },
+
+        async loadEventos() {
+            this.loading = true;
+            try {
+                const response = await fetch('/calendario-2026/api/eventos/');
+                const data = await response.json();
+                this.eventos = data.eventos || [];
+                this.feriados = this.eventos.filter(e => e.tipo === 'feriado');
+            } catch (error) {
+                console.error('Erro ao carregar eventos:', error);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+                // --- VERSÃO CORRIGIDA DA FUNÇÃO ---
+        buildCalendar() {
+            const mesesNomes = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            this.meses = [];
+            const today = new Date();
+
+            // 1. Criar o Mapa de Eventos (O(N))
+            const eventosPorData = {};
+            
+            this.eventos.forEach(evento => {
+                if (!evento.data_inicio) return;
+                
+                let atual = new Date(evento.data_inicio + 'T00:00:00');
+                let fim = evento.data_fim ? new Date(evento.data_fim + 'T00:00:00') : new Date(atual);
+
+                if(fim < atual) fim = new Date(atual);
+                
+                while (atual <= fim) {
+                    const dataChave = atual.toISOString().split('T')[0];
+                    if (!eventosPorData[dataChave]) {
+                        eventosPorData[dataChave] = [];
+                    }
+                    if (!eventosPorData[dataChave].find(e => e.id === evento.id)) {
+                        eventosPorData[dataChave].push(evento);
+                    }
+                    atual.setDate(atual.getDate() + 1);
+                }
+            });
+
+            // 2. Construir Grid do Calendário
+            for (let mes = 1; mes <= 12; mes++) {
+                const primeiroDia = new Date(this.ano, mes - 1, 1);
+                const ultimoDia = new Date(this.ano, mes, 0);
+                const totalDias = ultimoDia.getDate();
+                const iniciaSemana = primeiroDia.getDay(); 
+
+                const semanas = []; // Array plural (lista de semanas)
+                let diaAtual = 1;
+                const totalCells = iniciaSemana + totalDias;
+                const numSemanas = Math.ceil(totalCells / 7);
+
+                for (let s = 0; s < numSemanas; s++) {
+                    const semana = []; // Array singular (uma semana)
+                    for (let d = 0; d < 7; d++) {
+                        const cellIndex = s * 7 + d;
+                        if (cellIndex < iniciaSemana || diaAtual > totalDias) {
+                            semana.push({ numero: null, eventos: [] });
+                        } else {
+                            const mesFmt = String(mes).padStart(2, '0');
+                            const diaFmt = String(diaAtual).padStart(2, '0');
+                            const dataChave = `${this.ano}-${mesFmt}-${diaFmt}`;
+
+                            let eventosNesteDia = eventosPorData[dataChave] || [];
+                            eventosNesteDia.sort((a, b) => (a.id || 0) - (b.id || 0));
+
+                            const isToday = today.getDate() === diaAtual && today.getMonth() === mes - 1 && today.getFullYear() === this.ano;
+                            semana.push({ numero: diaAtual, eventos: eventosNesteDia, isToday: isToday });
+                            diaAtual++;
+                        }
+                    }
+                    // ERRO ANTERIOR ERA AQUI: semana.push(semana);
+                    // CORREÇÃO: Adicionar a semana atual à lista de semanas
+                    semanas.push(semana); 
+                }
+                this.meses.push({ numero: mes, nome: mesesNomes[mes - 1], semanas: semanas });
+            }
+        },
+
+        // CORREÇÃO 1: Calcular ordinal baseado na LINHA VISUAL DO CALENDÁRIO
+        helperGetWeekOrdinal(date) {
+            const dayOfMonth = date.getDate();
+            const dayOfWeek = date.getDay();
+            
+            // Pega o primeiro dia do mês para saber onde o calendário visual começa
+            const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+            const firstWeekday = firstDayOfMonth.getDay(); // 0-6
+
+            // Cálculo da Linha Visual:
+            // Adiciona o offset do dia da semana inicial e divide por 7
+            const visualRowIndex = Math.floor((dayOfMonth + firstWeekday - 1) / 7) + 1;
+            
+            // Verifica se é o último dia (mantém lógica de último se necessário)
+            const nextWeek = new Date(date);
+            nextWeek.setDate(date.getDate() + 7);
+            const isLast = nextWeek.getMonth() !== date.getMonth();
+
+            return {
+                ordinal: isLast ? '-1' : visualRowIndex.toString(), 
+                dayOfWeek: dayOfWeek.toString()
+            };
+        },
+
+        openDayModal(mes, dia) {
+            if (!dia.numero) return;
+            this.selectedMonth = mes;
+            this.selectedDay = dia;
+            this.showDayModal = true;
+            document.body.style.overflow = 'hidden';
+        },
+
+        closeDayModal() {
+            this.showDayModal = false;
+            this.selectedMonth = null;
+            this.selectedDay = null;
+            document.body.style.overflow = 'auto';
+        },
+
+        openCreateModal() {
+            this.formMode = 'create';
+            const today = new Date();
+            const dateStr = today.toISOString().split('T')[0];
+            const ordinalInfo = this.helperGetWeekOrdinal(today);
+
+            this.formData = {
+                id: null,
+                data_inicio: dateStr,
+                data_fim: '',
+                titulo: '',
+                tipo: '',
+                descricao: '',
+                cor: '#0d6efd',
+                recorrente: false,
+                frequencia: 'weekly',
+                dias_semana: [],
+                mensal_tipo: 'dia_fixo',
+                mensal_ordinal: ordinalInfo.ordinal === '-1' ? '1' : ordinalInfo.ordinal, 
+                mensal_dia_semana: ordinalInfo.dayOfWeek,
+                data_fim_recorrencia: ''
+            };
+            this.alertMessage = '';
+            this.showFormModal = true;
+            document.body.style.overflow = 'hidden';
+        },
+
+        addEventToDay() {
+            const year = this.ano;
+            const month = String(this.selectedMonth.numero).padStart(2, '0');
+            const day = String(this.selectedDay.numero).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+            const dateObj = new Date(`${year}-${month}-${day}T00:00:00`);
+            
+            const ordinalInfo = this.helperGetWeekOrdinal(dateObj);
+
+            this.formMode = 'create';
+            this.formData = {
+                id: null,
+                data_inicio: dateStr,
+                data_fim: '',
+                titulo: '',
+                tipo: '',
+                descricao: '',
+                cor: '#0d6efd',
+                recorrente: false,
+                frequencia: 'weekly',
+                dias_semana: [],
+                mensal_tipo: 'dia_fixo',
+                mensal_ordinal: ordinalInfo.ordinal === '-1' ? '-1' : ordinalInfo.ordinal, 
+                mensal_dia_semana: ordinalInfo.dayOfWeek,
+                data_fim_recorrencia: ''
+            };
+            this.alertMessage = '';
+            this.closeDayModal();
+            this.showFormModal = true;
+        },
+
+        editEvent(evento) {
+            this.formMode = 'edit';
+            this.alertMessage = '';
+            this.closeDayModal();
+            this.showFormModal = true;
+
+            this.$nextTick(() => {
+                const dateObj = new Date(evento.data_inicio + 'T00:00:00');
+                const ordinalInfo = this.helperGetWeekOrdinal(dateObj);
+
+                this.formData = {
+                    id: evento.id,
+                    data_inicio: evento.data_inicio,
+                    data_fim: evento.data_fim || '',
+                    titulo: evento.titulo,
+                    tipo: evento.tipo,
+                    legenda: evento.legenda || '',
+                    descricao: evento.descricao || '',
+                    cor: evento.cor,
+                    recorrente: false, 
+                    frequencia: 'weekly',
+                    dias_semana: [],
+                    mensal_tipo: 'dia_fixo',
+                    mensal_ordinal: ordinalInfo.ordinal,
+                    mensal_dia_semana: ordinalInfo.dayOfWeek,
+                    data_fim_recorrencia: ''
+                };
+            });
+        },
+
+        closeFormModal() {
+            this.showFormModal = false;
+            this.formData = { id: null, data_inicio: '', data_fim: '', titulo: '', tipo: '', descricao: '', cor: '#0d6efd', dias_semana: [] };
+            this.alertMessage = '';
+            document.body.style.overflow = 'auto';
+        },
+
+        updateColorFromType() {
+            const tipo = this.eventTypes.find(t => t.value === this.formData.tipo);
+            if (tipo) {
+                this.formData.cor = tipo.cor;
+            }
+        },
+
+        // --- NOVA FUNÇÃO PARA ATUALIZAR PADRÕES AO MUDAR A DATA ---
+        updateRecurrenceDefaults() {
+            if (!this.formData.data_inicio) return;
+            const dateObj = new Date(this.formData.data_inicio + 'T00:00:00');
+            const ordinalInfo = this.helperGetWeekOrdinal(dateObj);
+
+            // Atualiza os campos mensais com base na nova data
+            this.formData.mensal_ordinal = ordinalInfo.ordinal === '-1' ? '-1' : ordinalInfo.ordinal; 
+            this.formData.mensal_dia_semana = ordinalInfo.dayOfWeek;
+        },
+        
+        // CORREÇÃO 2: Encontrar o dia baseando-se na LINHA VISUAL (1ª, 2ª, 3ª linha)
+        helperGetNthWeekday(year, month, weekday, nth) {
+            const targetWeekday = parseInt(weekday);
+            const targetNth = parseInt(nth); // Isso agora representa a "Linha N"
+            
+            if (targetNth === -1) {
+                // Último dia (mantido lógica padrão de última ocorrência)
+                let date = new Date(year, month + 1, 0); 
+                while (date.getDay() !== targetWeekday) {
+                    date.setDate(date.getDate() - 1);
+                }
+                return date;
+            } else {
+                let firstDayOfMonth = new Date(year, month, 1);
+                let firstDayWeekday = firstDayOfMonth.getDay(); // 0 (Dom) - 6 (Sab)
+                
+                // Calcula qual seria a data se estivesse na PRIMEIRA LINHA (Linha 1)
+                // Offset é a diferença entre o dia desejado e onde o mês começa
+                // Ex: Mês começa Sex (5), quero Qua (3). Offset = 3 - 5 = -2.
+                // Data na Linha 1 = 1 + (-2) = -1 (pertenceria ao mês anterior visualmente)
+                let dateInFirstRow = 1 + (targetWeekday - firstDayWeekday);
+                
+                // Calcula a data na Linha N desejada
+                // Ex: Quero Linha 2 (N=2). Data = -1 + (2-1)*7 = 6. -> Dia 6 de Maio.
+                let targetDate = dateInFirstRow + (targetNth - 1) * 7;
+                
+                // Se o cálculo resultar num dia menor que 1 (ex: pedi Linha 1, mas ela está no mês anterior),
+                // nós avançamos para a próxima linha para não quebrar a lógica do mês, 
+                // OU assumimos que o usuário entende que a Linha 1 não existe para aquele dia.
+                // Mas para garantir que sempre retorne um dia válido dentro do mês, fazemos um ajuste simples:
+                if (targetDate < 1) {
+                    targetDate += 7;
+                }
+                
+                return new Date(year, month, targetDate);
+            }
+        },
+
+        // Função de Limpeza Total para DEV
+        async deleteAllEvents() {
+            const result = await Swal.fire({
+                title: 'MODO DEV: APAGAR TUDO?',
+                text: `Você tem ${this.eventos.length} eventos. Isso vai apagar TODOS eles permanentemente.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sim, apagar tudo!',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (result.isConfirmed) {
+                this.loading = true;
+                
+                // Cria uma lista de requisições de delete para TODOS os eventos
+                const deletePromises = this.eventos.map(evento => 
+                    fetch(`/calendario-2026/api/eventos/${evento.id}/excluir/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRFToken': this.getCsrfToken()
+                        }
+                    })
+                );
+
+                try {
+                    // Executa todas as exclusões em paralelo
+                    await Promise.all(deletePromises);
+                    
+                    // Recarrega a tela
+                    await this.loadEventos();
+                    this.buildCalendar();
+                    
+                    Swal.fire(
+                        'Limpo!',
+                        'Todos os eventos foram apagados.',
+                        'success'
+                    );
+                } catch (error) {
+                    console.error('Erro ao limpar:', error);
+                    Swal.fire(
+                        'Erro',
+                        'Alguns eventos podem não ter sido apagados.',
+                        'error'
+                    );
+                } finally {
+                    this.loading = false;
+                }
+            }
+        },
+
+        async saveEvent() {
+            if (this.formData.data_fim && this.formData.data_inicio) {
+                if (this.formData.data_fim < this.formData.data_inicio) {
+                    this.alertMessage = 'Data fim não pode ser anterior à data início.';
+                    this.alertType = 'error';
+                    return;
+                }
+            }
+
+            this.loading = true;
+            this.alertMessage = '';
+
+            try {
+                const url = this.formMode === 'create'
+                    ? '/calendario-2026/api/eventos/criar/'
+                    : `/calendario-2026/api/eventos/${this.formData.id}/atualizar/`;
+
+                const method = this.formMode === 'create' ? 'POST' : 'PUT';
+                let eventosParaCriar = [];
+                
+                if (this.formMode === 'create' && this.formData.recorrente && this.formData.data_fim_recorrencia) {
+                    let currentDate = new Date(this.formData.data_inicio + 'T00:00:00');
+                    const endDate = new Date(this.formData.data_fim_recorrencia + 'T00:00:00');
+                    const originalStartDay = currentDate.getDate();
+                    
+                    let count = 0;
+                    const limit = 60; 
+                    const diasSelecionados = this.formData.dias_semana.map(d => parseInt(d));
+                    const isCustomWeekly = this.formData.frequencia === 'weekly' && diasSelecionados.length > 0;
+                    
+                    let currentMonthLoop = currentDate.getMonth();
+                    let currentYearLoop = currentDate.getFullYear();
+
+                    while (currentDate <= endDate && count < limit) {
+                        let shouldCreate = true;
+                        let payloadDate = new Date(currentDate);
+
+                        if (isCustomWeekly && !diasSelecionados.includes(currentDate.getDay())) {
+                            shouldCreate = false;
+                        }
+
+                        if (shouldCreate) {
+                            const payload = { ...this.formData };
+                            payload.data_inicio = payloadDate.toISOString().split('T')[0];
+                            
+                            if (this.formData.data_fim) {
+                                const startOriginal = new Date(this.formData.data_inicio);
+                                const endOriginal = new Date(this.formData.data_fim);
+                                const duration = endOriginal - startOriginal;
+                                const eventEnd = new Date(payloadDate.getTime() + duration);
+                                payload.data_fim = eventEnd.toISOString().split('T')[0];
+                            } else {
+                                payload.data_fim = null;
+                            }
+
+                            delete payload.dias_semana; 
+                            delete payload.mensal_tipo;
+                            delete payload.mensal_ordinal;
+                            delete payload.mensal_dia_semana;
+                            
+                            eventosParaCriar.push(payload);
+                            count++;
+                        }
+
+                        if (isCustomWeekly) {
+                            currentDate.setDate(currentDate.getDate() + 1);
+                        } else if (this.formData.frequencia === 'daily') {
+                            currentDate.setDate(currentDate.getDate() + 1);
+                        } else if (this.formData.frequencia === 'weekly') {
+                            currentDate.setDate(currentDate.getDate() + 7);
+                        } else if (this.formData.frequencia === 'monthly') {
+                            currentMonthLoop++;
+                            if (currentMonthLoop > 11) {
+                                currentMonthLoop = 0;
+                                currentYearLoop++;
+                            }
+
+                            if (this.formData.mensal_tipo === 'dia_fixo') {
+                                const nextMonthTotalDays = new Date(currentYearLoop, currentMonthLoop + 1, 0).getDate();
+                                const targetDay = Math.min(originalStartDay, nextMonthTotalDays);
+                                currentDate = new Date(currentYearLoop, currentMonthLoop, targetDay);
+                            } else {
+                                // Usa a nova lógica de Linha Visual
+                                currentDate = this.helperGetNthWeekday(
+                                    currentYearLoop, 
+                                    currentMonthLoop, 
+                                    this.formData.mensal_dia_semana, 
+                                    this.formData.mensal_ordinal
+                                );
+                            }
+                        }
+                    }
+                } else {
+                    const payload = { ...this.formData };
+                    if (!payload.data_fim || payload.data_fim === '') payload.data_fim = null;
+                    delete payload.mensal_tipo;
+                    delete payload.mensal_ordinal;
+                    delete payload.mensal_dia_semana;
+                    eventosParaCriar.push(payload);
+                }
+
+                let successes = 0;
+                for (const payload of eventosParaCriar) {
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': this.getCsrfToken() },
+                        body: JSON.stringify(payload)
+                    });
+                    if (response.ok) successes++;
+                }
+
+                if (successes > 0) {
+                    this.alertMessage = this.formMode === 'create' ? (eventosParaCriar.length > 1 ? `${successes} eventos criados com sucesso!` : 'Evento criado com sucesso!') : 'Evento atualizado com sucesso!';
+                    this.alertType = 'success';
+                    await this.loadEventos();
+                    this.buildCalendar();
+                    setTimeout(() => { this.closeFormModal(); }, 1500);
+                } else {
+                    const data = await response.json();
+                    this.alertMessage = data.erro || 'Erro ao salvar evento.';
+                    this.alertType = 'error';
+                }
+            } catch (error) {
+                console.error('Erro ao salvar evento:', error);
+                this.alertMessage = 'Erro ao salvar evento. Tente novamente.';
+                this.alertType = 'error';
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        deleteEvent(evento) {
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: `Você deseja realmente excluir o evento "${evento.titulo}"?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sim, excluir',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    this.loading = true;
+                    try {
+                        const response = await fetch(`/calendario-2026/api/eventos/${evento.id}/excluir/`, { method: 'DELETE', headers: { 'X-CSRFToken': this.getCsrfToken() } });
+                        const data = await response.json();
+                        if (response.ok) {
+                            await this.loadEventos();
+                            this.buildCalendar();
+                            this.closeDayModal();
+                            const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true, didOpen: (toast) => { toast.addEventListener('mouseenter', Swal.stopTimer); toast.addEventListener('mouseleave', Swal.resumeTimer); } });
+                            Toast.fire({ icon: 'success', title: 'Evento excluído com sucesso!' });
+                        } else {
+                            Swal.fire('Erro!', data.erro || 'Erro ao excluir evento.', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Erro ao excluir evento:', error);
+                        Swal.fire('Erro!', 'Ocorreu um erro de conexão.', 'error');
+                    } finally {
+                        this.loading = false;
+                    }
+                }
+            });
+        },
+
+        formatDate(dateStr) {
+            if (!dateStr) return '';
+            const parts = dateStr.split('-');
+            if (parts.length === 3) return `${parts[2]}/${parts[1]}`;
+            return dateStr;
+        },
+
+        getEventoSigla(evento) {
+            if (evento.legenda && evento.legenda.trim() !== '') return evento.legenda.trim().toUpperCase();
+            const tipo = typeof evento === 'string' ? evento : evento.tipo;
+            const siglas = { 'feriado': 'FER', 'live': 'LIVE', 'apresentacao_resultado': 'APR', 'alinhamento_estrategico': 'ALE', 'apresentacao_presidencia': 'PRES', 'apresentacao_trimestral': 'TRIM', 'apresentacao_pp': 'APP', 'divulgacao_ata': 'ATA', 'workshop': 'WKS', 'aniversariante': 'ANV', 'confraternizacao': 'CNF', 'outro': 'OUT', 'ciclo_planejamento_cintya': 'CPC', 'semana_kaisen_visitas': 'SKV', 'circuito_infra_servicos': 'CIS', 'consultoria_lean': 'CLN', 'trilha_treinamentos': 'TRN', 'aniversariante_mes': 'ANM', 'confraternizacao_go': 'CGO', 'confraternizacao_df': 'CDF' };
+            return siglas[tipo] || tipo.substring(0, 3).toUpperCase();
+        },
+
+        getCsrfToken() {
+            const name = 'csrftoken';
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    };
+}
+</script>
+
+            </main>
+
+            
+            <footer class="app-footer">
+                <p>&copy; Projetos &amp; TI — Regional Centro Oeste &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; Todos os direitos
+                    reservados</p>
+            </footer>
+            
+        </div>
+
+    </div>
+
+    <!-- Mobile overlay -->
+    <div x-show="mobileOpen" x-cloak @click="mobileOpen = false" class="m-overlay"
+        x-transition:enter="transition-opacity ease-linear duration-200" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+    </div>
+
+    
+
+    <script src="static/vendor/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/notifications.min.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => {
+                        setInterval(() => reg.update(), 3600000);
+                        reg.addEventListener('updatefound', () => {
+                            const w = reg.installing;
+                            w.addEventListener('statechange', () => {
+                                if (w.state === 'installed' && navigator.serviceWorker.controller) {
+                                    if (confirm('Nova versão disponível! Deseja atualizar?')) {
+                                        w.postMessage({ type: 'SKIP_WAITING' });
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    }).catch(e => console.log('[PWA] Erro:', e));
+
+                let refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (refreshing) return;
+                    refreshing = true;
+                    window.location.reload();
+                });
+            });
+        }
+        window.addEventListener('online', () => typeof showNotification === 'function' && showNotification('Conexão restaurada!', 'success'));
+        window.addEventListener('offline', () => typeof showNotification === 'function' && showNotification('Você está offline.', 'warning'));
+        window.clearPWACache = () => navigator.serviceWorker?.controller?.postMessage({ type: 'CLEAR_CACHE' });
+    </script>
+
+    
+
+
+    
+
+
+
+    
+<script>
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const app = Alpine.$data(document.querySelector('[x-data]'));
+            if (app) {
+                if (app.showFormModal) {
+                    app.closeFormModal();
+                } else if (app.showDayModal) {
+                    app.closeDayModal();
+                }
+            }
+        }
+    });
+</script>
+
+<style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});});});</script><script src="static/demo-fill.js"></script></body>
+
+</html>

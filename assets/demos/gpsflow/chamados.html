@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLOW</title>
+    <title>Chamado — Solicitação de Projetos e Automações</title>
     <meta name="application-name" content="FLOW">
     <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
     <meta name="theme-color" content="#1e3a5f">
@@ -751,507 +751,182 @@
     </style>
 
     
-<script src="static/vendor/sweetalert2/sweetalert2.all.min.js"></script>
 <style>
-    /* --- Estilos Gerais --- */
-    .implantacoes-container {
-        padding: 1.5rem;
-        background-color: #FFFFFF; /* Pure White Background */
-        min-height: calc(100vh - 60px);
-        display: flex;
-        flex-direction: column;
-        color: #1E293B; /* Dark slate text for outstanding legibility */
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    }
+    /* ================================================================
+       Chamado — abertura de solicitação de projetos/automações usando as
+       mesmas perguntas da planilha FR-TI-DEV-00X, dentro do GPS Flow.
+       ================================================================ */
+    .ch-page { padding: 1.25rem 1.5rem 3rem; max-width: 1320px; margin: 0 auto; }
 
-    .header-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
-    }
-
-    .header-icon {
+    .ch-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+    .ch-page-icon {
         width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
         display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
     }
-    .title-gradient {
+    .ch-title {
         background: linear-gradient(to right, #1A2A45, #2A4570);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 26px;
-        font-weight: 800;
-        margin: 0;
-        text-transform: uppercase;
-        letter-spacing: -0.5px;
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        font-size: 26px; font-weight: bold; margin: 0; text-transform: uppercase;
+    }
+    .ch-sub { color: var(--gray-500); font-size: .88rem; margin-top: .2rem; max-width: 620px; }
+    .ch-btn-navy {
+        display: inline-flex; align-items: center; gap: .4rem; border: 0; background: var(--navy); color: #fff;
+        border-radius: var(--r-md); padding: .6rem 1.1rem; font-size: .85rem; font-weight: 700; cursor: pointer; font-family: var(--f);
+    }
+    .ch-btn-navy:hover { background: var(--navy-mid); }
+    .ch-btn-ghost {
+        display: inline-flex; align-items: center; gap: .4rem; border: 1px solid var(--gray-200); background: #fff; color: var(--gray-600);
+        border-radius: var(--r-md); padding: .5rem .9rem; font-size: .82rem; font-weight: 600; cursor: pointer; font-family: var(--f);
+    }
+    .ch-btn-ghost:hover { border-color: var(--gray-300); color: var(--gray-800); }
+    .ch-btn-danger {
+        display: inline-flex; align-items: center; gap: .4rem; border: 1px solid var(--red); background: #fff; color: var(--red);
+        border-radius: var(--r-md); padding: .5rem .9rem; font-size: .82rem; font-weight: 600; cursor: pointer; font-family: var(--f);
+    }
+    .ch-btn-danger:hover { background: var(--red-faint); }
+
+    /* Explicação do fluxo */
+    .ch-flow-card { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); padding: 1.1rem 1.3rem 1.3rem; margin-bottom: 1.3rem; overflow-x: auto; }
+    .ch-flow-title { font-size: .95rem; font-weight: 700; color: var(--gray-800); margin-bottom: .2rem; }
+    .ch-flow-note { font-size: .78rem; color: var(--gray-400); margin-bottom: .9rem; }
+    .ch-flow-note b { color: var(--gray-500); }
+    .ch-pipeline { display: flex; align-items: flex-start; min-width: 840px; }
+    .ch-step { display: flex; flex-direction: column; align-items: center; text-align: center; width: 130px; }
+    .ch-step-circle {
+        width: 38px; height: 38px; border-radius: 50%; background: var(--navy-faint); color: var(--navy);
+        display: flex; align-items: center; justify-content: center; font-size: .9rem; font-weight: 700;
+        border: 2px solid var(--navy-faint);
+    }
+    .ch-step-label { font-size: .74rem; font-weight: 700; color: var(--gray-700); margin-top: .5rem; }
+    .ch-step-desc { font-size: .7rem; color: var(--gray-400); margin-top: .2rem; line-height: 1.3; }
+    .ch-connector { flex: 1; height: 2px; background: var(--gray-200); margin-top: 18px; min-width: 12px; }
+    .ch-flow-future { font-size: .78rem; color: var(--gray-400); margin-top: 1rem; padding-top: .8rem; border-top: 1px dashed var(--gray-200); }
+
+    /* Toolbar + filtros */
+    .ch-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .7rem; margin-bottom: .8rem; }
+    .ch-filtros { display: flex; align-items: center; gap: .5rem; }
+    .ch-mini-control {
+        padding: .4rem .6rem; font-size: .82rem; border: 1px solid var(--gray-200); border-radius: var(--r-md);
+        background: #fff; color: var(--gray-800); font-family: var(--f);
     }
 
-    .subtitle-text {
-        color: #475569;
-        font-size: 0.9rem;
-        margin-top: 4px;
+    /* Lista */
+    .ch-card { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); margin-bottom: 1.2rem; }
+    .ch-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    .ch-table th { text-align: left; font-size: .72rem; text-transform: uppercase; letter-spacing: .03em; color: var(--gray-400); font-weight: 700; padding: .65rem .9rem; border-bottom: 1px solid var(--gray-200); white-space: nowrap; }
+    .ch-table td { padding: .65rem .9rem; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); vertical-align: top; }
+    .ch-table tr:last-child td { border-bottom: 0; }
+    .ch-table tr.ch-row-click { cursor: pointer; }
+    .ch-table tr.ch-row-click:hover td { background: var(--gray-50); }
+    .ch-table-empty { padding: 1.4rem .9rem; color: var(--gray-400); font-size: .84rem; text-align: center; }
+
+    .ch-badge { display: inline-flex; align-items: center; gap: .3rem; padding: .22rem .6rem; border-radius: 999px; font-size: .72rem; font-weight: 700; white-space: nowrap; }
+    .ch-badge.st-rascunho { background: var(--gray-100); color: var(--gray-600); }
+    .ch-badge.st-em_analise { background: var(--amber-faint); color: var(--amber); }
+    .ch-badge.st-aprovada { background: var(--blue-faint); color: var(--blue); }
+    .ch-badge.st-priorizada { background: var(--blue-faint); color: var(--blue); }
+    .ch-badge.st-em_desenvolvimento { background: var(--navy-faint); color: var(--navy); }
+    .ch-badge.st-concluida { background: var(--green-faint); color: var(--green); }
+    .ch-badge.pr-baixa { background: var(--gray-100); color: var(--gray-600); }
+    .ch-badge.pr-media { background: var(--blue-faint); color: var(--blue); }
+    .ch-badge.pr-alta { background: var(--amber-faint); color: var(--amber); }
+    .ch-badge.pr-critica { background: var(--red-faint); color: var(--red); }
+
+    /* Formulário de abertura */
+    .ch-form-section { display: none; }
+    .ch-form-section.active { display: block; }
+    .ch-form-card-title { font-size: 1rem; font-weight: 800; color: var(--gray-900); margin: 0 0 .15rem; }
+    .ch-form-card-sub { font-size: .82rem; color: var(--gray-500); margin-bottom: 1.1rem; }
+    .ch-fieldset { margin-bottom: 1.4rem; }
+    .ch-fieldset-title { font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--navy); margin-bottom: .1rem; }
+    .ch-fieldset-hint { font-size: .78rem; color: var(--gray-400); margin-bottom: .7rem; }
+    .ch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem 1rem; }
+    .ch-grid.ch-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 820px) { .ch-grid, .ch-grid.ch-grid-3 { grid-template-columns: 1fr; } }
+    .ch-field { display: flex; flex-direction: column; gap: .3rem; }
+    .ch-field.ch-field-full { grid-column: 1 / -1; }
+    .ch-field label { font-size: .72rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: .02em; }
+    .ch-field .ch-field-hint { font-size: .72rem; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--gray-400); display: block; margin-top: .1rem; }
+    .ch-field input, .ch-field select, .ch-field textarea {
+        border: 1px solid var(--gray-200); border-radius: var(--r-md); padding: .5rem .65rem;
+        font-size: .85rem; font-family: var(--f); background: #fff; color: var(--gray-800); width: 100%;
     }
+    .ch-field textarea { resize: vertical; min-height: 64px; }
+    .ch-field input:focus, .ch-field select:focus, .ch-field textarea:focus { outline: none; border-color: var(--navy-light); box-shadow: 0 0 0 3px var(--navy-faint); }
 
-    .btn-premium {
-        background: #1A2A45; /* Dark Navy Blue GPS */
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 14px rgba(26, 42, 69, 0.2);
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
+    /* Tabelas dinâmicas (Passo a Passo / Requisitos / Sistemas) */
+    .ch-dyn-table-wrap { overflow-x: auto; border: 1px solid var(--gray-200); border-radius: var(--r-md); margin-bottom: .6rem; }
+    .ch-dyn-table { width: 100%; border-collapse: collapse; font-size: .8rem; min-width: 760px; }
+    .ch-dyn-table th { text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .02em; color: var(--gray-400); font-weight: 700; padding: .5rem .5rem; border-bottom: 1px solid var(--gray-200); background: var(--gray-50); white-space: nowrap; }
+    .ch-dyn-table td { padding: .35rem .4rem; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+    .ch-dyn-table input, .ch-dyn-table select { width: 100%; min-width: 110px; border: 1px solid var(--gray-200); border-radius: 6px; padding: .35rem .45rem; font-size: .78rem; font-family: var(--f); }
+    .ch-dyn-table .ch-remove-row { border: 0; background: transparent; color: var(--gray-400); cursor: pointer; font-size: .95rem; padding: .2rem .4rem; }
+    .ch-dyn-table .ch-remove-row:hover { color: var(--red); }
+    .ch-dyn-empty { padding: .7rem; color: var(--gray-400); font-size: .78rem; }
+
+    /* Anexos */
+    .ch-anexo-drop {
+        display: inline-flex; align-items: center; gap: .5rem; border: 1px dashed var(--gray-300); border-radius: var(--r-md);
+        padding: .55rem 1rem; font-size: .82rem; color: var(--gray-600); cursor: pointer; background: var(--gray-50); font-weight: 600;
     }
-
-    .btn-premium:hover {
-        transform: translateY(-2px);
-        background: #111C30;
-        box-shadow: 0 6px 20px rgba(26, 42, 69, 0.35);
-        color: white;
+    .ch-anexo-drop:hover { border-color: var(--navy-light); color: var(--navy); }
+    .ch-anexo-list { list-style: none; margin: .7rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; }
+    .ch-anexo-item {
+        display: flex; align-items: center; justify-content: space-between; gap: .6rem; border: 1px solid var(--gray-200);
+        border-radius: var(--r-md); padding: .4rem .6rem; font-size: .8rem; color: var(--gray-700);
     }
+    .ch-anexo-nome { display: flex; align-items: center; gap: .4rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--gray-700); text-decoration: none; }
+    .ch-anexo-nome:hover { color: var(--navy); text-decoration: underline; }
+    .ch-anexo-meta { color: var(--gray-400); font-size: .72rem; white-space: nowrap; margin-left: auto; }
+    .ch-anexo-del { border: 0; background: transparent; color: var(--gray-400); cursor: pointer; font-size: .9rem; padding: .1rem .3rem; flex-shrink: 0; }
+    .ch-anexo-del:hover { color: var(--red); }
+    .ch-anexo-remove { border: 0; background: transparent; color: var(--gray-400); cursor: pointer; font-size: .9rem; padding: .1rem .3rem; flex-shrink: 0; }
+    .ch-anexo-remove:hover { color: var(--red); }
 
-    /* --- Stats Grid --- */
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1.25rem;
-        margin-bottom: 2.5rem;
+    .ch-form-actions { display: flex; align-items: center; gap: .7rem; justify-content: flex-end; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--gray-100); }
+
+    /* Drawer de detalhe */
+    .ch-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, .45); z-index: 2500; display: none; }
+    .ch-overlay.active { display: block; }
+    .ch-drawer {
+        position: fixed; top: 0; right: 0; height: 100%; width: min(760px, 96vw);
+        background: #fff; z-index: 2600; box-shadow: -8px 0 30px rgba(15,23,42,.15);
+        transform: translateX(100%); transition: transform .2s ease; overflow-y: auto;
     }
+    .ch-drawer.active { transform: translateX(0); }
+    .ch-drawer-head { position: sticky; top: 0; background: #fff; border-bottom: 1px solid var(--gray-200); padding: 1.1rem 1.4rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; z-index: 2; }
+    .ch-drawer-body { padding: 1.1rem 1.4rem 2.5rem; }
+    .ch-close-btn { border: 0; background: var(--gray-100); color: var(--gray-500); border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1rem; line-height: 1; flex-shrink: 0; }
+    .ch-close-btn:hover { background: var(--gray-200); color: var(--gray-700); }
 
-    .stat-card {
-        background: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        border-radius: 16px;
-        padding: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1.25rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
+    .ch-detail-section { margin-bottom: 1.3rem; }
+    .ch-detail-section-title { font-size: .76rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--navy); margin-bottom: .6rem; }
+    .ch-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem 1.2rem; }
+    @media (max-width: 640px) { .ch-detail-grid { grid-template-columns: 1fr; } }
+    .ch-detail-item dt { font-size: .68rem; font-weight: 700; text-transform: uppercase; color: var(--gray-400); letter-spacing: .02em; }
+    .ch-detail-item dd { font-size: .85rem; color: var(--gray-800); margin: .15rem 0 0; white-space: pre-wrap; line-height: 1.45; }
+    .ch-detail-item dd:empty::after, .ch-detail-item dd.ch-empty::after { content: '—'; color: var(--gray-300); }
 
-    .stat-card:hover {
-        transform: translateY(-4px);
-        border-color: #1A2A45;
-        box-shadow: 0 10px 20px rgba(26, 42, 69, 0.06);
-    }
+    .ch-mini-table-wrap { overflow-x: auto; border: 1px solid var(--gray-200); border-radius: var(--r-md); }
+    .ch-mini-table { width: 100%; border-collapse: collapse; font-size: .78rem; min-width: 640px; }
+    .ch-mini-table th { text-align: left; padding: .45rem .55rem; font-size: .66rem; text-transform: uppercase; color: var(--gray-400); font-weight: 700; border-bottom: 1px solid var(--gray-200); background: var(--gray-50); white-space: nowrap; }
+    .ch-mini-table td { padding: .5rem .55rem; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); vertical-align: top; }
 
-    .stat-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-    }
-
-    .stat-icon.total { background: rgba(26, 42, 69, 0.1); color: #1A2A45; }
-    .stat-icon.andamento { background: rgba(59, 130, 246, 0.12); color: #1D4ED8; }
-    .stat-icon.pausada { background: rgba(245, 158, 11, 0.12); color: #D97706; }
-    .stat-icon.atraso { background: rgba(239, 68, 68, 0.12); color: #DC2626; }
-
-    .stat-number {
-        font-size: 2rem;
-        font-weight: 800;
-        line-height: 1;
-        margin-bottom: 2px;
-        color: #0F172A;
-    }
-
-    .stat-label {
-        font-size: 0.8rem;
-        color: #64748B;
-        font-weight: 500;
-    }
-
-    /* --- Kanban Board --- */
-    .kanban-board {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-        align-items: start;
-        flex-grow: 1;
-    }
-
-    @media (max-width: 1024px) {
-        .kanban-board {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .kanban-col {
-        background: #F8FAFC; /* Light gray-blue column backgrounds */
-        border: 1px solid #E2E8F0;
-        border-radius: 20px;
-        padding: 1.25rem;
-        min-height: 500px;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .col-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 0.75rem;
-        border-bottom: 2px solid #E2E8F0;
-    }
-
-    .col-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .col-badge {
-        background: #E2E8F0;
-        color: #475569;
-        padding: 0.2rem 0.6rem;
-        border-radius: 99px;
-        font-size: 0.8rem;
-        font-weight: 600;
-    }
-
-    .col-header.andamento .col-title { color: #1D4ED8; }
-    .col-header.pausada .col-title { color: #D97706; }
-    .col-header.concluida .col-title { color: #059669; }
-
-    .cards-list {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        min-height: 400px;
-    }
-
-    /* --- Kanban Card --- */
-    .kanban-card {
-        background: #FFFFFF; /* Pure White Card background */
-        border: 1px solid #E2E8F0;
-        border-radius: 14px;
-        padding: 1.25rem;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .ch-status-select {
+        appearance: none; -webkit-appearance: none;
+        border: 1px solid var(--gray-200); border-radius: 999px; padding: .35rem 1.9rem .35rem .75rem;
+        font-size: .78rem; font-weight: 700; font-family: var(--f); background-color: var(--gray-50); color: var(--gray-600);
         cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='%236b7280' d='M5.25 7.5L10 12.25L14.75 7.5H5.25Z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat; background-position: right .55rem center; background-size: 1.1em;
     }
 
-    .kanban-card:hover {
-        transform: translateY(-4px) scale(1.01);
-        border-color: #1A2A45;
-        box-shadow: 0 8px 16px rgba(26, 42, 69, 0.08);
-    }
+    .ch-triagem-row td { vertical-align: middle; }
+    .ch-triagem-row input, .ch-triagem-row select { width: 100%; border: 1px solid var(--gray-200); border-radius: 6px; padding: .3rem .4rem; font-size: .76rem; font-family: var(--f); }
 
-    .card-title {
-        font-size: 1.05rem;
-        font-weight: 700;
-        margin-bottom: 0.75rem;
-        color: #0F172A;
-    }
-
-    .card-meta {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        font-size: 0.8rem;
-        color: #64748B;
-        border-top: 1px solid #F1F5F9;
-        padding-top: 0.75rem;
-        margin-top: 0.75rem;
-    }
-
-    .meta-row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .badge-role {
-        padding: 0.25rem 0.5rem;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 0.75rem;
-    }
-
-    .badge-role.coord { background: rgba(26, 42, 69, 0.08); color: #1A2A45; }
-    .badge-role.superv { background: rgba(124, 58, 237, 0.08); color: #6D28D9; }
-    .badge-role.proj { background: rgba(217, 119, 6, 0.08); color: #B45309; }
-    .badge-role.bi { background: rgba(219, 39, 119, 0.08); color: #BE185D; }
-    .badge-role.concl { background: rgba(5, 150, 105, 0.08); color: #047857; }
-
-    .badge-service {
-        padding: 0.25rem 0.5rem;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 0.75rem;
-        background: #F1F5F9;
-        color: #475569;
-    }
-
-    .badge-deadline {
-        padding: 0.25rem 0.5rem;
-        border-radius: 6px;
-        font-weight: 700;
-        font-size: 0.75rem;
-    }
-    .badge-deadline.ok { background: rgba(16, 185, 129, 0.1); color: #047857; }
-    .badge-deadline.alert { background: rgba(239, 68, 68, 0.1); color: #B91C1C; animation: pulse 2s infinite; }
-
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.6; }
-    }
-
-    .card-actions {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 1rem;
-    }
-
-    .btn-card-action {
-        flex: 1;
-        padding: 0.4rem;
-        border-radius: 6px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-align: center;
-        border: 1px solid #CBD5E1;
-        background: #FFFFFF;
-        color: #475569;
-        transition: all 0.2s ease;
-    }
-
-    .btn-card-action:hover {
-        background: #F8FAFC;
-        border-color: #94A3B8;
-        color: #1E293B;
-    }
-
-    .btn-card-action.primary {
-        background: #1A2A45; /* Dark Navy Blue GPS */
-        border-color: #1A2A45;
-        color: #FFFFFF;
-    }
-
-    .btn-card-action.primary:hover {
-        background: #111C30;
-        border-color: #111C30;
-        color: #FFFFFF;
-    }
-
-    /* --- Premium Wizard Modal --- */
-    .modal-content-premium {
-        background: #FFFFFF !important;
-        border: 1px solid #E2E8F0 !important;
-        border-radius: 24px !important;
-        color: #1E293B !important;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
-    }
-
-    .modal-header-premium {
-        border-bottom: 1px solid #E2E8F0 !important;
-        padding: 1.5rem 2rem !important;
-    }
-
-    .modal-body-premium {
-        padding: 2rem !important;
-        max-height: 75vh;
-        overflow-y: auto;
-    }
-
-    /* --- Timeline --- */
-    .timeline-steps {
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-        margin-bottom: 2.5rem;
-        padding: 0 1rem;
-    }
-
-    .timeline-steps::before {
-        content: '';
-        position: absolute;
-        top: 15px;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: #E2E8F0;
-        z-index: 1;
-    }
-
-    .timeline-progress-bar {
-        position: absolute;
-        top: 15px;
-        left: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #1A2A45, #3B82F6);
-        z-index: 2;
-        transition: width 0.4s ease;
-    }
-
-    .timeline-step-item {
-        position: relative;
-        z-index: 3;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        cursor: pointer;
-    }
-
-    .step-circle {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background: #F8FAFC;
-        border: 3px solid #E2E8F0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 0.85rem;
-        transition: all 0.3s ease;
-        color: #64748B;
-    }
-
-    .timeline-step-item.active .step-circle {
-        border-color: #1A2A45;
-        background: #1A2A45;
-        color: white;
-        box-shadow: 0 0 10px rgba(26, 42, 69, 0.3);
-    }
-
-    .timeline-step-item.completed .step-circle {
-        border-color: #10B981;
-        background: #10B981;
-        color: white;
-    }
-
-    .step-title-popover {
-        position: absolute;
-        bottom: -24px;
-        white-space: nowrap;
-        font-size: 0.65rem;
-        font-weight: 600;
-        color: #64748B;
-        opacity: 0.8;
-        transition: all 0.3s ease;
-    }
-
-    .timeline-step-item.active .step-title-popover {
-        color: #1A2A45;
-        opacity: 1;
-        font-weight: 700;
-    }
-
-    /* --- History Block --- */
-    .history-card {
-        background: #F8FAFC;
-        border: 1px solid #E2E8F0;
-        border-radius: 16px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .history-title {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        color: #1A2A45;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .history-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1rem;
-    }
-
-    .history-item {
-        background: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        padding: 1rem;
-        border-radius: 10px;
-    }
-
-    .history-item-label {
-        font-size: 0.75rem;
-        color: #64748B;
-        font-weight: 600;
-        margin-bottom: 0.25rem;
-        text-transform: uppercase;
-    }
-
-    .history-item-val {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: #1E293B;
-    }
-
-    /* --- Anexos Download --- */
-    .btn-download-premium {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: rgba(26, 42, 69, 0.06);
-        border: 1px solid rgba(26, 42, 69, 0.15);
-        color: #1A2A45;
-        padding: 0.35rem 0.75rem;
-        border-radius: 6px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        margin-top: 0.25rem;
-    }
-
-    .btn-download-premium:hover {
-        background: #1A2A45;
-        color: white;
-    }
-
-    /* --- Form Premium --- */
-    .form-label-premium {
-        font-weight: 600;
-        color: #1E293B;
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .form-control-premium {
-        background: #FFFFFF !important;
-        border: 1px solid #CBD5E1 !important;
-        color: #1E293B !important;
-        border-radius: 8px !important;
-        padding: 0.75rem !important;
-    }
-
-    .form-control-premium:focus {
-        border-color: #1A2A45 !important;
-        box-shadow: 0 0 0 2px rgba(26, 42, 69, 0.15) !important;
-    }
-
-    .form-select-premium {
-        background: #FFFFFF !important;
-        border: 1px solid #CBD5E1 !important;
-        color: #1E293B !important;
-        border-radius: 8px !important;
-        padding: 0.75rem !important;
-    }
-
-    .form-select-premium:focus {
-        border-color: #1A2A45 !important;
-        box-shadow: 0 0 0 2px rgba(26, 42, 69, 0.15) !important;
-    }
+    .ch-toast-wrap { position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 3000; display: flex; flex-direction: column; gap: .5rem; }
+    .ch-toast { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--r-md); box-shadow: var(--shadow-md); padding: .6rem .9rem; font-size: .82rem; color: var(--gray-800); display: flex; align-items: center; gap: .5rem; max-width: 340px; }
+    .ch-toast.erro { border-color: #fecaca; color: var(--red); }
 </style>
 
 </head>
@@ -1260,7 +935,7 @@
     collapsed: false,
     mobileOpen: false,
     geradores: false,
-    acompanhamento: true,
+    acompanhamento: false,
     gestaoReservas: false,
     auditoria: false,
     projetos: false,
@@ -1614,7 +1289,7 @@
                 
                 <div class="nav-item">
                     <a href="chamados.html"
-                        class="nav-link ">
+                        class="nav-link active">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
@@ -1732,7 +1407,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) acompanhamento = !acompanhamento"
-                        class="nav-link active"
+                        class="nav-link "
                         :class="{ 'expanded': acompanhamento && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1779,7 +1454,7 @@
                         
                         
                         <a href="implantacoes.html"
-                            class="nav-sub-link active">
+                            class="nav-sub-link ">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
@@ -1875,7 +1550,7 @@
                     </svg>
                 </button>
 
-                <span class="topbar-title">Fluxo de Implantações</span>
+                <span class="topbar-title">Chamado — Solicitação de Projetos e Automações</span>
 
                 <div class="topbar-right">
                     
@@ -1908,7 +1583,7 @@
                     
 
                     <form method="post" action="/logout/">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="3rSYqO4B9W5oAqQs5eatUasVZZl176vq077AN7Iy50QAKkPh7nKaH5ADJbLGEeF0">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="S6UsLyyGggOqhxS6aX1wbXUmvcl39V1KPM948RcDckzCrrRVc6BdYS24foLIG3bk">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1926,126 +1601,402 @@
                 
 
                 
-<div class="implantacoes-container">
-    
-    <!-- Header -->
-    <div class="header-section">
+<div class="ch-page">
+    <input type="hidden" name="csrfmiddlewaretoken" value="S6UsLyyGggOqhxS6aX1wbXUmvcl39V1KPM948RcDckzCrrRVc6BdYS24foLIG3bk">
+    <div class="ch-toast-wrap" id="chToasts"></div>
+
+    <div class="ch-header">
         <div class="d-flex align-items-center gap-3">
-            <div class="header-icon"><i class="fas fa-project-diagram"></i></div>
+            <div class="ch-page-icon"><i class="fas fa-headset"></i></div>
             <div>
-                <h1 class="title-gradient mb-0">Fluxo de Implantações</h1>
-                <p class="subtitle-text mb-0">Gestão e acompanhamento das etapas sequenciais de implantações GPS Vista</p>
+                <h1 class="ch-title" style="margin-bottom:.15rem">Solicitação de Projetos e Automações</h1>
+                <div class="ch-sub" style="margin-top:0">Peça a criação de algo novo no GPS Flow ou o desenvolvimento de uma automação para o dia a dia — respondendo às mesmas perguntas da planilha FR-TI-DEV-00X, agora direto no sistema.</div>
             </div>
         </div>
-        <button class="btn-premium" data-bs-toggle="modal" data-bs-target="#modalCriarCard">
-            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Nova Implantação
+        <button type="button" class="ch-btn-navy" id="chBtnNovo">
+            <i class="fas fa-plus"></i> Novo Chamado
         </button>
     </div>
 
-    <!-- Stats grid -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon total">
-                <svg style="width:24px; height:24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/>
-                </svg>
+    <div class="ch-flow-card">
+        <div class="ch-flow-title">Como funciona</div>
+        <div class="ch-flow-note">Todo chamado passa pelas mesmas etapas, do jeito que a solicitação seria tratada hoje em planilha — só que registrado e rastreável.</div>
+        <div class="ch-pipeline">
+            <div class="ch-step">
+                <div class="ch-step-circle">1</div>
+                <div class="ch-step-label">Em análise</div>
+                <div class="ch-step-desc">Você abre o chamado respondendo o formulário</div>
             </div>
-            <div>
-                <div class="stat-number">0</div>
-                <div class="stat-label">Total de Fluxos</div>
+            <div class="ch-connector"></div>
+            <div class="ch-step">
+                <div class="ch-step-circle">2</div>
+                <div class="ch-step-label">Triagem TI/Projetos</div>
+                <div class="ch-step-desc">TI avalia clareza, dados, integrações e viabilidade</div>
+            </div>
+            <div class="ch-connector"></div>
+            <div class="ch-step">
+                <div class="ch-step-circle">3</div>
+                <div class="ch-step-label">Aprovada</div>
+                <div class="ch-step-desc">Gestor confirma a necessidade real</div>
+            </div>
+            <div class="ch-connector"></div>
+            <div class="ch-step">
+                <div class="ch-step-circle">4</div>
+                <div class="ch-step-label">Priorizada</div>
+                <div class="ch-step-desc">Entra na fila frente ao portfólio atual</div>
+            </div>
+            <div class="ch-connector"></div>
+            <div class="ch-step">
+                <div class="ch-step-circle">5</div>
+                <div class="ch-step-label">Em desenvolvimento</div>
+                <div class="ch-step-desc">TI/Projetos executa a automação ou entrega</div>
+            </div>
+            <div class="ch-connector"></div>
+            <div class="ch-step">
+                <div class="ch-step-circle">6</div>
+                <div class="ch-step-label">Concluída</div>
+                <div class="ch-step-desc">Indicador de sucesso definido é conferido</div>
             </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-icon andamento">
-                <svg style="width:24px; height:24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-            </div>
-            <div>
-                <div class="stat-number">0</div>
-                <div class="stat-label">Em Andamento</div>
-            </div>
+        <div class="ch-flow-future"><i class="fas fa-robot"></i> Em breve: uma IA vai sugerir automaticamente se o chamado é simples ou complexo assim que ele é aberto, com base nas respostas. Por enquanto essa avaliação é feita manualmente na triagem TI/Projetos.</div>
+    </div>
+
+    <div class="ch-toolbar">
+        <div class="ch-filtros">
+            <select class="ch-mini-control" id="chFiltroStatus">
+                <option value="">Todos os status</option>
+                <option value="em_analise">Em análise</option>
+                <option value="aprovada">Aprovada</option>
+                <option value="priorizada">Priorizada</option>
+                <option value="em_desenvolvimento">Em desenvolvimento</option>
+                <option value="concluida">Concluída</option>
+                <option value="rascunho">Rascunho</option>
+            </select>
         </div>
-        <div class="stat-card">
-            <div class="stat-icon pausada">
-                <svg style="width:24px; height:24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-            </div>
-            <div>
-                <div class="stat-number">0</div>
-                <div class="stat-label">Pausadas</div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon total">
-                <svg style="width:24px; height:24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-            </div>
-            <div>
-                <div class="stat-number">0</div>
-                <div class="stat-label">Atrasados no BI (>20d)</div>
-            </div>
+        <button type="button" class="ch-btn-ghost" id="chBtnAtualizar"><i class="fas fa-rotate"></i> Atualizar</button>
+    </div>
+
+    <div class="ch-card">
+        <div class="ch-table-wrap" style="overflow-x:auto;">
+            <table class="ch-table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Projeto / Automação</th>
+                        <th>Área / Contrato</th>
+                        <th>Solicitante</th>
+                        <th>Prioridade</th>
+                        <th>Status</th>
+                        <th>Aberto em</th>
+                    </tr>
+                </thead>
+                <tbody id="chListaBody">
+                    <tr><td colspan="7" class="ch-table-empty">Carregando chamados…</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <!-- Kanban Board -->
-    <div class="kanban-board">
-        
-        <!-- Raias: Em Andamento -->
-        <div class="kanban-col">
-            <div class="col-header andamento">
-                <span class="col-title">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#38BDF8;"></span>
-                    Em Andamento
-                </span>
-                <span class="col-badge">0</span>
-            </div>
-            <div class="cards-list" id="col-andamento" data-status="em_andamento">
-                
-                <div style="text-align:center; color:#64748B; padding:2rem 0; font-size:0.85rem;">Nenhum fluxo em andamento.</div>
-                
-            </div>
-        </div>
+    <!-- =============== FORMULÁRIO DE ABERTURA =============== -->
+    <div class="ch-card ch-form-section" id="chFormSection">
+        <div style="padding:1.3rem 1.4rem 1.5rem;">
+            <div class="ch-form-card-title">Abrir novo chamado</div>
+            <div class="ch-form-card-sub">Preencha o quanto souber. As tabelas de passo a passo, requisitos e sistemas/acessos são opcionais e podem ser completadas depois pela TI durante a triagem.</div>
 
-        <!-- Raias: Pausada -->
-        <div class="kanban-col">
-            <div class="col-header pausada">
-                <span class="col-title">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#F59E0B;"></span>
-                    Pausadas
-                </span>
-                <span class="col-badge">0</span>
-            </div>
-            <div class="cards-list" id="col-pausada" data-status="pausada">
-                
-                <div style="text-align:center; color:#64748B; padding:2rem 0; font-size:0.85rem;">Nenhuma implantação pausada.</div>
-                
-            </div>
-        </div>
+            <form id="chForm">
+                <div class="ch-fieldset">
+                    <div class="ch-fieldset-title">1. Identificação da solicitação</div>
+                    <div class="ch-grid ch-grid-3">
+                        <div class="ch-field ch-field-full">
+                            <label>Nome do projeto / automação *</label>
+                            <input type="text" name="nome_projeto" required placeholder="Ex.: Automação de atualização da planilha de controle de OS">
+                        </div>
+                        <div class="ch-field">
+                            <label>Área / contrato solicitante *</label>
+                            <input type="text" name="area_contrato" required placeholder="Área, unidade ou contrato que vai usar">
+                        </div>
+                        <div class="ch-field">
+                            <label>Gestor responsável *</label>
+                            <input type="text" name="gestor_responsavel" required placeholder="Quem valida a necessidade e as regras">
+                        </div>
+                        <div class="ch-field">
+                            <label>Prioridade percebida</label>
+                            <select name="prioridade">
+                                <option value="baixa">Baixa</option>
+                                <option value="media" selected>Média</option>
+                                <option value="alta">Alta</option>
+                                <option value="critica">Crítica</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Raias: Concluída -->
-        <div class="kanban-col">
-            <div class="col-header concluida">
-                <span class="col-title">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10B981;"></span>
-                    Concluídas
-                </span>
-                <span class="col-badge">0</span>
-            </div>
-            <div class="cards-list" id="col-concluida" data-status="concluida">
-                
-                <div style="text-align:center; color:#64748B; padding:2rem 0; font-size:0.85rem;">Nenhum fluxo concluído ainda.</div>
-                
-            </div>
-        </div>
+                <div class="ch-fieldset">
+                    <div class="ch-fieldset-title">2. Contexto do processo</div>
+                    <div class="ch-grid">
+                        <div class="ch-field ch-field-full">
+                            <label>Cenário atual (AS-IS) *</label>
+                            <textarea name="cenario_atual" required placeholder="Como o processo funciona hoje, passo a passo, incluindo planilhas, sistemas, sites, e-mails e atividades manuais."></textarea>
+                        </div>
+                        <div class="ch-field">
+                            <label>Problema / dor atual *</label>
+                            <textarea name="problema_dor" required placeholder="Ex.: retrabalho, demora, risco de erro, atualização manual, falta de integração, dependência de uma pessoa."></textarea>
+                        </div>
+                        <div class="ch-field">
+                            <label>Oportunidade *</label>
+                            <textarea name="oportunidade" required placeholder="O que pode melhorar com a automação?"></textarea>
+                        </div>
+                        <div class="ch-field ch-field-full">
+                            <label>Cenário futuro desejado (TO-BE) *</label>
+                            <textarea name="cenario_futuro" required placeholder="Como espera que o processo funcione depois da automação."></textarea>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="ch-fieldset">
+                    <div class="ch-fieldset-title">3. Escopo da automação</div>
+                    <div class="ch-grid">
+                        <div class="ch-field ch-field-full">
+                            <label>Processo(s) a automatizar *</label>
+                            <textarea name="processos_automatizar" required placeholder="Liste as atividades que devem ser automatizadas."></textarea>
+                        </div>
+                        <div class="ch-field">
+                            <label>Frequência de execução</label>
+                            <input type="text" name="frequencia_execucao" placeholder="Ex.: diariamente às 08h, semanalmente, sob demanda">
+                        </div>
+                        <div class="ch-field">
+                            <label>Volume aproximado</label>
+                            <input type="text" name="volume_aproximado" placeholder="Nº de linhas, OS, arquivos, registros por dia/mês">
+                        </div>
+                        <div class="ch-field ch-field-full">
+                            <label>Usuários impactados</label>
+                            <textarea name="usuarios_impactados" placeholder="Quem utiliza ou será impactado pela automação? Áreas e quantidade aproximada."></textarea>
+                        </div>
+                        <div class="ch-field">
+                            <label>Resultado esperado *</label>
+                            <textarea name="resultado_esperado" required placeholder="Ex.: atualizar Excel, baixar arquivo, enviar alerta, gerar relatório."></textarea>
+                        </div>
+                        <div class="ch-field">
+                            <label>Fora do escopo</label>
+                            <textarea name="fora_escopo" placeholder="O que não deve fazer parte desta primeira entrega?"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ch-fieldset">
+                    <div class="ch-fieldset-title">4. Resultados e benefícios esperados</div>
+                    <div class="ch-grid">
+                        <div class="ch-field">
+                            <label>Tempo atual gasto no processo</label>
+                            <input type="text" name="tempo_atual_gasto" placeholder="Ex.: 2h por execução, 3x por semana">
+                        </div>
+                        <div class="ch-field">
+                            <label>Tempo esperado após automação</label>
+                            <input type="text" name="tempo_esperado_apos" placeholder="Se souber estimar">
+                        </div>
+                        <div class="ch-field">
+                            <label>Principais ganhos esperados</label>
+                            <textarea name="principais_ganhos" placeholder="Ex.: horas economizadas, redução de erros, agilidade, padronização, rastreabilidade."></textarea>
+                        </div>
+                        <div class="ch-field">
+                            <label>Indicador de sucesso</label>
+                            <textarea name="indicador_sucesso" placeholder="Como saberemos que a automação funcionou? Defina ao menos um indicador mensurável."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ch-fieldset">
+                    <div class="ch-fieldset-title">5. Método 5W2H — Por quê, Como, O quê</div>
+                    <div class="ch-fieldset-hint">Ajuda a gestão e a TI a entender a motivação, o método e a entrega esperada antes da aprovação. Digite ou escolha uma sugestão da lista.</div>
+                    <div class="ch-grid ch-grid-3">
+                        <div class="ch-field">
+                            <label>Por quê? (motivação)</label>
+                            <input type="text" name="motivo_por_que" list="chListPorQue" placeholder="Ex.: Reduzir custos, Aumentar produtividade...">
+                        </div>
+                        <div class="ch-field">
+                            <label>Como? (método)</label>
+                            <input type="text" name="metodo_como" list="chListComo" placeholder="Ex.: Automação de fluxo, Integração de sistemas...">
+                        </div>
+                        <div class="ch-field">
+                            <label>O quê? (entrega)</label>
+                            <input type="text" name="entrega_o_que" list="chListOQue" placeholder="Ex.: Dashboard, Robô/RPA, Relatório automatizado...">
+                        </div>
+                    </div>
+                    <datalist id="chListPorQue">
+                        <option value="Melhorar tomada de decisão">
+                        <option value="Aumentar eficiência operacional">
+                        <option value="Reduzir custos">
+                        <option value="Reduzir retrabalho">
+                        <option value="Aumentar produtividade">
+                        <option value="Fortalecer governança">
+                        <option value="Melhorar experiência do cliente">
+                        <option value="Melhorar qualidade da informação">
+                        <option value="Aumentar confiabilidade dos dados">
+                        <option value="Reduzir riscos operacionais">
+                        <option value="Reduzir riscos de SSMA">
+                        <option value="Aumentar conformidade legal/normativa">
+                        <option value="Padronizar processos">
+                        <option value="Aumentar rastreabilidade">
+                        <option value="Melhorar controle gerencial">
+                        <option value="Aumentar velocidade de resposta">
+                        <option value="Reduzir falhas operacionais">
+                        <option value="Apoiar decisões estratégicas">
+                        <option value="Melhorar previsibilidade">
+                        <option value="Melhorar satisfação do cliente">
+                        <option value="Melhorar desempenho contratual">
+                        <option value="Gerar economia financeira">
+                        <option value="Aumentar transparência da gestão">
+                    </datalist>
+                    <datalist id="chListComo">
+                        <option value="Padronização de processos">
+                        <option value="Automação de fluxo">
+                        <option value="Digitalização de processo">
+                        <option value="Integração de sistemas">
+                        <option value="Gestão por indicadores">
+                        <option value="Análise de dados">
+                        <option value="Business Intelligence – BI">
+                        <option value="Inteligência Artificial – IA">
+                        <option value="Machine Learning">
+                        <option value="Revisão de processo">
+                        <option value="Melhoria contínua">
+                        <option value="Lean">
+                        <option value="Six Sigma">
+                        <option value="Gestão visual">
+                        <option value="Gestão de projetos">
+                        <option value="Gestão de riscos">
+                        <option value="Governança de dados">
+                        <option value="Governança de processos">
+                        <option value="Governança de projetos">
+                        <option value="Desenvolvimento de sistema">
+                        <option value="Desenvolvimento de aplicativo">
+                        <option value="Integração via API">
+                        <option value="Automação de tarefas">
+                        <option value="Workflow digital">
+                        <option value="Alertas automatizados">
+                        <option value="Validação automática">
+                        <option value="Auditoria digital">
+                        <option value="Análise de causa raiz">
+                        <option value="Monitoramento de desempenho">
+                        <option value="Centralização de informações">
+                        <option value="Treinamento/capacitação">
+                        <option value="Redesenho de processo">
+                    </datalist>
+                    <datalist id="chListOQue">
+                        <option value="Sistema">
+                        <option value="Aplicativo">
+                        <option value="Dashboard">
+                        <option value="Painel gerencial">
+                        <option value="Relatório automatizado">
+                        <option value="Automação">
+                        <option value="Robô/RPA">
+                        <option value="Modelo de IA">
+                        <option value="Agente de IA">
+                        <option value="Banco de dados">
+                        <option value="Integração entre sistemas">
+                        <option value="API">
+                        <option value="Formulário digital">
+                        <option value="Workflow">
+                        <option value="Checklist digital">
+                        <option value="Indicador">
+                        <option value="KPI">
+                        <option value="Score">
+                        <option value="Ranking">
+                        <option value="Alerta automático">
+                        <option value="Torre de controle">
+                        <option value="Portal">
+                        <option value="Página web">
+                        <option value="GPS Flow">
+                        <option value="GPS Vista">
+                        <option value="GPSvc">
+                        <option value="Power BI">
+                        <option value="Planilha automatizada">
+                        <option value="Procedimento/POP">
+                        <option value="Fluxograma">
+                        <option value="Matriz de responsabilidade">
+                        <option value="Matriz RACI">
+                        <option value="Relatório executivo">
+                        <option value="Ferramenta de auditoria">
+                        <option value="Solução digital">
+                        <option value="Projeto de melhoria">
+                        <option value="Estudo técnico">
+                        <option value="Diagnóstico">
+                        <option value="Plano de ação">
+                    </datalist>
+                </div>
+
+                <div class="ch-fieldset">
+                    <div class="ch-fieldset-title">Passo a passo do processo atual (opcional)</div>
+                    <div class="ch-fieldset-hint">Descreva o processo na ordem em que ele acontece hoje. Quanto mais claro, mais rápida é a triagem.</div>
+                    <div class="ch-dyn-table-wrap">
+                        <table class="ch-dyn-table">
+                            <thead><tr>
+                                <th style="width:32px">#</th><th>Atividade atual</th><th>Quem executa</th><th>Ferramenta/sistema</th>
+                                <th>Entrada</th><th>Ação realizada</th><th>Saída</th><th>Tempo médio</th><th>Problema/risco</th><th></th>
+                            </tr></thead>
+                            <tbody id="chEtapasBody"></tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="ch-btn-ghost" id="chAddEtapa"><i class="fas fa-plus"></i> Adicionar etapa</button>
+                </div>
+
+                <div class="ch-fieldset">
+                    <div class="ch-fieldset-title">Requisitos da automação (opcional)</div>
+                    <div class="ch-dyn-table-wrap">
+                        <table class="ch-dyn-table">
+                            <thead><tr>
+                                <th style="width:32px">#</th><th>Tipo</th><th>Requisito/necessidade</th><th>Regra de negócio</th>
+                                <th>Entrada</th><th>Saída esperada</th><th>Prioridade</th><th>Critério de aceite</th><th>Responsável validação</th><th>Observações</th><th></th>
+                            </tr></thead>
+                            <tbody id="chRequisitosBody"></tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="ch-btn-ghost" id="chAddRequisito"><i class="fas fa-plus"></i> Adicionar requisito</button>
+                </div>
+
+                <div class="ch-fieldset">
+                    <div class="ch-fieldset-title">Fontes de dados, sistemas, integrações e acessos (opcional)</div>
+                    <div class="ch-dyn-table-wrap">
+                        <table class="ch-dyn-table">
+                            <thead><tr>
+                                <th style="width:32px">#</th><th>Fonte/sistema</th><th>Uso na automação</th><th>Tipo de acesso</th>
+                                <th>URL/caminho/origem</th><th>Autenticação?</th><th>API disponível?</th><th>Administrador/resp.</th><th>Observações/restrições</th><th></th>
+                            </tr></thead>
+                            <tbody id="chSistemasBody"></tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="ch-btn-ghost" id="chAddSistema"><i class="fas fa-plus"></i> Adicionar sistema/acesso</button>
+                </div>
+
+                <div class="ch-fieldset">
+                    <div class="ch-fieldset-title">Anexos (opcional)</div>
+                    <div class="ch-fieldset-hint">Prints, planilhas de apoio, documentos de referência — até 20 MB por arquivo.</div>
+                    <label class="ch-anexo-drop" for="chAnexoInput"><i class="fas fa-paperclip"></i> Selecionar arquivos</label>
+                    <input type="file" id="chAnexoInput" multiple style="display:none">
+                    <ul class="ch-anexo-list" id="chAnexoLista"></ul>
+                </div>
+
+                <div class="ch-form-actions">
+                    <button type="button" class="ch-btn-ghost" id="chBtnCancelar">Cancelar</button>
+                    <button type="submit" class="ch-btn-navy"><i class="fas fa-paper-plane"></i> Enviar chamado</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+<!-- =============== DRAWER DE DETALHE =============== -->
+<div class="ch-overlay" id="chOverlay"></div>
+<div class="ch-drawer" id="chDrawer">
+    <div class="ch-drawer-head">
+        <div>
+            <div style="font-size:.72rem;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.03em;" id="chDetCodigo"></div>
+            <div style="font-size:1.1rem;font-weight:800;color:var(--gray-900);margin-top:.15rem;" id="chDetNome"></div>
+        </div>
+        <button type="button" class="ch-close-btn" id="chDetFechar">&times;</button>
+    </div>
+    <div class="ch-drawer-body" id="chDetBody"></div>
+</div>
+
 
             </main>
 
@@ -2067,101 +2018,6 @@
     </div>
 
     
-<!-- Modal Criar Novo Card -->
-<div class="modal fade" id="modalCriarCard" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal-content-premium">
-            <div class="modal-header modal-header-premium">
-                <h5 class="modal-title font-bold text-lg" style="color:#1A2A45;">Abertura do Fluxo de Implantação</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="formCriarCard" onsubmit="criarCard(event)">
-                <input type="hidden" name="csrfmiddlewaretoken" value="3rSYqO4B9W5oAqQs5eatUasVZZl176vq077AN7Iy50QAKkPh7nKaH5ADJbLGEeF0">
-                <input type="hidden" name="action" value="create">
-                <div class="modal-body modal-body-premium">
-                    <div class="mb-4">
-                        <label class="form-label-premium">Nome do Fluxo de Implantação Atual</label>
-                        <input type="text" class="form-control form-control-premium" name="nome" placeholder="Ex: Implantação Posto Alpha Vista" required>
-                    </div>
-                </div>
-                <div class="modal-footer" style="border-top: 1px solid #E2E8F0; padding: 1rem 2rem;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius:8px;">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" style="background:#1A2A45; border:none; border-radius:8px;">Criar Fluxo</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Principal Wizard (Avançar e Histórico) -->
-<div class="modal fade" id="modalWizard" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content modal-content-premium">
-            <div class="modal-header modal-header-premium">
-                <div>
-                    <h5 class="modal-title font-bold text-xl" id="wizardCardNome" style="color:#1A2A45; margin-bottom:4px;">Nome da Implantação</h5>
-                    <p style="margin:0; font-size:0.8rem; color:#64748B;">Progresso da implantação sequencial passo a passo</p>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body modal-body-premium">
-                
-                <!-- Timeline/Progresso -->
-                <div class="timeline-steps" id="wizardTimeline">
-                    <div class="timeline-progress-bar" id="wizardProgressBar"></div>
-                    <!-- Passos serão renderizados via JS -->
-                </div>
-
-                <!-- Histórico de Etapas Concluídas (Somente Leitura) -->
-                <div class="history-card" id="wizardHistoryBlock" style="display:none;">
-                    <div class="history-title">
-                        <svg style="width:20px; height:20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        Dados das Etapas Concluídas
-                    </div>
-                    <div class="history-grid" id="wizardHistoryGrid">
-                        <!-- Itens do histórico serão populados via JS -->
-                    </div>
-                </div>
-
-                <!-- Formulário Interativo da Etapa Ativa -->
-                <form id="formWizardStep" onsubmit="salvarEtapa(event)" enctype="multipart/form-data">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="3rSYqO4B9W5oAqQs5eatUasVZZl176vq077AN7Iy50QAKkPh7nKaH5ADJbLGEeF0">
-                    <input type="hidden" name="action" value="update_step">
-                    <input type="hidden" name="id" id="wizardCardId">
-
-                    <!-- Bloco de inputs específicos por etapa -->
-                    <div id="wizardActiveStepFields">
-                        <!-- Inputs dinâmicos serão inseridos aqui via JS -->
-                    </div>
-
-                    <div style="display:flex; justify-content:space-between; margin-top:2.5rem; border-top:1px solid rgba(255,255,255,0.08); padding-top:1.5rem;">
-                        <div style="display:flex; gap:0.5rem;">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius:8px;">Fechar</button>
-                            
-                            <button type="button" class="btn btn-danger" onclick="excluirCardImplantacao()" style="background:#EF4444; border:none; border-radius:8px; display:inline-flex; align-items:center; gap:0.5rem;">
-                                <svg style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
-                                Excluir
-                            </button>
-                            
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="btnAvancarEtapa" style="background:linear-gradient(135deg, #10B981, #059669); border:none; border-radius:8px; display:inline-flex; align-items:center; gap:0.5rem;">
-                            Concluir e Avançar Etapa
-                            <svg style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                            </svg>
-                        </button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
 
     <script src="static/vendor/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="static/js/notifications.min.js"></script>
@@ -2207,612 +2063,531 @@
 
     
 <script>
-    // --- Trava de Segurança Contra Cliques Duplos e Backdrops Órfãos ---
-    document.addEventListener('click', function(e) {
-        const target = e.target.closest('[data-bs-toggle="modal"], .kanban-card, .btn-premium, .btn-card-action');
-        if (target) {
-            if (target.dataset.clicked === 'true') {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
-            target.dataset.clicked = 'true';
-            setTimeout(() => {
-                delete target.dataset.clicked;
-            }, 800);
-        }
-    }, true);
+(function () {
+    var CH_POD_GERIR = true;
+    var CH_URL_LISTA = "/api/chamados/";
+    var CH_URL_SALVAR = "/api/chamados/salvar/";
+    var CH_URL_STATUS = "/api/chamados/status/";
+    var CH_URL_TRIAGEM_SALVAR = "/api/chamados/triagem/salvar/";
+    var CH_URL_EXCLUIR = "/api/chamados/excluir/";
+    var CH_URL_ANEXO_UPLOAD = "/api/chamados/anexos/upload/";
+    var CH_URL_ANEXO_EXCLUIR = "/api/chamados/anexos/excluir/";
+    var chCsrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    var CH_DETALHE_BASE = "/api/chamados/00000000-0000-0000-0000-000000000000/".replace('00000000-0000-0000-0000-000000000000', '');
 
-    document.addEventListener('hidden.bs.modal', function () {
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(el => el.remove());
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        // CORREÇÃO GLOBAL: Mover modais para o body para evitar que o backdrop fique por cima
-        document.querySelectorAll('.modal').forEach(function (modalEl) {
-            document.body.appendChild(modalEl);
-        });
-
-        // CORREÇÃO GLOBAL: Bootstrap + Alpine.js conflito de foco
-        document.querySelectorAll('.modal').forEach(function (modalEl) {
-            modalEl.addEventListener('shown.bs.modal', function () {
-                document.body.removeAttribute('inert');
-                document.body.removeAttribute('aria-hidden');
-                modalEl.removeAttribute('inert');
-                modalEl.removeAttribute('aria-hidden');
-                modalEl.style.pointerEvents = 'auto';
-                const dialog = modalEl.querySelector('.modal-dialog');
-                if (dialog) dialog.style.pointerEvents = 'auto';
-            });
-        });
-    });
-
-    // Definição estática das informações das etapas
-    const etapasInfo = {
-        1: { label: "Solicitação IMPLANTAÇÃO", cargo: "Coordenador" },
-        2: { label: "Tipo de implantação", cargo: "Coordenador" },
-        3: { label: "Mapeamento dos locais", cargo: "Supervisor" },
-        4: { label: "Criação do Checklist", cargo: "Projetos" },
-        5: { label: "Criação das rotinas (RONDA, LIVRO)", cargo: "Projetos" },
-        6: { label: "Criação dos QR codes", cargo: "Projetos" },
-        7: { label: "Treinamento", cargo: "Projetos" },
-        8: { label: "Entrega do projeto", cargo: "Projetos" },
-        9: { label: "Link e painel do BI", cargo: "BI" },
-        10: { label: "Finalizado", cargo: "Concluído" }
+    var CH_STATUS_LABELS = {
+        rascunho: 'Rascunho', em_analise: 'Em análise', aprovada: 'Aprovada',
+        priorizada: 'Priorizada', em_desenvolvimento: 'Em desenvolvimento', concluida: 'Concluída',
     };
+    var CH_PRIORIDADE_LABELS = { baixa: 'Baixa', media: 'Média', alta: 'Alta', critica: 'Crítica' };
+    var CH_SIM_NAO_LABELS = { pendente: 'Pendente', sim: 'Sim', nao: 'Não' };
 
-    // Criar um novo card (Abertura do Fluxo)
-    function criarCard(e) {
-        e.preventDefault();
-        const form = document.getElementById('formCriarCard');
-        const formData = new FormData(form);
+    function chEsc(s) {
+        var d = document.createElement('div');
+        d.textContent = s == null ? '' : String(s);
+        return d.innerHTML;
+    }
 
-        fetch("/implantacoes-fluxo/", {
+    function chFormatarData(iso) {
+        if (!iso) return '';
+        var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+        if (!m) return iso;
+        return m[3] + '/' + m[2] + '/' + m[1];
+    }
+
+    function chToast(msg, tipo) {
+        var wrap = document.getElementById('chToasts');
+        var el = document.createElement('div');
+        el.className = 'ch-toast' + (tipo === 'erro' ? ' erro' : '');
+        el.innerHTML = '<i class="fas ' + (tipo === 'erro' ? 'fa-circle-exclamation' : 'fa-circle-check') + '"></i> ' + chEsc(msg);
+        wrap.appendChild(el);
+        setTimeout(function () { el.remove(); }, 4200);
+    }
+
+    function chGarantirRespostaJson(r) {
+        var contentType = r.headers.get('content-type') || '';
+        if (contentType.indexOf('application/json') === -1) {
+            if (r.status === 403) {
+                throw new Error('Sessão ou token de segurança expirado. Atualize a página (F5) e tente novamente.');
+            }
+            throw new Error('Erro inesperado do servidor (HTTP ' + r.status + '). Atualize a página e tente novamente.');
+        }
+        return r.json();
+    }
+
+    // Usado pelos fluxos que tratam qualquer falha (transporte ou success:false) como erro duro.
+    function chParseJsonResponse(r) {
+        return chGarantirRespostaJson(r).then(function (data) {
+            if (!r.ok || data.success === false) {
+                throw new Error(data.message || 'Erro na requisição.');
+            }
+            return data;
+        });
+    }
+
+    function chApiFetch(url, opts) {
+        opts = opts || {};
+        return fetch(url, opts).then(chParseJsonResponse);
+    }
+
+    function chPostJson(url, payload) {
+        return chApiFetch(url, {
             method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sucesso!',
-                    text: data.message,
-                    timer: 1500,
-                    showConfirmButton: false
-                }).then(() => {
-                    location.reload();
-                });
-            } else {
-                Swal.fire('Erro', data.message || 'Erro ao criar fluxo', 'error');
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            Swal.fire('Erro', 'Ocorreu um erro na requisição', 'error');
+            headers: { 'X-CSRFToken': chCsrfToken, 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
         });
     }
 
-    // Pausar/Retomar fluxo (mover raia)
-    function pausarCard(cardId, novoStatus) {
-        const formData = new FormData();
-        formData.append('action', 'update_status');
-        formData.append('id', cardId);
-        formData.append('status', novoStatus);
-        
-        fetch("/implantacoes-fluxo/", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': '3rSYqO4B9W5oAqQs5eatUasVZZl176vq077AN7Iy50QAKkPh7nKaH5ADJbLGEeF0'
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Atualizado!',
-                    text: data.message,
-                    timer: 1000,
-                    showConfirmButton: false
-                }).then(() => {
-                    location.reload();
-                });
-            } else {
-                Swal.fire('Erro', data.message, 'error');
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            Swal.fire('Erro', 'Erro ao alterar status', 'error');
+    // ---------------- Lista ----------------
+    var chListaCache = [];
+
+    function chCarregarLista() {
+        var body = document.getElementById('chListaBody');
+        body.innerHTML = '<tr><td colspan="7" class="ch-table-empty">Carregando chamados…</td></tr>';
+        chApiFetch(CH_URL_LISTA).then(function (data) {
+            chListaCache = data.chamados || [];
+            chRenderLista();
+        }).catch(function (err) {
+            body.innerHTML = '<tr><td colspan="7" class="ch-table-empty">Não foi possível carregar os chamados.</td></tr>';
+            chToast(err.message, 'erro');
         });
     }
 
-    let isModalOpening = false;
+    function chRenderLista() {
+        var body = document.getElementById('chListaBody');
+        var filtro = document.getElementById('chFiltroStatus').value;
+        var lista = filtro ? chListaCache.filter(function (c) { return c.status === filtro; }) : chListaCache;
 
-    // Abrir o Modal Wizard e carregar dados do Card
-    function abrirModalWizard(cardId) {
-        if (isModalOpening) return;
-        isModalOpening = true;
-
-        fetch(`/implantacoes-fluxo/?id=${cardId}`)
-        .then(res => res.json())
-        .then(data => {
-            isModalOpening = false;
-            if (data.success) {
-                document.getElementById('wizardCardId').value = data.id;
-                document.getElementById('wizardCardNome').textContent = data.nome;
-                
-                // 1. Renderizar a Linha de Tempo (Etapas 1 a 9)
-                renderTimeline(data.etapa_atual);
-                
-                // 2. Renderizar Histórico de Etapas Anteriores
-                renderHistory(data);
-                
-                // 3. Renderizar Formulário de Entrada da Etapa Ativa
-                renderActiveStepFields(data.etapa_atual, data);
-
-                const modalEl = document.getElementById('modalWizard');
-                let modalInstance = bootstrap.Modal.getInstance(modalEl);
-                if (!modalInstance) {
-                    modalInstance = new bootstrap.Modal(modalEl);
-                }
-                modalInstance.show();
-            } else {
-                Swal.fire('Erro', data.message, 'error');
-            }
-        })
-        .catch(err => {
-            isModalOpening = false;
-            console.error(err);
-            Swal.fire('Erro', 'Erro ao carregar dados do fluxo', 'error');
-        });
-    }
-
-    // Renderizar a linha do tempo sequencial
-    function renderTimeline(etapaAtiva) {
-        const container = document.getElementById('wizardTimeline');
-        // Remover círculos antigos mantendo a barra de progresso
-        const oldCircles = container.querySelectorAll('.timeline-step-item');
-        oldCircles.forEach(el => el.remove());
-
-        // Calcular percentual da barra de progresso
-        const maxSteps = 9;
-        const progressPercentage = ((Math.min(etapaAtiva, maxSteps) - 1) / (maxSteps - 1)) * 100;
-        document.getElementById('wizardProgressBar').style.width = `${progressPercentage}%`;
-
-        // Gerar itens de 1 a 9
-        for (let i = 1; i <= 9; i++) {
-            const stepItem = document.createElement('div');
-            stepItem.className = 'timeline-step-item';
-            if (i < etapaAtiva) stepItem.classList.add('completed');
-            if (i === etapaAtiva) stepItem.classList.add('active');
-
-            stepItem.innerHTML = `
-                <div class="step-circle">${i}</div>
-                <div class="step-title-popover">${etapasInfo[i].cargo}</div>
-            `;
-            
-            container.appendChild(stepItem);
-        }
-    }
-
-    // Renderizar bloco de histórico
-    function renderHistory(data) {
-        const historyBlock = document.getElementById('wizardHistoryBlock');
-        const grid = document.getElementById('wizardHistoryGrid');
-        grid.innerHTML = '';
-        
-        const etapa = data.etapa_atual;
-        let temHistorico = false;
-
-        // Etapa 1 sempre tem (Nome do fluxo)
-        grid.appendChild(createHistoryItem(
-            "Abertura", 
-            `Nome do Fluxo: ${data.nome}<br><small class="text-muted" style="font-size:0.75rem; color:#64748B; display:block; margin-top:2px;">Aberto por: <strong>${data.created_by_name}</strong> em ${data.created_at}</small>`
-        ));
-        temHistorico = true;
-
-        if (etapa > 2 && data.tipo_implantacao) {
-            const servicos = { 'seguranca': 'Segurança', 'limpeza': 'Limpeza', 'engenharia': 'Engenharia' };
-            const servicoText = servicos[data.tipo_implantacao] || data.tipo_implantacao;
-            const conclusaoText = data.step2_concluido_em ? `<br><small class="text-muted" style="font-size:0.75rem; color:#64748B; display:block; margin-top:2px;">Concluído em: ${data.step2_concluido_em}</small>` : '';
-            grid.appendChild(createHistoryItem("Tipo de Implantação (Coordenador)", servicoText + conclusaoText));
-        }
-
-        if (etapa > 3) {
-            const conclusaoText = data.step3_concluido_em ? `<br><small class="text-muted" style="font-size:0.75rem; color:#64748B; display:block; margin-top:2px;">Concluído em: ${data.step3_concluido_em}</small>` : '';
-            grid.appendChild(createHistoryItem(
-                "Mapeamento dos Locais (Supervisor)", 
-                data.mapeamento_locais + conclusaoText,
-                data.anexo_mapeamento_url,
-                data.anexo_mapeamento_nome
-            ));
-        }
-
-        if (etapa > 4) {
-            const conclusaoText = data.step4_concluido_em ? `<br><small class="text-muted" style="font-size:0.75rem; color:#64748B; display:block; margin-top:2px;">Concluído em: ${data.step4_concluido_em}</small>` : '';
-            grid.appendChild(createHistoryItem(
-                "Checklist Criado (Projetos)", 
-                "Checklist criado com sucesso" + conclusaoText,
-                data.anexo_checklist_url,
-                data.anexo_checklist_nome
-            ));
-        }
-
-        if (etapa > 5) {
-            const conclusaoText = data.step5_concluido_em ? `<br><small class="text-muted" style="font-size:0.75rem; color:#64748B; display:block; margin-top:2px;">Concluído em: ${data.step5_concluido_em}</small>` : '';
-            grid.appendChild(createHistoryItem(
-                "Rotinas Criadas (Projetos)", 
-                (data.rotinas_criadas ? "Rotinas e rondas criadas" : "Pendente") + conclusaoText,
-                data.anexo_rotinas_url,
-                data.anexo_rotinas_nome
-            ));
-        }
-
-        if (etapa > 6) {
-            const conclusaoText = data.step6_concluido_em ? `<br><small class="text-muted" style="font-size:0.75rem; color:#64748B; display:block; margin-top:2px;">Concluído em: ${data.step6_concluido_em}</small>` : '';
-            grid.appendChild(createHistoryItem(
-                "QR Codes Gerados (Projetos)", 
-                "QR Codes PDFs gerados" + conclusaoText,
-                data.anexo_qrcodes_url,
-                data.anexo_qrcodes_nome
-            ));
-        }
-
-        if (etapa > 7) {
-            const conclusaoText = data.step7_concluido_em ? `<br><small class="text-muted" style="font-size:0.75rem; color:#64748B; display:block; margin-top:2px;">Concluído em: ${data.step7_concluido_em}</small>` : '';
-            grid.appendChild(createHistoryItem(
-                "Treinamento Realizado (Projetos)", 
-                "Equipe treinada com sucesso" + conclusaoText,
-                data.anexo_treinamento_url,
-                data.anexo_treinamento_nome
-            ));
-        }
-
-        if (etapa > 8) {
-            const conclusaoText = data.step8_concluido_em ? `<br><small class="text-muted" style="font-size:0.75rem; color:#64748B; display:block; margin-top:2px;">Concluído em: ${data.step8_concluido_em}</small>` : '';
-            grid.appendChild(createHistoryItem(
-                "Entrega do Projeto (Projetos)", 
-                "Projeto entregue com evidências" + conclusaoText,
-                data.anexo_entrega_url,
-                data.anexo_entrega_nome
-            ));
-        }
-
-        if (etapa > 9) {
-            const conclusaoText = data.step9_concluido_em ? `<br><small class="text-muted" style="font-size:0.75rem; color:#64748B; display:block; margin-top:2px;">Concluído em: ${data.step9_concluido_em}</small>` : '';
-            grid.appendChild(createHistoryItem(
-                "Power BI Publicado (BI)", 
-                `<a href="${data.link_bi}" target="_blank" class="text-blue-400 hover:underline">Acessar Power BI</a>` + conclusaoText,
-                data.anexo_bi_url,
-                data.anexo_bi_nome
-            ));
-        }
-
-        historyBlock.style.display = temHistorico ? 'block' : 'none';
-    }
-
-    // Utilitário para criar item de histórico
-    function createHistoryItem(label, valText, fileUrl = null, fileName = null) {
-        const item = document.createElement('div');
-        item.className = 'history-item';
-        
-        let fileBlock = '';
-        if (fileUrl) {
-            fileBlock = `
-                <div style="margin-top:0.5rem;">
-                    <a href="${fileUrl}" target="_blank" class="btn-download-premium">
-                        <svg style="width:14px; height:14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                        </svg>
-                        Baixar: ${fileName || 'Anexo'}
-                    </a>
-                </div>
-            `;
-        }
-
-        item.innerHTML = `
-            <div class="history-item-label">${label}</div>
-            <div class="history-item-val">${valText}</div>
-            ${fileBlock}
-        `;
-        return item;
-    }
-
-    // Renderizar inputs específicos da etapa atual
-    function renderActiveStepFields(etapa, data) {
-        const container = document.getElementById('wizardActiveStepFields');
-        const btn = document.getElementById('btnAvancarEtapa');
-        btn.style.display = 'inline-flex'; // mostrar por padrão
-        
-        container.innerHTML = `
-            <h4 class="font-bold text-lg mb-3" style="color:#1A2A45; border-bottom:1px solid #E2E8F0; padding-bottom:0.5rem;">
-                Etapa ${etapa}: ${etapasInfo[etapa].label} (${etapasInfo[etapa].cargo})
-            </h4>
-        `;
-
-        if (etapa === 1) {
-            // Etapa 1 é concluída na abertura, avança para 2 direto ao clicar
-            container.innerHTML += `
-                <div class="alert alert-info" style="background:rgba(59, 130, 246, 0.08); border-color:rgba(59, 130, 246, 0.15); color:#1E3A8A;">
-                    O fluxo de implantação foi aberto com sucesso. Clique em avançar para que o coordenador configure o tipo de serviço.
-                </div>
-            `;
-        }
-        else if (etapa === 2) {
-            // Escolha de Serviço (Coordenador)
-            container.innerHTML += `
-                <div class="mb-3">
-                    <label class="form-label-premium">Escolha o Tipo de Implantação</label>
-                    <select class="form-select form-select-premium" name="tipo_implantacao" required>
-                        <option value="" disabled selected>Selecione o serviço...</option>
-                        <option value="seguranca" ${data.tipo_implantacao === 'seguranca' ? 'selected' : ''}>Segurança</option>
-                        <option value="limpeza" ${data.tipo_implantacao === 'limpeza' ? 'selected' : ''}>Limpeza</option>
-                        <option value="engenharia" ${data.tipo_implantacao === 'engenharia' ? 'selected' : ''}>Engenharia</option>
-                    </select>
-                    <small class="text-gray-500 mt-1 block">Esta definição guiará o fluxo operacional da implantação.</small>
-                </div>
-            `;
-        }
-        else if (etapa === 3) {
-            // Mapeamento dos locais (Supervisor)
-            container.innerHTML += `
-                <div class="mb-3">
-                    <label class="form-label-premium">Descrição do Mapeamento dos Locais</label>
-                    <textarea class="form-control form-control-premium" name="mapeamento_locais" rows="4" placeholder="Descreva os locais, rotas, áreas de cobertura e necessidades mapeadas..." required>${data.mapeamento_locais || ''}</textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-premium">Anexo do Mapeamento (Planilhas, Imagens ou Documentos)</label>
-                    <input type="file" class="form-control form-control-premium" name="anexo_mapeamento" ${data.anexo_mapeamento_url ? '' : 'required'}>
-                    ${data.anexo_mapeamento_url ? `<small class="text-green-600 mt-1 block">Já existe um arquivo anexado. Envie um novo se desejar substituir.</small>` : ''}
-                </div>
-            `;
-        }
-        else if (etapa === 4) {
-            // Criação do Checklist (Projetos)
-            container.innerHTML += `
-                <div class="alert alert-warning mb-4" style="background:rgba(245, 158, 11, 0.08); border-color:rgba(245, 158, 11, 0.15); color:#92400E;">
-                    <strong>Atenção Projetos:</strong> Crie o checklist operacional correspondente e anexe o print de comprovação abaixo.
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-premium">Print/Comprovação da Criação do Checklist</label>
-                    <input type="file" class="form-control form-control-premium" name="anexo_checklist" accept="image/*,application/pdf" ${data.anexo_checklist_url ? '' : 'required'}>
-                    ${data.anexo_checklist_url ? `<small class="text-green-600 mt-1 block">Checklist anexado. Envie um novo se quiser substituir.</small>` : ''}
-                </div>
-            `;
-        }
-        else if (etapa === 5) {
-            // Criação das Rotinas (Projetos)
-            container.innerHTML += `
-                <div class="mb-4">
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input" type="checkbox" id="rotinasCriadasCheck" name="rotinas_criadas_check" value="true" required ${data.rotinas_criadas ? 'checked' : ''}>
-                        <label class="form-check-label form-label-premium" for="rotinasCriadasCheck" style="margin-left: 10px;">
-                            Criou as rondas e rotina no sistema (RONDA, LIVRO)?
-                        </label>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-premium">Print/Comprovação da Criação das Rotinas</label>
-                    <input type="file" class="form-control form-control-premium" name="anexo_rotinas" accept="image/*,application/pdf" ${data.anexo_rotinas_url ? '' : 'required'}>
-                    ${data.anexo_rotinas_url ? `<small class="text-green-600 mt-1 block">Rotina anexada. Envie um novo se quiser substituir.</small>` : ''}
-                </div>
-            `;
-        }
-        else if (etapa === 6) {
-            // Criação dos QR codes (Projetos)
-            container.innerHTML += `
-                <div class="mb-3">
-                    <label class="form-label-premium">PDF dos QR Codes Gerados</label>
-                    <input type="file" class="form-control form-control-premium" name="anexo_qrcodes" accept="application/pdf" ${data.anexo_qrcodes_url ? '' : 'required'}>
-                    <small class="text-gray-500 mt-1 block">Envie o documento compilado contendo todos os QR Codes da implantação.</small>
-                    ${data.anexo_qrcodes_url ? `<small class="text-green-600 mt-1 block">PDF anexado. Envie um novo se quiser substituir.</small>` : ''}
-                </div>
-            `;
-        }
-        else if (etapa === 7) {
-            // Treinamento (Projetos)
-            container.innerHTML += `
-                <div class="mb-3">
-                    <label class="form-label-premium">Foto/Print de Comprovação do Treinamento Operacional</label>
-                    <input type="file" class="form-control form-control-premium" name="anexo_treinamento" accept="image/*,application/pdf" ${data.anexo_treinamento_url ? '' : 'required'}>
-                    <small class="text-gray-500 mt-1 block">Envie foto da lista de presença, foto da equipe em treinamento ou similar.</small>
-                    ${data.anexo_treinamento_url ? `<small class="text-green-600 mt-1 block">Treinamento anexado. Envie um novo se quiser substituir.</small>` : ''}
-                </div>
-            `;
-        }
-        else if (etapa === 8) {
-            // Entrega do projeto (Projetos)
-            container.innerHTML += `
-                <div class="mb-3">
-                    <label class="form-label-premium">Relatório Geral/Evidências de Entrega do Projeto</label>
-                    <input type="file" class="form-control form-control-premium" name="anexo_entrega" ${data.anexo_entrega_url ? '' : 'required'}>
-                    <small class="text-gray-500 mt-1 block">Envie o relatório de conclusão e entrega formal da implantação.</small>
-                    ${data.anexo_entrega_url ? `<small class="text-green-600 mt-1 block">Relatório anexado. Envie um novo se quiser substituir.</small>` : ''}
-                </div>
-            `;
-        }
-        else if (etapa === 9) {
-            // BI (BI)
-            let alertBlock = '';
-            if (data.bi_inicio_data) {
-                if (data.dias_restantes < 0) {
-                    alertBlock = `
-                        <div class="alert alert-danger mb-4" style="background:rgba(239, 68, 68, 0.08); border-color:rgba(239, 68, 68, 0.15); color:#B91C1C;">
-                            <strong>ALERTA DE ATRASO:</strong> Este fluxo está nesta etapa há mais de 20 dias (Prazo estourado por ${Math.abs(data.dias_restantes)} dias!).
-                        </div>
-                    `;
-                } else {
-                    alertBlock = `
-                        <div class="alert alert-info mb-4" style="background:rgba(59, 130, 246, 0.08); border-color:rgba(59, 130, 246, 0.15); color:#1E3A8A;">
-                            <strong>PRAZO DO BI:</strong> Restam <strong>${data.dias_restantes} dias</strong> para incluir o Power BI antes do prazo limite de 20 dias.
-                        </div>
-                    `;
-                }
-            }
-
-            container.innerHTML += `
-                ${alertBlock}
-                <div class="mb-3">
-                    <label class="form-label-premium">URL do Power BI (Dashboard do Cliente)</label>
-                    <input type="url" class="form-control form-control-premium" name="link_bi" placeholder="https://app.powerbi.com/view..." value="${data.link_bi || ''}" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-premium">Print/Comprovação da tela do BI</label>
-                    <input type="file" class="form-control form-control-premium" name="anexo_bi" accept="image/*,application/pdf" ${data.anexo_bi_url ? '' : 'required'}>
-                    ${data.anexo_bi_url ? `<small class="text-green-600 mt-1 block">Print do BI anexado. Envie um novo se quiser substituir.</small>` : ''}
-                </div>
-            `;
-        }
-        else {
-            // Finalizado / Etapa 10
-            container.innerHTML += `
-                <div class="alert alert-success text-center py-4" style="background:rgba(16, 185, 129, 0.08); border-color:rgba(16, 185, 129, 0.15); color:#065F46; border-radius:12px;">
-                    <svg style="width:48px; height:48px; margin: 0 auto 0.75rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <h5 class="font-bold text-lg mb-1">Implantação Concluída com Sucesso!</h5>
-                    <p class="text-sm text-gray-600">Todas as 9 etapas sequenciais foram concluídas de forma auditada.</p>
-                </div>
-            `;
-            btn.style.display = 'none'; // ocultar botão avançar
-        }
-    }
-
-    // Salvar e avançar etapa do Wizard (AJAX)
-    function salvarEtapa(e) {
-        e.preventDefault();
-        
-        // Se estiver na etapa 5, garantir que o checkbox está ativo
-        const checkRotinas = document.getElementById('rotinasCriadasCheck');
-        if (checkRotinas && !checkRotinas.checked) {
-            Swal.fire('Atenção', 'Você precisa confirmar que as rotinas foram criadas para poder avançar!', 'warning');
+        if (!lista.length) {
+            body.innerHTML = '<tr><td colspan="7" class="ch-table-empty">Nenhum chamado encontrado.</td></tr>';
             return;
         }
 
-        const form = document.getElementById('formWizardStep');
-        const formData = new FormData(form);
+        body.innerHTML = lista.map(function (c) {
+            return '<tr class="ch-row-click" data-id="' + c.id + '">' +
+                '<td><b>' + chEsc(c.codigo) + '</b></td>' +
+                '<td>' + chEsc(c.nome_projeto) + '</td>' +
+                '<td>' + chEsc(c.area_contrato) + '</td>' +
+                '<td>' + chEsc(c.criado_por || '—') + '</td>' +
+                '<td><span class="ch-badge pr-' + c.prioridade + '">' + chEsc(c.prioridade_label) + '</span></td>' +
+                '<td><span class="ch-badge st-' + c.status + '">' + chEsc(c.status_label) + '</span></td>' +
+                '<td>' + chEsc(chFormatarData(c.data_solicitacao)) + '</td>' +
+                '</tr>';
+        }).join('');
 
-        // Se o checkbox de rotinas estiver marcado, enviar como texto explícito "true"
-        if (checkRotinas) {
-            formData.set('rotinas_criadas', 'true');
-        }
-
-        Swal.fire({
-            title: 'Salvando etapa...',
-            text: 'Processando informações e anexos',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
+        Array.prototype.forEach.call(body.querySelectorAll('tr[data-id]'), function (tr) {
+            tr.addEventListener('click', function () { chAbrirDetalhe(tr.getAttribute('data-id')); });
         });
+    }
 
-        fetch("/implantacoes-fluxo/", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            Swal.close();
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Etapa Concluída!',
-                    text: data.message,
-                    timer: 1500,
-                    showConfirmButton: false
-                }).then(() => {
-                    location.reload();
-                });
+    document.getElementById('chFiltroStatus').addEventListener('change', chRenderLista);
+    document.getElementById('chBtnAtualizar').addEventListener('click', chCarregarLista);
+
+    // ---------------- Tabelas dinâmicas do formulário ----------------
+    function chAddRow(tbodyId, cols) {
+        var tbody = document.getElementById(tbodyId);
+        var idx = tbody.children.length + 1;
+        var tr = document.createElement('tr');
+        var tds = '<td style="text-align:center;color:var(--gray-400);font-size:.76rem;">' + idx + '</td>';
+        cols.forEach(function (col) {
+            if (col.type === 'select') {
+                var opts = col.options.map(function (o) { return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
+                tds += '<td><select data-field="' + col.field + '">' + opts + '</select></td>';
             } else {
-                Swal.fire('Erro', data.message, 'error');
+                tds += '<td><input type="text" data-field="' + col.field + '" placeholder="' + (col.placeholder || '') + '"></td>';
             }
-        })
-        .catch(err => {
-            Swal.close();
-            console.error(err);
-            Swal.fire('Erro', 'Ocorreu um erro ao salvar a etapa.', 'error');
+        });
+        tds += '<td><button type="button" class="ch-remove-row" title="Remover"><i class="fas fa-xmark"></i></button></td>';
+        tr.innerHTML = tds;
+        tr.querySelector('.ch-remove-row').addEventListener('click', function () {
+            tr.remove();
+            chRenumerar(tbodyId);
+        });
+        tbody.appendChild(tr);
+    }
+
+    function chRenumerar(tbodyId) {
+        var tbody = document.getElementById(tbodyId);
+        Array.prototype.forEach.call(tbody.children, function (tr, i) {
+            tr.children[0].textContent = i + 1;
         });
     }
 
-    function excluirCardImplantacao() {
-        const cardId = document.getElementById('wizardCardId').value;
-        if (!cardId) return;
+    function chLerLinhas(tbodyId, campos) {
+        var tbody = document.getElementById(tbodyId);
+        var linhas = [];
+        Array.prototype.forEach.call(tbody.children, function (tr) {
+            var obj = {};
+            campos.forEach(function (campo) {
+                var el = tr.querySelector('[data-field="' + campo + '"]');
+                obj[campo] = el ? el.value : '';
+            });
+            linhas.push(obj);
+        });
+        return linhas;
+    }
 
-        Swal.fire({
-            title: 'Tem certeza?',
-            text: "Esta ação é irreversível e excluirá todo o progresso e anexos deste fluxo de implantação!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#EF4444',
-            cancelButtonColor: '#64748B',
-            confirmButtonText: 'Sim, excluir!',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Excluindo fluxo...',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
+    var CH_SIM_NAO_OPCOES = [['pendente', 'Pendente'], ['sim', 'Sim'], ['nao', 'Não']];
+
+    document.getElementById('chAddEtapa').addEventListener('click', function () {
+        chAddRow('chEtapasBody', [
+            { field: 'atividade_atual', placeholder: 'Atividade' }, { field: 'quem_executa', placeholder: 'Quem executa' },
+            { field: 'ferramenta_sistema', placeholder: 'Ferramenta/sistema' }, { field: 'entrada', placeholder: 'Entrada' },
+            { field: 'acao_realizada', placeholder: 'Ação' }, { field: 'saida', placeholder: 'Saída' },
+            { field: 'tempo_medio', placeholder: 'Tempo médio' }, { field: 'problema_risco', placeholder: 'Problema/risco' },
+        ]);
+    });
+
+    document.getElementById('chAddRequisito').addEventListener('click', function () {
+        chAddRow('chRequisitosBody', [
+            { field: 'tipo', placeholder: 'Funcional / não funcional...' }, { field: 'requisito_necessidade', placeholder: 'Requisito' },
+            { field: 'regra_negocio', placeholder: 'Regra de negócio' }, { field: 'entrada', placeholder: 'Entrada' },
+            { field: 'saida_esperada', placeholder: 'Saída esperada' }, { field: 'prioridade', placeholder: 'Prioridade' },
+            { field: 'criterio_aceite', placeholder: 'Critério de aceite' }, { field: 'responsavel_validacao', placeholder: 'Responsável' },
+            { field: 'observacoes', placeholder: 'Observações' },
+        ]);
+    });
+
+    document.getElementById('chAddSistema').addEventListener('click', function () {
+        chAddRow('chSistemasBody', [
+            { field: 'fonte_sistema', placeholder: 'Fonte/sistema' }, { field: 'uso_automacao', placeholder: 'Uso na automação' },
+            { field: 'tipo_acesso', placeholder: 'Tipo de acesso' }, { field: 'url_caminho_origem', placeholder: 'URL/caminho' },
+            { field: 'autenticacao_necessaria', type: 'select', options: CH_SIM_NAO_OPCOES },
+            { field: 'api_disponivel', type: 'select', options: CH_SIM_NAO_OPCOES },
+            { field: 'administrador_responsavel', placeholder: 'Administrador' }, { field: 'observacoes_restricoes', placeholder: 'Observações/restrições' },
+        ]);
+    });
+
+    // ---------------- Anexos do formulário de abertura ----------------
+    var chAnexosSelecionados = [];
+
+    function chRenderAnexosSelecionados() {
+        var ul = document.getElementById('chAnexoLista');
+        ul.innerHTML = chAnexosSelecionados.map(function (f, i) {
+            return '<li class="ch-anexo-item"><span class="ch-anexo-nome"><i class="fas fa-paperclip"></i> ' + chEsc(f.name) + '</span>' +
+                '<button type="button" class="ch-anexo-remove" data-idx="' + i + '" title="Remover"><i class="fas fa-xmark"></i></button></li>';
+        }).join('');
+        Array.prototype.forEach.call(ul.querySelectorAll('.ch-anexo-remove'), function (btn) {
+            btn.addEventListener('click', function () {
+                chAnexosSelecionados.splice(parseInt(btn.getAttribute('data-idx'), 10), 1);
+                chRenderAnexosSelecionados();
+            });
+        });
+    }
+
+    document.getElementById('chAnexoInput').addEventListener('change', function (ev) {
+        Array.prototype.forEach.call(ev.target.files, function (f) { chAnexosSelecionados.push(f); });
+        ev.target.value = '';
+        chRenderAnexosSelecionados();
+    });
+
+    function chEnviarAnexos(chamadoId, arquivos) {
+        var fd = new FormData();
+        fd.append('chamado_id', chamadoId);
+        arquivos.forEach(function (f) { fd.append('anexos', f); });
+        return fetch(CH_URL_ANEXO_UPLOAD, { method: 'POST', headers: { 'X-CSRFToken': chCsrfToken }, body: fd })
+            .then(chGarantirRespostaJson);
+    }
+
+    // ---------------- Abrir/fechar formulário ----------------
+    function chAbrirForm() {
+        document.getElementById('chFormSection').classList.add('active');
+        document.getElementById('chFormSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function chFecharForm() {
+        document.getElementById('chFormSection').classList.remove('active');
+        document.getElementById('chForm').reset();
+        ['chEtapasBody', 'chRequisitosBody', 'chSistemasBody'].forEach(function (id) {
+            document.getElementById(id).innerHTML = '';
+        });
+        chAnexosSelecionados = [];
+        chRenderAnexosSelecionados();
+    }
+    document.getElementById('chBtnNovo').addEventListener('click', chAbrirForm);
+    document.getElementById('chBtnCancelar').addEventListener('click', chFecharForm);
+
+    document.getElementById('chForm').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var form = ev.target;
+        var payload = {};
+        Array.prototype.forEach.call(form.querySelectorAll('input[name], select[name], textarea[name]'), function (el) {
+            payload[el.name] = el.value;
+        });
+        payload.etapas = chLerLinhas('chEtapasBody', ['atividade_atual', 'quem_executa', 'ferramenta_sistema', 'entrada', 'acao_realizada', 'saida', 'tempo_medio', 'problema_risco']);
+        payload.requisitos = chLerLinhas('chRequisitosBody', ['tipo', 'requisito_necessidade', 'regra_negocio', 'entrada', 'saida_esperada', 'prioridade', 'criterio_aceite', 'responsavel_validacao', 'observacoes']);
+        payload.sistemas_acessos = chLerLinhas('chSistemasBody', ['fonte_sistema', 'uso_automacao', 'tipo_acesso', 'url_caminho_origem', 'autenticacao_necessaria', 'api_disponivel', 'administrador_responsavel', 'observacoes_restricoes']);
+
+        var btn = form.querySelector('button[type=submit]');
+        btn.disabled = true;
+        chPostJson(CH_URL_SALVAR, payload).then(function (data) {
+            var chamadoCriado = data.chamado;
+            if (!chAnexosSelecionados.length) return chamadoCriado;
+            return chEnviarAnexos(chamadoCriado.id, chAnexosSelecionados).then(function (upData) {
+                if (!upData.success) chToast('Chamado aberto, mas houve erro ao enviar anexos: ' + upData.message, 'erro');
+                return chamadoCriado;
+            });
+        }).then(function (chamadoCriado) {
+            chToast('Chamado ' + chamadoCriado.codigo + ' aberto com sucesso.');
+            chFecharForm();
+            chCarregarLista();
+        }).catch(function (err) {
+            chToast(err.message, 'erro');
+        }).finally(function () {
+            btn.disabled = false;
+        });
+    });
+
+    // ---------------- Drawer de detalhe ----------------
+    function chFieldDD(label, value) {
+        var vazio = (value === null || value === undefined || value === '');
+        return '<div class="ch-detail-item"><dt>' + chEsc(label) + '</dt><dd' + (vazio ? ' class="ch-empty"' : '') + '>' + chEsc(value) + '</dd></div>';
+    }
+
+    function chMiniTabela(titulo, linhas, colunas) {
+        if (!linhas.length) {
+            return '<div class="ch-detail-section"><div class="ch-detail-section-title">' + chEsc(titulo) + '</div><div style="font-size:.8rem;color:var(--gray-400);">Nenhum item informado.</div></div>';
+        }
+        var head = '<tr>' + colunas.map(function (c) { return '<th>' + chEsc(c[1]) + '</th>'; }).join('') + '</tr>';
+        var rows = linhas.map(function (linha) {
+            return '<tr>' + colunas.map(function (c) { return '<td>' + chEsc(linha[c[0]]) + '</td>'; }).join('') + '</tr>';
+        }).join('');
+        return '<div class="ch-detail-section"><div class="ch-detail-section-title">' + chEsc(titulo) + '</div>' +
+            '<div class="ch-mini-table-wrap"><table class="ch-mini-table"><thead>' + head + '</thead><tbody>' + rows + '</tbody></table></div></div>';
+    }
+
+    function chRenderAnexos(c) {
+        var lista = c.anexos || [];
+        var itens = lista.map(function (a) {
+            var del = a.pode_excluir ? '<button type="button" class="ch-anexo-del" data-anexo-id="' + a.id + '" title="Remover"><i class="fas fa-trash"></i></button>' : '';
+            return '<li class="ch-anexo-item">' +
+                '<a class="ch-anexo-nome" href="' + chEsc(a.url) + '" target="_blank" rel="noopener"><i class="fas fa-paperclip"></i> ' + chEsc(a.nome_original) + '</a>' +
+                '<span class="ch-anexo-meta">' + chEsc(a.enviado_por || '—') + ' · ' + chFormatarData(a.created_at) + '</span>' + del + '</li>';
+        }).join('');
+        return '<div class="ch-detail-section"><div class="ch-detail-section-title">Anexos</div>' +
+            (lista.length ? '<ul class="ch-anexo-list">' + itens + '</ul>' : '<div style="font-size:.8rem;color:var(--gray-400);margin-bottom:.6rem;">Nenhum anexo enviado.</div>') +
+            '<div style="margin-top:.7rem;">' +
+            '<label class="ch-anexo-drop" for="chDetAnexoInput"><i class="fas fa-paperclip"></i> Adicionar anexo</label>' +
+            '<input type="file" id="chDetAnexoInput" multiple style="display:none">' +
+            '</div></div>';
+    }
+
+    function chRenderTriagem(c) {
+        var linhas = c.triagem_itens.map(function (t) {
+            var editavel = CH_POD_GERIR;
+            var statusOpts = [['pendente', 'Pendente'], ['ok', 'OK'], ['atencao', 'Atenção'], ['bloqueio', 'Bloqueio']]
+                .map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === t.status ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('');
+            if (!editavel) {
+                return '<tr><td><b>' + chEsc(t.criterio) + '</b><br><span style="color:var(--gray-400);font-size:.72rem;">' + chEsc(t.pergunta) + '</span></td>' +
+                    '<td>' + chEsc(t.resposta || '—') + '</td><td>' + chEsc(t.impacto_observacao || '—') + '</td>' +
+                    '<td>' + chEsc(t.responsavel || '—') + '</td><td><span class="ch-badge st-' + (t.status === 'ok' ? 'concluida' : t.status === 'bloqueio' ? 'em_analise' : 'rascunho') + '">' + chEsc(t.status_label) + '</span></td></tr>';
+            }
+            return '<tr class="ch-triagem-row" data-item-id="' + t.id + '">' +
+                '<td><b>' + chEsc(t.criterio) + '</b><br><span style="color:var(--gray-400);font-size:.72rem;">' + chEsc(t.pergunta) + '</span></td>' +
+                '<td><input data-triagem-field="resposta" value="' + chEsc(t.resposta) + '"></td>' +
+                '<td><input data-triagem-field="impacto_observacao" value="' + chEsc(t.impacto_observacao) + '"></td>' +
+                '<td><input data-triagem-field="responsavel" value="' + chEsc(t.responsavel) + '"></td>' +
+                '<td><select data-triagem-field="status">' + statusOpts + '</select></td></tr>';
+        }).join('');
+
+        var salvarBtn = CH_POD_GERIR ? '<div style="margin-top:.6rem;"><button type="button" class="ch-btn-ghost" id="chSalvarTriagem"><i class="fas fa-floppy-disk"></i> Salvar triagem</button></div>' : '';
+
+        return '<div class="ch-detail-section"><div class="ch-detail-section-title">Triagem técnica (TI/Projetos)</div>' +
+            '<div class="ch-mini-table-wrap"><table class="ch-mini-table"><thead><tr><th>Critério</th><th>Resposta</th><th>Impacto/observação</th><th>Responsável</th><th>Status</th></tr></thead>' +
+            '<tbody>' + linhas + '</tbody></table></div>' + salvarBtn + '</div>';
+    }
+
+    function chRenderGestao(c) {
+        if (!CH_POD_GERIR) {
+            return '<div class="ch-detail-section"><div class="ch-detail-section-title">Aprovações</div>' +
+                '<div class="ch-detail-grid">' +
+                chFieldDD('Gestor valida a necessidade?', CH_SIM_NAO_LABELS[c.gestor_valida_necessidade]) +
+                chFieldDD('TI/Projetos realizou entendimento?', CH_SIM_NAO_LABELS[c.ti_realizou_entendimento]) +
+                '</div></div>';
+        }
+        var statusOpts = Object.keys(CH_STATUS_LABELS).map(function (k) {
+            return '<option value="' + k + '"' + (k === c.status ? ' selected' : '') + '>' + CH_STATUS_LABELS[k] + '</option>';
+        }).join('');
+        var simNaoOpts = function (atual) {
+            return Object.keys(CH_SIM_NAO_LABELS).map(function (k) {
+                return '<option value="' + k + '"' + (k === atual ? ' selected' : '') + '>' + CH_SIM_NAO_LABELS[k] + '</option>';
+            }).join('');
+        };
+        return '<div class="ch-detail-section"><div class="ch-detail-section-title">Aprovações e status (TI/Projetos)</div>' +
+            '<div class="ch-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;">' +
+            '<div class="ch-field"><label>Status</label><select id="chGestaoStatus">' + statusOpts + '</select></div>' +
+            '<div class="ch-field"><label>Gestor valida a necessidade?</label><select id="chGestaoValida">' + simNaoOpts(c.gestor_valida_necessidade) + '</select></div>' +
+            '<div class="ch-field"><label>TI/Projetos realizou entendimento?</label><select id="chGestaoEntendimento">' + simNaoOpts(c.ti_realizou_entendimento) + '</select></div>' +
+            '</div><div style="margin-top:.7rem;"><button type="button" class="ch-btn-navy" id="chSalvarGestao"><i class="fas fa-check"></i> Salvar</button></div></div>';
+    }
+
+    function chAbrirDetalhe(id) {
+        var overlay = document.getElementById('chOverlay');
+        var drawer = document.getElementById('chDrawer');
+        var body = document.getElementById('chDetBody');
+        overlay.classList.add('active');
+        drawer.classList.add('active');
+        document.getElementById('chDetCodigo').textContent = '…';
+        document.getElementById('chDetNome').textContent = 'Carregando…';
+        body.innerHTML = '';
+
+        chApiFetch(CH_DETALHE_BASE + id + '/').then(function (data) {
+            var c = data.chamado;
+            document.getElementById('chDetCodigo').textContent = c.codigo;
+            document.getElementById('chDetNome').textContent = c.nome_projeto;
+
+            var html = '';
+            html += '<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.1rem;">' +
+                '<span class="ch-badge st-' + c.status + '">' + chEsc(c.status_label) + '</span>' +
+                '<span class="ch-badge pr-' + c.prioridade + '">Prioridade ' + chEsc(c.prioridade_label) + '</span></div>';
+
+            html += '<div class="ch-detail-section"><div class="ch-detail-section-title">Identificação</div><div class="ch-detail-grid">' +
+                chFieldDD('Área / contrato solicitante', c.area_contrato) +
+                chFieldDD('Solicitante', c.criado_por) +
+                chFieldDD('Gestor responsável', c.gestor_responsavel) +
+                chFieldDD('Data da solicitação', chFormatarData(c.data_solicitacao)) +
+                '</div></div>';
+
+            html += '<div class="ch-detail-section"><div class="ch-detail-section-title">Contexto do processo</div><div class="ch-detail-grid">' +
+                chFieldDD('Cenário atual (AS-IS)', c.cenario_atual) +
+                chFieldDD('Problema / dor atual', c.problema_dor) +
+                chFieldDD('Oportunidade', c.oportunidade) +
+                chFieldDD('Cenário futuro desejado (TO-BE)', c.cenario_futuro) +
+                '</div></div>';
+
+            html += '<div class="ch-detail-section"><div class="ch-detail-section-title">Escopo da automação</div><div class="ch-detail-grid">' +
+                chFieldDD('Processo(s) a automatizar', c.processos_automatizar) +
+                chFieldDD('Frequência de execução', c.frequencia_execucao) +
+                chFieldDD('Volume aproximado', c.volume_aproximado) +
+                chFieldDD('Usuários impactados', c.usuarios_impactados) +
+                chFieldDD('Resultado esperado', c.resultado_esperado) +
+                chFieldDD('Fora do escopo', c.fora_escopo) +
+                '</div></div>';
+
+            html += '<div class="ch-detail-section"><div class="ch-detail-section-title">Resultados e benefícios esperados</div><div class="ch-detail-grid">' +
+                chFieldDD('Tempo atual gasto no processo', c.tempo_atual_gasto) +
+                chFieldDD('Tempo esperado após automação', c.tempo_esperado_apos) +
+                chFieldDD('Principais ganhos esperados', c.principais_ganhos) +
+                chFieldDD('Indicador de sucesso', c.indicador_sucesso) +
+                '</div></div>';
+
+            html += chMiniTabela('Passo a passo do processo atual', c.etapas, [
+                ['ordem', '#'], ['atividade_atual', 'Atividade'], ['quem_executa', 'Quem executa'], ['ferramenta_sistema', 'Ferramenta'],
+                ['entrada', 'Entrada'], ['acao_realizada', 'Ação'], ['saida', 'Saída'], ['tempo_medio', 'Tempo médio'], ['problema_risco', 'Problema/risco'],
+            ]);
+            html += chMiniTabela('Requisitos da automação', c.requisitos, [
+                ['ordem', '#'], ['tipo', 'Tipo'], ['requisito_necessidade', 'Requisito'], ['regra_negocio', 'Regra de negócio'],
+                ['saida_esperada', 'Saída esperada'], ['prioridade', 'Prioridade'], ['criterio_aceite', 'Critério de aceite'], ['responsavel_validacao', 'Responsável'],
+            ]);
+            html += chMiniTabela('Sistemas e acessos necessários', c.sistemas_acessos, [
+                ['ordem', '#'], ['fonte_sistema', 'Fonte/sistema'], ['uso_automacao', 'Uso'], ['tipo_acesso', 'Tipo de acesso'],
+                ['url_caminho_origem', 'URL/caminho'], ['autenticacao_necessaria', 'Autenticação'], ['api_disponivel', 'API'], ['administrador_responsavel', 'Administrador'],
+            ]);
+
+            html += chRenderAnexos(c);
+
+            html += '<div class="ch-detail-section"><div class="ch-detail-section-title">Método 5W2H</div><div class="ch-detail-grid">' +
+                chFieldDD('Por quê?', c.motivo_por_que) +
+                chFieldDD('Como?', c.metodo_como) +
+                chFieldDD('O quê?', c.entrega_o_que) +
+                '</div></div>';
+
+            html += chRenderGestao(c);
+            html += chRenderTriagem(c);
+
+            if (CH_POD_GERIR) {
+                html += '<div class="ch-detail-section"><div class="ch-detail-section-title">Excluir chamado</div>' +
+                    '<div style="font-size:.8rem;color:var(--gray-400);margin-bottom:.6rem;">Remove o chamado, suas tabelas, anexos e a triagem de forma definitiva. Não pode ser desfeito.</div>' +
+                    '<button type="button" class="ch-btn-danger" id="chBtnExcluir"><i class="fas fa-trash"></i> Excluir chamado</button></div>';
+            }
+
+            body.innerHTML = html;
+
+            var detAnexoInput = document.getElementById('chDetAnexoInput');
+            if (detAnexoInput) {
+                detAnexoInput.addEventListener('change', function (ev) {
+                    if (!ev.target.files.length) return;
+                    chEnviarAnexos(c.id, Array.prototype.slice.call(ev.target.files)).then(function (upData) {
+                        if (!upData.success) { chToast(upData.message || 'Erro ao enviar anexo.', 'erro'); return; }
+                        chToast('Anexo enviado.');
+                        chAbrirDetalhe(c.id);
+                    }).catch(function () { chToast('Erro ao enviar anexo.', 'erro'); });
                 });
+            }
+            Array.prototype.forEach.call(body.querySelectorAll('.ch-anexo-del'), function (btn) {
+                btn.addEventListener('click', function () {
+                    if (!confirm('Remover este anexo?')) return;
+                    chPostJson(CH_URL_ANEXO_EXCLUIR, { anexo_id: btn.getAttribute('data-anexo-id') }).then(function () {
+                        chToast('Anexo removido.');
+                        chAbrirDetalhe(c.id);
+                    }).catch(function (err) { chToast(err.message, 'erro'); });
+                });
+            });
 
-                const formData = new FormData();
-                formData.append('action', 'delete');
-                formData.append('id', cardId);
+            var btnGestao = document.getElementById('chSalvarGestao');
+            if (btnGestao) {
+                btnGestao.addEventListener('click', function () {
+                    chPostJson(CH_URL_STATUS, {
+                        chamado_id: c.id,
+                        status: document.getElementById('chGestaoStatus').value,
+                        gestor_valida_necessidade: document.getElementById('chGestaoValida').value,
+                        ti_realizou_entendimento: document.getElementById('chGestaoEntendimento').value,
+                    }).then(function () {
+                        chToast('Chamado atualizado.');
+                        chAbrirDetalhe(c.id);
+                        chCarregarLista();
+                    }).catch(function (err) { chToast(err.message, 'erro'); });
+                });
+            }
 
-                fetch("/implantacoes-fluxo/", {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': '3rSYqO4B9W5oAqQs5eatUasVZZl176vq077AN7Iy50QAKkPh7nKaH5ADJbLGEeF0'
-                    }
-                })
-                .then(res => res.json())
-                .then(data => {
-                    Swal.close();
-                    if (data.success) {
-                        // Close modal
-                        const modalEl = document.getElementById('modalWizard');
-                        const modalInstance = bootstrap.Modal.getInstance(modalEl);
-                        if (modalInstance) {
-                            modalInstance.hide();
-                        }
-                        
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Excluído!',
-                            text: data.message,
-                            timer: 1500,
-                            showConfirmButton: false
-                        }).then(() => {
-                            location.reload();
+            var btnTriagem = document.getElementById('chSalvarTriagem');
+            if (btnTriagem) {
+                btnTriagem.addEventListener('click', function () {
+                    var linhas = body.querySelectorAll('.ch-triagem-row');
+                    var promessas = Array.prototype.map.call(linhas, function (tr) {
+                        return chPostJson(CH_URL_TRIAGEM_SALVAR, {
+                            item_id: tr.getAttribute('data-item-id'),
+                            resposta: tr.querySelector('[data-triagem-field="resposta"]').value,
+                            impacto_observacao: tr.querySelector('[data-triagem-field="impacto_observacao"]').value,
+                            responsavel: tr.querySelector('[data-triagem-field="responsavel"]').value,
+                            status: tr.querySelector('[data-triagem-field="status"]').value,
                         });
-                    } else {
-                        Swal.fire('Erro', data.message || 'Erro ao excluir card', 'error');
-                    }
-                })
-                .catch(err => {
-                    Swal.close();
-                    console.error(err);
-                    Swal.fire('Erro', 'Ocorreu um erro na requisição', 'error');
+                    });
+                    Promise.all(promessas).then(function () {
+                        chToast('Triagem salva.');
+                        chAbrirDetalhe(c.id);
+                    }).catch(function (err) { chToast(err.message, 'erro'); });
                 });
             }
+
+            var btnExcluir = document.getElementById('chBtnExcluir');
+            if (btnExcluir) {
+                btnExcluir.addEventListener('click', function () {
+                    if (!confirm('Excluir o chamado ' + c.codigo + ' (' + c.nome_projeto + ')? Essa ação não pode ser desfeita.')) return;
+                    btnExcluir.disabled = true;
+                    chPostJson(CH_URL_EXCLUIR, { chamado_id: c.id }).then(function () {
+                        chToast('Chamado ' + c.codigo + ' excluído.');
+                        chFecharDetalhe();
+                        chCarregarLista();
+                    }).catch(function (err) {
+                        chToast(err.message, 'erro');
+                        btnExcluir.disabled = false;
+                    });
+                });
+            }
+        }).catch(function (err) {
+            body.innerHTML = '<div style="color:var(--red);font-size:.85rem;">' + chEsc(err.message) + '</div>';
         });
     }
+
+    function chFecharDetalhe() {
+        document.getElementById('chOverlay').classList.remove('active');
+        document.getElementById('chDrawer').classList.remove('active');
+    }
+    document.getElementById('chOverlay').addEventListener('click', chFecharDetalhe);
+    document.getElementById('chDetFechar').addEventListener('click', chFecharDetalhe);
+
+    chCarregarLista();
+})();
 </script>
 
 <style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});});});</script><script src="static/demo-fill.js"></script></body>
