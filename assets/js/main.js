@@ -63,6 +63,20 @@
       ],
       stack:['Python 3.12','Django 5.2','PostgreSQL','Redis','Docker','Nginx','Pandas','Ollama'],
       liveDemo:{ url:'assets/demos/gpsflow/home.html', name:'GPS Flow', note:'O frontend real do sistema (versão atual, já rebatizada para FLOW), rodando com dados de exemplo. Navegue pelo menu lateral e pelas abas — é a interface de verdade.' },
+      tour:[
+        {i:'window',t:'Home',d:'Painel inicial: atalhos para os módulos e monitoramento dos sistemas integrados.',p:'assets/demos/gpsflow/home.html'},
+        {i:'wifi',t:'Torre de Controle',d:'Livro de ocorrências digital com trilha de auditoria (hash encadeado), planos de ação, aprovações e compras.',p:'assets/demos/gpsflow/torre-controle.html'},
+        {i:'shield',t:'Auditor de Ronda',d:'Auditoria das rondas — inclusive análise por IA — com evidências, reprovações e ranking por colaborador/local.',p:'assets/demos/gpsflow/auditoria.html'},
+        {i:'check',t:'Gestão da Qualidade',d:'Treinamentos, visitas técnicas, não conformidades e planos de ação, com CRUD completo e evidências.',p:'assets/demos/gpsflow/qualidade.html'},
+        {i:'money',t:'Financeiro',d:'Acompanhamento de orçamento x compras, alertas de estouro e ingestão de planilhas — com assistente de análise.',p:'assets/demos/gpsflow/financeiro.html'},
+        {i:'server',t:'Implantações',d:'Acompanhamento e fluxo (kanban) da implantação de contratos, por serviço e regional.',p:'assets/demos/gpsflow/implantacoes.html'},
+        {i:'cog',t:'Planner',d:'Kanban de projetos com etapas padronizadas, SLA, checklist, prioridade e responsáveis.',p:'assets/demos/gpsflow/planner.html'},
+        {i:'doc',t:'Psicossocial NR-01',d:'Avaliação psicossocial baseada no COPSOQ II: importa respostas, calcula scores e gera o relatório.',p:'assets/demos/gpsflow/psicossocial.html'},
+        {i:'db',t:'Gestão de Salas',d:'Cadastro de unidades e salas, reservas com calendário e QR Code por sala.',p:'assets/demos/gpsflow/gestao-salas.html'},
+        {i:'cart',t:'Chamado',d:'Abertura e acompanhamento de chamados/tickets com prioridade, status e SLA.',p:'assets/demos/gpsflow/chamados.html'},
+        {i:'qr',t:'Geradores (QR/Etiquetas)',d:'Geração de QR Codes e etiquetas em PDF para os pontos de operação.',p:'assets/demos/gpsflow/qr-generator.html'},
+        {i:'lock',t:'Controle de Acessos',d:'Usuários e permissões por página e por papel (admin, gerente, coordenador, supervisor).',p:'assets/demos/gpsflow/controle-acessos.html'}
+      ],
       links:[{label:'Ver versão pública no GitHub',url:'https://github.com/Vitrolesalves/gestao-a-vista'}]
     },
     {
@@ -87,6 +101,14 @@
       ],
       stack:['Django','PostgreSQL','Ollama (LLM)','python-docx','pypdf'],
       liveDemo:{ url:'assets/demos/conecta/dashboard.html', name:'Conecta Jurídico', note:'O frontend real da plataforma, com dados de exemplo. Navegue pelo feed e abra "Novo Chamado" para ver o formulário que se adapta à norma.' },
+      tour:[
+        {i:'window',t:'Feed Jurídico',d:'Mural das demandas com busca, filtro por norma e resumo da fila (processos, SLA, concluídos).',p:'assets/demos/conecta/dashboard.html'},
+        {i:'puzzle',t:'Novo Chamado',d:'Formulário inteligente: campos, anexos e aprovadores mudam conforme a norma e a criticidade.',p:'assets/demos/conecta/novo-chamado.html'},
+        {i:'bolt',t:'Meus Chamados',d:'Lista e acompanhamento das demandas com status, prioridade e timeline por chamado.',p:'assets/demos/conecta/chamados.html'},
+        {i:'chart',t:'Relatórios de Risco',d:'Visão de risco e conformidade das tratativas para auditoria e compliance.',p:'assets/demos/conecta/relatorios.html'},
+        {i:'doc',t:'Base de Conhecimento',d:'Documentos, modelos e materiais de referência centralizados.',p:'assets/demos/conecta/conhecimento.html'},
+        {i:'shield',t:'Regulatório',d:'Informações e acompanhamento regulatório da área jurídica.',p:'assets/demos/conecta/regulatorio.html'}
+      ],
       links:[]
     },
     {
@@ -386,6 +408,11 @@
       return '<li><span class="fi">' + svg(f.i, 17) + '</span><span><b>' + f.t + '</b>' + f.d + '</span></li>';
     }).join('') + '</ul>';
   }
+  function tourHTML(p) {
+    return '<div class="tour">' + p.tour.map(function (t) {
+      return '<button class="tour__item" data-page="' + t.p + '"><span class="tour__ic">' + svg(t.i, 18) + '</span><span class="tour__tx"><b>' + t.t + '</b><small>' + t.d + '</small></span><span class="tour__go">abrir ↗</span></button>';
+    }).join('') + '</div>';
+  }
   function linksHTML(p) {
     if (!p.links.length) return '';
     return '<div class="gh">' + p.links.map(function (l) { return '<a href="' + l.url + '" target="_blank" rel="noopener">' + l.label + ' ↗</a>'; }).join('') + '</div>';
@@ -412,6 +439,7 @@
             '<div class="pblock"><span class="lab p">● O problema</span><p>' + p.problem + '</p></div>' +
             '<div class="pblock"><span class="lab s">● A solução</span><p>' + p.solution + '</p></div>' +
             '<div class="pblock"><span class="lab r">● O resultado</span><p>' + p.result + '</p></div>' +
+            (p.tour ? '<div class="pblock"><span class="lab" style="color:var(--ink)">● Tour guiado — o que cada parte faz</span><p style="color:var(--gray);margin-bottom:14px">Clique em qualquer item para abrir o sistema já naquela tela, com dados de exemplo.</p>' + tourHTML(p) + '</div>' : '') +
             (p.demo ? '<div class="pblock">' + demoHTML(p) + '</div>' : '') +
             '<div class="pblock"><span class="lab" style="color:var(--ink)">● O que foi construído</span>' + featsHTML(p) + '</div>' +
           '</div>' +
@@ -432,6 +460,7 @@
     $$('.modal__gallery img', modal).forEach(function (im) { im.addEventListener('click', function () { openLB(im.src); }); });
     var cl = $('[data-close]', modal); if (cl) cl.addEventListener('click', closeModal);
     var ol = $('#openLive', modal); if (ol) ol.addEventListener('click', function () { openLiveDemo(p.liveDemo); });
+    $$('.tour__item', modal).forEach(function (b) { b.addEventListener('click', function () { openLiveDemo({ url: b.getAttribute('data-page'), name: (p.liveDemo ? p.liveDemo.name : p.title) }); }); });
     if (p.demo === 'discord') wireDiscord(modal);
     if (p.demo === 'qr') wireQR(modal);
     modal.scrollTop = 0;

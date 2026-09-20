@@ -65,23 +65,31 @@
       else if (/^0\s*%$/.test(t)) el.textContent = ri(8, 96) + '%';
     });
   }
+  function makeCard() {
+    var c = document.createElement('div');
+    c.style.cssText = 'background:#fff;border:1px solid #e6e9ef;border-left:3px solid ' + pick(['#2563eb', '#16a34a', '#d97706', '#7c3aed', '#0ea5e9']) + ';border-radius:10px;padding:11px 13px;margin:0 0 8px;box-shadow:0 2px 6px rgba(0,0,0,.05);font-family:system-ui,sans-serif';
+    c.innerHTML = '<div style="font-weight:700;font-size:.86rem;color:#1f2937">' + pick(TEMAS) + '</div>' +
+      '<div style="font-size:.74rem;color:#6b7280;margin-top:4px">' + cr() + ' · ' + pick(LOCAIS) + '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px">' +
+      badge(pick(PRIOR)[0], pick(PRIOR)[1]) + '<span style="font-size:.72rem;color:#9ca3af">' + pick(NAMES).split(' ')[0] + ' · ' + date() + '</span></div>';
+    return c;
+  }
   function fillKanban() {
-    // colunas kanban com "Sem demandas / Nenhum ... nesta etapa" -> injeta cards fictícios
-    document.querySelectorAll('*').forEach(function (el) {
-      if (el.children.length !== 0) return;
-      if (!/sem demandas|nenhuma? (demanda|tarefa|card|item)|vazi[ao]/i.test(el.textContent)) return;
-      var col = el.parentElement; if (!col || col.__k) return; col.__k = 1;
-      el.style.display = 'none';
-      var n = ri(2, 4);
-      for (var i = 0; i < n; i++) {
-        var c = document.createElement('div');
-        c.style.cssText = 'background:#fff;border:1px solid #e6e9ef;border-left:3px solid ' + pick(['#2563eb', '#16a34a', '#d97706', '#7c3aed', '#0ea5e9']) + ';border-radius:10px;padding:11px 13px;margin:8px 6px;box-shadow:0 2px 6px rgba(0,0,0,.05);font-family:system-ui,sans-serif';
-        c.innerHTML = '<div style="font-weight:700;font-size:.86rem;color:#1f2937">' + pick(TEMAS) + '</div>' +
-          '<div style="font-size:.74rem;color:#6b7280;margin-top:4px">' + cr() + ' · ' + pick(LOCAIS) + '</div>' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px">' +
-          badge(pick(PRIOR)[0], pick(PRIOR)[1]) + '<span style="font-size:.72rem;color:#9ca3af">' + pick(NAMES).split(' ')[0] + ' · ' + date() + '</span></div>';
-        col.appendChild(c);
-      }
+    // container específico de kanban
+    document.querySelectorAll('.kanban-items-container,[class*="items-container"],[class*="kanban-items"]').forEach(function (c) {
+      if (c.__k) return;
+      var kids = [].slice.call(c.children);
+      var onlyEmpty = kids.length === 0 || kids.every(function (ch) { return /sem demandas|nenhum|vazi|carregando/i.test(ch.textContent); });
+      if (!onlyEmpty) return;
+      c.__k = 1; c.innerHTML = '';
+      var n = ri(2, 4); for (var i = 0; i < n; i++) c.appendChild(makeCard());
+    });
+    // fallback: "sem demandas" solto -> injeta no pai
+    document.querySelectorAll('div,p,span').forEach(function (el) {
+      if (el.children.length !== 0 || el.__kv) return;
+      if (!/sem demandas|nenhuma? demanda|nenhum card|nenhum item nesta/i.test(el.textContent)) return;
+      var col = el.parentElement; if (!col || col.__k) return; col.__k = 1; el.__kv = 1; el.style.display = 'none';
+      var n = ri(2, 4); for (var i = 0; i < n; i++) col.appendChild(makeCard());
     });
   }
   function hideEmpties() {
@@ -106,7 +114,16 @@
       });
     } catch (e) { }
   }
-  function run() { try { fillTables(); fillKanban(); fillKPIs(); hideEmpties(); } catch (e) { } setTimeout(fillCharts, 700); setTimeout(fillCharts, 1600); }
+  function pass() { try { fillTables(); fillKanban(); fillKPIs(); hideEmpties(); } catch (e) { } }
+  function run() {
+    pass(); setTimeout(pass, 900); setTimeout(function () { pass(); fillCharts(); }, 1900); setTimeout(fillCharts, 3200);
+    // observa render assíncrono e re-preenche (guardas evitam duplicar)
+    try {
+      var t, mo = new MutationObserver(function () { if (t) return; t = setTimeout(function () { t = 0; try { fillTables(); fillKanban(); } catch (e) { } }, 300); });
+      mo.observe(document.body, { childList: true, subtree: true });
+      setTimeout(function () { mo.disconnect(); }, 8000);
+    } catch (e) { }
+  }
   if (document.readyState === 'complete') setTimeout(run, 300);
   else window.addEventListener('load', function () { setTimeout(run, 350); });
 })();

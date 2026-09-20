@@ -304,6 +304,17 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:800;line-height:1.1;letter-
 .feats .fi{width:34px;height:34px;border-radius:9px;background:var(--bg-3);color:var(--red);display:grid;place-items:center;flex:none}
 .feats .fi svg{width:17px;height:17px}
 .feats b{color:var(--ink);display:block;font-family:var(--font-head);font-size:.9rem}
+/* tour guiado */
+.tour{display:flex;flex-direction:column;gap:8px}
+.tour__item{display:flex;align-items:center;gap:14px;text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;transition:.18s var(--ease);cursor:pointer;width:100%}
+.tour__item:hover{border-color:var(--red);background:var(--bg-3);transform:translateX(3px)}
+.tour__ic{width:38px;height:38px;flex:none;border-radius:10px;background:var(--bg-2);color:var(--red);display:grid;place-items:center}
+.tour__item:hover .tour__ic{background:#fff}
+.tour__tx{flex:1;min-width:0}
+.tour__tx b{display:block;font-family:var(--font-head);font-size:.95rem;color:var(--ink)}
+.tour__tx small{color:var(--gray);font-size:.84rem;line-height:1.4;display:block;margin-top:2px}
+.tour__go{flex:none;font-size:.78rem;font-weight:700;color:var(--red);opacity:0;transition:.18s var(--ease)}
+.tour__item:hover .tour__go{opacity:1}
 .stackrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
 .stackrow span{font-family:var(--font-mono);font-size:.76rem;background:var(--bg-2);border:1px solid var(--line);padding:6px 11px;border-radius:8px;color:var(--ink-2)}
 .modal__side{align-self:start;position:sticky;top:76px}
