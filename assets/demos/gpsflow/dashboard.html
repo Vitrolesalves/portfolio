@@ -1,0 +1,2512 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboards - FLOW</title>
+    <meta name="application-name" content="FLOW">
+    <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FLOW">
+    <link rel="manifest" href="static/manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="static/img/icon-192x192.png?v=gpsflow2">
+    <link rel="icon" type="image/png" sizes="512x512" href="static/img/icon-512x512.png?v=gpsflow2">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/img/icon-192x192.png?v=gpsflow2">
+    <link rel="shortcut icon" href="static/img/logo.png?v=gpsflow2">
+
+    <!-- Figtree: clean, structured, distinctly corporate without being generic -->
+    <link rel="stylesheet" href="static/vendor/figtree/figtree.css">
+
+    <link href="static/vendor/bootstrap-5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/tailwind-build.css">
+    <script src="static/vendor/date-fns-3.6.0/date-fns.min.js"></script>
+    <script src="static/vendor/date-fns-3.6.0/date-fns-ptBR.min.js"></script>
+    <script defer src="static/js/alpine-3.min.js"></script>
+    <link rel="stylesheet" href="static/vendor/fontawesome-5.15.4/css/all.min.css">
+    <script src="static/vendor/jquery-3.6.0/jquery.min.js"></script>
+
+    <style>
+        /* ── Alpine.js safety net ───────────────────────────
+           Se o script do Alpine (CDN externo) demorar ou falhar em
+           carregar, elementos com x-show ficam visíveis por padrão (o
+           navegador não sabe que deveriam começar escondidos), o que
+           trava a tela com overlays/menus abertos. x-cloak é removido
+           pelo próprio Alpine assim que ele inicializa; até lá, esta
+           regra garante que o elemento comece escondido. */
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* ── Tokens ─────────────────────────────────────── */
+        :root {
+            --f: 'Figtree', system-ui, sans-serif;
+
+            /* Brand navy — extraído diretamente da imagem de login */
+            --navy: #1a2a45;
+            --navy-dark: #111e33;
+            --navy-mid: #1e3558;
+            --navy-light: #2a4570;
+            --navy-faint: #e8f0f9;
+
+            /* Accent blue */
+            --blue: #2563eb;
+            --blue-light: #3b82f6;
+            --blue-faint: #eff6ff;
+            --blue-ring: rgba(37, 99, 235, 0.2);
+
+            /* Greens / warnings / danger */
+            --green: #16a34a;
+            --green-faint: #f0fdf4;
+            --amber: #d97706;
+            --amber-faint: #fffbeb;
+            --red: #dc2626;
+            --red-faint: #fef2f2;
+            --sky: #0ea5e9;
+
+            /* Grays */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-150: #eaeff5;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+
+            /* Layout */
+            --sidebar-w: 15.5rem;
+            --sidebar-ic: 3.5rem;
+            --topbar-h: 3.5rem;
+            --sidebar-bg: linear-gradient(175deg, #1a2a45 0%, #1e3558 60%, #162035 100%);
+
+            /* Radii */
+            --r-sm: 4px;
+            --r: 6px;
+            --r-md: 8px;
+            --r-lg: 12px;
+            --r-xl: 16px;
+
+            /* Shadows */
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, .05);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, .07), 0 1px 2px rgba(0, 0, 0, .04);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, .07), 0 2px 4px rgba(0, 0, 0, .04);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, .09), 0 3px 8px rgba(0, 0, 0, .05);
+        }
+
+        /* ── Reset ──────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        body {
+            font-family: var(--f);
+            background: var(--gray-150);
+            color: var(--gray-700);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ── Shell ──────────────────────────────────────── */
+        .shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ══════════════════════════════════════════════════
+           SIDEBAR
+        ═══════════════════════════════════════════════════ */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--sidebar-bg);
+            border-right: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            transition: width .25s ease;
+            overflow: hidden;
+            box-shadow: 3px 0 16px rgba(0, 0, 0, .18);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-ic);
+        }
+
+        /* Brand strip at the top of the sidebar */
+        .sidebar-brand {
+            height: var(--topbar-h);
+            background: rgba(0, 0, 0, .2);
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            padding: 0 1rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .brand-icon {
+            width: 1.75rem;
+            height: 1.75rem;
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .brand-icon svg {
+            width: 1rem;
+            height: 1rem;
+            color: #fff;
+        }
+
+        .brand-label {
+            overflow: hidden;
+            transition: opacity .2s, transform .2s;
+        }
+
+        .sidebar.collapsed .brand-label {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-6px);
+        }
+
+        .brand-name {
+            font-size: .8125rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+            white-space: nowrap;
+            letter-spacing: -.01em;
+        }
+
+        .brand-sub {
+            font-size: .625rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, .55);
+            white-space: nowrap;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            margin-top: 1px;
+        }
+
+        /* Nav scroll area */
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: .75rem .5rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, .12) transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, .12);
+            border-radius: 99px;
+        }
+
+        /* Section label */
+        .nav-section {
+            font-size: .625rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .3);
+            padding: .25rem .625rem;
+            margin-top: .5rem;
+            margin-bottom: .25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity .15s, margin .15s;
+        }
+
+        .sidebar.collapsed .nav-section {
+            opacity: 0;
+            margin-top: -1.25rem;
+            pointer-events: none;
+        }
+
+        /* Nav item */
+        .nav-item {
+            position: relative;
+            margin-bottom: 1px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem .625rem;
+            border-radius: var(--r);
+            color: rgba(255, 255, 255, .65);
+            font-size: .8125rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: var(--f);
+            white-space: nowrap;
+            overflow: hidden;
+            transition: background .12s, color .12s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .95);
+        }
+
+        /* Active: left accent bar + highlight */
+        .nav-link.active {
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 65%;
+            background: #60a5fa;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding: .5rem;
+        }
+
+        .nav-icon {
+            width: 1.0625rem;
+            height: 1.0625rem;
+            flex-shrink: 0;
+            opacity: .6;
+            transition: opacity .12s;
+        }
+
+        .nav-link:hover .nav-icon,
+        .nav-link.active .nav-icon {
+            opacity: 1;
+        }
+
+        .nav-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: opacity .15s, width .15s;
+        }
+
+        .sidebar.collapsed .nav-text {
+            opacity: 0;
+            width: 0;
+            pointer-events: none;
+        }
+
+        .nav-chevron {
+            width: .8125rem;
+            height: .8125rem;
+            flex-shrink: 0;
+            color: rgba(255, 255, 255, .3);
+            transition: transform .18s ease;
+            margin-left: auto;
+        }
+
+        .sidebar.collapsed .nav-chevron {
+            display: none;
+        }
+
+        .nav-link.expanded .nav-chevron {
+            transform: rotate(90deg);
+        }
+
+        /* Sub-nav */
+        .nav-sub {
+            margin-left: 1.625rem;
+            padding-left: .625rem;
+            border-left: 1.5px solid rgba(255, 255, 255, .12);
+            margin-top: 1px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .sidebar.collapsed .nav-sub {
+            display: none;
+        }
+
+        .nav-sub-link {
+            display: flex;
+            align-items: center;
+            gap: .4375rem;
+            padding: .375rem .5rem;
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .5);
+            font-size: .75rem;
+            font-weight: 500;
+            font-family: var(--f);
+            text-decoration: none;
+            transition: background .12s, color .12s;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .nav-sub-link:hover {
+            background: rgba(255, 255, 255, .07);
+            color: rgba(255, 255, 255, .9);
+        }
+
+        .nav-sub-link.active {
+            color: #93c5fd;
+            font-weight: 600;
+        }
+
+        .nav-sub-icon {
+            width: .875rem;
+            height: .875rem;
+            flex-shrink: 0;
+            opacity: .65;
+        }
+
+        .nav-sub-link:hover .nav-sub-icon,
+        .nav-sub-link.active .nav-sub-icon {
+            opacity: 1;
+        }
+
+        /* Tooltip (collapsed state) */
+        .nav-tip {
+            position: fixed;
+            left: calc(var(--sidebar-ic) + .5rem);
+            background: var(--gray-900);
+            color: #fff;
+            font-family: var(--f);
+            font-size: .75rem;
+            font-weight: 500;
+            padding: .3125rem .6875rem;
+            border-radius: var(--r-sm);
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 9999;
+            box-shadow: var(--shadow-md);
+            transition: opacity .12s, visibility .12s;
+        }
+
+        .sidebar.collapsed .nav-item:hover .nav-tip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ══════════════════════════════════════════════════
+           MAIN AREA
+        ═══════════════════════════════════════════════════ */
+        .main {
+            flex: 1;
+            min-width: 0;
+            margin-left: var(--sidebar-w);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: margin-left .25s ease;
+        }
+
+        .main.collapsed {
+            margin-left: var(--sidebar-ic);
+        }
+
+        .main.embed-mode {
+            margin-left: 0 !important;
+        }
+
+        /* ── Top bar ────────────────────────────────────── */
+        .topbar {
+            height: var(--topbar-h);
+            background: #1a2a45;
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .topbar-toggle {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .85);
+            cursor: pointer;
+            transition: background .12s, color .12s;
+            flex-shrink: 0;
+        }
+
+        .topbar-toggle:hover {
+            background: rgba(255, 255, 255, .18);
+            color: #fff;
+        }
+
+        .topbar-toggle svg {
+            width: .9375rem;
+            height: .9375rem;
+        }
+
+        .topbar-title {
+            font-size: .9375rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -.015em;
+            flex: 1;
+        }
+
+        /* Breadcrumb strip below topbar */
+        .breadcrumb-bar {
+            background: var(--navy-dark);
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            gap: .375rem;
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+        }
+
+        .breadcrumb-item {
+            font-size: .6875rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .45);
+            letter-spacing: .02em;
+        }
+
+        .breadcrumb-sep {
+            color: rgba(255, 255, 255, .2);
+            font-size: .625rem;
+        }
+
+        .breadcrumb-item.current {
+            color: rgba(255, 255, 255, .75);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            margin-left: auto;
+        }
+
+        /* User chip */
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .25rem .625rem .25rem .25rem;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 99px;
+        }
+
+        .user-avatar {
+            width: 1.625rem;
+            height: 1.625rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .2);
+            border: 1px solid rgba(255, 255, 255, .25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .625rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: .05em;
+            flex-shrink: 0;
+        }
+
+        .user-name {
+            font-size: .75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .9);
+            max-width: 9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Logout button */
+        .btn-exit {
+            display: inline-flex;
+            align-items: center;
+            gap: .3125rem;
+            padding: .3125rem .75rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: var(--r-sm);
+            color: rgba(255, 255, 255, .75);
+            font-family: var(--f);
+            font-size: .6875rem;
+            font-weight: 600;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background .12s, border-color .12s, color .12s;
+        }
+
+        .btn-exit:hover {
+            background: rgba(220, 38, 38, .25);
+            border-color: rgba(220, 38, 38, .4);
+            color: #fca5a5;
+        }
+
+        .btn-exit svg {
+            width: .8125rem;
+            height: .8125rem;
+        }
+
+        /* ── Page body ──────────────────────────────────── */
+        .page-body {
+            flex: 1;
+            padding: 1.5rem;
+        }
+
+        /* ── Messages ───────────────────────────────────── */
+        .msg-stack {
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .msg {
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+            padding: .75rem 1rem;
+            border-radius: var(--r-md);
+            font-size: .8125rem;
+            font-weight: 500;
+            border: 1px solid transparent;
+            animation: msgIn .2s ease;
+        }
+
+        .msg.success {
+            background: var(--green-faint);
+            border-color: rgba(22, 163, 74, .2);
+            color: #14532d;
+        }
+
+        .msg.error {
+            background: var(--red-faint);
+            border-color: rgba(220, 38, 38, .2);
+            color: #7f1d1d;
+        }
+
+        .msg.warning {
+            background: var(--amber-faint);
+            border-color: rgba(217, 119, 6, .2);
+            color: #78350f;
+        }
+
+        .msg.info {
+            background: var(--blue-faint);
+            border-color: rgba(37, 99, 235, .2);
+            color: #1e3a8a;
+        }
+
+        /* ── Footer ─────────────────────────────────────── */
+        .app-footer {
+            background: linear-gradient(90deg, #111e33 0%, #1a2a45 100%);
+            border-top: 1px solid rgba(255, 255, 255, .07);
+            padding: .875rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-footer p {
+            margin: 0;
+            font-size: .6875rem;
+            color: rgba(255, 255, 255, .3);
+            letter-spacing: .03em;
+        }
+
+        /* ── Mobile overlay ─────────────────────────────── */
+        .m-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            z-index: 199;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ── Animations ─────────────────────────────────── */
+        @keyframes msgIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-in {
+            /* fill-mode "none" (padrão, sem "both") é de propósito: um
+               transform "parado" em translateY(0) depois que a animação
+               termina ainda cria um novo containing block pra elementos
+               position:fixed dentro da página (spec do CSS) -- isso fazia
+               modais fullscreen (ex.: visualização de dashboard do Power BI)
+               calcularem left/top relativos ao <main>, não à viewport,
+               "empurrando" o modal pro canto errado. Sem fill-mode, o
+               transform some de vez quando a animação acaba. */
+            animation: fadeUp .3s ease;
+        }
+
+        /* ── Responsive ─────────────────────────────────── */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .25s ease, width .25s ease;
+                width: var(--sidebar-w) !important;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0 !important;
+            }
+
+            .topbar-desktop {
+                display: none !important;
+            }
+
+            .topbar-mobile {
+                display: flex !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .topbar-mobile {
+                display: none !important;
+            }
+
+            .topbar-desktop {
+                display: flex !important;
+            }
+        }
+    </style>
+
+    
+<style>
+    /* Loading indicator */
+    .htmx-indicator {
+        opacity: 0;
+        transition: opacity 200ms ease-in;
+    }
+
+    .htmx-request .htmx-indicator {
+        opacity: 1;
+    }
+
+    .htmx-request.htmx-indicator {
+        opacity: 1;
+    }
+
+    .dashboard-icon {
+        width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
+        display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
+    }
+    .dashboard-title {
+        background: linear-gradient(to right, #1A2A45, #2A4570);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 26px;
+        font-weight: bold;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    /* Estilos para o modal de visualização */
+    #viewModal {
+        transition: all 0.3s ease-in-out;
+        /* .topbar (z-index:100) e .sidebar (z-index:200) do base.html ficam
+           acima do z-50 (Tailwind) deste modal por padrão -- mesmo com o
+           menu lateral escondido via JS, a barra superior do site continua
+           por cima do cabeçalho do modal. Reforça o z-index pra garantir
+           que o modal em tela cheia sempre fique acima de tudo. */
+        z-index: 300 !important;
+    }
+
+    #viewModal .h-full {
+        height: 100vh;
+    }
+
+    /* Transições suaves */
+    .sidebar {
+        transition: visibility 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    }
+
+    .sidebar.hiding {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .sidebar.showing {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Estilos do cabeçalho */
+    #viewModal .border-b {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        background: white;
+        z-index: 50;
+        width: 100%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Ajuste quando o menu está aberto */
+    .sidebar-expanded #viewModal .border-b {
+        left: 250px;
+        width: calc(100% - 250px);
+    }
+
+    /* Conteúdo principal */
+    #viewModal .flex-1 {
+        margin-top: 57px;
+        /* Altura do cabeçalho */
+        height: calc(100vh - 57px);
+    }
+
+    #dashboardFrame,
+    #noDashboardContent {
+        height: 100% !important;
+    }
+
+    /* Ajustes para o menu lateral */
+    @media (min-width: 768px) {
+        .sidebar-expanded #viewModal {
+            left: 250px;
+        }
+    }
+
+    /* Ajustes responsivos */
+    @media (max-width: 768px) {
+        #viewModal .border-b {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        #viewModal .flex.items-center.gap-6 {
+            gap: 0.75rem;
+        }
+    }
+
+    /* Estilos gerais da página */
+    .container {
+        max-width: 2000px;
+        margin: 0 auto;
+    }
+
+    /* Ajustes de layout para conteúdo principal */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Estilos para o modal de visualização do dashboard */
+    #viewModal {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+
+    #viewModal .h-screen {
+        height: 100vh;
+        height: -webkit-fill-available;
+    }
+
+    #dashboardFrame {
+        min-height: 100%;
+        min-width: 100%;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    /* Ajustes para dispositivos móveis */
+    @media (max-width: 768px) {
+        #viewModal .flex.items-center.space-x-8 {
+            flex-direction: column;
+            align-items: flex-start;
+            space-x: 0 !important;
+        }
+
+        #viewModal .flex.items-center.space-x-8>* {
+            margin-left: 0 !important;
+            margin-bottom: 0.5rem;
+        }
+
+        #viewModal .flex.justify-between {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+
+    /* Estilos para dropdown customizado de CRs */
+    .cr-dropdown {
+        position: relative;
+    }
+
+    .cr-dropdown-toggle {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        background-color: white;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 42px;
+    }
+
+    .cr-dropdown-toggle:focus {
+        outline: none;
+        ring: 2px;
+        ring-color: #3b82f6;
+        border-color: #3b82f6;
+    }
+
+    .cr-dropdown-content {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-height: 300px;
+        overflow: hidden;
+        display: none;
+    }
+
+    .cr-dropdown-content.show {
+        display: block;
+    }
+
+    .cr-dropdown-search {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: none;
+        border-bottom: 1px solid #e5e7eb;
+        outline: none;
+        font-size: 0.875rem;
+    }
+
+    .cr-dropdown-search:focus {
+        border-bottom-color: #3b82f6;
+    }
+
+    .cr-dropdown-options {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .cr-dropdown-option {
+        padding: 0.5rem 0.75rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .cr-dropdown-option:hover {
+        background-color: #f9fafb;
+    }
+
+    .cr-dropdown-option:last-child {
+        border-bottom: none;
+    }
+
+    .cr-dropdown-option input[type="checkbox"] {
+        margin: 0;
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .cr-dropdown-selected-count {
+        font-size: 0.875rem;
+        color: #6b7280;
+    }
+
+    .cr-dropdown-arrow {
+        transition: transform 0.2s;
+        color: #6b7280;
+    }
+
+    .cr-dropdown-arrow.rotated {
+        transform: rotate(180deg);
+    }
+
+    .cr-dropdown-no-results {
+        padding: 1rem;
+        text-align: center;
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+</style>
+<script src="static/vendor/htmx-1.9.10/htmx.min.js"></script>
+
+</head>
+
+<body x-data="{
+    collapsed: false,
+    mobileOpen: false,
+    geradores: false,
+    acompanhamento: false,
+    gestaoReservas: false,
+    auditoria: false,
+    projetos: false,
+    psico: false,
+    gestaoAVista: true,
+    deparaAprova: false
+}">
+
+    <div class="shell">
+
+        <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+        
+        <aside class="sidebar" :class="{ 'collapsed': collapsed, 'mobile-open': mobileOpen }">
+
+            <!-- Brand strip -->
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div class="brand-label">
+                    <div class="brand-name">FLOW</div>
+                    <div class="brand-sub">Qualidade &amp; Operações</div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <div class="nav-section">Menu</div>
+
+                <!-- Home -->
+                <div class="nav-item">
+                    <a href="home.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <div class="nav-tip">Home</div>
+                </div>
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="nav-text">Controle de Usuários</span>
+                    </a>
+                    <div class="nav-tip">Controle de Usuários</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span class="nav-text">Estatísticas de Acesso</span>
+                    </a>
+                    <div class="nav-tip">Estatísticas de Acesso</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="nav-text">Gerenciar Regionais</span>
+                    </a>
+                    <div class="nav-tip">Gerenciar Regionais</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) gestaoAVista = !gestaoAVista"
+                        class="nav-link active"
+                        :class="{ 'expanded': gestaoAVista && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span class="nav-text">Gestão a Vista</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Gestão a Vista</div>
+                    <div x-show="gestaoAVista && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="dashboard.html"
+                            class="nav-sub-link active">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span>Dashboards</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="nav-text">Financeiro</span>
+                    </a>
+                    <div class="nav-tip">Financeiro</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) gestaoReservas = !gestaoReservas"
+                        class="nav-link "
+                        :class="{ 'expanded': gestaoReservas && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <span class="nav-text">Gestão de Reservas</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Gestão de Reservas</div>
+                    <div x-show="gestaoReservas && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span>Gestão de Salas</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Reserva de Salas</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Calendário de Reservas</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) projetos = !projetos"
+                        class="nav-link "
+                        :class="{ 'expanded': projetos && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                        <span class="nav-text">Projetos</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Projetos</div>
+                    <div x-show="projetos && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                            <span>Planner</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                            </svg>
+                            <span>Arquivos</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) auditoria = !auditoria"
+                        class="nav-link "
+                        :class="{ 'expanded': auditoria && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                        </svg>
+                        <span class="nav-text">Auditoria</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Auditoria</div>
+                    <div x-show="auditoria && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span>Auditor de Ronda</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">Relatórios</span>
+                    </a>
+                    <div class="nav-tip">Relatórios</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="qualidade.html"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        <span class="nav-text">Gestão da Qualidade</span>
+                    </a>
+                    <div class="nav-tip">Gestão da Qualidade</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="nav-text">Gestão de Ordens</span>
+                    </a>
+                    <div class="nav-tip">Gestão de Ordens</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) deparaAprova = !deparaAprova"
+                        class="nav-link "
+                        :class="{ 'expanded': deparaAprova && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">DparAprova</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">DparAprova — Validação de Certificados</div>
+                    <div x-show="deparaAprova && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span>Validação de Certificado</span>
+                        </a>
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            <span>Carta de Validação</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 17v-2a4 4 0 014-4h4m0 0l-3-3m3 3l-3 3M4 7h6m-6 4h6m-6 4h4" />
+                            </svg>
+                            <span>Elaborar Certificado</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                        </svg>
+                        <span class="nav-text">Chamado</span>
+                    </a>
+                    <div class="nav-tip">Chamado — Solicitação de Projetos e Automações</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span class="nav-text">Calendário 2026</span>
+                    </a>
+                    <div class="nav-tip">Calendário 2026</div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) psico = !psico"
+                        class="nav-link "
+                        :class="{ 'expanded': psico && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3M9 12h.01M9 16h.01m3-3h3m-3 3h3" />
+                        </svg>
+                        <span class="nav-text">Psico NR1</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Psico NR1</div>
+                    <div x-show="psico && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+                            </svg>
+                            <span>Avaliação Psicossocial</span>
+                        </a>
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <span>Base Layout 1</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) geradores = !geradores"
+                        class="nav-link "
+                        :class="{ 'expanded': geradores && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                        </svg>
+                        <span class="nav-text">Geradores</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Geradores</div>
+                    <div x-show="geradores && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                            </svg>
+                            <span>Gerador QR Code</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                            </svg>
+                            <span>Gerador de Etiquetas</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
+                            </svg>
+                            <span>Gerador de Crachá</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <button @click="if(!collapsed) acompanhamento = !acompanhamento"
+                        class="nav-link "
+                        :class="{ 'expanded': acompanhamento && !collapsed }">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="nav-text">Acompanhamento</span>
+                        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="nav-tip">Acompanhamento</div>
+                    <div x-show="acompanhamento && !collapsed" x-cloak x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>Desativação de CR</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                            <span>Controle de Chips</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                            </svg>
+                            <span>Implantações Sistêmicas</span>
+                        </a>
+                        
+                        
+                        <a href="implantacoes.html"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+                            </svg>
+                            <span>Fluxo de Implantações</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            <span>Fluxo de Desmobilização</span>
+                        </a>
+                        
+                        
+                        <a href="#"
+                            class="nav-sub-link ">
+                            <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h3m-7 5h10a2 2 0 002-2V7.414a1 1 0 00-.293-.707l-3.414-3.414A1 1 0 0012.586 3H6a2 2 0 00-2 2v13a2 2 0 002 2z" />
+                            </svg>
+                            <span>Livro de Ocorrência (PDF)</span>
+                        </a>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        <span class="nav-text">Links GPS</span>
+                    </a>
+                    <div class="nav-tip">Links GPS — Fácil Acesso</div>
+                </div>
+                
+
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                        </svg>
+                        <span class="nav-text">Novidades</span>
+                    </a>
+                    <div class="nav-tip">Novidades — o que mudou no sistema</div>
+                </div>
+
+                <!-- Ajuda — manter SEMPRE como ÚLTIMO item do menu -->
+                <div class="nav-item">
+                    <a href="#"
+                        class="nav-link ">
+                        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="nav-text">Ajuda</span>
+                    </a>
+                    <div class="nav-tip">Ajuda — Tour pelo sistema</div>
+                </div>
+
+            </nav>
+        </aside>
+        
+
+        <!-- ══ MAIN ═════════════════════════════════════════════════ -->
+        <div class="main " :class="{ 'collapsed': collapsed }">
+
+            
+            <!-- Top bar -->
+            <header class="topbar">
+                <!-- Desktop collapse toggle -->
+                <button @click="collapsed = !collapsed" class="topbar-toggle topbar-desktop" title="Recolher menu">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </button>
+                <!-- Mobile open toggle -->
+                <button @click="mobileOpen = !mobileOpen" class="topbar-toggle topbar-mobile" title="Abrir menu">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+
+                <span class="topbar-title">FLOW</span>
+
+                <div class="topbar-right">
+                    
+                    <div class="me-3 d-flex align-items-center gap-2">
+                        <span class="text-white text-xs opacity-75 font-semibold">Filtro Regional:</span>
+                        <select
+                            onchange="window.location.href='/alterar-regional-ativa/?regional_id=' + this.value"
+                            class="form-select form-select-sm py-1 px-2 border-0 bg-white bg-opacity-10 text-white rounded font-medium text-xs cursor-pointer focus:ring-1 focus:ring-blue-500"
+                            style="width: auto; min-width: 120px; font-size: 11px;">
+                            <option value="GLOBAL" class="text-slate-800" selected>Todas as Regionais</option>
+                            
+                            <option value="159449db-c496-4ab4-bafa-821b8051e1f4" class="text-slate-800" >Goiânia - GO (GO)</option>
+                            
+                        </select>
+                    </div>
+                    
+
+                    
+                    <div class="user-chip">
+                        <div class="user-avatar">
+                            AD
+                        </div>
+                        <span class="user-name">
+                            administrador
+                            
+                            (Global)
+                            
+                        </span>
+                    </div>
+                    
+
+                    <form method="post" action="/logout/">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="ukwyyMLbNOh316dwuIGWTBpxRXMPl3xz9tfap7Xok7Rl1Tf9yGhYWce0yuYzDvhc">
+                        <button type="submit" class="btn-exit">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Sair
+                        </button>
+                    </form>
+                </div>
+            </header>
+            
+
+            <!-- Page content -->
+            <main class="page-body page-in">
+                
+
+                
+<div class="space-y-6 max-w-[2000px] mx-auto px-4 py-6">
+    <!-- Mensagens de Feedback -->
+    
+
+    <!-- Cabeçalho -->
+    <div class="flex items-center justify-between mb-6">
+        <div class="flex-1">
+            <div class="flex items-center gap-3">
+                <div class="dashboard-icon">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="dashboard-title mb-0">Dashboards</h1>
+                    <p class="text-slate-600 mt-1">
+                        Gerencie e visualize dashboards do Power BI
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-shrink-0 ml-4">
+            <button type="button" data-action="open-add-modal"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-colors"
+                style="background-color: #0F172A;">
+                <svg class="h-4 w-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                <span>Adicionar Dashboard</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="bg-white rounded-lg border shadow-sm">
+        <div class="p-4 border-b">
+            <h2 class="text-lg font-semibold">Filtros</h2>
+        </div>
+        <div class="p-4">
+            <div class="p-4">
+                <div class="relative max-w-md">
+                    <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input type="text" name="search" value=""
+                        placeholder="Buscar por nome ou cliente..."
+                        class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        hx-get="/dashboard/" hx-trigger="keyup changed delay:500ms, search"
+                        hx-target="#dashboard-list-container" hx-indicator="#search-indicator">
+                    <div id="search-indicator"
+                        class="htmx-indicator absolute right-3 top-1/2 transform -translate-y-1/2">
+                        <svg class="animate-spin h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Dashboards -->
+    <div class="bg-white rounded-lg border shadow-sm">
+        <div class="p-4 border-b">
+            <h2 class="text-lg font-semibold">
+                Dashboards Disponíveis (0)
+            </h2>
+        </div>
+        <div class="p-4">
+            <div class="p-4" id="dashboard-list-container">
+                
+<div class="text-center py-12" id="dashboard-grid">
+    <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+    </svg>
+    <p class="mt-2 text-slate-500">Nenhum dashboard encontrado</p>
+    <button type="button" data-action="open-add-modal"
+            class="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white hover:opacity-90"
+            style="background-color: #0F172A;">
+        Adicionar Primeiro Dashboard
+    </button>
+</div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Dashboard -->
+    <div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-4 border-b">
+                <h2 class="text-lg font-semibold">Adicionar Novo Dashboard</h2>
+            </div>
+            <form method="post" class="p-4 space-y-4" hx-post="/dashboard/"
+                hx-target="#dashboard-list-container" hx-swap="innerHTML" hx-indicator="#add-indicator"
+                hx-on::after-request="if(event.detail.successful) { closeAddModal(); this.reset(); clearCrDropdown('addCrDropdown'); }">
+                <input type="hidden" name="csrfmiddlewaretoken" value="ukwyyMLbNOh316dwuIGWTBpxRXMPl3xz9tfap7Xok7Rl1Tf9yGhYWce0yuYzDvhc">
+                <div id="add-indicator" class="htmx-indicator flex justify-center mb-2">
+                    <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nome do Dashboard</label>
+                    <input type="text" name="nome" required placeholder="Digite o nome do dashboard"
+                        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Cliente</label>
+                    <input type="text" name="cliente" required placeholder="Nome do cliente"
+                        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">CRs (opcional)</label>
+                    <div class="cr-dropdown" id="addCrDropdown">
+                        <div class="cr-dropdown-toggle" onclick="toggleCrDropdown('addCrDropdown')">
+                            <div>
+                                <span class="cr-dropdown-selected-count">Nenhum CR selecionado</span>
+                            </div>
+                            <svg class="cr-dropdown-arrow w-4 h-4" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <div class="cr-dropdown-content">
+                            <input type="text" class="cr-dropdown-search" placeholder="Pesquisar CRs..."
+                                onkeyup="filterCrOptions('addCrDropdown', this.value)">
+                            <div class="cr-dropdown-options">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Serviço</label>
+                    <select name="servico" required
+                        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Selecione o serviço</option>
+                        <option value="Segurança">Segurança</option>
+                        <option value="Estoque">Estoque</option>
+                        <option value="Manutenção">Manutenção</option>
+                        <option value="Acompanhamento">Acompanhamento</option>
+                        <option value="Visitas">Visitas</option>
+                        <option value="Facilities">Facilities</option>
+                        <option value="Indicadores">Indicadores</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">URL do Power BI (opcional)</label>
+                    <input type="url" name="powerbi_url" placeholder="https://app.powerbi.com/..."
+                        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" data-action="close-add-modal"
+                        class="px-4 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                        style="background-color: #0F172A;">
+                        Adicionar Dashboard
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Dashboard -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-4 border-b">
+                <h2 class="text-lg font-semibold">Editar Dashboard</h2>
+            </div>
+            <form method="post" class="p-4 space-y-4" hx-post="/dashboard/"
+                hx-target="#dashboard-list-container" hx-swap="innerHTML" hx-indicator="#edit-indicator"
+                hx-on::after-request="if(event.detail.successful) closeEditModal()">
+                <input type="hidden" name="csrfmiddlewaretoken" value="ukwyyMLbNOh316dwuIGWTBpxRXMPl3xz9tfap7Xok7Rl1Tf9yGhYWce0yuYzDvhc">
+                <div id="edit-indicator" class="htmx-indicator flex justify-center mb-2">
+                    <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                </div>
+                <input type="hidden" name="action" value="update">
+                <input type="hidden" name="dashboard_id" id="editDashboardId">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nome do Dashboard</label>
+                    <input type="text" name="nome" id="editNome" required placeholder="Digite o nome do dashboard"
+                        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Cliente</label>
+                    <input type="text" name="cliente" id="editCliente" required placeholder="Nome do cliente"
+                        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">CRs (opcional)</label>
+                    <div class="cr-dropdown" id="editCrDropdown">
+                        <div class="cr-dropdown-toggle" onclick="toggleCrDropdown('editCrDropdown')">
+                            <div>
+                                <span class="cr-dropdown-selected-count">Nenhum CR selecionado</span>
+                            </div>
+                            <svg class="cr-dropdown-arrow w-4 h-4" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <div class="cr-dropdown-content">
+                            <input type="text" class="cr-dropdown-search" placeholder="Pesquisar CRs..."
+                                onkeyup="filterCrOptions('editCrDropdown', this.value)">
+                            <div class="cr-dropdown-options">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Serviço</label>
+                    <select name="servico" id="editServico" required
+                        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Selecione o serviço</option>
+                        <option value="Seguranca">Segurança</option>
+                        <option value="Estoque">Estoque</option>
+                        <option value="Manutenção">Manutenção</option>
+                        <option value="Acompanhamento">Acompanhamento</option>
+                        <option value="Visitas">Visitas</option>
+                        <option value="Facilities">Facilities</option>
+                        <option value="Indicadores">Indicadores</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">URL do Power BI (opcional)</label>
+                    <input type="url" name="powerbi_url" id="editPowerbiUrl" placeholder="https://app.powerbi.com/..."
+                        class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="flex justify-end gap-3 mt-6">
+                    <button type="button" data-action="close-edit-modal"
+                        class="px-4 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                        style="background-color: #0F172A;">
+                        Atualizar Dashboard
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Excluir Dashboard -->
+    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-4 border-b">
+                <h2 class="text-lg font-semibold">Excluir Dashboard</h2>
+            </div>
+            <div class="p-4">
+                <p class="text-gray-600 mb-4">Tem certeza que deseja excluir o dashboard "<span id="deleteDashboardName"
+                        class="font-semibold"></span>"?</p>
+                <p class="text-sm text-red-600 mb-6">Esta ação não pode ser desfeita.</p>
+                <form method="post" class="flex justify-end gap-3" hx-post="/dashboard/"
+                    hx-target="#dashboard-list-container" hx-swap="innerHTML" hx-indicator="#delete-indicator"
+                    hx-on::after-request="if(event.detail.successful) { document.getElementById('deleteModal').classList.add('hidden'); }">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="ukwyyMLbNOh316dwuIGWTBpxRXMPl3xz9tfap7Xok7Rl1Tf9yGhYWce0yuYzDvhc">
+                    <div id="delete-indicator" class="htmx-indicator absolute right-40">
+                        <svg class="animate-spin h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                    </div>
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="dashboard_id" id="deleteDashboardId">
+                    <button type="button" data-action="close-delete-modal"
+                        class="px-4 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        Excluir Dashboard
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualizar Dashboard -->
+    <div id="viewModal" class="fixed bg-white z-50 hidden" x-data="{ sidebarOpen: false }"
+        :class="{ 'left-0 right-0 top-0 bottom-0': !sidebarOpen, 'left-[250px] right-0 top-0 bottom-0': sidebarOpen }">
+        <div class="h-full flex flex-col">
+            <!-- Cabeçalho -->
+            <div class="bg-white border-b px-4 py-3 flex justify-between items-center flex-shrink-0 sticky top-0 z-10">
+                <div class="flex items-center gap-6 overflow-hidden">
+                    <button type="button" data-action="close-view-modal"
+                        class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 hover:text-gray-900 flex-shrink-0 bg-white">
+                        <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Voltar à Lista
+                    </button>
+                    <div class="flex flex-col min-w-0 overflow-hidden">
+                        <h1 id="dashboardName" class="text-xl font-semibold text-gray-900 truncate"></h1>
+                        <div class="flex items-center text-sm text-gray-500 gap-2 overflow-hidden">
+                            <span id="dashboardClient" class="truncate"></span>
+                            <span class="flex-shrink-0">-</span>
+                            <span id="dashboardService" class="truncate"></span>
+                        </div>
+                    </div>
+                </div>
+                <a id="powerbiLink" href="#" target="_blank"
+                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 hover:text-gray-900 flex-shrink-0 bg-white ml-4">
+                    <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Abrir no Power BI
+                </a>
+            </div>
+
+            <!-- Conteúdo do Dashboard -->
+            <div class="flex-1 bg-gray-50 relative">
+                <iframe id="dashboardFrame" class="w-full h-full absolute inset-0" frameborder="0"
+                    allowfullscreen="true" style="display: none;">
+                </iframe>
+                <div id="noDashboardContent"
+                    class="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
+                    <p class="text-lg mb-2">Esse conteúdo não está disponível.</p>
+                    <a href="https://powerbi.microsoft.com/" target="_blank" class="text-blue-600 hover:underline">
+                        Saiba mais sobre o Power BI.
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            </main>
+
+            
+            <footer class="app-footer">
+                <p>&copy; Projetos &amp; TI — Regional Centro Oeste &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; Todos os direitos
+                    reservados</p>
+            </footer>
+            
+        </div>
+
+    </div>
+
+    <!-- Mobile overlay -->
+    <div x-show="mobileOpen" x-cloak @click="mobileOpen = false" class="m-overlay"
+        x-transition:enter="transition-opacity ease-linear duration-200" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+    </div>
+
+    
+
+    <script src="static/vendor/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/notifications.min.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => {
+                        setInterval(() => reg.update(), 3600000);
+                        reg.addEventListener('updatefound', () => {
+                            const w = reg.installing;
+                            w.addEventListener('statechange', () => {
+                                if (w.state === 'installed' && navigator.serviceWorker.controller) {
+                                    if (confirm('Nova versão disponível! Deseja atualizar?')) {
+                                        w.postMessage({ type: 'SKIP_WAITING' });
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    }).catch(e => console.log('[PWA] Erro:', e));
+
+                let refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (refreshing) return;
+                    refreshing = true;
+                    window.location.reload();
+                });
+            });
+        }
+        window.addEventListener('online', () => typeof showNotification === 'function' && showNotification('Conexão restaurada!', 'success'));
+        window.addEventListener('offline', () => typeof showNotification === 'function' && showNotification('Você está offline.', 'warning'));
+        window.clearPWACache = () => navigator.serviceWorker?.controller?.postMessage({ type: 'CLEAR_CACHE' });
+    </script>
+
+    
+
+
+    
+
+
+
+    
+<script type="text/javascript">
+    window.dashboardsData = JSON.parse('[]');
+</script>
+<script type="text/javascript">
+    // Dashboards data
+    const dashboards = window.dashboardsData || [];
+
+    // Funções para o dropdown customizado de CRs
+    function toggleCrDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        const content = dropdown.querySelector('.cr-dropdown-content');
+        const arrow = dropdown.querySelector('.cr-dropdown-arrow');
+
+        if (content.classList.contains('show')) {
+            content.classList.remove('show');
+            arrow.classList.remove('rotated');
+        } else {
+            // Fechar outros dropdowns
+            document.querySelectorAll('.cr-dropdown-content.show').forEach(otherContent => {
+                otherContent.classList.remove('show');
+                otherContent.parentElement.querySelector('.cr-dropdown-arrow').classList.remove('rotated');
+            });
+
+            content.classList.add('show');
+            arrow.classList.add('rotated');
+
+            // Focar no campo de pesquisa
+            setTimeout(() => {
+                const searchInput = content.querySelector('.cr-dropdown-search');
+                if (searchInput) searchInput.focus();
+            }, 100);
+        }
+    }
+
+    function toggleCrSelection(dropdownId, crId, crText) {
+        const dropdown = document.getElementById(dropdownId);
+        const checkbox = dropdown.querySelector(`input[value="${crId}"]`);
+
+        // Toggle checkbox
+        checkbox.checked = !checkbox.checked;
+
+        // Atualizar contador
+        updateCrSelectedCount(dropdownId);
+
+        // Parar propagação para não fechar o dropdown
+        event.stopPropagation();
+    }
+
+    function updateCrSelectedCount(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]:checked');
+        const countSpan = dropdown.querySelector('.cr-dropdown-selected-count');
+
+        if (checkboxes.length === 0) {
+            countSpan.textContent = 'Nenhum CR selecionado';
+        } else if (checkboxes.length === 1) {
+            countSpan.textContent = '1 CR selecionado';
+        } else {
+            countSpan.textContent = `${checkboxes.length} CRs selecionados`;
+        }
+    }
+
+    function filterCrOptions(dropdownId, searchTerm) {
+        const dropdown = document.getElementById(dropdownId);
+        const options = dropdown.querySelectorAll('.cr-dropdown-option');
+        const searchLower = searchTerm.toLowerCase();
+        let visibleCount = 0;
+
+        options.forEach(option => {
+            const label = option.querySelector('label').textContent.toLowerCase();
+            if (label.includes(searchLower)) {
+                option.style.display = 'flex';
+                visibleCount++;
+            } else {
+                option.style.display = 'none';
+            }
+        });
+
+        // Mostrar mensagem se não houver resultados
+        let noResultsDiv = dropdown.querySelector('.cr-dropdown-no-results');
+        if (visibleCount === 0) {
+            if (!noResultsDiv) {
+                noResultsDiv = document.createElement('div');
+                noResultsDiv.className = 'cr-dropdown-no-results';
+                noResultsDiv.textContent = 'Nenhum CR encontrado';
+                dropdown.querySelector('.cr-dropdown-options').appendChild(noResultsDiv);
+            }
+            noResultsDiv.style.display = 'block';
+        } else if (noResultsDiv) {
+            noResultsDiv.style.display = 'none';
+        }
+    }
+
+    function clearCrDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
+        const searchInput = dropdown.querySelector('.cr-dropdown-search');
+
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+        if (searchInput) searchInput.value = '';
+
+        // Mostrar todas as opções
+        const options = dropdown.querySelectorAll('.cr-dropdown-option');
+        options.forEach(option => option.style.display = 'flex');
+
+        // Esconder mensagem de "não encontrado"
+        const noResultsDiv = dropdown.querySelector('.cr-dropdown-no-results');
+        if (noResultsDiv) noResultsDiv.style.display = 'none';
+
+        updateCrSelectedCount(dropdownId);
+    }
+
+    function setCrDropdownValues(dropdownId, selectedIds) {
+        const dropdown = document.getElementById(dropdownId);
+        const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectedIds.includes(checkbox.value);
+        });
+
+        updateCrSelectedCount(dropdownId);
+    }
+
+    // Fechar dropdown quando clicar fora
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.cr-dropdown')) {
+            document.querySelectorAll('.cr-dropdown-content.show').forEach(content => {
+                content.classList.remove('show');
+                content.parentElement.querySelector('.cr-dropdown-arrow').classList.remove('rotated');
+            });
+        }
+    });
+
+    function openAddModal() {
+        clearCrDropdown('addCrDropdown');
+        document.getElementById('addModal').classList.remove('hidden');
+    }
+
+    function closeAddModal() {
+        document.getElementById('addModal').classList.add('hidden');
+        // Fechar dropdown se estiver aberto
+        const content = document.querySelector('#addCrDropdown .cr-dropdown-content');
+        if (content) {
+            content.classList.remove('show');
+            document.querySelector('#addCrDropdown .cr-dropdown-arrow').classList.remove('rotated');
+        }
+    }
+
+    function openEditModal(dashboardId) {
+        const dashboard = dashboards.find(d => d.id === dashboardId);
+        if (!dashboard) return;
+
+        // Preencher campos do formulário
+        document.getElementById('editDashboardId').value = dashboard.id;
+        document.getElementById('editNome').value = dashboard.nome || '';
+        document.getElementById('editCliente').value = dashboard.cliente || '';
+        document.getElementById('editServico').value = dashboard.servico || '';
+        document.getElementById('editPowerbiUrl').value = dashboard.powerbi_url || '';
+
+        // Selecionar CRs no dropdown customizado
+        setCrDropdownValues('editCrDropdown', dashboard.cr_ids || []);
+
+        document.getElementById('editModal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').classList.add('hidden');
+        // Fechar dropdown se estiver aberto
+        const content = document.querySelector('#editCrDropdown .cr-dropdown-content');
+        if (content) {
+            content.classList.remove('show');
+            document.querySelector('#editCrDropdown .cr-dropdown-arrow').classList.remove('rotated');
+        }
+    }
+
+    function openDeleteModal(dashboardId) {
+        const dashboard = dashboards.find(d => d.id === dashboardId);
+        if (!dashboard) return;
+
+        document.getElementById('deleteDashboardId').value = dashboard.id;
+        document.getElementById('deleteDashboardName').textContent = dashboard.nome || '';
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+    function openViewModal(dashboardId) {
+        const dashboard = dashboards.find(d => d.id === dashboardId);
+        if (!dashboard) return;
+
+        // Update modal content
+        document.getElementById('dashboardName').textContent = dashboard.nome || '';
+        document.getElementById('dashboardClient').textContent = dashboard.cliente || '';
+        document.getElementById('dashboardService').textContent = dashboard.servico || '';
+
+        const powerbiLink = document.getElementById('powerbiLink');
+        const dashboardFrame = document.getElementById('dashboardFrame');
+        const noDashboardContent = document.getElementById('noDashboardContent');
+        const viewModal = document.getElementById('viewModal');
+        const header = viewModal.querySelector('.border-b');
+        const sidebar = document.querySelector('.sidebar');
+
+        // Guardar estado atual do menu
+        window._previousSidebarState = {
+            display: sidebar.style.display,
+            visibility: sidebar.style.visibility,
+            classes: [...sidebar.classList]
+        };
+
+        // Ocultar o menu lateral com transição
+        sidebar.classList.add('hiding');
+        setTimeout(() => {
+            sidebar.style.display = 'none';
+        }, 300);
+
+        // Ajustar posição do cabeçalho (agora sem considerar o menu)
+        header.style.left = '0';
+        header.style.width = '100%';
+
+        // Mostrar o modal em tela cheia
+        viewModal.classList.remove('hidden');
+
+        // Pequeno delay para garantir que o modal está visível e posicionado corretamente
+        setTimeout(() => {
+            if (dashboard.powerbi_url && dashboard.powerbi_url.trim() !== '') {
+                powerbiLink.href = dashboard.powerbi_url;
+                dashboardFrame.src = dashboard.powerbi_url;
+                dashboardFrame.style.display = 'block';
+                noDashboardContent.style.display = 'none';
+            } else {
+                powerbiLink.href = '#';
+                dashboardFrame.style.display = 'none';
+                noDashboardContent.style.display = 'flex';
+            }
+        }, 100);
+
+        // Adicionar listener para mudanças no menu
+        if (window._menuObserver) {
+            window._menuObserver.disconnect();
+        }
+
+        window._menuObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.classList.contains('sidebar-expanded')) {
+                    header.style.left = '250px';
+                    header.style.width = 'calc(100% - 250px)';
+                } else {
+                    header.style.left = '0';
+                    header.style.width = '100%';
+                }
+            });
+        });
+
+        window._menuObserver.observe(document.body, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    }
+
+    function closeViewModal() {
+        const viewModal = document.getElementById('viewModal');
+        const dashboardFrame = document.getElementById('dashboardFrame');
+        const noDashboardContent = document.getElementById('noDashboardContent');
+        const header = viewModal.querySelector('.border-b');
+        const sidebar = document.querySelector('.sidebar');
+
+        // Esconder o iframe e mostrar mensagem padrão
+        dashboardFrame.style.display = 'none';
+        noDashboardContent.style.display = 'flex';
+
+        // Limpar src do iframe para liberar recursos
+        dashboardFrame.src = '';
+
+        // Resetar estilos de posicionamento
+        header.style.left = '';
+        header.style.width = '';
+
+        // Restaurar estado anterior do menu com transição
+        if (window._previousSidebarState) {
+            // Primeiro restaurar o display
+            sidebar.style.display = window._previousSidebarState.display || '';
+
+            // Restaurar classes originais
+            sidebar.classList.remove(...sidebar.classList);
+            window._previousSidebarState.classes.forEach(cls => {
+                sidebar.classList.add(cls);
+            });
+
+            // Remover classe de ocultação e adicionar classe de exibição
+            sidebar.classList.remove('hiding');
+            sidebar.classList.add('showing');
+
+            // Após a transição, remover a classe de exibição
+            setTimeout(() => {
+                sidebar.classList.remove('showing');
+            }, 300);
+
+            delete window._previousSidebarState;
+        }
+
+        // Desconectar o observer
+        if (window._menuObserver) {
+            window._menuObserver.disconnect();
+            delete window._menuObserver;
+        }
+
+        // Esconder o modal
+        viewModal.classList.add('hidden');
+    }
+
+    // Close modals when clicking outside
+    document.addEventListener('click', function (event) {
+        const addModal = document.getElementById('addModal');
+        const editModal = document.getElementById('editModal');
+        const deleteModal = document.getElementById('deleteModal');
+        const viewModal = document.getElementById('viewModal');
+
+        if (event.target === addModal) {
+            closeAddModal();
+        }
+        if (event.target === editModal) {
+            closeEditModal();
+        }
+        if (event.target === deleteModal) {
+            closeDeleteModal();
+        }
+        if (event.target === viewModal) {
+            closeViewModal();
+        }
+    });
+
+    // Close modals with Escape key
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeAddModal();
+            closeEditModal();
+            closeDeleteModal();
+            closeViewModal();
+        }
+    });
+
+    // Event listeners para botões de dashboard
+    document.addEventListener('click', function (event) {
+        const target = event.target.closest('button[data-action]');
+        if (target) {
+            const action = target.getAttribute('data-action');
+            const dashboardId = target.getAttribute('data-dashboard-id');
+
+            switch (action) {
+                case 'view':
+                    openViewModal(dashboardId);
+                    break;
+                case 'edit':
+                    openEditModal(dashboardId);
+                    break;
+                case 'delete':
+                    openDeleteModal(dashboardId);
+                    break;
+            }
+        }
+
+        // Event listeners para outros botões
+        if (event.target.closest('[data-action="open-add-modal"]')) {
+            openAddModal();
+        }
+
+        if (event.target.closest('[data-action="close-add-modal"]')) {
+            closeAddModal();
+        }
+
+        if (event.target.closest('[data-action="close-edit-modal"]')) {
+            closeEditModal();
+        }
+
+        if (event.target.closest('[data-action="close-delete-modal"]')) {
+            closeDeleteModal();
+        }
+
+        if (event.target.closest('[data-action="close-view-modal"]')) {
+            closeViewModal();
+        }
+    });
+</script>
+
+<style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none;letter-spacing:.02em}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("form").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});});});</script></body>
+
+</html>

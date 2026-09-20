@@ -62,6 +62,7 @@
         {i:'lock',t:'Migração de senhas legadas',d:'base MD5 antiga → Argon2 no 1º login'}
       ],
       stack:['Python 3.12','Django 5.2','PostgreSQL','Redis','Docker','Nginx','Pandas','Ollama'],
+      liveDemo:{ url:'assets/demos/gpsflow/home.html', name:'GPS Flow', note:'O frontend real do sistema (versão atual, já rebatizada para FLOW), rodando com dados de exemplo. Navegue pelo menu lateral e pelas abas — é a interface de verdade.' },
       links:[{label:'Ver versão pública no GitHub',url:'https://github.com/Vitrolesalves/gestao-a-vista'}]
     },
     {
@@ -377,6 +378,7 @@
         '<div class="modal__top"><div class="t">' + svg('star', 16) + '<span>' + p.title + '</span> <small>· ' + p.company + '</small></div>' +
           '<button class="modal__x" aria-label="Fechar">✕</button></div>' +
         galleryHTML(p) +
+        (p.liveDemo ? '<div class="livecta"><div class="livecta__t"><span class="livecta__play">▶</span><div><b>Preview interativo do sistema real</b><span>' + p.liveDemo.note + '</span></div></div><button class="btn btn--primary" id="openLive">Abrir o sistema ↗</button></div>' : '') +
         '<div class="modal__body">' +
           '<div class="modal__main">' +
             '<h2>' + p.title + '</h2>' +
@@ -404,6 +406,7 @@
     modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
     $$('.modal__gallery img', modal).forEach(function (im) { im.addEventListener('click', function () { openLB(im.src); }); });
     var cl = $('[data-close]', modal); if (cl) cl.addEventListener('click', closeModal);
+    var ol = $('#openLive', modal); if (ol) ol.addEventListener('click', function () { openLiveDemo(p.liveDemo); });
     if (p.demo === 'discord') wireDiscord(modal);
     if (p.demo === 'qr') wireQR(modal);
     modal.scrollTop = 0;
@@ -471,7 +474,46 @@
   function closeLB() { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); setTimeout(function () { lbImg.src = ''; }, 150); }
   lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('lightbox__x')) closeLB(); });
 
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (lb.classList.contains('open')) closeLB(); else if (modal.classList.contains('open')) closeModal(); } });
+  /* ---------- live demo (iframe do frontend real) ---------- */
+  var live = null;
+  function ensureLive() {
+    if (live) return live;
+    live = el('<div class="livedemo" id="liveDemo" aria-hidden="true">' +
+      '<div class="livedemo__panel">' +
+        '<div class="livedemo__top">' +
+          '<div class="livedemo__title"><span class="livedemo__dot"></span><b class="ld-name"></b><span class="ld-sub">· preview real navegável (dados de exemplo)</span></div>' +
+          '<div class="livedemo__actions"><a class="ld-new" target="_blank" rel="noopener">abrir em nova aba ↗</a><button class="livedemo__x" aria-label="Fechar">✕ fechar</button></div>' +
+        '</div>' +
+        '<div class="livedemo__loading">carregando o sistema…</div>' +
+        '<iframe class="livedemo__frame" title="Preview do sistema"></iframe>' +
+      '</div></div>');
+    document.body.appendChild(live);
+    live.addEventListener('click', function (e) { if (e.target === live || e.target.classList.contains('livedemo__x')) closeLiveDemo(); });
+    $('.livedemo__frame', live).addEventListener('load', function () { var l = $('.livedemo__loading', live); if (l) l.style.display = 'none'; });
+    return live;
+  }
+  function openLiveDemo(cfg) {
+    var L = ensureLive();
+    $('.ld-name', L).textContent = cfg.name;
+    $('.ld-new', L).href = cfg.url;
+    var lo = $('.livedemo__loading', L); if (lo) lo.style.display = '';
+    $('.livedemo__frame', L).src = cfg.url;
+    L.classList.add('open'); L.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLiveDemo() {
+    if (!live) return;
+    live.classList.remove('open'); live.setAttribute('aria-hidden', 'true');
+    $('.livedemo__frame', live).src = 'about:blank';
+    if (!modal.classList.contains('open')) document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (live && live.classList.contains('open')) closeLiveDemo();
+    else if (lb.classList.contains('open')) closeLB();
+    else if (modal.classList.contains('open')) closeModal();
+  });
 
   /* ---------- host skills + serviços ---------- */
   var SKILLS = ['Python','Django','C#','PostgreSQL','JavaScript','Docker','Nginx','Playwright','Unity','Luau','Mercado Pago','Ollama / LLM','paramiko','Linux / VPS'];
