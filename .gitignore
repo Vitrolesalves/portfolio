@@ -9,4 +9,7 @@ desktop.ini
 *.log
 .cache/
 
+# Modelos 3D brutos (34MB, pré-compressão) — só os comprimidos vão pro site
+assets/models/raw/
+
 # Nada de segredos aqui — este repo é 100% estático e público-seguro
