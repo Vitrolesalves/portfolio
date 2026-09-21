@@ -6,6 +6,81 @@
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return [].slice.call((c || document).querySelectorAll(s)); };
   var el = function (html) { var t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; };
+  var finePointer = window.matchMedia && window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  /* ---------- kinetic text: quebra o headline em palavras p/ animar em stagger ---------- */
+  function splitText(node) {
+    var walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
+    var texts = []; var n;
+    while ((n = walker.nextNode())) texts.push(n);
+    var wordIndex = 0;
+    texts.forEach(function (textNode) {
+      var words = textNode.textContent.split(/(\s+)/).filter(function (w) { return w.length; });
+      var frag = document.createDocumentFragment();
+      words.forEach(function (w) {
+        if (/^\s+$/.test(w)) { frag.appendChild(document.createTextNode(w)); return; }
+        var outer = document.createElement('span'); outer.className = 'split-word';
+        var inner = document.createElement('span'); inner.className = 'split-inner';
+        inner.style.transitionDelay = (wordIndex * 55) + 'ms';
+        inner.textContent = w;
+        outer.appendChild(inner); frag.appendChild(outer);
+        wordIndex++;
+      });
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+  }
+  $$('[data-split]').forEach(function (h) {
+    try { splitText(h); } catch (e) { }
+    var reveal = function () { h.classList.add('in'); };
+    // caminho normal: rAF duplo garante que o navegador "commitou" o estado inicial antes de animar
+    requestAnimationFrame(function () { requestAnimationFrame(reveal); });
+    // rede de segurança: se rAF ficar pausado (aba em 2º plano no load), revela mesmo assim
+    setTimeout(reveal, 400);
+  });
+
+  /* ---------- cursor customizado (dot + ring com inércia) ---------- */
+  if (finePointer) {
+    document.body.classList.add('has-cursor');
+    var cursor = $('#cursor');
+    if (cursor) {
+      var dot = $('.cursor__dot', cursor), ring = $('.cursor__ring', cursor);
+      var mx = 0, my = 0, rx = 0, ry = 0, shown = false;
+      window.addEventListener('mousemove', function (e) {
+        mx = e.clientX; my = e.clientY;
+        if (!shown) { shown = true; cursor.classList.add('on'); }
+        dot.style.setProperty('--cx', mx + 'px'); dot.style.setProperty('--cy', my + 'px');
+      }, { passive: true });
+      (function loop() {
+        rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+        ring.style.setProperty('--rx', rx + 'px'); ring.style.setProperty('--ry', ry + 'px');
+        requestAnimationFrame(loop);
+      })();
+      document.addEventListener('mouseover', function (e) {
+        var big = e.target.closest && e.target.closest('a,button,.card,[role="button"],input,select,textarea');
+        cursor.classList.toggle('big', !!big);
+      });
+      document.addEventListener('mouseleave', function () { cursor.classList.remove('on'); }, true);
+    }
+  }
+
+  /* ---------- botões magnéticos (atraídos pelo cursor perto) ---------- */
+  if (finePointer) {
+    $$('.btn--primary, .btn--ghost, .btn--dark').forEach(function (b) {
+      b.classList.add('magnetic');
+      var raf = null, tx = 0, ty = 0, cx = 0, cy = 0;
+      function tick() {
+        cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2;
+        b.style.transform = 'translate(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px)';
+        if (Math.abs(tx - cx) > 0.05 || Math.abs(ty - cy) > 0.05) raf = requestAnimationFrame(tick); else raf = null;
+      }
+      b.addEventListener('mousemove', function (e) {
+        var r = b.getBoundingClientRect();
+        tx = (e.clientX - r.left - r.width / 2) * 0.35; ty = (e.clientY - r.top - r.height / 2) * 0.45;
+        if (!raf) raf = requestAnimationFrame(tick);
+      });
+      b.addEventListener('mouseleave', function () { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(tick); });
+    });
+  }
 
   /* ---------- ícones ---------- */
   var IC = {
@@ -48,7 +123,7 @@
   var P = [
     {
       id:'gpsvista', cat:'web', title:'GPS Vista — Gestão à Vista', company:'Grupo GPS',
-      tag:'★ Projeto principal', tagRed:true, year:'2024–2025', metric:'Em produção · nacional',
+      tag:'★ Projeto principal', tagRed:true, year:'2025–2026', metric:'Em produção · nacional',
       cover:{ type:'shots', shots:SHOTS },
       sub:['Sistemas Web','Grupo GPS','Produção nacional'],
       tagline:'O sistema operacional de uma das maiores empresas de facilities do Brasil — usado hoje pelas regionais do país inteiro.',
@@ -81,13 +156,8 @@
     },
     {
       id:'conecta', cat:'web', title:'Conecta Jurídico', company:'Jurídico corporativo',
-      tag:'Governança + IA', year:'2025', metric:'Plataforma interna',
-      cover:{ type:'designed', kind:'juridico', icon:'shield', inner:
-        '<div class="cvi"><div class="cvi__bar"><i></i><i></i><i></i><span>⚖ Conecta Jurídico &nbsp;·&nbsp; ✦ Lexia IA</span></div>'+
-        '<div class="cvi__body"><div class="cvi__tl">'+
-        '<div class="n"><i></i>Aberto · campos pela norma</div>'+
-        '<div class="n"><i></i>Lexia resumiu 3 anexos</div>'+
-        '<div class="n on"><i></i>Aprovação · SLA 4h</div></div></div></div>' },
+      tag:'Governança + IA', year:'2026', metric:'Plataforma interna',
+      cover:{ type:'shots', shots:['assets/img/conecta-feed.png','assets/img/conecta-relatorios.png','assets/img/conecta-regulatorio.png'] },
       sub:['Sistemas Web','Jurídico corporativo','IA'],
       tagline:'Governança de contratos com uma IA que lê e resume as tratativas.',
       problem:'A área jurídica se afogava em e-mails desestruturados, prazos perdidos e documentos espalhados — sem rastreabilidade para auditoria e compliance.',
@@ -156,7 +226,7 @@
     },
     {
       id:'equatorial', cat:'auto', title:'Robô de Faturas — Equatorial', company:'Proguarda',
-      tag:'RPA', year:'2025', metric:'Automação mensal',
+      tag:'RPA', year:'2026', metric:'Automação mensal',
       cover:{ type:'designed', kind:'terminal', icon:'robot', inner:
         '<div class="cvi cvi--term"><div class="cvi__bar"><i></i><i></i><i></i><span>robô · equatorial-faturas</span></div>'+
         '<div class="cvi__body"><span class="tgray">UC 632.971…</span> <span class="tgreen">✓ baixado</span><br>'+
@@ -196,7 +266,7 @@
     },
     {
       id:'discord', cat:'auto', title:'Bot de Vendas Discord + Roblox', company:'Produto próprio',
-      tag:'PIX automático', year:'2025', metric:'24/7 · sem intervenção',
+      tag:'PIX automático', year:'2026', metric:'24/7 · sem intervenção',
       cover:{ type:'designed', kind:'discord', icon:'cart', inner:
         '<div class="cvi"><div class="cvi__bar"><i></i><i></i><i></i><span># loja · BOT</span></div>'+
         '<div class="cvi__body"><div class="dcemb"><div class="barr"></div><div class="in"><b>Cargo VIP — R$ 29,<span style="color:var(--red)">93</span></b><br>PIX · valor único<br><span style="color:#1a9d63">✓ pago → entregue no Roblox</span></div></div></div></div>' },
@@ -234,7 +304,7 @@
     },
     {
       id:'fps', cat:'game', title:'Base FPS Controller', company:'Open-source',
-      tag:'Unity · C#', year:'2025', metric:'Controlador em 1ª pessoa',
+      tag:'Unity · C#', year:'2026', metric:'Controlador em 1ª pessoa',
       cover:{ type:'designed', kind:'game', icon:'game', inner:'<div class="cvi">Base FPS<br><span style="color:var(--gray);font-weight:600;font-size:.58rem">corrida · pulo · câmera</span></div>' },
       sub:['Game Dev','Open-source','C#'],
       tagline:'Um controlador de movimento em primeira pessoa, pronto pra construir em cima.',
@@ -250,7 +320,7 @@
     },
     {
       id:'inv', cat:'game', title:'Inventory Manager', company:'Open-source',
-      tag:'Unity · C#', year:'2025', metric:'Sistema de inventário',
+      tag:'Unity · C#', year:'2026', metric:'Sistema de inventário',
       cover:{ type:'designed', kind:'game', icon:'puzzle', inner:'<div class="cvi">Inventory Manager<br><span style="color:var(--gray);font-weight:600;font-size:.58rem">pickup · interação · inventário</span></div>' },
       sub:['Game Dev','Open-source','C#'],
       tagline:'Inventário em três camadas: detectar, coletar e guardar.',
@@ -329,6 +399,34 @@
       '</div></div>';
   }
   function byId(id) { return P.filter(function (x) { return x.id === id; })[0]; }
+
+  /* ---------- tilt 3D (segue o cursor, com inércia + brilho) ---------- */
+  function enableTilt(card) {
+    if (!finePointer) return;
+    var cover = $('.card__cover', card);
+    var shine = el('<div class="card__shine"></div>'); cover.appendChild(shine);
+    var raf = null, rect = null;
+    var cur = { rx: 0, ry: 0, s: 1, ty: 0 };
+    var tgt = { rx: 0, ry: 0, s: 1, ty: 0 };
+    function paint() {
+      var d = Math.abs(tgt.rx - cur.rx) + Math.abs(tgt.ry - cur.ry) + Math.abs(tgt.s - cur.s) * 40 + Math.abs(tgt.ty - cur.ty);
+      cur.rx += (tgt.rx - cur.rx) * 0.14; cur.ry += (tgt.ry - cur.ry) * 0.14;
+      cur.s += (tgt.s - cur.s) * 0.14; cur.ty += (tgt.ty - cur.ty) * 0.14;
+      card.style.transform = 'perspective(1100px) translateY(' + cur.ty.toFixed(2) + 'px) scale(' + cur.s.toFixed(4) + ') rotateX(' + cur.rx.toFixed(2) + 'deg) rotateY(' + cur.ry.toFixed(2) + 'deg)';
+      if (d > 0.05) raf = requestAnimationFrame(paint); else raf = null;
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(paint); }
+    card.addEventListener('mouseenter', function () { rect = card.getBoundingClientRect(); tgt.s = 1.055; tgt.ty = -14; kick(); });
+    card.addEventListener('mousemove', function (e) {
+      if (!rect) rect = card.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width, py = (e.clientY - rect.top) / rect.height;
+      var MAX = 11;
+      tgt.ry = (px - 0.5) * MAX * 2; tgt.rx = -(py - 0.5) * MAX * 2;
+      shine.style.setProperty('--mx', (px * 100) + '%'); shine.style.setProperty('--my', (py * 100) + '%');
+      kick();
+    });
+    card.addEventListener('mouseleave', function () { tgt = { rx: 0, ry: 0, s: 1, ty: 0 }; kick(); });
+  }
   function enableHoverPreview(card, p) {
     var cover = $('.card__cover', card), mounted = false;
     function mount() {
@@ -359,6 +457,7 @@
     c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
     var fb = $('[data-ficha]', c); if (fb) fb.addEventListener('click', function (e) { e.stopPropagation(); openModal(id); });
     if (p && p.liveDemo) enableHoverPreview(c, p);
+    enableTilt(c);
   });
 
   /* ---------- category bar ---------- */
@@ -641,6 +740,8 @@
   var hs2 = $('.hero__stats');
   if (hs2 && 'IntersectionObserver' in window) { var so = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { runCounters(); so.disconnect(); } }); }, { threshold: .4 }); so.observe(hs2); }
   else runCounters();
+  // rede de segurança: se o IO nunca disparar (aba em 2º plano), conta mesmo assim
+  setTimeout(runCounters, 2500);
 
   /* ---------- active nav link ---------- */
   var secs = ['trabalhos', 'sobre', 'servicos'].map(function (id) { return document.getElementById(id); }).filter(Boolean);

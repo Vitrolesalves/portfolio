@@ -58,7 +58,7 @@
       <div class="wrap hero__inner">
         <div class="hero__copy">
           <span class="pill-badge"><span class="dot"></span> Disponível para novos projetos</span>
-          <h1 class="hero__title">Não é só código.<br>É o seu problema, <span class="u-red">resolvido.</span></h1>
+          <h1 class="hero__title" data-split>Não é só código.<br>É o seu problema, <span class="u-red">resolvido.</span></h1>
           <p class="hero__lede">Sou o <strong>Daniel</strong> — desenvolvedor de sistemas e automação. Transformo processos manuais em software que roda em produção. Dá uma olhada nos trabalhos de verdade: as telas, as empresas e como cada um foi resolvido.</p>
           <div class="hero__cta">
             <a href="#trabalhos" class="btn btn--primary btn--lg">Explorar trabalhos</a>
@@ -116,6 +116,22 @@
     </section>
 
     <!-- ============ CATEGORY BAR + PROJECTS ============ -->
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>SISTEMAS WEB</span><span class="marquee__dot">✦</span>
+        <span>AUTOMAÇÃO &amp; RPA</span><span class="marquee__dot">✦</span>
+        <span>INFRAESTRUTURA</span><span class="marquee__dot">✦</span>
+        <span>GAME DEV</span><span class="marquee__dot">✦</span>
+        <span>PAGAMENTOS</span><span class="marquee__dot">✦</span>
+        <span>SISTEMAS WEB</span><span class="marquee__dot">✦</span>
+        <span>AUTOMAÇÃO &amp; RPA</span><span class="marquee__dot">✦</span>
+        <span>INFRAESTRUTURA</span><span class="marquee__dot">✦</span>
+        <span>GAME DEV</span><span class="marquee__dot">✦</span>
+        <span>PAGAMENTOS</span><span class="marquee__dot">✦</span>
+      </div>
+    </div>
+
     <section class="works" id="trabalhos">
       <div class="wrap">
         <div class="works__head">
@@ -214,6 +230,10 @@
   <!-- modal + lightbox roots -->
   <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true"></div>
   <div class="lightbox" id="lightbox" aria-hidden="true"><button class="lightbox__x" aria-label="Fechar">✕</button><img src="" alt="" id="lbImg" /></div>
+
+  <!-- textura + cursor customizado (desktop) -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"></div></div>
 
   <script src="assets/js/main.js" defer></script>
 </body>
