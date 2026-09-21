@@ -44,10 +44,13 @@
     var cursor = $('#cursor');
     if (cursor) {
       var dot = $('.cursor__dot', cursor), ring = $('.cursor__ring', cursor);
-      var mx = 0, my = 0, rx = 0, ry = 0, shown = false;
+      var mx = 0, my = 0, rx = 0, ry = 0;
+      // sempre readiciona 'on' a cada movimento — autocorretivo: mesmo que algo
+      // remova a classe por engano (ex.: um bug futuro), o próximo mousemove já resolve,
+      // em vez de ficar sumido até um F5 (era isso que causava "só volta com Ctrl+Shift+R")
       window.addEventListener('mousemove', function (e) {
         mx = e.clientX; my = e.clientY;
-        if (!shown) { shown = true; cursor.classList.add('on'); }
+        cursor.classList.add('on');
         dot.style.setProperty('--cx', mx + 'px'); dot.style.setProperty('--cy', my + 'px');
       }, { passive: true });
       (function loop() {
@@ -59,8 +62,14 @@
         var big = e.target.closest && e.target.closest('a,button,.card,[role="button"],input,select,textarea');
         cursor.classList.toggle('big', !!big);
       });
-      // esconde só quando o mouse sai de VERDADE do documento (relatedTarget nulo), não ao cruzar entre filhos de um card
-      document.addEventListener('mouseout', function (e) { if (!e.relatedTarget) cursor.classList.remove('on'); });
+      // esconde só quando o mouse sai de VERDADE da janela. mouseleave (sem capture,
+      // direto no document) só dispara quando o ponteiro sai do documento E de todos
+      // os seus descendentes — inclusive iframes — nunca ao simplesmente passar por
+      // cima de um. (a versão anterior usava mouseout+relatedTarget, que reporta
+      // relatedTarget=null ao entrar em QUALQUER iframe da página — e este site tem
+      // vários: preview dos cards, as vitrines do GPS Flow/Conecta, o modal de demo —
+      // por isso sumia toda hora.)
+      document.addEventListener('mouseleave', function () { cursor.classList.remove('on'); });
     }
   }
 
@@ -695,18 +704,15 @@
   var hs = $('#hostSkills'); SKILLS.forEach(function (s) { hs.appendChild(el('<span>' + s + '</span>')); });
 
   var SERV = [
-    { i:'window', t:'Sistemas sob medida', d:'Plataformas web completas para a sua operação — do banco de dados ao deploy em produção.', model3d:'assets/models/compressed/microchip.glb' },
-    { i:'robot', t:'Automação & RPA', d:'Robôs que eliminam tarefas repetitivas: faturas, documentos, cadastros e integrações entre sistemas.', model3d:'assets/models/compressed/gears.glb' },
+    { i:'window', t:'Sistemas sob medida', d:'Plataformas web completas para a sua operação — do banco de dados ao deploy em produção.' },
+    { i:'robot', t:'Automação & RPA', d:'Robôs que eliminam tarefas repetitivas: faturas, documentos, cadastros e integrações entre sistemas.' },
     { i:'money', t:'Integração de pagamentos', d:'PIX, cobrança automática, confirmação idempotente e entrega de produto sem intervenção.' },
     { i:'server', t:'Infra & deploy', d:'Subir, estabilizar e monitorar sua aplicação em VPS: Nginx, Docker, túneis e continuidade.' },
     { i:'doc', t:'Geração de documentos', d:'Contratos, relatórios e etiquetas gerados automaticamente a partir dos seus dados.' },
     { i:'game', t:'Game dev & ferramentas', d:'Unity/C# e Roblox/Luau: mecânicas, netcode server-authoritative e integrações jogo ↔ backend.' }
   ];
   var sg = $('#servGrid'); SERV.forEach(function (s) {
-    var iconHTML = s.model3d
-      ? '<span class="em em--3d" data-model3d="' + s.model3d + '"></span>'
-      : '<span class="em">' + svg(s.i, 24) + '</span>';
-    sg.appendChild(el('<div class="serv__c reveal">' + iconHTML + '<h3>' + s.t + '</h3><p>' + s.d + '</p></div>'));
+    sg.appendChild(el('<div class="serv__c reveal"><span class="em">' + svg(s.i, 24) + '</span><h3>' + s.t + '</h3><p>' + s.d + '</p></div>'));
   });
 
   /* ---------- showcases: interfaces reais (lazy + escala) ---------- */

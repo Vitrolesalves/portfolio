@@ -236,42 +236,5 @@
   <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"></div></div>
 
   <script src="assets/js/main.js" defer></script>
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
-      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
-    }
-  }
-  </script>
-  <script type="module">
-    // ícones 3D discretos: substituem o glifo estático de alguns cards por um
-    // objeto girando bem devagar, silencioso — sem legenda, sem clique, sem
-    // seção própria. É só um detalhe de acabamento, não uma feature.
-    import { createViewer } from './assets/js/scene3d.js';
-
-    function mountAmbientIcons() {
-      var els = document.querySelectorAll('[data-model3d]');
-      if (!els.length) return;
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (!en.isIntersecting) return;
-          var el = en.target;
-          if (el.dataset.mounted) return;
-          el.dataset.mounted = '1';
-          createViewer(el, { model: el.dataset.model3d });
-          io.unobserve(el);
-        });
-      }, { rootMargin: '150px 0px' });
-      els.forEach(function (el) { io.observe(el); });
-    }
-
-    // os cards de serviço são gerados pelo main.js (defer); como os scripts
-    // module rodam depois dos defer na mesma passagem, os elementos já
-    // existem aqui — ainda assim, uma checagem via evento cobre qualquer
-    // variação de timing entre navegadores.
-    if (document.querySelector('[data-model3d]')) mountAmbientIcons();
-    else window.addEventListener('load', mountAmbientIcons, { once: true });
-  </script>
 </body>
 </html>

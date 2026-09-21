@@ -254,8 +254,6 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:800;line-height:1.1;letter-
 .serv__c:hover{border-color:var(--line-2);box-shadow:var(--shadow-card);transform:translateY(-3px)}
 .serv__c .em{width:48px;height:48px;border-radius:12px;background:var(--bg-3);color:var(--red);display:grid;place-items:center;margin-bottom:16px}
 .serv__c .em svg{width:24px;height:24px}
-.serv__c .em--3d{width:56px;height:56px;background:var(--bg-2);overflow:hidden;position:relative}
-.serv__c .em--3d canvas{position:absolute;inset:0}
 .serv__c h3{font-size:1.15rem;margin-bottom:8px}
 .serv__c p{color:var(--gray);font-size:.93rem}
 
