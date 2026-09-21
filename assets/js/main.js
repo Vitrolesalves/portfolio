@@ -695,15 +695,18 @@
   var hs = $('#hostSkills'); SKILLS.forEach(function (s) { hs.appendChild(el('<span>' + s + '</span>')); });
 
   var SERV = [
-    { i:'window', t:'Sistemas sob medida', d:'Plataformas web completas para a sua operação — do banco de dados ao deploy em produção.' },
-    { i:'robot', t:'Automação & RPA', d:'Robôs que eliminam tarefas repetitivas: faturas, documentos, cadastros e integrações entre sistemas.' },
+    { i:'window', t:'Sistemas sob medida', d:'Plataformas web completas para a sua operação — do banco de dados ao deploy em produção.', model3d:'assets/models/compressed/microchip.glb' },
+    { i:'robot', t:'Automação & RPA', d:'Robôs que eliminam tarefas repetitivas: faturas, documentos, cadastros e integrações entre sistemas.', model3d:'assets/models/compressed/gears.glb' },
     { i:'money', t:'Integração de pagamentos', d:'PIX, cobrança automática, confirmação idempotente e entrega de produto sem intervenção.' },
     { i:'server', t:'Infra & deploy', d:'Subir, estabilizar e monitorar sua aplicação em VPS: Nginx, Docker, túneis e continuidade.' },
     { i:'doc', t:'Geração de documentos', d:'Contratos, relatórios e etiquetas gerados automaticamente a partir dos seus dados.' },
     { i:'game', t:'Game dev & ferramentas', d:'Unity/C# e Roblox/Luau: mecânicas, netcode server-authoritative e integrações jogo ↔ backend.' }
   ];
   var sg = $('#servGrid'); SERV.forEach(function (s) {
-    sg.appendChild(el('<div class="serv__c reveal"><span class="em">' + svg(s.i, 24) + '</span><h3>' + s.t + '</h3><p>' + s.d + '</p></div>'));
+    var iconHTML = s.model3d
+      ? '<span class="em em--3d" data-model3d="' + s.model3d + '"></span>'
+      : '<span class="em">' + svg(s.i, 24) + '</span>';
+    sg.appendChild(el('<div class="serv__c reveal">' + iconHTML + '<h3>' + s.t + '</h3><p>' + s.d + '</p></div>'));
   });
 
   /* ---------- showcases: interfaces reais (lazy + escala) ---------- */

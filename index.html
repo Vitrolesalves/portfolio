@@ -78,50 +78,6 @@
       </div>
     </section>
 
-    <!-- ============ GALERIA 3D (por trás de cada sistema) ============ -->
-    <section class="gallery3d" id="gallery3d">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <span class="kicker">Por trás de cada sistema</span>
-          <h2>Automação, infraestrutura e código —<span class="grad"> em movimento.</span></h2>
-          <p class="section-sub">Cada peça abaixo representa uma frente do meu trabalho. Arraste o mouse sobre ela, ou clique numa miniatura pra trocar.</p>
-        </div>
-
-        <div class="gallery3d__stage reveal">
-          <div class="gallery3d__viewer" id="g3dViewer" aria-hidden="true">
-            <div class="gallery3d__loading" id="g3dLoading">carregando…</div>
-          </div>
-          <div class="gallery3d__caption">
-            <b id="g3dTitle">Sistemas conectados</b>
-            <span id="g3dDesc">Produção em escala nacional — tudo interligado e monitorado em tempo real.</span>
-          </div>
-        </div>
-
-        <div class="gallery3d__thumbs" id="g3dThumbs" role="tablist" aria-label="Escolher objeto 3D">
-          <button class="g3d-thumb is-active" data-model="assets/models/compressed/network-sphere.glb"
-            data-title="Sistemas conectados" data-desc="Produção em escala nacional — tudo interligado e monitorado em tempo real." data-icon="wifi" role="tab" aria-selected="true">
-            <span class="g3d-thumb__ic"></span><span>Sistemas</span>
-          </button>
-          <button class="g3d-thumb" data-model="assets/models/compressed/gears.glb"
-            data-title="Automação de workflows" data-desc="Processos que rodavam manualmente, engrenados pra rodar sozinhos." data-icon="cog" role="tab">
-            <span class="g3d-thumb__ic"></span><span>Automação</span>
-          </button>
-          <button class="g3d-thumb" data-model="assets/models/compressed/server-rack.glb"
-            data-title="Infraestrutura & deploy" data-desc="VPS, túneis, Docker e Nginx — do rascunho ao servidor rodando." data-icon="server" role="tab">
-            <span class="g3d-thumb__ic"></span><span>Infra</span>
-          </button>
-          <button class="g3d-thumb" data-model="assets/models/compressed/microchip.glb"
-            data-title="Lógica & sistemas" data-desc="O código por trás de cada tela — backend, banco e regra de negócio." data-icon="chip" role="tab">
-            <span class="g3d-thumb__ic"></span><span>Código</span>
-          </button>
-          <button class="g3d-thumb" data-model="assets/models/compressed/gripper.glb"
-            data-title="Precisão operacional" data-desc="RPA e integrações que executam a mesma tarefa, certinho, todo dia." data-icon="claw" role="tab">
-            <span class="g3d-thumb__ic"></span><span>RPA</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
     <!-- ============ SHOWCASES (interfaces reais) ============ -->
     <section class="showcase" id="show-gpsflow">
       <div class="wrap showcase__inner">
@@ -289,51 +245,33 @@
   }
   </script>
   <script type="module">
+    // ícones 3D discretos: substituem o glifo estático de alguns cards por um
+    // objeto girando bem devagar, silencioso — sem legenda, sem clique, sem
+    // seção própria. É só um detalhe de acabamento, não uma feature.
     import { createViewer } from './assets/js/scene3d.js';
-    const stage = document.getElementById('gallery3d');
-    if (stage) {
-      const viewerEl = document.getElementById('g3dViewer');
-      const loading = document.getElementById('g3dLoading');
-      const titleEl = document.getElementById('g3dTitle');
-      const descEl = document.getElementById('g3dDesc');
-      const thumbs = Array.from(document.querySelectorAll('.g3d-thumb'));
-      let viewer = null;
-      let mounted = false;
 
-      const ICONS = {
-        wifi: '<path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0M12 19h.01"/>',
-        cog: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
-        server: '<rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/>',
-        chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
-        claw: '<path d="M12 3v6M7 5l2 5M17 5l-2 5M5 12l3 3M19 12l-3 3M9 10a3 3 0 0 0 6 0M12 13v8"/>'
-      };
-      thumbs.forEach((btn) => {
-        const ic = btn.querySelector('.g3d-thumb__ic');
-        if (ic) ic.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (ICONS[btn.dataset.icon] || '') + '</svg>';
-      });
-
-      function mount() {
-        if (mounted) return;
-        mounted = true;
-        viewer = createViewer(viewerEl, { model: thumbs[0].dataset.model });
-        viewerEl.addEventListener('viewer:loaded', () => { loading.style.display = 'none'; });
-      }
-
-      function select(btn) {
-        thumbs.forEach((t) => { t.classList.toggle('is-active', t === btn); t.setAttribute('aria-selected', t === btn ? 'true' : 'false'); });
-        titleEl.textContent = btn.dataset.title;
-        descEl.textContent = btn.dataset.desc;
-        if (viewer) viewer.setModel(btn.dataset.model);
-      }
-
-      thumbs.forEach((btn) => btn.addEventListener('click', () => select(btn)));
-
-      // só monta o WebGL quando a seção chega perto da tela (leve, uma vez só)
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((en) => { if (en.isIntersecting) { mount(); io.disconnect(); } });
-      }, { rootMargin: '200px 0px' });
-      io.observe(stage);
+    function mountAmbientIcons() {
+      var els = document.querySelectorAll('[data-model3d]');
+      if (!els.length) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var el = en.target;
+          if (el.dataset.mounted) return;
+          el.dataset.mounted = '1';
+          createViewer(el, { model: el.dataset.model3d });
+          io.unobserve(el);
+        });
+      }, { rootMargin: '150px 0px' });
+      els.forEach(function (el) { io.observe(el); });
     }
+
+    // os cards de serviço são gerados pelo main.js (defer); como os scripts
+    // module rodam depois dos defer na mesma passagem, os elementos já
+    // existem aqui — ainda assim, uma checagem via evento cobre qualquer
+    // variação de timing entre navegadores.
+    if (document.querySelector('[data-model3d]')) mountAmbientIcons();
+    else window.addEventListener('load', mountAmbientIcons, { once: true });
   </script>
 </body>
 </html>

@@ -106,7 +106,10 @@ export function createViewer(container, opts = {}) {
     });
   }
 
-  // parallax sutil pelo mouse (não depende de arrastar; some ao sair)
+  // parallax sutil pelo mouse — só em viewers "interativos" (opt-in). Nos
+  // ícones ambiente (padrão) o objeto só gira sozinho, discreto, sem reagir
+  // a nada: é acabamento visual, não um convite pra mexer.
+  const interactive = !!opts.interactive;
   let mx = 0, my = 0;
   function onMove(e) {
     const r = container.getBoundingClientRect();
@@ -114,14 +117,17 @@ export function createViewer(container, opts = {}) {
     my = ((e.clientY - r.top) / r.height - 0.5) * 2;
   }
   function onLeave() { mx = 0; my = 0; }
-  container.addEventListener('mousemove', onMove);
-  container.addEventListener('mouseleave', onLeave);
+  if (interactive) {
+    container.addEventListener('mousemove', onMove);
+    container.addEventListener('mouseleave', onLeave);
+  }
 
+  const spinSpeed = opts.spinSpeed != null ? opts.spinSpeed : 0.0028;
   let running = false, raf = null;
   function animate() {
     raf = requestAnimationFrame(animate);
-    if (!reduceMotion) rig.rotation.y += 0.0028 + mx * 0.012;
-    rig.rotation.x += ((my * 0.22) - rig.rotation.x) * 0.06;
+    if (!reduceMotion) rig.rotation.y += spinSpeed + mx * 0.012;
+    if (interactive) rig.rotation.x += ((my * 0.22) - rig.rotation.x) * 0.06;
     renderer.render(scene, camera);
   }
   function start() { if (!running) { running = true; animate(); } }
