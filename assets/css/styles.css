@@ -119,18 +119,24 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:800;line-height:1.1;letter-
 .card__price b{font-weight:700}
 
 /* ---------- carousel (inside cover) ---------- */
-.cel{position:absolute;inset:0}
-.cel__track{display:flex;height:100%;transition:transform .45s var(--ease)}
-.cel__slide{min-width:100%;height:100%;position:relative}
-.cel__slide img{width:100%;height:100%;object-fit:cover;object-position:top left}
-.cel__nav{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.3);opacity:0;transition:.2s var(--ease);z-index:4;color:#222}
+.cel{position:absolute;inset:0;overflow:hidden}
+/* --- variante manual (hero feature: faixa horizontal + setas, sem tilt concorrendo) --- */
+.cel--manual .cel__track{display:flex;height:100%;transition:transform .45s var(--ease)}
+.cel--manual .cel__slide{min-width:100%;height:100%;position:relative}
+.cel--manual .cel__slide img{width:100%;height:100%;object-fit:cover;object-position:top left}
+.cel__nav{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.3);opacity:0;transition:.2s var(--ease);z-index:4;color:#222;border:none;cursor:pointer}
 .card__cover:hover .cel__nav,.hero__feature .cel__nav{opacity:1}
 .cel__nav:hover{transform:translateY(-50%) scale(1.08);background:#fff}
 .cel__nav--prev{left:10px}.cel__nav--next{right:10px}
 .cel__nav[disabled]{opacity:0!important;pointer-events:none}
+/* --- variante automática (cards do grid: crossfade + zoom "Ken Burns", sem alvo pra clicar) --- */
+.cel--auto .cel__slide{position:absolute;inset:0;opacity:0;transform:scale(1.1);transition:opacity 1s ease;pointer-events:none}
+.cel--auto .cel__slide.on{opacity:1;z-index:1;transition:opacity 1s ease,transform 7s linear;transform:scale(1)}
+.cel--auto .cel__slide img{width:100%;height:100%;object-fit:cover;object-position:top left}
 .cel__dots{position:absolute;bottom:10px;left:0;right:0;display:flex;gap:6px;justify-content:center;z-index:4}
 .cel__dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);transition:.2s var(--ease)}
 .cel__dots i.on{background:#fff;transform:scale(1.35)}
+.cel__dots--static{pointer-events:none}
 
 /* ---------- designed covers (projects without screenshots) ---------- */
 .cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -462,7 +468,7 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:800;line-height:1.1;letter-
   .cursor.big .cursor__ring{width:64px;height:64px;margin:-32px;border-color:transparent;background:rgba(255,56,92,.12)}
   .cursor.big .cursor__dot{background:var(--red)}
 }
-@media (max-width:900px),(hover:none),(pointer:coarse){ .cursor{display:none} }
+@media (hover:none),(pointer:coarse){ .cursor{display:none} }
 
 /* --- kinetic headline (split em palavras, entra em stagger) --- */
 [data-split]{overflow:visible}

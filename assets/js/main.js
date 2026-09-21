@@ -351,34 +351,55 @@
   }
 
   /* ---------- carrossel ---------- */
-  function carouselHTML(shots) {
-    var slides = shots.map(function (s) { return '<div class="cel__slide"><img src="' + s + '" alt="" loading="lazy"></div>'; }).join('');
-    var dots = shots.map(function (_, i) { return '<i class="' + (i === 0 ? 'on' : '') + '"></i>'; }).join('');
-    return '<div class="cel"><div class="cel__track">' + slides + '</div>' +
-      '<button class="cel__nav cel__nav--prev" disabled aria-label="Anterior">‹</button>' +
-      '<button class="cel__nav cel__nav--next" aria-label="Próxima">›</button>' +
-      '<div class="cel__dots">' + dots + '</div></div>';
-  }
-  function initCarousel(root, n) {
-    var idx = 0, track = $('.cel__track', root), dots = $$('.cel__dots i', root);
-    var prev = $('.cel__nav--prev', root), next = $('.cel__nav--next', root);
-    function go(i) {
-      idx = Math.max(0, Math.min(n - 1, i));
-      track.style.transform = 'translateX(' + (-idx * 100) + '%)';
-      dots.forEach(function (d, k) { d.classList.toggle('on', k === idx); });
-      prev.disabled = idx === 0; next.disabled = idx === n - 1;
+  function carouselHTML(shots, manual) {
+    if (manual) {
+      var mSlides = shots.map(function (s) { return '<div class="cel__slide"><img src="' + s + '" alt="" loading="lazy"></div>'; }).join('');
+      var mDots = shots.map(function (_, i) { return '<i class="' + (i === 0 ? 'on' : '') + '"></i>'; }).join('');
+      return '<div class="cel cel--manual"><div class="cel__track">' + mSlides + '</div>' +
+        '<button class="cel__nav cel__nav--prev" disabled aria-label="Anterior">‹</button>' +
+        '<button class="cel__nav cel__nav--next" aria-label="Próxima">›</button>' +
+        '<div class="cel__dots">' + mDots + '</div></div>';
     }
-    prev.addEventListener('click', function (e) { e.stopPropagation(); go(idx - 1); });
-    next.addEventListener('click', function (e) { e.stopPropagation(); go(idx + 1); });
-    dots.forEach(function (d, k) { d.addEventListener('click', function (e) { e.stopPropagation(); go(k); }); });
-    // swipe
-    var x0 = null;
-    root.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
-    root.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1)); x0 = null; });
+    // variante automática: crossfade + zoom, sem alvo de clique (evita conflito com o tilt 3D do card)
+    var slides = shots.map(function (s, i) { return '<div class="cel__slide' + (i === 0 ? ' on' : '') + '"><img src="' + s + '" alt="" loading="lazy"></div>'; }).join('');
+    var dots = shots.map(function (_, i) { return '<i class="' + (i === 0 ? 'on' : '') + '"></i>'; }).join('');
+    return '<div class="cel cel--auto">' + slides + '<div class="cel__dots cel__dots--static">' + dots + '</div></div>';
+  }
+  function initCarousel(root, n, manual) {
+    var idx = 0, dots = $$('.cel__dots i', root);
+    if (manual) {
+      var track = $('.cel__track', root), prev = $('.cel__nav--prev', root), next = $('.cel__nav--next', root);
+      function go(i) {
+        idx = Math.max(0, Math.min(n - 1, i));
+        track.style.transform = 'translateX(' + (-idx * 100) + '%)';
+        dots.forEach(function (d, k) { d.classList.toggle('on', k === idx); });
+        prev.disabled = idx === 0; next.disabled = idx === n - 1;
+      }
+      prev.addEventListener('click', function (e) { e.stopPropagation(); go(idx - 1); });
+      next.addEventListener('click', function (e) { e.stopPropagation(); go(idx + 1); });
+      dots.forEach(function (d, k) { d.addEventListener('click', function (e) { e.stopPropagation(); go(k); }); });
+      var x0 = null;
+      root.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+      root.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1)); x0 = null; });
+      return;
+    }
+    // automático: avança sozinho (crossfade+zoom via CSS), pausa enquanto o preview ao vivo do card está aberto
+    if (n <= 1) return;
+    var slides = $$('.cel__slide', root);
+    function show(i) {
+      idx = (i + n) % n;
+      slides.forEach(function (s, k) { s.classList.toggle('on', k === idx); });
+      dots.forEach(function (d, k) { d.classList.toggle('on', k === idx); });
+    }
+    setInterval(function () {
+      var cardEl = root.closest('.card');
+      if (cardEl && cardEl.classList.contains('previewing')) return;
+      show(idx + 1);
+    }, 3600);
   }
 
   function coverHTML(p) {
-    if (p.cover.type === 'shots') return carouselHTML(p.cover.shots);
+    if (p.cover.type === 'shots') return carouselHTML(p.cover.shots, false);
     return '<div class="cover cover--' + p.cover.kind + '"><span class="cover__ico">' + svg(p.cover.icon, 19) + '</span>' + (p.cover.inner || '') + '</div>';
   }
 
@@ -449,7 +470,7 @@
   /* ---------- render grid + carrosséis ---------- */
   var grid = $('#projectGrid');
   P.forEach(function (p) { grid.appendChild(el(cardHTML(p))); });
-  P.forEach(function (p) { if (p.cover.type === 'shots') { var c = $('.card[data-id="' + p.id + '"] .cel', grid); if (c) initCarousel(c, p.cover.shots.length); } });
+  P.forEach(function (p) { if (p.cover.type === 'shots') { var c = $('.card[data-id="' + p.id + '"] .cel', grid); if (c) initCarousel(c, p.cover.shots.length, false); } });
   $$('.card', grid).forEach(function (c) {
     var id = c.getAttribute('data-id'), p = byId(id);
     var open = function () { if (p && p.liveDemo) openLiveDemo(p.liveDemo); else openModal(id); };
@@ -480,10 +501,10 @@
   /* ---------- hero feature (GPS Vista) ---------- */
   (function () {
     var g = P[0];
-    var wrap = el('<div class="card" data-id="gpsvista"><div class="card__cover">' + carouselHTML(g.cover.shots) + '</div>' +
+    var wrap = el('<div class="card" data-id="gpsvista"><div class="card__cover">' + carouselHTML(g.cover.shots, true) + '</div>' +
       '<div class="feat-tag"><span class="em">GV</span><span><b>GPS Vista — em produção nacional</b><span>Grupo GPS · clique para ver a ficha completa</span></span></div></div>');
     var host = $('#heroFeature'); host.appendChild(wrap);
-    initCarousel($('.cel', wrap), g.cover.shots.length);
+    initCarousel($('.cel', wrap), g.cover.shots.length, true);
     wrap.addEventListener('click', function () { openModal('gpsvista'); });
   })();
 

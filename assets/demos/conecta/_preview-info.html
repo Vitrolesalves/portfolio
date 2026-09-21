@@ -1,6 +1,31 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<style>body{margin:0;font-family:system-ui,sans-serif;background:#eef2f8;display:grid;place-items:center;min-height:100vh;color:#334}
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#eef2f8;display:grid;place-items:center;min-height:100vh;color:#334}
 .b{max-width:470px;text-align:center;padding:44px 32px;background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.08);margin:20px}
-.i{font-size:2.6rem}.t{font-weight:800;font-size:1.2rem;margin:12px 0 8px;color:#1a2a45}.d{color:#667;line-height:1.55;font-size:.95rem}</style></head>
+.i{font-size:2.6rem}.t{font-weight:800;font-size:1.2rem;margin:12px 0 8px;color:#1a2a45}.d{color:#667;line-height:1.55;font-size:.95rem}
+.back{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:11px 20px;border-radius:999px;background:#1a2a45;color:#fff;text-decoration:none;font-weight:700;font-size:.9rem}
+.back:hover{background:#111e33}
+</style></head>
 <body><div class="b"><div class="i">🧩</div><div class="t">Tela do sistema real</div>
-<div class="d">Esta parte existe e funciona no sistema em produção, mas não foi incluída neste preview de demonstração (que foca nas telas principais). Use o menu para navegar pelas telas disponíveis.</div></div></body></html>
+<div class="d">Esta parte existe e funciona no sistema em produção, mas não foi incluída neste preview de demonstração (que foca nas telas principais).</div>
+<a class="back" id="backLink" href="home.html">← Voltar</a>
+</div>
+<script>
+(function(){
+  var link = document.getElementById('backLink');
+  // detecta qual demo é essa (gpsflow ou conecta) pra saber a home certa
+  var isConecta = /\/demos\/conecta\//.test(location.pathname);
+  var home = isConecta ? 'dashboard.html' : 'home.html';
+  link.setAttribute('href', home);
+  // se o navegador sabe de onde viemos (mesma origem), volta pra lá em vez da home genérica
+  try {
+    if (document.referrer) {
+      var ref = new URL(document.referrer);
+      if (ref.origin === location.origin && /\.html$/.test(ref.pathname) && !/_preview-info\.html$/.test(ref.pathname)) {
+        link.setAttribute('href', ref.pathname.split('/').pop() + ref.search);
+      }
+    }
+  } catch (e) {}
+})();
+</script>
+</body></html>
