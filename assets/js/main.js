@@ -458,23 +458,50 @@
     });
     card.addEventListener('mouseleave', function () { tgt = { rx: 0, ry: 0, s: 1, ty: 0 }; kick(); });
   }
+  // registro das previews ao vivo montadas — qualquer overlay (modal, live-demo)
+  // chama isso pra matar na hora um iframe de preview que ficou pra trás (ex.: o
+  // usuário clicou no card sem tirar o mouse de cima, então nunca disparou
+  // mouseleave — o iframe ficava "vivo" por baixo do overlay e vazava visualmente)
+  var activePreviews = [];
   function enableHoverPreview(card, p) {
-    var cover = $('.card__cover', card), mounted = false;
+    var cover = $('.card__cover', card);
+    var hint = el('<div class="card__livehint"><span>▶ clique para abrir o sistema</span></div>');
+    cover.appendChild(hint);
+    var liveEl = null, ro = null, hideTimer = null;
     function mount() {
-      if (mounted) return; mounted = true;
-      var live = el('<div class="card__live"></div>');
+      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+      if (liveEl) return;
+      liveEl = el('<div class="card__live"></div>');
       var ifr = document.createElement('iframe');
       ifr.src = p.liveDemo.url; ifr.setAttribute('scrolling', 'no'); ifr.setAttribute('tabindex', '-1'); ifr.setAttribute('aria-hidden', 'true'); ifr.title = p.liveDemo.name;
       ifr.width = 1280; ifr.height = 960;
-      live.appendChild(ifr); cover.appendChild(live);
-      cover.appendChild(el('<div class="card__livehint"><span>▶ clique para abrir o sistema</span></div>'));
+      liveEl.appendChild(ifr); cover.insertBefore(liveEl, hint);
       var scale = function () { var w = cover.clientWidth; ifr.style.transform = 'scale(' + (w / 1280) + ')'; };
-      if ('ResizeObserver' in window) new ResizeObserver(scale).observe(cover); scale();
+      ro = ('ResizeObserver' in window) ? new ResizeObserver(scale) : null;
+      if (ro) ro.observe(cover);
+      scale();
+    }
+    // desmonta de verdade (tira o iframe do DOM) — não só esconde via opacity.
+    // um iframe fica montado, real, o tempo todo: se ele sobrevive escondido dentro
+    // de um card que anima (tilt em rotateX/Y todo frame), o navegador pode perder
+    // a camada de composição dele por um instante e ele "flutua" fora do lugar —
+    // foi isso que vazou por cima do modal na screenshot.
+    function unmountNow() {
+      card.classList.remove('previewing');
+      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+      if (ro) { ro.disconnect(); ro = null; }
+      if (liveEl) { liveEl.remove(); liveEl = null; }
+    }
+    function scheduleUnmount() {
+      card.classList.remove('previewing');
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(unmountNow, 550); // depois do fade de opacity (.5s) do CSS
     }
     card.addEventListener('mouseenter', function () { mount(); card.classList.add('previewing'); });
-    card.addEventListener('mouseleave', function () { card.classList.remove('previewing'); });
+    card.addEventListener('mouseleave', scheduleUnmount);
     card.addEventListener('focusin', function () { mount(); card.classList.add('previewing'); });
-    card.addEventListener('focusout', function () { card.classList.remove('previewing'); });
+    card.addEventListener('focusout', scheduleUnmount);
+    activePreviews.push(unmountNow);
   }
 
   /* ---------- render grid + carrosséis ---------- */
@@ -488,7 +515,10 @@
     c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
     var fb = $('[data-ficha]', c); if (fb) fb.addEventListener('click', function (e) { e.stopPropagation(); openModal(id); });
     if (p && p.liveDemo) enableHoverPreview(c, p);
-    enableTilt(c);
+    // cards com preview ao vivo (iframe real montado no hover) não recebem o tilt 3D:
+    // um iframe sobrevivendo dentro de um elemento que gira/escala a cada frame via JS
+    // é receita pra ele perder a camada de composição e "flutuar" fora do card
+    else enableTilt(c);
   });
 
   /* ---------- category bar ---------- */
@@ -554,6 +584,7 @@
   }
   function openModal(id) {
     var p = P.filter(function (x) { return x.id === id; })[0]; if (!p) return;
+    activePreviews.forEach(function (fn) { fn(); });
     var subline = p.sub.map(function (s, i) { return (i ? '<span class="d"></span>' : '') + s; }).join(' ');
     modal.innerHTML =
       '<div class="modal__panel">' +
@@ -673,10 +704,21 @@
       '</div></div>');
     document.body.appendChild(live);
     live.addEventListener('click', function (e) { if (e.target === live || e.target.classList.contains('livedemo__x')) closeLiveDemo(); });
-    $('.livedemo__frame', live).addEventListener('load', function () { var l = $('.livedemo__loading', live); if (l) l.style.display = 'none'; });
+    var ldFrame = $('.livedemo__frame', live);
+    ldFrame.addEventListener('load', function () { var l = $('.livedemo__loading', live); if (l) l.style.display = 'none'; });
+    // dentro do iframe (sem overlay de captura, é navegação de verdade) o mousemove
+    // do documento pai nunca chega — o cursor customizado ficaria parado, "grudado"
+    // na tela. Some com ele ao entrar (some no fade normal do CSS) e devolve o
+    // controle ao sair de volta pro chrome do modal (topo, botão fechar).
+    if (cursor) {
+      ldFrame.addEventListener('mouseenter', function () { cursor.classList.remove('on'); });
+      ldFrame.addEventListener('mouseleave', function () { cursor.classList.add('on'); });
+    }
     return live;
   }
   function openLiveDemo(cfg) {
+    activePreviews.forEach(function (fn) { fn(); });
+    if (cursor) cursor.classList.remove('on');
     var L = ensureLive();
     $('.ld-name', L).textContent = cfg.name;
     $('.ld-new', L).href = cfg.url;
