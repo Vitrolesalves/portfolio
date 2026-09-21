@@ -2149,37 +2149,7 @@
     <script src="static/vendor/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="static/js/notifications.min.js"></script>
 
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => {
-                        setInterval(() => reg.update(), 3600000);
-                        reg.addEventListener('updatefound', () => {
-                            const w = reg.installing;
-                            w.addEventListener('statechange', () => {
-                                if (w.state === 'installed' && navigator.serviceWorker.controller) {
-                                    if (confirm('Nova versão disponível! Deseja atualizar?')) {
-                                        w.postMessage({ type: 'SKIP_WAITING' });
-                                        window.location.reload();
-                                    }
-                                }
-                            });
-                        });
-                    }).catch(e => console.log('[PWA] Erro:', e));
-
-                let refreshing = false;
-                navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    if (refreshing) return;
-                    refreshing = true;
-                    window.location.reload();
-                });
-            });
-        }
-        window.addEventListener('online', () => typeof showNotification === 'function' && showNotification('Conexão restaurada!', 'success'));
-        window.addEventListener('offline', () => typeof showNotification === 'function' && showNotification('Você está offline.', 'warning'));
-        window.clearPWACache = () => navigator.serviceWorker?.controller?.postMessage({ type: 'CLEAR_CACHE' });
-    </script>
+    
 
     
 

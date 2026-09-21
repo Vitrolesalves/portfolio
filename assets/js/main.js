@@ -59,7 +59,8 @@
         var big = e.target.closest && e.target.closest('a,button,.card,[role="button"],input,select,textarea');
         cursor.classList.toggle('big', !!big);
       });
-      document.addEventListener('mouseleave', function () { cursor.classList.remove('on'); }, true);
+      // esconde só quando o mouse sai de VERDADE do documento (relatedTarget nulo), não ao cruzar entre filhos de um card
+      document.addEventListener('mouseout', function (e) { if (!e.relatedTarget) cursor.classList.remove('on'); });
     }
   }
 
