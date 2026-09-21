@@ -553,12 +553,21 @@
   function galleryHTML(p) {
     if (p.cover.type === 'shots') {
       var s = p.cover.shots;
-      return '<div class="modal__gallery modal__gallery--multi">' +
-        '<img class="g0" src="' + s[0] + '" alt="">' +
-        '<img class="g1" src="' + s[1] + '" alt="">' +
-        '<img class="g2" src="' + s[2] + '" alt="">' +
-        '<img class="g3" src="' + s[3] + '" alt="">' +
-        '<img class="g4" src="' + s[4] + '" alt="">' +
+      // monta só as tags <img> que têm foto de verdade — nunca src="undefined"
+      // (o grid de 5 (--multi) e o de 3 (--triple) têm layout dedicado; qualquer
+      // outra quantidade cai num grid simples de 1 coluna, sem quebrar nada)
+      if (s.length === 5) {
+        return '<div class="modal__gallery modal__gallery--multi">' +
+          s.map(function (src, i) { return '<img class="g' + i + '" src="' + src + '" alt="">'; }).join('') +
+          '</div>';
+      }
+      if (s.length === 3) {
+        return '<div class="modal__gallery modal__gallery--triple">' +
+          s.map(function (src, i) { return '<img class="g' + i + '" src="' + src + '" alt="">'; }).join('') +
+          '</div>';
+      }
+      return '<div class="modal__gallery modal__gallery--solo">' +
+        s.map(function (src) { return '<img src="' + src + '" alt="">'; }).join('') +
         '</div>';
     }
     return '<div class="modal__hero"><div class="cover cover--' + p.cover.kind + '"><span class="cover__ico">' + svg(p.cover.icon, 19) + '</span>' + (p.cover.inner || '') + '</div></div>';
