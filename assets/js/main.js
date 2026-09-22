@@ -801,34 +801,58 @@
   /* ---------- ano ---------- */
   $('#year').textContent = new Date().getFullYear();
 
-  /* ---------- marquee (loop sem costura) ---------- */
-  // o CSS animava translateX(0) -> translateX(-50%), o que só é perfeito
-  // enquanto a largura do track não muda. Como o texto usa a fonte de
-  // título (web font), se ela trocar (FOUT) depois que a animação já
-  // começou, a % é recalculada contra a NOVA largura no meio do ciclo —
-  // e o trecho "escreve o próximo texto do nada" era exatamente isso: um
-  // salto visível no ponto do loop. Medindo a largura de 1 cópia em PIXELS
-  // (fixo, não recalcula sozinho) o loop fica sempre idêntico.
-  var mqTrack = $('.marquee__track');
-  if (mqTrack) {
-    var setMarqueeWidth = function () {
-      var w = mqTrack.scrollWidth / 2; // o track tem 2 cópias idênticas do conteúdo
-      if (w > 0) mqTrack.style.setProperty('--mq-w', w + 'px');
+  /* ---------- marquee (loop sem costura, "portal" fim->início) ---------- */
+  // a causa real: o HTML só tinha 2 cópias do conjunto (~990px cada). Em
+  // qualquer tela mais larga que isso — ou seja, praticamente todo desktop —
+  // sobrava um trecho sem nenhum texto no fim de cada ciclo de 26s, e quando
+  // o loop reiniciava esse trecho era subitamente preenchido: era isso o
+  // "quando chega na metade escreve o próximo texto do nada". A correção não
+  // é sobre TIMING, é sobre CONTEÚDO: precisa sempre ter cópias suficientes
+  // pra cobrir a tela inteira + 1 conjunto de sobra, não importa a largura.
+  var mqWrap = $('.marquee'), mqTrack = $('.marquee__track');
+  if (mqWrap && mqTrack) {
+    // captura 1 conjunto original (metade dos filhos — o HTML sempre vem com
+    // 2 cópias idênticas) antes de qualquer reconstrução
+    var mqOneSetHTML = (function () {
+      var kids = mqTrack.children, half = Math.floor(kids.length / 2), html = '';
+      for (var i = 0; i < half; i++) html += kids[i].outerHTML;
+      return html;
+    })();
+    var mqMeasureOneSet = function () {
+      var probe = document.createElement('div');
+      // precisa da MESMA classe do track de verdade — sem ela os spans
+      // não herdam o padding/fonte de .marquee__track span e a medida
+      // sai menor do que o conjunto realmente ocupa na tela
+      probe.className = mqTrack.className;
+      probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;display:inline-flex';
+      probe.innerHTML = mqOneSetHTML;
+      mqWrap.appendChild(probe);
+      var w = probe.scrollWidth;
+      mqWrap.removeChild(probe);
+      return w;
     };
-    setMarqueeWidth();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(setMarqueeWidth).catch(function () {});
-    window.addEventListener('resize', setMarqueeWidth, { passive: true });
+    var mqBuild = function () {
+      var setW = mqMeasureOneSet();
+      if (setW <= 0) return; // ainda sem layout disponível — as redes de segurança abaixo tentam de novo
+      var need = mqWrap.clientWidth + setW + 60; // tela toda + 1 conjunto de sobra + folga
+      var copies = Math.max(2, Math.ceil(need / setW));
+      var html = '';
+      for (var i = 0; i < copies; i++) html += mqOneSetHTML;
+      mqTrack.innerHTML = html;
+      mqTrack.style.setProperty('--mq-w', setW + 'px');
+    };
+    mqBuild();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(mqBuild).catch(function () {});
+    window.addEventListener('resize', mqBuild, { passive: true });
     // aba aberta em background (comum: "abrir em nova aba") não faz layout até
     // ganhar foco — scrollWidth pode voltar 0 na 1ª tentativa. Remedimos assim
-    // que a página fica visível...
+    // que a página fica visível, mais duas tentativas de segurança (mesmo
+    // padrão do reveal) caso nada acima dispare por algum motivo imprevisto.
     document.addEventListener('visibilitychange', function () {
-      if (!document.hidden) { setMarqueeWidth(); setTimeout(setMarqueeWidth, 300); }
+      if (!document.hidden) { mqBuild(); setTimeout(mqBuild, 300); }
     });
-    // ...e mais duas tentativas às cegas, mesma rede de segurança usada no
-    // reveal: garante que --mq-w acaba medido mesmo se nenhum dos gatilhos
-    // acima disparar por algum motivo imprevisto.
-    setTimeout(setMarqueeWidth, 500);
-    setTimeout(setMarqueeWidth, 2000);
+    setTimeout(mqBuild, 500);
+    setTimeout(mqBuild, 2000);
   }
 
   /* ---------- reveal ---------- */
