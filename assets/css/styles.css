@@ -487,7 +487,7 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:800;line-height:1.1;letter-
 .marquee:hover .marquee__track{animation-play-state:paused}
 .marquee__track span{display:inline-block;padding:0 22px;font-family:var(--font-head);font-weight:800;font-size:1.05rem;letter-spacing:.02em;color:#fff}
 .marquee__dot{color:var(--red)!important;font-size:.9rem!important;padding:0 4px!important}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(calc(-1 * var(--mq-w, 50%)))}}
 
 /* --- botões magnéticos --- */
 .btn{transition:transform .25s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease)}

@@ -801,6 +801,36 @@
   /* ---------- ano ---------- */
   $('#year').textContent = new Date().getFullYear();
 
+  /* ---------- marquee (loop sem costura) ---------- */
+  // o CSS animava translateX(0) -> translateX(-50%), o que só é perfeito
+  // enquanto a largura do track não muda. Como o texto usa a fonte de
+  // título (web font), se ela trocar (FOUT) depois que a animação já
+  // começou, a % é recalculada contra a NOVA largura no meio do ciclo —
+  // e o trecho "escreve o próximo texto do nada" era exatamente isso: um
+  // salto visível no ponto do loop. Medindo a largura de 1 cópia em PIXELS
+  // (fixo, não recalcula sozinho) o loop fica sempre idêntico.
+  var mqTrack = $('.marquee__track');
+  if (mqTrack) {
+    var setMarqueeWidth = function () {
+      var w = mqTrack.scrollWidth / 2; // o track tem 2 cópias idênticas do conteúdo
+      if (w > 0) mqTrack.style.setProperty('--mq-w', w + 'px');
+    };
+    setMarqueeWidth();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(setMarqueeWidth).catch(function () {});
+    window.addEventListener('resize', setMarqueeWidth, { passive: true });
+    // aba aberta em background (comum: "abrir em nova aba") não faz layout até
+    // ganhar foco — scrollWidth pode voltar 0 na 1ª tentativa. Remedimos assim
+    // que a página fica visível...
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) { setMarqueeWidth(); setTimeout(setMarqueeWidth, 300); }
+    });
+    // ...e mais duas tentativas às cegas, mesma rede de segurança usada no
+    // reveal: garante que --mq-w acaba medido mesmo se nenhum dos gatilhos
+    // acima disparar por algum motivo imprevisto.
+    setTimeout(setMarqueeWidth, 500);
+    setTimeout(setMarqueeWidth, 2000);
+  }
+
   /* ---------- reveal ---------- */
   var rev = $$('.reveal');
   if ('IntersectionObserver' in window) {
