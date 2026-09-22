@@ -833,26 +833,26 @@
     };
     var mqBuild = function () {
       var setW = mqMeasureOneSet();
-      if (setW <= 0) return; // ainda sem layout disponível — as redes de segurança abaixo tentam de novo
+      if (setW <= 0 || mqWrap.clientWidth <= 0) return false; // sem layout disponível ainda
       var need = mqWrap.clientWidth + setW + 60; // tela toda + 1 conjunto de sobra + folga
       var copies = Math.max(2, Math.ceil(need / setW));
       var html = '';
       for (var i = 0; i < copies; i++) html += mqOneSetHTML;
       mqTrack.innerHTML = html;
       mqTrack.style.setProperty('--mq-w', setW + 'px');
+      return true;
     };
-    mqBuild();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(mqBuild).catch(function () {});
+    // não dá pra confiar em UM evento específico (fonts.ready, resize,
+    // visibilitychange) pra saber quando o layout finalmente fica disponível
+    // — testei e nenhum deles disparava de forma confiável em toda situação
+    // (aba em background, etc). Em vez disso, insiste com polling a cada
+    // 300ms até conseguir medir e montar (ou desiste depois de ~12s).
+    var mqTries = 0;
+    var mqPoll = setInterval(function () {
+      mqTries++;
+      if (mqBuild() || mqTries > 40) clearInterval(mqPoll);
+    }, 300);
     window.addEventListener('resize', mqBuild, { passive: true });
-    // aba aberta em background (comum: "abrir em nova aba") não faz layout até
-    // ganhar foco — scrollWidth pode voltar 0 na 1ª tentativa. Remedimos assim
-    // que a página fica visível, mais duas tentativas de segurança (mesmo
-    // padrão do reveal) caso nada acima dispare por algum motivo imprevisto.
-    document.addEventListener('visibilitychange', function () {
-      if (!document.hidden) { mqBuild(); setTimeout(mqBuild, 300); }
-    });
-    setTimeout(mqBuild, 500);
-    setTimeout(mqBuild, 2000);
   }
 
   /* ---------- reveal ---------- */
