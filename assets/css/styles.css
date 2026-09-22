@@ -218,10 +218,9 @@ h1,h2,h3,h4{font-family:var(--font-head);font-weight:800;line-height:1.1;letter-
 .frame__screen{position:relative;overflow:hidden;aspect-ratio:16/10;background:#eaeff5}
 .frame__screen iframe{position:absolute;top:0;left:0;border:0;transform-origin:top left;pointer-events:none}
 .frame__screen.is-loading::after{content:"carregando a interface…";position:absolute;inset:0;display:grid;place-items:center;color:var(--gray);font-size:.9rem;background:#eaeff5}
-.frame__catch{position:absolute;inset:0;z-index:2;cursor:pointer;background:transparent;display:flex;align-items:flex-end;justify-content:center;padding-bottom:20px;opacity:0;transition:.25s var(--ease)}
-.frame__catch span{background:rgba(15,22,38,.88);color:#fff;font-size:.82rem;font-weight:600;padding:9px 16px;border-radius:999px;backdrop-filter:blur(4px);transform:translateY(10px);transition:.28s var(--ease)}
-.frame:hover .frame__catch{opacity:1;background:linear-gradient(transparent 55%,rgba(0,0,0,.14))}
-.frame:hover .frame__catch span{transform:none}
+.frame__catch{position:absolute;inset:0;z-index:2;cursor:pointer;background:transparent;display:flex;align-items:flex-end;justify-content:center;padding-bottom:20px;transition:.25s var(--ease)}
+.frame__catch span{background:rgba(15,22,38,.88);color:#fff;font-size:.82rem;font-weight:600;padding:9px 16px;border-radius:999px;backdrop-filter:blur(4px);transition:.28s var(--ease)}
+.frame:hover .frame__catch{background:linear-gradient(transparent 55%,rgba(0,0,0,.14))}
 @media (max-width:900px){
   .showcase{padding:52px 0}
   .showcase__inner,.showcase--alt .showcase__inner{grid-template-columns:1fr;gap:26px}
