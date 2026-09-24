@@ -768,6 +768,20 @@
     }
 </style>
 
+<script>
+// modo embed (?embed=1): usado quando essa página é mostrada dentro de uma
+// aba/iframe de outra tela do preview — some com a casca (sidebar/topbar)
+// pra sobrar só o conteúdo. Roda antes do body pintar pra não piscar.
+if (location.search.indexOf('embed=1') !== -1) {
+    document.documentElement.classList.add('is-embed');
+}
+</script>
+<style>
+.is-embed .sidebar, .is-embed .topbar { display: none !important; }
+.is-embed .main { margin-left: 0 !important; }
+.is-embed .page-body { padding-top: .75rem; }
+</style>
+
 </head>
 
 <body x-data="{
