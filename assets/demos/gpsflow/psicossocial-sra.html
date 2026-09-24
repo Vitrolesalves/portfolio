@@ -1692,7 +1692,7 @@
                     <div class="me-3 d-flex align-items-center gap-2">
                         <span class="text-white text-xs opacity-75 font-semibold">Filtro Regional:</span>
                         <select
-                            onchange="window.location.href='/alterar-regional-ativa/?regional_id=' + this.value"
+                            onchange="if(this.value){this.blur();alert('Filtro por regional: recurso do sistema real, nao disponivel neste preview estatico.');}"
                             class="form-select form-select-sm py-1 px-2 border-0 bg-white bg-opacity-10 text-white rounded font-medium text-xs cursor-pointer focus:ring-1 focus:ring-blue-500"
                             style="width: auto; min-width: 120px; font-size: 11px;">
                             <option value="GLOBAL" class="text-slate-800" selected>Todas as Regionais</option>
@@ -1717,7 +1717,7 @@
                     </div>
                     
 
-                    <form method="post" action="/logout/">
+                    <form method="post" action="/logout/" onsubmit="event.preventDefault();alert(&#39;Sair: recurso do sistema real, nao disponivel neste preview estatico.&#39;);return false;">
                         <input type="hidden" name="csrfmiddlewaretoken" value="dDJ7vxRxLz0QyWOyVjpuATTuWSETHHMXDpUiihtk0HIHhARU1b5UNRLSud0ZXQBn">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1784,7 +1784,7 @@
                         <strong>Colunas necessárias:</strong> CPF, Nome, Matricula, Negocio, Municipio, Estado, Dt Demissao.
                     </div>
                     
-                    <form action="/psicossocial/sra/" method="post" enctype="multipart/form-data">
+                    <form action="/psicossocial/sra/" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault();alert('Envio de planilha: recurso do sistema real, nao disponivel neste preview estatico.');return false;">
                         <input type="hidden" name="csrfmiddlewaretoken" value="dDJ7vxRxLz0QyWOyVjpuATTuWSETHHMXDpUiihtk0HIHhARU1b5UNRLSud0ZXQBn">
                         <input type="hidden" name="action" value="import_sra">
                         
@@ -1821,7 +1821,7 @@
                         <strong>Colunas lidas:</strong> Código Empresa, Código Filial, CNPJ, Razão Social.
                     </div>
                     
-                    <form action="/psicossocial/sra/" method="post" enctype="multipart/form-data">
+                    <form action="/psicossocial/sra/" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault();alert('Envio de planilha: recurso do sistema real, nao disponivel neste preview estatico.');return false;">
                         <input type="hidden" name="csrfmiddlewaretoken" value="dDJ7vxRxLz0QyWOyVjpuATTuWSETHHMXDpUiihtk0HIHhARU1b5UNRLSud0ZXQBn">
                         <input type="hidden" name="action" value="import_cnpj">
                         
@@ -1851,7 +1851,7 @@
                     </h2>
                 </div>
                 <div class="psico-card-body">
-                    <form action="/psicossocial/sra/" method="post">
+                    <form action="/psicossocial/sra/" method="post" onsubmit="event.preventDefault();alert('Cadastro manual: recurso do sistema real, nao disponivel neste preview estatico.');return false;">
                         <input type="hidden" name="csrfmiddlewaretoken" value="dDJ7vxRxLz0QyWOyVjpuATTuWSETHHMXDpUiihtk0HIHhARU1b5UNRLSud0ZXQBn">
                         <input type="hidden" name="action" value="create_colaborador">
                         
@@ -1932,14 +1932,14 @@
                     </div>
                     
                     <!-- Search Form -->
-                    <form action="/psicossocial/sra/" method="get" class="d-flex gap-2 flex-wrap">
+                    <form action="/psicossocial/sra/" method="get" class="d-flex gap-2 flex-wrap" onsubmit="event.preventDefault();alert('Busca: recurso do sistema real, nao disponivel neste preview estatico.');return false;">
                         <input type="hidden" name="show_companies" value="0">
-                        
-                        <select name="cliente_filter" class="psico-select py-1" style="width: 200px;" onchange="this.form.submit()">
+
+                        <select name="cliente_filter" class="psico-select py-1" style="width: 200px;" onchange="alert('Filtro: recurso do sistema real, nao disponivel neste preview estatico.');">
                             <option value="">-- Todos Clientes --</option>
-                            
+
                         </select>
-                        <select name="status_filter" class="psico-select py-1" style="width: 170px;" onchange="this.form.submit()">
+                        <select name="status_filter" class="psico-select py-1" style="width: 170px;" onchange="alert('Filtro: recurso do sistema real, nao disponivel neste preview estatico.');">
                             <option value="">-- Todos Status --</option>
                             <option value="ativos" >Somente Ativos</option>
                             <option value="inativos" >Não Ativos (Inativos)</option>

@@ -1379,7 +1379,7 @@
                     <div class="me-3 d-flex align-items-center gap-2">
                         <span class="text-white text-xs opacity-75 font-semibold">Filtro Regional:</span>
                         <select
-                            onchange="window.location.href='/alterar-regional-ativa/?regional_id=' + this.value"
+                            onchange="if(this.value){this.blur();alert('Filtro por regional: recurso do sistema real, nao disponivel neste preview estatico.');}"
                             class="form-select form-select-sm py-1 px-2 border-0 bg-white bg-opacity-10 text-white rounded font-medium text-xs cursor-pointer focus:ring-1 focus:ring-blue-500"
                             style="width: auto; min-width: 120px; font-size: 11px;">
                             <option value="GLOBAL" class="text-slate-800" selected>Todas as Regionais</option>
@@ -1404,7 +1404,7 @@
                     </div>
                     
 
-                    <form method="post" action="/logout/">
+                    <form method="post" action="/logout/" onsubmit="event.preventDefault();alert(&#39;Sair: recurso do sistema real, nao disponivel neste preview estatico.&#39;);return false;">
                         <input type="hidden" name="csrfmiddlewaretoken" value="aQeT2WDTpzE0oxFgolkdsogsopfZXoKr7wtvpfhQlDpcyrE5quUUfjoa8BFEuwU1">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1497,19 +1497,13 @@
             <div style="border:2px dashed #c9d3e2;border-radius:14px;padding:44px 24px;text-align:center;background:linear-gradient(160deg,#eef3fb,#e2ebf7);color:#2b3a52;margin:10px 0;font-family:system-ui,sans-serif"><div style="font-size:2.4rem;line-height:1">📊</div><div style="font-weight:800;font-size:1.15rem;margin:10px 0 6px">Painel de BI (Power BI)</div><div style="color:#5a6b86;font-size:.92rem;max-width:560px;margin:0 auto;line-height:1.5">No sistema real, este espaço embute um relatório de Business Intelligence com os indicadores da operação — rondas, não conformidades, coberturas e desempenho por regional. Ocultado neste preview por conter dados reais.</div></div>
         </div>
         <div class="tab-pane fade" id="hash" role="tabpanel">
-            <iframe class="auditor-ronda-frame"
-                src="/torre-controle/auditoria/hash/?embed=1"
-                loading="lazy" title="Auditoria Detalhada"></iframe>
+            <div style="border:2px dashed #c9d3e2;border-radius:14px;padding:44px 24px;text-align:center;background:linear-gradient(160deg,#eef3fb,#e2ebf7);color:#2b3a52;margin:10px 0;font-family:system-ui,sans-serif"><div style="font-size:2.4rem;line-height:1">🔎</div><div style="font-weight:800;font-size:1.15rem;margin:10px 0 6px">Auditoria Detalhada (hash encadeado)</div><div style="color:#5a6b86;font-size:.92rem;max-width:560px;margin:0 auto;line-height:1.5">No sistema real, esta aba mostra o detalhamento técnico da trilha de auditoria: cada evento do livro de ocorrências encadeado por hash, garantindo que nada foi alterado. Ocultado neste preview por conter dados reais.</div></div>
         </div>
         <div class="tab-pane fade" id="ata" role="tabpanel">
-            <iframe class="auditor-ronda-frame" style="height: 85vh;"
-                src="/livro-ata/?embed=1"
-                loading="lazy" title="Livro Ata"></iframe>
+            <div style="border:2px dashed #c9d3e2;border-radius:14px;padding:44px 24px;text-align:center;background:linear-gradient(160deg,#eef3fb,#e2ebf7);color:#2b3a52;margin:10px 0;font-family:system-ui,sans-serif"><div style="font-size:2.4rem;line-height:1">📖</div><div style="font-weight:800;font-size:1.15rem;margin:10px 0 6px">Livro Ata</div><div style="color:#5a6b86;font-size:.92rem;max-width:560px;margin:0 auto;line-height:1.5">No sistema real, esta aba mostra as atas de reunião registradas, com geração de QR Code e envio por WhatsApp. Ocultado neste preview por conter dados reais.</div></div>
         </div>
         <div class="tab-pane fade" id="ocorrencias" role="tabpanel">
-            <iframe class="auditor-ronda-frame" style="height: 85vh;"
-                src="/torre-controle/?embed=1"
-                loading="lazy" title="Livro de Ocorrências"></iframe>
+            <div style="border:2px dashed #c9d3e2;border-radius:14px;padding:44px 24px;text-align:center;background:linear-gradient(160deg,#eef3fb,#e2ebf7);color:#2b3a52;margin:10px 0;font-family:system-ui,sans-serif"><div style="font-size:2.4rem;line-height:1">📓</div><div style="font-weight:800;font-size:1.15rem;margin:10px 0 6px">Livro de Ocorrências</div><div style="color:#5a6b86;font-size:.92rem;max-width:560px;margin:0 auto;line-height:1.5">No sistema real, esta aba mostra o livro de ocorrências digital com auditoria por hash encadeado — histórico completo de rondas, planos de ação e aprovações. Ocultado neste preview por conter dados reais.</div></div>
         </div>
     </div>
 </div>

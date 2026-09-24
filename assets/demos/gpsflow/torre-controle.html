@@ -1643,7 +1643,7 @@
                     <div class="me-3 d-flex align-items-center gap-2">
                         <span class="text-white text-xs opacity-75 font-semibold">Filtro Regional:</span>
                         <select
-                            onchange="window.location.href='/alterar-regional-ativa/?regional_id=' + this.value"
+                            onchange="if(this.value){this.blur();alert('Filtro por regional: recurso do sistema real, nao disponivel neste preview estatico.');}"
                             class="form-select form-select-sm py-1 px-2 border-0 bg-white bg-opacity-10 text-white rounded font-medium text-xs cursor-pointer focus:ring-1 focus:ring-blue-500"
                             style="width: auto; min-width: 120px; font-size: 11px;">
                             <option value="GLOBAL" class="text-slate-800" selected>Todas as Regionais</option>
@@ -1668,7 +1668,7 @@
                     </div>
                     
 
-                    <form method="post" action="/logout/">
+                    <form method="post" action="/logout/" onsubmit="event.preventDefault();alert(&#39;Sair: recurso do sistema real, nao disponivel neste preview estatico.&#39;);return false;">
                         <input type="hidden" name="csrfmiddlewaretoken" value="krHIwMD9HOSJjyk78vKUR4UYGbmolnrxh7WkT5h6DSDVtsjWaEkBEZ2GqnM3SvB7">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1932,9 +1932,8 @@
                 <span class="badge bg-danger p-2"><i class="fas fa-lock me-1"></i> Acesso Restrito</span>
             </div>
 
-            <div class="bg-white rounded shadow-sm" style="height: 70vh; overflow: hidden; border: 1px solid #fee2e2;">
-                <iframe src="/ocorrencias/reincidencias/painel/?dias=30"
-                    style="width: 100%; height: 100%; border: none;"></iframe>
+            <div class="bg-white rounded shadow-sm" style="height: 70vh; overflow: hidden; border: 1px solid #fee2e2; display:flex; align-items:center; justify-content:center; padding:24px;">
+                <div style="border:2px dashed #fecaca;border-radius:14px;padding:44px 24px;text-align:center;background:linear-gradient(160deg,#fef2f2,#fee2e2);color:#7f1d1d;font-family:system-ui,sans-serif;max-width:560px"><div style="font-size:2.4rem;line-height:1">🔒</div><div style="font-weight:800;font-size:1.15rem;margin:10px 0 6px">Painel de Reincidências</div><div style="color:#9f4646;font-size:.92rem;line-height:1.5">No sistema real, este painel cruza o histórico de ocorrências dos últimos 30 dias pra identificar reincidências por local/colaborador. Ocultado neste preview por conter dados reais e ser uma tela de acesso restrito.</div></div>
             </div>
         </div>
         
@@ -2818,7 +2817,7 @@
 
         mh.className = 'modal-header modal-header-custom ' + (status === 'nao_conforme' ? 'bg-header-nc' : (status === 'em_andamento' ? 'bg-header-warn' : 'bg-header-ok'));
         fr.style.display = 'none'; ld.style.display = 'block';
-        fr.src = `/torre-controle/detalhe/${id}/?item=${encodeURIComponent(item)}`;
+        fr.src = '_preview-info.html';
         fr.onload = () => { ld.style.display = 'none'; fr.style.display = 'block'; };
 
         if (!modalDetalhesInstance) { modalDetalhesInstance = new bootstrap.Modal(el); }

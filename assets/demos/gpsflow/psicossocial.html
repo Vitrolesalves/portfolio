@@ -1745,7 +1745,7 @@
                     <div class="me-3 d-flex align-items-center gap-2">
                         <span class="text-white text-xs opacity-75 font-semibold">Filtro Regional:</span>
                         <select
-                            onchange="window.location.href='/alterar-regional-ativa/?regional_id=' + this.value"
+                            onchange="if(this.value){this.blur();alert('Filtro por regional: recurso do sistema real, nao disponivel neste preview estatico.');}"
                             class="form-select form-select-sm py-1 px-2 border-0 bg-white bg-opacity-10 text-white rounded font-medium text-xs cursor-pointer focus:ring-1 focus:ring-blue-500"
                             style="width: auto; min-width: 120px; font-size: 11px;">
                             <option value="GLOBAL" class="text-slate-800" selected>Todas as Regionais</option>
@@ -1770,7 +1770,7 @@
                     </div>
                     
 
-                    <form method="post" action="/logout/">
+                    <form method="post" action="/logout/" onsubmit="event.preventDefault();alert(&#39;Sair: recurso do sistema real, nao disponivel neste preview estatico.&#39;);return false;">
                         <input type="hidden" name="csrfmiddlewaretoken" value="uRvUkKZNN7DJUi40hBKeQZu9SH7uJQ5nUDG57uBA2flADW7mntqE3Xmxq2tAZZUN">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1842,7 +1842,7 @@
             </div>
             <div class="psico-card-body">
                 <form action="/psicossocial/criar/" method="post"
-                    enctype="multipart/form-data">
+                    enctype="multipart/form-data" onsubmit="event.preventDefault();alert('Processar avaliação: recurso do sistema real, nao disponivel neste preview estatico.');return false;">
                     <input type="hidden" name="csrfmiddlewaretoken" value="uRvUkKZNN7DJUi40hBKeQZu9SH7uJQ5nUDG57uBA2flADW7mntqE3Xmxq2tAZZUN">
 
                     <div class="psico-form-row">
@@ -2051,7 +2051,7 @@
                             <td class="text-center">
                                 <form method="post" action="/psicossocial/45efe7f7-0937-456f-90e4-2f20f4c98482/deletar/"
                                     style="display:inline;"
-                                    onsubmit="return confirm('Tem certeza que deseja excluir permanentemente este projeto e todos os seus arquivos?');">
+                                    onsubmit="event.preventDefault();alert('Excluir: recurso do sistema real, nao disponivel neste preview estatico.');return false;">
                                     <input type="hidden" name="csrfmiddlewaretoken" value="uRvUkKZNN7DJUi40hBKeQZu9SH7uJQ5nUDG57uBA2flADW7mntqE3Xmxq2tAZZUN">
                                     <button type="submit" class="psico-btn psico-btn-danger py-1 px-2" style="font-size: 0.75rem;">
                                         <i class="fas fa-trash-alt"></i> Excluir

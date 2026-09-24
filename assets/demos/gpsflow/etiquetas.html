@@ -1626,7 +1626,7 @@
                     <div class="me-3 d-flex align-items-center gap-2">
                         <span class="text-white text-xs opacity-75 font-semibold">Filtro Regional:</span>
                         <select
-                            onchange="window.location.href='/alterar-regional-ativa/?regional_id=' + this.value"
+                            onchange="if(this.value){this.blur();alert('Filtro por regional: recurso do sistema real, nao disponivel neste preview estatico.');}"
                             class="form-select form-select-sm py-1 px-2 border-0 bg-white bg-opacity-10 text-white rounded font-medium text-xs cursor-pointer focus:ring-1 focus:ring-blue-500"
                             style="width: auto; min-width: 120px; font-size: 11px;">
                             <option value="GLOBAL" class="text-slate-800" selected>Todas as Regionais</option>
@@ -1651,7 +1651,7 @@
                     </div>
                     
 
-                    <form method="post" action="/logout/">
+                    <form method="post" action="/logout/" onsubmit="event.preventDefault();alert(&#39;Sair: recurso do sistema real, nao disponivel neste preview estatico.&#39;);return false;">
                         <input type="hidden" name="csrfmiddlewaretoken" value="R7xtn7JOAMqcBs7SWN1bFXzn3DdENTHyhTIEaRlBPU83k6ae2FHBSVrLBYzK32wY">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
