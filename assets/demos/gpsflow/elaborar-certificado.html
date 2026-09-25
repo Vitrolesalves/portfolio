@@ -5,7 +5,7 @@
 <head><script>(function(){try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}try{var of=window.fetch;if(of){window.fetch=function(u){try{var s=(typeof u==="string")?u:((u&&u.url)||"");if(/^https?:\/\//i.test(s))return of.apply(this,arguments);return Promise.resolve(new Response("[]",{status:200,headers:{"Content-Type":"application/json"}}));}catch(e){return of.apply(this,arguments);}};}}catch(e){}var M={"/home/": "home.html", "/torre-controle/": "torre-controle.html", "/torre-controle/auditoria/": "auditoria.html", "/chamados/": "chamados.html", "/dashboard/": "dashboard.html", "/financeiro/": "financeiro.html", "/gestao-qualidade/": "qualidade.html", "/gestao-salas/": "gestao-salas.html", "/calendario-reservas/": "calendario-reservas.html", "/controle-acessos/": "controle-acessos.html", "/implantacoes-fluxo/": "implantacoes.html", "/implantacoes-gpsvista/": "implantacoes-sistemicas.html", "/relatorios/": "relatorios.html", "/planner/": "planner.html", "/gerenciar-regionais/": "gerenciar-regionais.html", "/estatisticas-acesso/": "estatisticas-acesso.html", "/novidades/": "novidades.html", "/calendario-2026/": "calendario-2026.html", "/controle-chips/": "controle-chips.html", "/ajuda/": "ajuda.html", "/psicossocial/": "psicossocial.html", "/psicossocial/sra/": "psicossocial-sra.html", "/desativacao-cr/": "desativacao-cr.html", "/desmobilizacoes-fluxo/": "desmobilizacoes.html", "/livro-ocorrencia-pdf/": "livro-pdf.html", "/explorer/": "explorer.html", "/links-importantes/": "links-importantes.html", "/depara-aprova/": "depara-aprova.html", "/controle-ordens/": "controle-ordens.html", "/portaria-base/": "portaria-base.html", "/cracha/": "cracha.html", "/qr-generator/": "qr-generator.html", "/etiquetas/": "etiquetas.html", "/livro-ata/": "livro-ata.html"};var dir=location.pathname.replace(/[^\/]*$/,"");function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}try{var d=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(d&&d.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return d.get.call(this);},set:function(v){d.set.call(this,res(v));}});}}catch(e){}try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLOW</title>
+    <title>Elaborar Certificado</title>
     <meta name="application-name" content="FLOW">
     <meta name="description" content="Sistema de Gestão da Qualidade - FLOW">
     <meta name="theme-color" content="#1e3a5f">
@@ -750,36 +750,67 @@
         }
     </style>
 
-    
+
 <style>
-    .gestao-salas-icon {
+    .ec-page { padding: 1.25rem 1.5rem 3rem; max-width: 980px; margin: 0 auto; }
+    .ec-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+    .ec-icon {
         width: 48px; height: 48px; border-radius: 12px; background: #1A2A45;
         display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0;
     }
-    .gestao-salas-title {
+    .ec-title {
         background: linear-gradient(to right, #1A2A45, #2A4570);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-size: 26px;
-        font-weight: bold;
-        margin: 0;
-        text-transform: uppercase;
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        font-size: 26px; font-weight: bold; margin: 0; text-transform: uppercase;
     }
-    .filtro-servico-btn {
-        background: white;
-        color: #64748b;
-        border-color: #cbd5e1;
+    .ec-sub { color: var(--gray-500); font-size: .88rem; margin-top: .25rem; max-width: 680px; }
+
+    .ec-card { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--r-lg); padding: 1.4rem; box-shadow: var(--shadow-sm); margin-bottom: 1.4rem; }
+    .ec-card h2 { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin: 0 0 1rem; }
+    .ec-form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .9rem 1.2rem; }
+    .ec-form-grid .full { grid-column: 1 / -1; }
+    .ec-field label { display: block; font-size: .76rem; font-weight: 700; color: var(--gray-600); margin-bottom: .3rem; text-transform: uppercase; letter-spacing: .02em; }
+    .ec-field input, .ec-field select, .ec-field textarea {
+        width: 100%; border: 1px solid #CBD5E1; border-radius: .375rem; padding: .5rem .7rem;
+        font-size: .85rem; font-family: var(--f); color: var(--gray-900); background: #fff;
     }
-    .filtro-servico-btn:hover {
-        background: #f1f5f9;
-        color: #1e293b;
-        border-color: #94a3b8;
+    .ec-field input:focus, .ec-field select:focus, .ec-field textarea:focus { outline: none; border-color: var(--navy); }
+    .ec-field textarea { resize: vertical; min-height: 64px; }
+    .ec-generate-btn {
+        margin-top: 1.2rem; background: var(--navy); color: #fff; border: none; border-radius: .5rem;
+        padding: .7rem 1.4rem; font-size: .88rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: .5rem;
     }
-    .filtro-servico-btn.ativo {
-        background: #1e293b;
-        color: white;
-        border-color: #1e293b;
+    .ec-generate-btn:hover { background: var(--navy-dark, #111e33); }
+
+    /* ── Preview do certificado (documento) ── */
+    .ec-cert-wrap { display: none; }
+    .ec-cert-wrap.show { display: block; }
+    .ec-cert {
+        position: relative; background: #fdfdfb; border: 10px solid #1A2A45; border-radius: 6px;
+        padding: 2.6rem 2.4rem; text-align: center; overflow: hidden;
+    }
+    .ec-cert::before, .ec-cert::after {
+        content: ""; position: absolute; inset: 10px; border: 2px solid #C9A15A; border-radius: 2px; pointer-events: none;
+    }
+    .ec-cert-brand { font-size: .78rem; font-weight: 800; letter-spacing: .12em; color: #C9A15A; text-transform: uppercase; margin-bottom: .3rem; }
+    .ec-cert-h1 { font-size: 1.9rem; font-weight: 900; color: #1A2A45; letter-spacing: .08em; margin: .2rem 0 1.1rem; }
+    .ec-cert-p { font-size: .95rem; color: #334155; line-height: 1.8; max-width: 560px; margin: 0 auto; }
+    .ec-cert-name { display: block; font-size: 1.35rem; font-weight: 800; color: #1A2A45; margin: .6rem 0; }
+    .ec-cert-meta { display: flex; justify-content: center; gap: 2.2rem; margin-top: 1.6rem; flex-wrap: wrap; }
+    .ec-cert-meta div { font-size: .74rem; color: var(--gray-500); text-transform: uppercase; letter-spacing: .04em; }
+    .ec-cert-meta b { display: block; font-size: .9rem; color: #1A2A45; text-transform: none; letter-spacing: normal; margin-top: .15rem; }
+    .ec-cert-sign { margin-top: 2.2rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+    .ec-cert-sign div { border-top: 1px solid #94A3B8; padding-top: .4rem; font-size: .76rem; color: var(--gray-500); min-width: 190px; }
+    .ec-cert-num { margin-top: 1.4rem; font-size: .7rem; color: var(--gray-400); }
+    .ec-cert-actions { display: flex; gap: .7rem; justify-content: center; margin-top: 1.3rem; }
+    .ec-cert-actions button {
+        border: 1px solid var(--gray-200); background: #fff; border-radius: .4rem; padding: .55rem 1.1rem;
+        font-size: .82rem; font-weight: 600; color: var(--gray-700); cursor: pointer; display: inline-flex; align-items: center; gap: .45rem;
+    }
+    .ec-cert-actions button:hover { border-color: var(--navy); color: var(--navy); }
+    @media print {
+        .ec-page > *:not(.ec-cert-wrap) { display: none !important; }
+        .ec-cert-actions { display: none !important; }
     }
 </style>
 
@@ -790,12 +821,12 @@
     mobileOpen: false,
     geradores: false,
     acompanhamento: false,
-    gestaoReservas: true,
+    gestaoReservas: false,
     auditoria: false,
     projetos: false,
     psico: false,
     gestaoAVista: false,
-    deparaAprova: false
+    deparaAprova: true
 }">
 
     <div class="shell">
@@ -926,7 +957,7 @@
                 
                 <div class="nav-item">
                     <button @click="if(!collapsed) gestaoReservas = !gestaoReservas"
-                        class="nav-link active"
+                        class="nav-link "
                         :class="{ 'expanded': gestaoReservas && !collapsed }">
                         <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -943,7 +974,7 @@
                         x-transition:enter-end="opacity-100 translate-y-0" class="nav-sub">
                         
                         <a href="gestao-salas.html"
-                            class="nav-sub-link active">
+                            class="nav-sub-link ">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -1128,7 +1159,7 @@
                         
                         
                         <a href="elaborar-certificado.html"
-                            class="nav-sub-link ">
+                            class="nav-sub-link active">
                             <svg class="nav-sub-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 17v-2a4 4 0 014-4h4m0 0l-3-3m3 3l-3 3M4 7h6m-6 4h6m-6 4h4" />
@@ -1404,7 +1435,7 @@
                     </svg>
                 </button>
 
-                <span class="topbar-title">FLOW</span>
+                <span class="topbar-title">DparAprova — Elaborar Certificado</span>
 
                 <div class="topbar-right">
                     
@@ -1437,7 +1468,7 @@
                     
 
                     <form method="post" action="/logout/" onsubmit="event.preventDefault();alert(&#39;Sair: recurso do sistema real, nao disponivel neste preview estatico.&#39;);return false;">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="Yyinnm9oKl9Xp8ef1VbMz88CfERa3vS3VexZKFNlGpU9z2d434Ltm3gkZQhPAD2D">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="LQvEjJIjaYGwtjNZXFeoPYIG9DznBp4wIwKgG2mg62rIDdMOZOO5CTQoTPZ28xe6">
                         <button type="submit" class="btn-exit">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1455,237 +1486,106 @@
                 
 
                 
-<div class="min-h-screen bg-slate-50 p-6">
-    <div class="max-w-7xl mx-auto">
-        <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center gap-3">
-                <div class="gestao-salas-icon"><i class="fas fa-cog"></i></div>
-                <h1 class="gestao-salas-title mb-0">Gestão de Salas</h1>
-            </div>
-            <div class="flex items-center gap-4">
-                <a href="_preview-info.html" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
-                    <i class="fas fa-building h-4 w-4 mr-2 text-gray-500"></i>
-                    Gerenciar Unidades
-                </a>
-                
-                <a href="_preview-info.html" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-slate-800 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
-                    <i class="fas fa-plus h-4 w-4 mr-2"></i>
-                    Nova Sala
-                </a>
-            </div>
+<div class="ec-page">
+
+    <div class="ec-header">
+        <div class="ec-icon"><i class="fas fa-file-signature"></i></div>
+        <div>
+            <h1 class="ec-title mb-0">Elaborar Certificado</h1>
+            <p class="ec-sub mb-0">
+                Preencha os dados do treinamento/EPI e gere o certificado oficial pronto pra impressão —
+                mesmo modelo usado em toda a operação.
+            </p>
         </div>
+    </div>
 
-        <div class="border-b border-gray-200 mb-6">
-            <nav class="-mb-px flex space-x-8">
-                <a href="#" class="border-slate-800 text-slate-800 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                    <i class="fas fa-map-marker-alt mr-2"></i> Salas
-                </a>
-                <button onclick="abrirModalPrestador()" type="button" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors cursor-pointer bg-transparent">
-                    <i class="fas fa-users-cog mr-2"></i> Configurar Prestadores
-                </button>
-            </nav>
-        </div>
-
-        <div class="bg-white p-4 rounded-lg border shadow-sm mb-6">
-            <div class="flex items-center gap-3">
-                <i class="fas fa-building h-5 w-5 text-slate-600"></i>
-                <div class="flex items-center gap-4 flex-1">
-                    <label class="text-sm font-medium whitespace-nowrap">Selecionar Unidade:</label>
-                    <select id="unidade-select" class="px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="changeUnidade()">
-                        
-                    </select>
-                </div>
+    <div class="ec-card">
+        <h2><i class="fas fa-pen-to-square"></i> Dados do certificado</h2>
+        <div class="ec-form-grid">
+            <div class="ec-field">
+                <label for="ec-colaborador">Colaborador</label>
+                <input type="text" id="ec-colaborador" value="Marcos Vinícius Ribeiro">
             </div>
-        </div>
-
-        <div class="grid gap-6">
-            
-            <div class="bg-white rounded-lg shadow-md">
-                <div class="p-8 text-center">
-                    <p class="text-slate-500">Nenhuma sala cadastrada.</p>
-                </div>
+            <div class="ec-field">
+                <label for="ec-cpf">CPF</label>
+                <input type="text" id="ec-cpf" value="034.512.876-40">
             </div>
-            
-        </div>
-
-        <div id="modalPrestador" class="fixed inset-0 bg-slate-900 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50 flex items-center justify-center transition-all">
-            <div class="relative mx-auto p-6 border w-full max-w-3xl shadow-xl rounded-lg bg-white flex flex-col max-h-[90vh]">
-                
-                <div class="flex justify-between items-center mb-4 border-b pb-3">
-                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2" id="modalTitle">
-                        <i class="fas fa-users-cog text-slate-600"></i> Painel de Prestadores
-                    </h3>
-                    <button onclick="fecharModalPrestador()" class="text-gray-400 hover:text-red-500 transition-colors">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
-                </div>
-
-                <div class="overflow-y-auto pr-2 flex-1">
-                    
-                    <div id="viewListaPrestadores">
-                        <div class="flex justify-between items-center mb-4">
-                            <p class="text-sm text-slate-600">Gerencie os prestadores que recebem notificações de serviço.</p>
-                            <button onclick="mostrarFormulario()" class="px-3 py-1.5 bg-slate-800 text-white rounded-md hover:bg-slate-900 transition-colors text-sm font-medium flex items-center gap-2">
-                                <i class="fas fa-plus"></i> Novo
-                            </button>
-                        </div>
-
-                        <!-- FILTROS -->
-                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 mb-4 space-y-3">
-                            <div class="flex flex-wrap gap-3 items-end">
-                                <!-- Filtro por Nome -->
-                                <div class="flex-1 min-w-[160px]">
-                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide"><i class="fas fa-user mr-1"></i>Nome</label>
-                                    <input type="text" id="filtroNome" oninput="aplicarFiltros()" placeholder="Buscar por nome..." class="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-400 bg-white">
-                                </div>
-                                <!-- Filtro por Local (Unidade) -->
-                                <div class="flex-1 min-w-[140px]">
-                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide"><i class="fas fa-map-marker-alt mr-1"></i>Local / Unidade</label>
-                                    <select id="filtroLocal" onchange="aplicarFiltros()" class="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-400 bg-white">
-                                        <option value="">Todas as unidades</option>
-                                        <!-- preenchido dinamicamente pelo JS -->
-                                    </select>
-                                </div>
-                                <!-- Filtro por Serviço (botões) -->
-                                <div class="flex-1 min-w-[200px]">
-                                    <label class="block text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide"><i class="fas fa-tools mr-1"></i>Serviço</label>
-                                    <div class="flex gap-1 flex-wrap">
-                                        <button id="btnServTodos" onclick="filtrarServico('')" class="filtro-servico-btn ativo px-2.5 py-1 rounded-full text-xs font-medium border transition-colors">Todos</button>
-                                        <button id="btnServEntreposto" onclick="filtrarServico('entreposto')" class="filtro-servico-btn px-2.5 py-1 rounded-full text-xs font-medium border transition-colors">Entreposto</button>
-                                        <button id="btnServLimpeza" onclick="filtrarServico('limpeza')" class="filtro-servico-btn px-2.5 py-1 rounded-full text-xs font-medium border transition-colors">Limpeza</button>
-                                        <button id="btnServCoffe" onclick="filtrarServico('coffe')" class="filtro-servico-btn px-2.5 py-1 rounded-full text-xs font-medium border transition-colors">Coffe</button>
-                                    </div>
-                                </div>
-                                <!-- Botão Limpar -->
-                                <div>
-                                    <button onclick="limparFiltros()" class="px-3 py-1.5 text-xs text-slate-500 border border-slate-300 rounded-md hover:bg-white hover:text-slate-700 transition-colors flex items-center gap-1">
-                                        <i class="fas fa-times"></i> Limpar
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="filtroResumo" class="text-xs text-slate-400 hidden"></div>
-                        </div>
-
-                        <div class="border rounded-lg overflow-hidden">
-                            <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-4 py-3 font-medium text-gray-500 uppercase tracking-wider">Nome</th>
-                                        <th class="px-4 py-3 font-medium text-gray-500 uppercase tracking-wider">E-mail</th>
-                                        <th class="px-4 py-3 font-medium text-gray-500 uppercase tracking-wider">Local</th>
-                                        <th class="px-4 py-3 font-medium text-gray-500 uppercase tracking-wider">Serviço</th>
-                                        <th class="px-4 py-3 font-medium text-gray-500 uppercase tracking-wider text-right">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabelaPrestadoresBody" class="bg-white divide-y divide-gray-200">
-                                    <tr>
-                                        <td colspan="5" class="px-4 py-8 text-center text-gray-500">
-                                            <i class="fas fa-spinner fa-spin mr-2"></i> Carregando prestadores...
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div id="viewFormularioPrestador" class="hidden">
-                        <button onclick="mostrarLista()" class="mb-4 text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 font-medium">
-                            <i class="fas fa-arrow-left"></i> Voltar para a lista
-                        </button>
-
-                        <form id="formPrestador" class="space-y-4 text-left border p-4 rounded-lg bg-gray-50">
-                            <input type="hidden" id="prestadorId" value="">
-
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Nome do Prestador</label>
-                                <input type="text" id="nomePrestador" class="block w-full rounded-md border border-gray-300 bg-white p-2.5 focus:ring-slate-500 focus:border-slate-500" placeholder="Ex: Empresa Limpeza Ltda" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">E-mail para Notificações</label>
-                                <input type="email" id="emailPrestador" class="block w-full rounded-md border border-gray-300 bg-white p-2.5 focus:ring-slate-500 focus:border-slate-500" placeholder="email@exemplo.com" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Unidade / Local <span class="text-xs text-slate-400">(onde o prestador atua)</span></label>
-                                <select id="unidadePrestador" class="block w-full rounded-md border border-gray-300 bg-white p-2.5 focus:ring-slate-500 focus:border-slate-500">
-                                    <option value="">Sem unidade específica</option>
-                                    
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Área de Serviço</label>
-                                <select id="areaPrestador" class="block w-full rounded-md border border-gray-300 bg-white p-2.5 focus:ring-slate-500 focus:border-slate-500" required>
-                                    <option value="">Selecione...</option>
-                                    <option value="limpeza">Serviços de Limpeza</option>
-                                    <option value="entreposto">Serviços de Entreposto</option>
-                                    <option value="coffe">Serviços de Coffe Break</option>
-                                </select>
-                            </div>
-                            
-                            <div class="pt-4 flex justify-end gap-3 border-t mt-4">
-                                <button type="button" onclick="mostrarLista()" class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-md hover:bg-slate-50 transition-colors font-medium text-sm">
-                                    Cancelar
-                                </button>
-                                <button type="button" onclick="salvarPrestador()" class="px-4 py-2 bg-slate-800 text-white rounded-md hover:bg-slate-900 transition-colors font-medium text-sm flex items-center gap-2">
-                                    <i class="fas fa-save"></i> Salvar
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
+            <div class="ec-field">
+                <label for="ec-empresa">Empresa / Contrato</label>
+                <input type="text" id="ec-empresa" value="Grupo GPS — Regional Centro Oeste">
+            </div>
+            <div class="ec-field">
+                <label for="ec-funcao">Função</label>
+                <input type="text" id="ec-funcao" value="Técnico de Manutenção">
+            </div>
+            <div class="ec-field">
+                <label for="ec-tipo">Tipo de certificação</label>
+                <select id="ec-tipo">
+                    <option>Treinamento NR-35 — Trabalho em Altura</option>
+                    <option>Treinamento NR-33 — Espaços Confinados</option>
+                    <option selected>Treinamento NR-10 — Segurança em Instalações Elétricas</option>
+                    <option>Treinamento NR-12 — Segurança em Máquinas</option>
+                    <option>Certificado de Aprovação de EPI</option>
+                </select>
+            </div>
+            <div class="ec-field">
+                <label for="ec-carga">Carga horária</label>
+                <input type="text" id="ec-carga" value="40 horas">
+            </div>
+            <div class="ec-field">
+                <label for="ec-instrutor">Instrutor / Responsável técnico</label>
+                <input type="text" id="ec-instrutor" value="Eng. Rodrigo Nogueira — CREA 123456-GO">
+            </div>
+            <div class="ec-field">
+                <label for="ec-local">Local de realização</label>
+                <input type="text" id="ec-local" value="Centro de Treinamento — Goiânia/GO">
+            </div>
+            <div class="ec-field">
+                <label for="ec-emissao">Data de emissão</label>
+                <input type="date" id="ec-emissao" value="2026-09-25">
+            </div>
+            <div class="ec-field">
+                <label for="ec-validade">Válido até</label>
+                <input type="date" id="ec-validade" value="2028-09-25">
+            </div>
+            <div class="ec-field full">
+                <label for="ec-obs">Observações (opcional)</label>
+                <textarea id="ec-obs">Treinamento realizado conforme conteúdo programático da Norma Regulamentadora, com avaliação teórica e prática.</textarea>
             </div>
         </div>
-        <!-- Modal Editor de Cartão QR Code -->
-        <div id="modalQrCodePersonalizado" class="fixed inset-0 bg-slate-900 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50 flex items-center justify-center transition-all pt-10 pb-10">
-            <div class="relative mx-auto p-6 border w-full max-w-4xl shadow-xl rounded-lg bg-white flex flex-col md:flex-row gap-6 max-h-[95vh]">
-                <!-- Fechar Modal -->
-                <button onclick="fecharModalQrCodePersonalizado()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors z-10 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-red-50">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-                
-                <!-- Controles Laterais -->
-                <div class="w-full md:w-1/3 flex flex-col gap-4 overflow-y-auto pr-2">
-                    <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-paint-brush"></i> Personalizar Cartaz</h3>
-                    <p class="text-sm text-slate-600">Monte o cartaz segurando e arrastando os elementos ao lado. <br><br><b>Dica:</b> A logo do sistema é fixa no topo. Envie a sua logo ou posicione os demais itens abaixo.</p>
-                    
-                    <div class="space-y-2 mb-4 p-3 border rounded-lg bg-slate-50">
-                        <label class="block text-sm font-medium text-slate-700">Adicionar Logo do Cliente (PNG/JPG)</label>
-                        <input type="file" id="inputLogoCliente" accept="image/*" onchange="carregarLogo(event)" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    </div>
+        <button class="ec-generate-btn" onclick="ecGerarCertificado()"><i class="fas fa-wand-magic-sparkles"></i> Gerar Certificado</button>
+    </div>
 
-                    <!-- Botão de Ação -->
-                    <button onclick="baixarCartazFinal()" class="mt-auto px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium w-full flex items-center justify-center gap-2">
-                        <i class="fas fa-download"></i> Baixar e Gerar Placa
-                    </button>
-                </div>
-
-                <!-- Prancheta Visual (A4 Size prop) -->
-                <div class="w-full md:w-2/3 bg-gray-100 rounded-lg p-2 flex justify-center items-center overflow-auto border shadow-inner">
-                    <div id="cartazPreview" class="relative bg-white border border-gray-300" style="width: 400px; height: 600px; overflow: hidden; position: relative;">
-                        <!-- Bordazinha Fina de Corte Requerida pelo User -->
-                        <div class="absolute inset-0 border border-dashed border-gray-300 pointer-events-none" style="margin: 8px;" id="bordaDeCorte"></div>
-                        
-                        <!-- Logo Fixa Sistema -->
-                        <div class="w-full flex justify-center mt-6 select-none pointer-events-none">
-                            <img src="static/gestao_a_vista/logogestao1.png" alt="FLOW" style="width: 300px; height: 150px; object-fit: contain;">
-                        </div>
-                        
-                        <!-- Draggable Logo -->
-                        <img id="cartazLogo" class="draggable-item hidden absolute" style="left: 100px; top: 120px; max-width: 200px; max-height: 100px; cursor: move;" draggable="false">
-
-                        <!-- Draggable QR Code -->
-                        <img id="cartazQrCode" class="draggable-item absolute border p-2 bg-white rounded-lg shadow-sm" style="left: 100px; top: 250px; width: 200px; height: 200px; cursor: move;" draggable="false">
-
-                        <!-- Draggable Nome Sala -->
-                        <div id="cartazNomeSala" class="draggable-item absolute text-center w-full font-bold text-xl text-slate-800" style="left: 0; top: 480px; cursor: move; padding: 10px; box-sizing: border-box;" draggable="false">Nome da Sala</div>
-                    </div>
-                </div>
+    <div class="ec-cert-wrap show" id="ec-cert-wrap">
+        <div class="ec-cert">
+            <div class="ec-cert-brand">Grupo GPS · Gestão à Vista</div>
+            <div class="ec-cert-h1">Certificado</div>
+            <div class="ec-cert-p">
+                Certificamos que
+                <span class="ec-cert-name" id="ec-out-nome">Marcos Vinícius Ribeiro</span>
+                concluiu com aproveitamento o treinamento de
+                <b id="ec-out-tipo">NR-10 — Segurança em Instalações Elétricas</b>,
+                com carga horária de <b id="ec-out-carga">40 horas</b>,
+                ministrado por <span id="ec-out-instrutor">Eng. Rodrigo Nogueira — CREA 123456-GO</span>
+                em <span id="ec-out-local">Centro de Treinamento — Goiânia/GO</span>.
             </div>
+            <div class="ec-cert-meta">
+                <div>Empresa<b id="ec-out-empresa">Grupo GPS — Regional Centro Oeste</b></div>
+                <div>Emissão<b id="ec-out-emissao">25/09/2026</b></div>
+                <div>Válido até<b id="ec-out-validade">25/09/2028</b></div>
+            </div>
+            <div class="ec-cert-sign">
+                <div>Eng. Rodrigo Nogueira<br>Responsável técnico</div>
+                <div>Gestão à Vista — FLOW<br>Certificação automática</div>
+            </div>
+            <div class="ec-cert-num">Certificado Nº <span id="ec-out-num">GPS-2026-084213</span> — dados de exemplo, gerado neste preview</div>
         </div>
+        <div class="ec-cert-actions">
+            <button onclick="window.print()"><i class="fas fa-print"></i> Imprimir / Salvar PDF</button>
+        </div>
+    </div>
 
-        </div>
 </div>
-
 
             </main>
 
@@ -1711,395 +1611,34 @@
     <script src="static/vendor/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="static/js/notifications.min.js"></script>
 
-    
-
-    
-
-
-    
-
-
-
-    
-<script src="static/vendor/html2canvas-1.4.1/html2canvas.min.js"></script>
-
-<script>
-function changeUnidade() {
-    alert('Troca de unidade: recurso do sistema real, nao disponivel neste preview estatico.');
-}
-
-// ==========================================
-// LÓGICA DO PAINEL DE PRESTADORES
-// ==========================================
-
-const urlListar = "/api/prestadores/listar/";
-const urlCriar = "/api/prestadores/criar/";
-const csrfToken = "Yyinnm9oKl9Xp8ef1VbMz88CfERa3vS3VexZKFNlGpU9z2d434Ltm3gkZQhPAD2D";
-
-function abrirModalPrestador() {
-    document.getElementById('modalPrestador').classList.remove('hidden');
-    mostrarLista(); // Sempre abre na visualização de lista
-}
-
-function fecharModalPrestador() {
-    document.getElementById('modalPrestador').classList.add('hidden');
-}
-
-function mostrarLista() {
-    document.getElementById('viewFormularioPrestador').classList.add('hidden');
-    document.getElementById('viewListaPrestadores').classList.remove('hidden');
-    document.getElementById('modalTitle').innerHTML = '<i class="fas fa-users-cog text-slate-600"></i> Painel de Prestadores';
-    carregarTabelaPrestadores();
-}
-
-// Função para abrir o formulário. Se receber dados, preenche para edição.
-function mostrarFormulario(id = '', nome = '', email = '', area = '', unidadeId = '') {
-    document.getElementById('viewListaPrestadores').classList.add('hidden');
-    document.getElementById('viewFormularioPrestador').classList.remove('hidden');
-    
-    // Limpa ou preenche os campos
-    document.getElementById('prestadorId').value = id;
-    document.getElementById('nomePrestador').value = nome;
-    document.getElementById('emailPrestador').value = email;
-    document.getElementById('areaPrestador').value = area;
-    document.getElementById('unidadePrestador').value = unidadeId;
-
-    if (id) {
-        document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-edit text-slate-600"></i> Editar Prestador';
-    } else {
-        document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-plus text-slate-600"></i> Novo Prestador';
-    }
-}
-
-// Armazenamento global dos dados carregados
-let _todosPrestadores = [];
-let _filtroServicoAtivo = '';
-
-// Labels amigáveis para as áreas
-const AREA_LABELS = {
-    'limpeza': 'Serviços de Limpeza',
-    'entreposto': 'Serviços de Entreposto',
-    'coffe': 'Serviços de Coffe Break'
-};
-
-// 1. READ (Buscar Lista)
-function carregarTabelaPrestadores() {
-    const tbody = document.getElementById('tabelaPrestadoresBody');
-    tbody.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-500"><i class="fas fa-spinner fa-spin mr-2"></i> Carregando prestadores...</td></tr>';
-
-    fetch(urlListar)
-        .then(response => response.json())
-        .then(data => {
-            _todosPrestadores = data;
-            popularFiltroUnidades(data);
-            aplicarFiltros();
-        })
-        .catch(error => {
-            console.error("Erro:", error);
-            document.getElementById('tabelaPrestadoresBody').innerHTML = '<tr><td colspan="5" class="px-4 py-4 text-center text-red-500">Erro ao carregar os dados.</td></tr>';
-        });
-}
-
-// Popula o select de filtro Local com as unidades presentes nos prestadores
-function popularFiltroUnidades(dados) {
-    const select = document.getElementById('filtroLocal');
-    const valorAtual = select.value;
-    // Remove opções existentes exceto a primeira ("Todas as unidades")
-    while (select.options.length > 1) select.remove(1);
-
-    // Coleta unidades únicas
-    const unidadesVistas = new Map();
-    dados.forEach(p => {
-        if (p.unidade_id && p.unidade_nome && !unidadesVistas.has(p.unidade_id)) {
-            unidadesVistas.set(p.unidade_id, p.unidade_nome);
+    <script>
+        function ecFmtData(iso) {
+            if (!iso) return '';
+            var p = iso.split('-');
+            return p.length === 3 ? (p[2] + '/' + p[1] + '/' + p[0]) : iso;
         }
-    });
-
-    // Ordena por nome e insere as opções
-    [...unidadesVistas.entries()]
-        .sort((a, b) => a[1].localeCompare(b[1]))
-        .forEach(([id, nome]) => {
-            const opt = document.createElement('option');
-            opt.value = id;
-            opt.textContent = nome;
-            select.appendChild(opt);
-        });
-
-    // Restaura seleção anterior se ainda existir
-    if (valorAtual) select.value = valorAtual;
-}
-
-// Renderiza as linhas da tabela com base nos dados filtrados
-function renderizarTabela(dados) {
-    const tbody = document.getElementById('tabelaPrestadoresBody');
-    tbody.innerHTML = '';
-
-    if (dados.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500"><i class="fas fa-filter mr-2 text-slate-400"></i>Nenhum prestador encontrado com os filtros aplicados.</td></tr>';
-        return;
-    }
-
-    dados.forEach(prestador => {
-        const nomeEscapado = prestador.nome.replace(/'/g, "\\'")
-            .replace(/"/g, '&quot;');
-        const emailEscapado = prestador.email.replace(/'/g, "\\'");
-        const label = AREA_LABELS[prestador.area_servico] || prestador.area_servico;
-        const badgeColor = {
-            'limpeza': 'bg-blue-100 text-blue-700',
-            'entreposto': 'bg-amber-100 text-amber-700',
-            'coffe': 'bg-emerald-100 text-emerald-700'
-        }[prestador.area_servico] || 'bg-gray-100 text-gray-700';
-        const localDisplay = prestador.unidade_nome || '<span class="text-slate-400 italic text-xs">Sem unidade</span>';
-
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition-colors';
-        tr.innerHTML = `
-            <td class="px-4 py-3 font-medium text-slate-800">${prestador.nome}</td>
-            <td class="px-4 py-3 text-slate-600">${prestador.email}</td>
-            <td class="px-4 py-3 text-slate-600 text-sm">${localDisplay}</td>
-            <td class="px-4 py-3">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${badgeColor}">${label}</span>
-            </td>
-            <td class="px-4 py-3 text-right">
-                <button onclick="mostrarFormulario('${prestador.id}', '${nomeEscapado}', '${emailEscapado}', '${prestador.area_servico}', '${prestador.unidade_id || ''}')" class="text-blue-600 hover:text-blue-800 mx-1 p-1 rounded hover:bg-blue-50" title="Editar">
-                    <i class="fas fa-pen"></i>
-                </button>
-                <button onclick="deletarPrestador('${prestador.id}')" class="text-red-600 hover:text-red-800 mx-1 p-1 rounded hover:bg-red-50" title="Excluir">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-// Aplica os filtros e re-renderiza a tabela
-function aplicarFiltros() {
-    const nome = document.getElementById('filtroNome').value.trim().toLowerCase();
-    const localId = document.getElementById('filtroLocal').value;
-    const servico = _filtroServicoAtivo;
-
-    let dados = _todosPrestadores.filter(p => {
-        const matchNome = !nome || p.nome.toLowerCase().includes(nome);
-        const matchLocal = !localId || String(p.unidade_id) === String(localId);
-        const matchServico = !servico || p.area_servico === servico;
-        return matchNome && matchLocal && matchServico;
-    });
-
-    renderizarTabela(dados);
-
-    // Exibir resumo de filtros ativos
-    const resumoEl = document.getElementById('filtroResumo');
-    const localNome = localId ? (document.getElementById('filtroLocal').options[document.getElementById('filtroLocal').selectedIndex]?.text || localId) : '';
-    const filtrosAtivos = [nome && `nome: "${nome}"`, localNome && `local: "${localNome}"`, servico && `serviço: "${AREA_LABELS[servico] || servico}"`].filter(Boolean);
-    if (filtrosAtivos.length > 0) {
-        resumoEl.textContent = `Exibindo ${dados.length} de ${_todosPrestadores.length} prestadores · Filtros: ${filtrosAtivos.join(' | ')}`;
-        resumoEl.classList.remove('hidden');
-    } else {
-        resumoEl.classList.add('hidden');
-    }
-}
-
-// Filtra por serviço via botões de tag
-function filtrarServico(valor) {
-    _filtroServicoAtivo = valor;
-
-    // Atualiza visual dos botões
-    document.querySelectorAll('.filtro-servico-btn').forEach(btn => btn.classList.remove('ativo'));
-    const btnMap = { '': 'btnServTodos', 'entreposto': 'btnServEntreposto', 'limpeza': 'btnServLimpeza', 'coffe': 'btnServCoffe' };
-    const btnId = btnMap[valor];
-    if (btnId) document.getElementById(btnId).classList.add('ativo');
-
-    aplicarFiltros();
-}
-
-// Limpa todos os filtros
-function limparFiltros() {
-    document.getElementById('filtroNome').value = '';
-    document.getElementById('filtroLocal').value = '';
-    _filtroServicoAtivo = '';
-    filtrarServico('');
-}
-
-// 2. CREATE ou UPDATE (Salvar Formulário)
-function salvarPrestador() {
-    const id = document.getElementById('prestadorId').value;
-    const nome = document.getElementById('nomePrestador').value;
-    const email = document.getElementById('emailPrestador').value;
-    const area = document.getElementById('areaPrestador').value;
-    const unidadeId = document.getElementById('unidadePrestador').value || null;
-
-    if (!nome || !email || !area) {
-        alert("Por favor, preencha todos os campos do formulário.");
-        return;
-    }
-
-    // Se tiver ID, a URL é de edição. Se não, é de criação.
-    const urlDestino = id ? `/api/prestadores/${id}/editar/` : urlCriar;
-
-    fetch(urlDestino, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": csrfToken
-        },
-        body: JSON.stringify({
-            nome: nome,
-            email: email,
-            area_servico: area,
-            unidade_id: unidadeId
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.success) {
-            alert(data.message);
-            mostrarLista(); // Volta pra lista e recarrega os dados
-        } else {
-            alert("Ocorreu um erro: " + data.message);
+        function ecGerarCertificado() {
+            document.getElementById('ec-out-nome').textContent = document.getElementById('ec-colaborador').value || '—';
+            document.getElementById('ec-out-tipo').textContent = document.getElementById('ec-tipo').value;
+            document.getElementById('ec-out-carga').textContent = document.getElementById('ec-carga').value || '—';
+            document.getElementById('ec-out-instrutor').textContent = document.getElementById('ec-instrutor').value || '—';
+            document.getElementById('ec-out-local').textContent = document.getElementById('ec-local').value || '—';
+            document.getElementById('ec-out-empresa').textContent = document.getElementById('ec-empresa').value || '—';
+            document.getElementById('ec-out-emissao').textContent = ecFmtData(document.getElementById('ec-emissao').value);
+            document.getElementById('ec-out-validade').textContent = ecFmtData(document.getElementById('ec-validade').value);
+            document.getElementById('ec-cert-wrap').classList.add('show');
+            document.getElementById('ec-cert-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    })
-    .catch(error => {
-        console.error("Erro:", error);
-        alert("Erro de conexão ao tentar salvar.");
-    });
-}
+    </script>
 
-// 3. DELETE (Excluir)
-function deletarPrestador(id) {
-    if(!confirm("Tem certeza que deseja excluir este prestador? Esta ação não pode ser desfeita.")) {
-        return;
-    }
 
-    fetch(`/api/prestadores/${id}/deletar/`, {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": csrfToken
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.success) {
-            carregarTabelaPrestadores(); // Atualiza a tabela imediatamente
-        } else {
-            alert("Erro ao excluir: " + data.message);
-        }
-    })
-    .catch(error => {
-        console.error("Erro:", error);
-        alert("Erro de conexão ao tentar excluir.");
-    });
-}
 
-// ==========================================
-// LÓGICA DO CARTÃO QR CODE DRAG AND DROP
-// ==========================================
 
-function abrirModalQrCodePersonalizado(salaId, salaNome) {
-    document.getElementById('modalQrCodePersonalizado').classList.remove('hidden');
-    document.getElementById('cartazNomeSala').innerText = salaNome;
     
-    const qrImage = document.getElementById('cartazQrCode');
-    const baseUrl = `/gestao-salas/qr-code/00000000-0000-0000-0000-000000000000/`.replace('00000000-0000-0000-0000-000000000000', salaId);
+
+
+
     
-    // Refresh to bypass browser cache
-    qrImage.src = baseUrl + '?t=' + new Date().getTime();
-    
-    // Reseta Logo 
-    document.getElementById('inputLogoCliente').value = '';
-    const imgLogo = document.getElementById('cartazLogo');
-    imgLogo.src = '';
-    imgLogo.classList.add('hidden');
-    
-    // Posições Padrões da tela (reseta sempre q abre)
-    imgLogo.style.left = '100px'; imgLogo.style.top = '70px';
-    qrImage.style.left = '100px'; qrImage.style.top = '220px';
-    const textNome = document.getElementById('cartazNomeSala');
-    textNome.style.left = '0px'; textNome.style.top = '480px';
-}
-
-function fecharModalQrCodePersonalizado() {
-    document.getElementById('modalQrCodePersonalizado').classList.add('hidden');
-}
-
-function carregarLogo(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const logoURL = URL.createObjectURL(file);
-        const img = document.getElementById('cartazLogo');
-        img.src = logoURL;
-        img.classList.remove('hidden');
-    }
-}
-
-async function baixarCartazFinal() {
-    const cartaz = document.getElementById('cartazPreview');
-    const btnDown = event.currentTarget;
-    
-    btnDown.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando...';
-    btnDown.disabled = true;
-
-    try {
-        // Aguarda um pequeno momento para garantir que as imagens renderizaram
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        const canvas = await html2canvas(cartaz, {
-            scale: 2, // 2 é suficiente para boa qualidade e evita travar o navegador
-            useCORS: true,
-            allowTaint: true, // Adicione isso para ajudar com imagens locais
-            backgroundColor: '#ffffff',
-            logging: true // Ative para ver o erro real no F12 se persistir
-        });
-        
-        const link = document.createElement('a');
-        link.download = `Placa_Sala_${document.getElementById('cartazNomeSala').innerText.replace(/\s+/g, '_')}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-    } catch (e) {
-        console.error("Erro detalhado do html2canvas:", e);
-        alert('Erro ao processar imagem da Placa. Tente recarregar a página ou usar outro navegador.');
-    } finally {
-        btnDown.innerHTML = '<i class="fas fa-download"></i> Baixar e Gerar Placa';
-        btnDown.disabled = false;
-    }
-}
-
-// LOGICA DE DRAG AND DROP
-let draggingItem = null;
-let offsetX = 0;
-let offsetY = 0;
-
-document.querySelectorAll('.draggable-item').forEach(item => {
-    item.addEventListener('mousedown', (e) => {
-        draggingItem = item;
-        const rect = item.getBoundingClientRect();
-        
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-        
-        e.preventDefault(); // Previne o drag default nativo do browser de imagens q estraga o custom
-    });
-});
-
-document.addEventListener('mousemove', (e) => {
-    if (draggingItem) {
-        const container = document.getElementById('cartazPreview');
-        const containerRect = container.getBoundingClientRect();
-        const scale = container.getBoundingClientRect().width / container.offsetWidth; // em caso de zoom responsivo
-        
-        let newX = (e.clientX - containerRect.left - offsetX) / scale;
-        let newY = (e.clientY - containerRect.top - offsetY) / scale;
-        
-        draggingItem.style.left = newX + 'px';
-        draggingItem.style.top = newY + 'px';
-    }
-});
-
-document.addEventListener('mouseup', () => {
-    draggingItem = null;
-});
-</script>
-
 <style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script src="static/demo-fill.js"></script></body>
 
 </html>
