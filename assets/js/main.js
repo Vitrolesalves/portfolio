@@ -257,21 +257,20 @@
     },
     {
       id:'imoveis', cat:'auto', title:'Automação de Documentos', company:'JI Ferreira Imóveis',
-      tag:'Automação', year:'2025', metric:'Imobiliária · SP',
-      cover:{ type:'designed', kind:'doc', icon:'doc', inner:
-        '<div class="paperm"><div class="h">JI Ferreira Imóveis</div><div class="t">Contrato de Locação</div>'+
-        '<div class="l"></div><div class="l w70"></div><div class="l w50"></div></div>' },
+      tag:'App desktop', year:'2025', metric:'Em produção · imobiliária SP',
+      cover:{ type:'shots', shots:['assets/img/ji-contrato.png','assets/img/ji-historico.png'] },
       sub:['Automação','JI Ferreira Imóveis','Documentos'],
-      tagline:'Contratos e propostas da imobiliária gerados sozinhos, padronizados e prontos pra assinar.',
-      problem:'Uma imobiliária gera dezenas de contratos, propostas e recibos por semana — sempre os mesmos modelos, preenchidos manualmente, sujeitos a erro e retrabalho.',
-      solution:'Uma automação que recebe os dados do imóvel e das partes e monta o documento final padronizado, pronto para assinatura — cortando o trabalho manual e padronizando a saída.',
-      result:'Menos retrabalho, menos erro de digitação e um padrão só para todos os documentos. Dados sensíveis (CPF e afins) tratados com cuidado.',
+      tagline:'Contratos da imobiliária gerados sozinhos, padronizados e prontos pra assinar — direto de um app no computador.',
+      problem:'Uma imobiliária gera dezenas de contratos por semana — sempre os mesmos modelos, preenchidos à mão, sujeitos a erro de digitação e retrabalho. E quando precisa rever ou reemitir um contrato antigo, é caçar arquivo.',
+      solution:'Um app Windows (.exe) em que se escolhe o modelo, preenche locador, locatário e imóvel, e o contrato monta ao vivo ao lado do formulário, página a página. Um clique gera o PDF final. Cada contrato fica guardado num histórico, de onde dá pra recarregar tudo no formulário, baixar o PDF de novo ou conferir os dados.',
+      result:'Em produção na imobiliária: um padrão só pra todos os contratos, menos erro de digitação e um histórico de tudo que já foi gerado. Dados sensíveis (CPF e afins) ficam num banco local, junto do app.',
       feats:[
-        {i:'doc',t:'Modelos padronizados',d:'contratos, propostas e recibos a partir dos dados'},
-        {i:'bolt',t:'Preenchimento automático',d:'do dado bruto ao documento pronto'},
-        {i:'lock',t:'Cuidado com dados sensíveis',d:'CPF e afins tratados com atenção'}
+        {i:'doc',t:'9 tipos de contrato',d:'modelos de locação escolhidos num seletor'},
+        {i:'window',t:'Preview ao vivo',d:'o contrato monta ao lado do formulário, página a página'},
+        {i:'db',t:'Histórico de contratos',d:'recarregar no formulário, baixar o PDF ou excluir'},
+        {i:'lock',t:'Dados sensíveis locais',d:'banco SQLite local, junto do app'}
       ],
-      stack:['Python','Geração de documentos','Templates','Automação'],
+      stack:['Python','ReportLab (PDF)','SQLite','PyInstaller (.exe)'],
       links:[]
     },
     {
@@ -561,6 +560,11 @@
           s.map(function (src, i) { return '<img class="g' + i + '" src="' + src + '" alt="">'; }).join('') +
           '</div>';
       }
+      if (s.length === 2) {
+        return '<div class="modal__gallery modal__gallery--duo">' +
+          s.map(function (src, i) { return '<img class="g' + i + '" src="' + src + '" alt="">'; }).join('') +
+          '</div>';
+      }
       if (s.length === 3) {
         return '<div class="modal__gallery modal__gallery--triple">' +
           s.map(function (src, i) { return '<img class="g' + i + '" src="' + src + '" alt="">'; }).join('') +
@@ -800,6 +804,9 @@
 
   /* ---------- ano ---------- */
   $('#year').textContent = new Date().getFullYear();
+
+  var openJi = $('#openJi');
+  if (openJi) openJi.addEventListener('click', function () { openModal('imoveis'); });
 
   /* ---------- marquee (loop sem costura, "portal" fim->início) ---------- */
   // a causa real: o HTML só tinha 2 cópias do conjunto (~990px cada). Em
