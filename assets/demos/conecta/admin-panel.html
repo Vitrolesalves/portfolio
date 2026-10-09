@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<script>(function(){
+try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}
+var D={"chamados":[{"id":9,"titulo":"Norma 02 - Clientes — Construtora Pedra Azul"},{"id":3,"titulo":"Norma 01 - Notificações — Indústria Vale Verde"},{"id":6,"titulo":"Norma 01 - Notificações — Cooperativa Cerrado"},{"id":1,"titulo":"Norma 02 - Clientes — Mercantil Aurora"},{"id":4,"titulo":"Norma 02 - Clientes — Transportes Planalto"},{"id":2,"titulo":"Norma 04 - Fornecedores — Grupo Horizonte"},{"id":5,"titulo":"Norma 04 - Fornecedores — Rede Saúde Vida"},{"id":12,"titulo":"Norma 02 - Clientes — Grupo Horizonte"},{"id":11,"titulo":"Norma 04 - Fornecedores — Mercantil Aurora"},{"id":10,"titulo":"Norma 01 - Notificações — Têxtil Nova Era"},{"id":8,"titulo":"Norma 04 - Fornecedores — Logística Atlântica"},{"id":7,"titulo":"Norma 02 - Clientes — Agro Boa Safra"}],"areas":[{"id":1,"nome":"Jurídico"},{"id":2,"nome":"Comercial"},{"id":3,"nome":"Operacional"},{"id":4,"nome":"RH"},{"id":5,"nome":"Financeiro"},{"id":6,"nome":"Diretoria"}],"clientes":[{"id":1,"nome":"Mercantil Aurora"},{"id":2,"nome":"Grupo Horizonte"},{"id":3,"nome":"Indústria Vale Verde"},{"id":4,"nome":"Transportes Planalto"},{"id":5,"nome":"Rede Saúde Vida"},{"id":6,"nome":"Cooperativa Cerrado"},{"id":7,"nome":"Agro Boa Safra"},{"id":8,"nome":"Logística Atlântica"},{"id":9,"nome":"Construtora Pedra Azul"},{"id":10,"nome":"Têxtil Nova Era"}],"usuarios":[{"id":1,"username":"admin","nome":"Administrador Demo"},{"id":2,"username":"ana.souza","nome":"Ana Souza"},{"id":3,"username":"carlos.lima","nome":"Carlos Lima"},{"id":4,"username":"juliana.costa","nome":"Juliana Costa"},{"id":5,"username":"roberto.santos","nome":"Roberto Santos"},{"id":6,"username":"marina.alves","nome":"Marina Alves"}],"oks":{"1":{"oks":[],"pendentes":[],"total":0},"2":{"oks":[],"pendentes":[{"nome":"Administrador D.","area":"Jurídico"},{"nome":"Roberto S.","area":"Jurídico"},{"nome":"Ana S.","area":"Comercial"}],"total":0},"3":{"oks":[{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false}],"pendentes":[],"total":1},"4":{"oks":[{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false}],"pendentes":[{"nome":"Juliana C.","area":"Financeiro"}],"total":1},"5":{"oks":[{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false},{"id":6,"nome":"Marina A.","area":"RH","inicial":"M","tem_foto":false}],"pendentes":[{"nome":"Administrador D.","area":"Jurídico"},{"nome":"Ana S.","area":"Comercial"},{"nome":"Carlos L.","area":"Operacional"}],"total":2},"6":{"oks":[{"id":1,"nome":"Administrador D.","area":"Jurídico","inicial":"A","tem_foto":false},{"id":4,"nome":"Juliana C.","area":"Financeiro","inicial":"J","tem_foto":false},{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false}],"pendentes":[],"total":3},"7":{"oks":[{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false}],"pendentes":[{"nome":"Carlos L.","area":"Operacional"},{"nome":"Juliana C.","area":"Financeiro"}],"total":1},"8":{"oks":[{"id":1,"nome":"Administrador D.","area":"Jurídico","inicial":"A","tem_foto":false},{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false},{"id":6,"nome":"Marina A.","area":"RH","inicial":"M","tem_foto":false}],"pendentes":[{"nome":"Carlos L.","area":"Operacional"}],"total":3},"9":{"oks":[],"pendentes":[{"nome":"Administrador D.","area":"Jurídico"},{"nome":"Roberto S.","area":"Jurídico"},{"nome":"Carlos L.","area":"Operacional"},{"nome":"Marina A.","area":"RH"}],"total":0},"10":{"oks":[{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false}],"pendentes":[{"nome":"Ana S.","area":"Comercial"},{"nome":"Carlos L.","area":"Operacional"}],"total":1},"11":{"oks":[{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false}],"pendentes":[{"nome":"Carlos L.","area":"Operacional"},{"nome":"Juliana C.","area":"Financeiro"}],"total":1},"12":{"oks":[{"id":1,"nome":"Administrador D.","area":"Jurídico","inicial":"A","tem_foto":false},{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false},{"id":6,"nome":"Marina A.","area":"RH","inicial":"M","tem_foto":false}],"pendentes":[],"total":3}},"eu":{"id":0,"nome":"Administrador D.","area":"Jurídico","tem_foto":false,"inicial":"A"},"proximoId":13};
+var M={"/":"dashboard.html","/meus-chamados/":"chamados.html","/novo-chamado/":"novo-chamado.html","/relatorios-risco/":"relatorios.html","/base-conhecimento/":"conhecimento.html","/informacoes-regulatorio/":"regulatorio.html","/como-funciona/":"como-funciona.html","/admin-panel/":"admin-panel.html","/login/":"login.html","/logout/":"login.html","/cadastro/":"cadastro.html"};
+var oks={};
+function json(o,ms){return new Promise(function(r){setTimeout(function(){r(new Response(JSON.stringify(o),{status:200,headers:{"Content-Type":"application/json"}}));},ms==null?120:ms);});}
+function titulo(id){var c=D.chamados.filter(function(x){return String(x.id)===String(id);})[0];return c?c.titulo:("Chamado #"+id);}
+function resposta(id,perg){
+  var t=titulo(id);
+  return "## Resumo do chamado #"+id+"\n"+t+"\n\n"
+   +"- **Situação:** em andamento, com os Oks das áreas marcadas sendo coletados.\n"
+   +"- **Ponto de atenção:** confira cláusulas de reajuste, multa e prazo de vigência antes de seguir para assinatura.\n"
+   +"- **Próximo passo sugerido:** alinhar com o comercial e registrar o parecer jurídico nos comentários.\n\n"
+   +"---\n"
+   +"Resposta de exemplo do preview. No sistema real, a LexIA lê o PDF/DOCX anexado ao chamado e responde com base no conteúdo do contrato.";
+}
+var of=window.fetch;
+window.fetch=function(u,o){
+  try{
+    var s=(typeof u==="string")?u:((u&&u.url)||"");
+    if(/^https?:\/\//i.test(s))return of.apply(this,arguments);
+    var m=((o&&o.method)||"GET").toUpperCase();
+    var p=s.split("?")[0], q=s.indexOf("?")>-1?s.slice(s.indexOf("?")+1):"";
+    var mt;
+    if(p==="/api/lexia/chamados/")return json({status:"success",chamados:D.chamados});
+    if(p==="/api/lexia/historico/")return json({status:"success",historico:[]});
+    if(/^\/api\/lexia\/historico\/\d+\/excluir\/$/.test(p))return json({status:"success"});
+    if(p==="/api/lexia/perguntar/"){
+      var b={};try{b=JSON.parse(o.body);}catch(e){}
+      return json({status:"success",resposta:resposta(b.chamado_id,b.pergunta)},1100);
+    }
+    if(p==="/api/areas/")return json(D.areas);
+    if(p==="/api/clientes/"){
+      var mq=/[?&]q=([^&]*)/.exec(q);var term=mq?decodeURIComponent(mq[1]).toLowerCase():"";
+      return json(D.clientes.filter(function(c){return !term||c.nome.toLowerCase().indexOf(term)>-1;}));
+    }
+    if(p==="/api/usuarios/"){
+      var mu=/[?&]q=([^&]*)/.exec(q);var tu=mu?decodeURIComponent(mu[1]).toLowerCase():"";
+      return json(D.usuarios.filter(function(x){return !tu||x.nome.toLowerCase().indexOf(tu)>-1;}));
+    }
+    if((mt=/^\/api\/chamado\/(\d+)\/detalhes-ok\/$/.exec(p))){
+      var d=oks[mt[1]]||D.oks[mt[1]]||{oks:[],pendentes:[],total:0};
+      return json(Object.assign({status:"success"},d));
+    }
+    if((mt=/^\/api\/chamado\/(\d+)\/ok\/$/.exec(p))){
+      var base=D.oks[mt[1]]||{oks:[],pendentes:[],total:0};
+      var cur=oks[mt[1]]||JSON.parse(JSON.stringify(base));
+      var eu=D.eu, tem=cur.oks.some(function(x){return x.nome===eu.nome;});
+      if(tem){cur.oks=cur.oks.filter(function(x){return x.nome!==eu.nome;});}
+      else{cur.oks.push(eu);cur.pendentes=cur.pendentes.filter(function(x){return x.nome!==eu.nome;});}
+      cur.total=cur.oks.length;oks[mt[1]]=cur;
+      return json({status:"success",acao:tem?"removido":"adicionado"});
+    }
+    if(/^\/api\/comentario\/\d+\/$/.test(p)){
+      var agora=new Date();var pad=function(n){return n<10?"0"+n:n;};
+      return json({status:"success",comentario:{documentos:[],data_criacao:pad(agora.getDate())+"/"+pad(agora.getMonth()+1)+"/"+agora.getFullYear()+" "+pad(agora.getHours())+":"+pad(agora.getMinutes())}});
+    }
+    if(p==="/api/salvar-chamado/")return json({status:"success",id:D.proximoId,titulo:"Chamado de exemplo (preview)"},900);
+    if(m!=="GET")return json({status:"success",msg:"Ação simulada no preview."},300);
+    return json([]);
+  }catch(e){return of.apply(this,arguments);}
+};
+var dir=location.pathname.replace(/[^\/]*$/,"");
+function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}
+try{var dsc=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(dsc&&dsc.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return dsc.get.call(this);},set:function(v){dsc.set.call(this,res(v));}});}}catch(e){}
+try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}
+document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);
+})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo</title>
+    
+    <link rel="stylesheet" href="static/css/global.css?v=20261008">
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <script>
+        // aplica o tema salvo antes do primeiro paint (evita "piscar" claro->escuro)
+        if (localStorage.getItem('globalDark') === '1' || localStorage.getItem('feedDark') === '1') {
+            document.body.classList.add('dark');
+        }
+    </script>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <a href="dashboard.html" class="brand" aria-label="Conecta Jurídico">
+            <span class="brand-mark"><i data-lucide="scale"></i></span>
+            <span class="brand-text"><b>Conecta</b><small>Jurídico</small></span>
+        </a>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="side-group">Operação</div>
+        <a href="dashboard.html" class="nav-item ">
+            <i data-lucide="layout-dashboard"></i><span>Feed</span>
+        </a>
+        <a href="novo-chamado.html" class="nav-item ">
+            <i data-lucide="plus-circle"></i><span>Novo Chamado</span>
+        </a>
+        <a href="chamados.html" class="nav-item ">
+            <i data-lucide="folder-open"></i><span>Meus Chamados</span>
+        </a>
+        <a href="relatorios.html" class="nav-item ">
+            <i data-lucide="shield-alert"></i><span>Relatórios de Risco</span>
+        </a>
+
+        <div class="side-group">Conhecimento</div>
+        <a href="conhecimento.html" class="nav-item ">
+            <i data-lucide="library"></i><span>Base de Conhecimento</span>
+        </a>
+        <a href="regulatorio.html" class="nav-item ">
+            <i data-lucide="landmark"></i><span>Regulatório</span>
+        </a>
+        <a href="como-funciona.html" class="nav-item ">
+            <i data-lucide="lightbulb"></i><span>Como Funciona</span>
+        </a>
+
+        
+        <div class="side-group">Administração</div>
+        <a href="/admin-criar-usuario/" class="nav-item ">
+            <i data-lucide="user-plus"></i><span>Usuários e Aprovações</span>
+        </a>
+        <a href="/admin-cadastros/" class="nav-item ">
+            <i data-lucide="database"></i><span>Dados do Sistema</span>
+        </a>
+        
+    </nav>
+
+    <div class="side-foot">
+        <button type="button" class="lexia-cta" onclick="toggleLexIA()">
+            <span class="spark"><i data-lucide="sparkles"></i></span>
+            <span><b>Pergunte à LexIA</b><small>Assistente jurídica com IA</small></span>
+        </button>
+        <div class="side-meta">Grupo GPS · Regional Centro-Oeste</div>
+    </div>
+</aside>
+
+
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            
+<header class="top-header">
+    <div class="header-title">
+        <h1>
+            Painel Administrativo
+            
+        </h1>
+        <p>
+            Gestão contratual com IA
+        </p>
+    </div>
+
+    <div class="header-actions">
+
+        <!-- Modo Noturno -->
+        <div class="icon-btn" onclick="toggleGlobalDarkMode()" title="Alternar tema claro/escuro" role="button" tabindex="0">
+            <i data-lucide="moon" id="globalDarkIcon" style="transition:opacity .18s ease;"></i>
+        </div>
+
+        <!-- Notificações -->
+        <div class="icon-btn" id="notif-btn" title="Notificações" role="button" tabindex="0"
+            onclick="document.getElementById('notif-menu').style.display = document.getElementById('notif-menu').style.display === 'none' ? 'block' : 'none'">
+            <i data-lucide="bell"></i>
+            
+
+            <div id="notif-menu" class="menu" style="display:none;" onclick="event.stopPropagation()">
+                <div class="menu-head">Notificações</div>
+                <div class="menu-scroll">
+                    
+                    <div class="menu-empty">Nenhuma notificação nova.</div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Perfil -->
+        <div class="user-profile"
+            onclick="document.getElementById('profile-menu').style.display = document.getElementById('profile-menu').style.display === 'none' ? 'block' : 'none'">
+            <div class="avatar">
+                
+                A
+                
+            </div>
+            <span>Administrador D.</span>
+            <i data-lucide="chevron-down"></i>
+
+            <div id="profile-menu" class="menu menu-narrow" style="display:none;" onclick="event.stopPropagation()">
+                <div class="menu-head">
+                    <div style="font-size:.95rem;">Administrador D.</div>
+                    <div style="font-size:.78rem;color:var(--ink-3);font-weight:500;margin-top:2px;">@admin</div>
+                    <div style="margin-top:8px;"><span class="pill pill-norma">Admin</span></div>
+                </div>
+                <div style="padding:6px 0;">
+                    <div class="menu-item" onclick="abrirModalFoto(); return false;">
+                        <i data-lucide="camera"></i> Mudar foto
+                    </div>
+                    <a href="login.html" class="menu-item danger">
+                        <i data-lucide="log-out"></i> Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Modal de Foto de Perfil -->
+<div id="modal-foto-perfil" class="modal-backdrop" style="display:none;">
+    <div class="modal" style="width:380px;text-align:center;">
+        <div class="modal-head">
+            <h3>Foto de perfil</h3>
+            <button class="modal-close" onclick="fecharModalFoto()" aria-label="Fechar"><i data-lucide="x"></i></button>
+        </div>
+
+        <div style="position:relative;display:inline-block;margin:6px 0 18px;">
+            <div id="foto-preview-circle" style="width:140px;height:140px;border-radius:50%;overflow:hidden;border:4px solid var(--surface);box-shadow:0 0 0 2px var(--brand-2),var(--sh-2);background:linear-gradient(135deg,var(--brand),var(--brand-2));display:flex;align-items:center;justify-content:center;margin:0 auto;cursor:pointer;position:relative;">
+                
+                <div id="foto-placeholder" style="color:#fff;font-size:2.5rem;font-weight:800;">A</div>
+                <img id="img-preview" style="width:100%;height:100%;object-fit:cover;display:none;" alt="">
+                
+                <div id="foto-overlay" style="position:absolute;inset:0;border-radius:50%;background:rgba(6,12,26,.62);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:.72rem;font-weight:600;gap:4px;">
+                    <i data-lucide="camera" style="width:22px;height:22px;"></i> Escolher foto
+                </div>
+            </div>
+            <div class="form-hint" style="margin-top:12px;">Clique no círculo para escolher</div>
+        </div>
+
+        <input type="file" id="input-foto-oculto" accept="image/*" style="display:none;" onchange="previewFoto(this)">
+
+        <div id="foto-acoes" style="display:none;flex-direction:column;gap:10px;">
+            <button id="btn-confirmar-foto" class="btn btn-primary btn-block" onclick="confirmarUploadFoto()">Salvar foto de perfil</button>
+            <button class="btn btn-outline btn-block" onclick="document.getElementById('input-foto-oculto').click()">Escolher outra foto</button>
+        </div>
+
+        <div id="foto-cta">
+            <button class="btn btn-primary btn-block" onclick="document.getElementById('input-foto-oculto').click()">Escolher foto</button>
+            <div class="form-hint" style="margin-top:12px;">Suporta JPG, PNG e WebP</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Lógicas de UI
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#notif-btn') && !e.target.closest('#notif-menu')) {
+            const m = document.getElementById('notif-menu');
+            if (m) m.style.display = 'none';
+        }
+        if (!e.target.closest('.user-profile')) {
+            const p = document.getElementById('profile-menu');
+            if (p) p.style.display = 'none';
+        }
+    });
+
+    const previewCircle = document.getElementById('foto-preview-circle');
+    const overlay = document.getElementById('foto-overlay');
+    if (previewCircle && overlay) {
+        previewCircle.addEventListener('mouseover', () => overlay.style.opacity = '1');
+        previewCircle.addEventListener('mouseout', () => overlay.style.opacity = '0');
+        previewCircle.addEventListener('click', () => document.getElementById('input-foto-oculto').click());
+    }
+
+    function abrirModalFoto() {
+        const modal = document.getElementById('modal-foto-perfil');
+        modal.style.display = 'flex';
+        document.getElementById('profile-menu').style.display = 'none';
+    }
+
+    function fecharModalFoto() {
+        document.getElementById('modal-foto-perfil').style.display = 'none';
+    }
+
+    document.getElementById('modal-foto-perfil').addEventListener('click', function (e) {
+        if (e.target === this) fecharModalFoto();
+    });
+
+    let arquivoFoto = null;
+
+    function previewFoto(input) {
+        if (!input.files || !input.files[0]) return;
+        arquivoFoto = input.files[0];
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = document.getElementById('img-preview');
+            const placeholder = document.getElementById('foto-placeholder');
+            img.src = e.target.result;
+            img.style.display = 'block';
+            if (placeholder) placeholder.style.display = 'none';
+
+            document.getElementById('foto-acoes').style.display = 'flex';
+            document.getElementById('foto-cta').style.display = 'none';
+        };
+        reader.readAsDataURL(arquivoFoto);
+    }
+
+    function confirmarUploadFoto() {
+        if (!arquivoFoto) return;
+
+        const btn = document.getElementById('btn-confirmar-foto');
+        btn.disabled = true;
+        btn.textContent = '⏳ Salvando...';
+
+        const formData = new FormData();
+        formData.append('foto', arquivoFoto);
+
+        fetch('/api/upload-foto/', {
+            method: 'POST',
+            headers: { 'X-CSRFToken': 'demo' },
+            body: formData
+        })
+            .then(r => r.json())
+            .then(d => {
+                if (d.status === 'success') {
+                    btn.textContent = '✓ Salvo!';
+                    btn.style.background = 'var(--success)';
+                    setTimeout(() => location.reload(), 800);
+                } else {
+                    btn.textContent = '✕ Erro ao salvar';
+                    btn.style.background = 'var(--danger)';
+                    btn.disabled = false;
+                }
+            })
+            .catch(() => {
+                btn.textContent = '✕ Erro de conexão';
+                btn.style.background = 'var(--danger)';
+                btn.disabled = false;
+            });
+    }
+</script>
+
+            <!-- Dynamic Content -->
+            <div class="content-area">
+                
+<div class="page">
+    <div class="page-head">
+        <div>
+            <h2>Gestão de usuários</h2>
+            <p>Gerencie as permissões e as áreas de acesso de cada usuário do sistema.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Nome</th>
+                    <th>Perfil</th>
+                    <th>Áreas</th>
+                    <th style="text-align: right;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td><strong style="color: var(--ink);">@admin</strong></td>
+                    <td>Administrador D.</td>
+                    <td style="width: 140px;">
+                        <select id="role-1" class="form-control input-sm">
+                            <option value="normal" >Normal</option>
+                            <option value="admin" selected>Admin</option>
+                        </select>
+                    </td>
+                    <td style="max-width: 320px;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-1" value="2" >
+                                Comercial
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-1" value="6" >
+                                Diretoria
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-1" value="5" >
+                                Financeiro
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-1" value="1" checked>
+                                Jurídico
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-1" value="3" >
+                                Operacional
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-1" value="4" >
+                                RH
+                            </label>
+                            
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <button onclick="salvarUsuario(1)" class="btn btn-primary btn-sm"><i data-lucide="save"></i> Salvar</button>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td><strong style="color: var(--ink);">@ana.souza</strong></td>
+                    <td>Ana S.</td>
+                    <td style="width: 140px;">
+                        <select id="role-2" class="form-control input-sm">
+                            <option value="normal" selected>Normal</option>
+                            <option value="admin" >Admin</option>
+                        </select>
+                    </td>
+                    <td style="max-width: 320px;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-2" value="2" checked>
+                                Comercial
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-2" value="6" >
+                                Diretoria
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-2" value="5" >
+                                Financeiro
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-2" value="1" >
+                                Jurídico
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-2" value="3" >
+                                Operacional
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-2" value="4" >
+                                RH
+                            </label>
+                            
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <button onclick="salvarUsuario(2)" class="btn btn-primary btn-sm"><i data-lucide="save"></i> Salvar</button>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td><strong style="color: var(--ink);">@carlos.lima</strong></td>
+                    <td>Carlos L.</td>
+                    <td style="width: 140px;">
+                        <select id="role-3" class="form-control input-sm">
+                            <option value="normal" selected>Normal</option>
+                            <option value="admin" >Admin</option>
+                        </select>
+                    </td>
+                    <td style="max-width: 320px;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-3" value="2" >
+                                Comercial
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-3" value="6" >
+                                Diretoria
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-3" value="5" >
+                                Financeiro
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-3" value="1" >
+                                Jurídico
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-3" value="3" checked>
+                                Operacional
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-3" value="4" >
+                                RH
+                            </label>
+                            
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <button onclick="salvarUsuario(3)" class="btn btn-primary btn-sm"><i data-lucide="save"></i> Salvar</button>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td><strong style="color: var(--ink);">@juliana.costa</strong></td>
+                    <td>Juliana C.</td>
+                    <td style="width: 140px;">
+                        <select id="role-4" class="form-control input-sm">
+                            <option value="normal" selected>Normal</option>
+                            <option value="admin" >Admin</option>
+                        </select>
+                    </td>
+                    <td style="max-width: 320px;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-4" value="2" >
+                                Comercial
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-4" value="6" >
+                                Diretoria
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-4" value="5" checked>
+                                Financeiro
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-4" value="1" >
+                                Jurídico
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-4" value="3" >
+                                Operacional
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-4" value="4" >
+                                RH
+                            </label>
+                            
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <button onclick="salvarUsuario(4)" class="btn btn-primary btn-sm"><i data-lucide="save"></i> Salvar</button>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td><strong style="color: var(--ink);">@marina.alves</strong></td>
+                    <td>Marina A.</td>
+                    <td style="width: 140px;">
+                        <select id="role-6" class="form-control input-sm">
+                            <option value="normal" selected>Normal</option>
+                            <option value="admin" >Admin</option>
+                        </select>
+                    </td>
+                    <td style="max-width: 320px;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-6" value="2" >
+                                Comercial
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-6" value="6" >
+                                Diretoria
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-6" value="5" >
+                                Financeiro
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-6" value="1" >
+                                Jurídico
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-6" value="3" >
+                                Operacional
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-6" value="4" checked>
+                                RH
+                            </label>
+                            
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <button onclick="salvarUsuario(6)" class="btn btn-primary btn-sm"><i data-lucide="save"></i> Salvar</button>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td><strong style="color: var(--ink);">@roberto.santos</strong></td>
+                    <td>Roberto S.</td>
+                    <td style="width: 140px;">
+                        <select id="role-5" class="form-control input-sm">
+                            <option value="normal" selected>Normal</option>
+                            <option value="admin" >Admin</option>
+                        </select>
+                    </td>
+                    <td style="max-width: 320px;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-5" value="2" >
+                                Comercial
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-5" value="6" >
+                                Diretoria
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-5" value="5" >
+                                Financeiro
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-5" value="1" checked>
+                                Jurídico
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-5" value="3" >
+                                Operacional
+                            </label>
+                            
+                            <label class="chip-check">
+                                <input type="checkbox" class="area-cb-5" value="4" >
+                                RH
+                            </label>
+                            
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <button onclick="salvarUsuario(5)" class="btn btn-primary btn-sm"><i data-lucide="save"></i> Salvar</button>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ASSISTENTE VIRTUAL LEXIA                    -->
+    <!-- ========================================== -->
+
+    <!-- Botão Flutuante -->
+    <button id="btn-lexia" class="lexia-fab" onclick="toggleLexIA()" title="LexIA — assistente jurídica" aria-label="Abrir a LexIA">
+        <i data-lucide="sparkles"></i>
+    </button>
+
+    <!-- Painel da LexIA (display/opacity/transform são controlados pelo JS) -->
+    <div id="painel-lexia" class="lexia-panel" style="display:none; opacity:0; transform:translateY(20px); pointer-events:none;">
+        <div class="lexia-head">
+            <span class="spark"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></span>
+            <div class="grow">
+                <h4>LexIA</h4>
+                <p>Sua assistente jurídica inteligente</p>
+            </div>
+            <button class="lexia-icon-btn" onclick="toggleHistoricoLexIA()" title="Histórico de conversas"><i data-lucide="history"></i></button>
+            <button class="lexia-icon-btn" onclick="toggleLexIA()" aria-label="Fechar"><i data-lucide="x"></i></button>
+        </div>
+
+        <!-- Histórico -->
+        <div id="lexia-history-panel" class="lexia-history-wrap">
+            <div id="lexia-history-list" class="lexia-history-list">
+                <div class="lexia-history-empty">Nenhuma conversa salva ainda.</div>
+            </div>
+        </div>
+
+        <!-- Conversa -->
+        <div id="lexia-chat-area" class="lexia-chat">
+            <div class="lexia-message">
+                Olá, <strong>Administrador D.</strong>! Selecione um chamado e me diga o que você precisa saber sobre ele.
+            </div>
+        </div>
+
+        <!-- Entrada -->
+        <div class="lexia-foot">
+            <select id="lexia-chamado-select" onchange="trocarChamadoLexIA()">
+                <option value="">Selecione um contrato/chamado...</option>
+            </select>
+            <div class="lexia-input-wrap">
+                <input type="text" id="lexia-prompt" placeholder="Ex: Quem falta dar Ok?"
+                    onkeypress="if(event.key === 'Enter') enviarPerguntaLexIA()">
+                <button class="lexia-send" onclick="enviarPerguntaLexIA()" aria-label="Enviar"><i data-lucide="arrow-up"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .lexia-message h4 { margin: .35rem 0 .45rem; font-size: .9rem; color: var(--ink); line-height: 1.25; }
+        .lexia-message p { margin: .35rem 0; line-height: 1.55; }
+        .lexia-message ul { margin: .35rem 0 .55rem 1rem; padding: 0; }
+        .lexia-message li { margin: .3rem 0; line-height: 1.45; }
+        .lexia-message strong { color: var(--ink); font-weight: 700; }
+
+        .lexia-history-list { max-height: 190px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+        .lexia-history-item { display: flex; align-items: stretch; gap: 6px; max-height: 60px; opacity: 1; transform: translateX(0) scale(1); overflow: hidden;
+            transition: opacity .22s ease, transform .22s ease, max-height .28s ease, margin .28s ease; }
+        .lexia-history-item.is-deleting { opacity: .55; transform: translateX(8px) scale(.985); }
+        .lexia-history-item.is-removed { opacity: 0; max-height: 0; margin: 0; transform: translateX(18px) scale(.96); }
+        .lexia-history-main { flex: 1; min-width: 0; border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 8px 12px; text-align: left; cursor: pointer; font-family: inherit; transition: background .15s, border-color .15s; }
+        .lexia-history-main:hover { background: var(--surface-3); border-color: var(--line-strong); }
+        .lexia-history-question { color: var(--ink); font-size: .8rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lexia-history-meta { margin-top: 2px; color: var(--ink-3); font-size: .7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lexia-history-delete { border: 1px solid var(--bad-soft); background: var(--surface); color: var(--bad); border-radius: 10px; width: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s, transform .2s; }
+        .lexia-history-delete:hover { background: var(--bad-soft); transform: translateY(-1px); }
+        .lexia-history-delete.is-busy { background: var(--bad-soft); border-color: var(--bad); pointer-events: none; }
+        .lexia-history-delete.is-busy svg { animation: spin .85s linear infinite; }
+        .lexia-history-empty { color: var(--ink-3); font-size: .78rem; padding: 8px; text-align: center; }
+    </style>
+
+    <script>
+        // Inicializa os ícones do Lucide do sistema principal
+        lucide.createIcons();
+
+        /* ─── GLOBAL DARK MODE ───────────────────────────────── */
+        // Persiste a preferência ao carregar a página
+        (function () {
+            const isDark = localStorage.getItem('feedDark') === '1' || localStorage.getItem('globalDark') === '1';
+            if (isDark) {
+                document.body.classList.add('dark');
+                localStorage.setItem('globalDark', '1');
+            }
+            // Aguarda o Lucide estar pronto para trocar o ícone
+            const icon = document.getElementById('globalDarkIcon');
+            if (icon && isDark) {
+                icon.setAttribute('data-lucide', 'sun');
+                lucide.createIcons({ nodes: [icon] });
+            }
+        })();
+
+        function toggleGlobalDarkMode() {
+            const isDark = document.body.classList.toggle('dark');
+            localStorage.setItem('globalDark', isDark ? '1' : '0');
+            localStorage.setItem('feedDark', isDark ? '1' : '0');
+
+            // Re-busca o elemento após qualquer possível re-render do Lucide
+            const icon = document.getElementById('globalDarkIcon');
+            if (icon) {
+                icon.style.opacity = '0';
+                setTimeout(() => {
+                    icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                    lucide.createIcons({ nodes: [icon] });
+                    const freshIcon = document.getElementById('globalDarkIcon');
+                    if (freshIcon) freshIcon.style.opacity = '1';
+                }, 180);
+            }
+        }
+
+        // Lógica da LexIA
+        let lexiaOpen = false;
+        let historicoAbertoLexIA = false;
+        let historicoLexIA = [];
+
+        function toggleLexIA() {
+            const painel = document.getElementById('painel-lexia');
+            lexiaOpen = !lexiaOpen;
+
+            if (lexiaOpen) {
+                painel.style.display = 'flex';
+                setTimeout(() => {
+                    painel.style.opacity = '1';
+                    painel.style.transform = 'translateY(0)';
+                    painel.style.pointerEvents = 'auto';
+                }, 10);
+                carregarChamadosLexIA();
+                carregarHistoricoLexIA();
+            } else {
+                painel.style.opacity = '0';
+                painel.style.transform = 'translateY(20px)';
+                painel.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    painel.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        function carregarChamadosLexIA() {
+            const select = document.getElementById('lexia-chamado-select');
+            fetch('/api/lexia/chamados/')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        select.innerHTML = '<option value="">Selecione um contrato/chamado...</option>';
+                        data.chamados.forEach(c => {
+                            select.innerHTML += `<option value="${c.id}">#${c.id} - ${c.titulo}</option>`;
+                        });
+                    }
+                });
+        }
+
+        function mensagemInicialLexIA() {
+            return `
+                <div class="lexia-message">
+                    Olá, <strong>Administrador D.</strong>! Selecione um chamado e me diga o que você precisa saber sobre ele.
+                </div>
+            `;
+        }
+
+        function limparChatLexIA() {
+            const chatArea = document.getElementById('lexia-chat-area');
+            const select = document.getElementById('lexia-chamado-select');
+            chatArea.innerHTML = select && select.value ? '' : mensagemInicialLexIA();
+        }
+
+        function trocarChamadoLexIA() {
+            limparChatLexIA();
+            const painelHistorico = document.getElementById('lexia-history-panel');
+            painelHistorico.style.display = 'none';
+            historicoAbertoLexIA = false;
+        }
+
+        function toggleHistoricoLexIA() {
+            const painelHistorico = document.getElementById('lexia-history-panel');
+            historicoAbertoLexIA = !historicoAbertoLexIA;
+            painelHistorico.style.display = historicoAbertoLexIA ? 'block' : 'none';
+
+            if (historicoAbertoLexIA) {
+                carregarHistoricoLexIA();
+            }
+        }
+
+        function carregarHistoricoLexIA(chamadoId = '') {
+            const lista = document.getElementById('lexia-history-list');
+            if (!lista) return;
+
+            lista.innerHTML = '<div class="lexia-history-empty">Carregando historico...</div>';
+            const url = chamadoId ? `/api/lexia/historico/?chamado_id=${encodeURIComponent(chamadoId)}` : '/api/lexia/historico/';
+
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        renderizarHistoricoLexIA(data.historico || []);
+                    } else {
+                        lista.innerHTML = '<div class="lexia-history-empty">Nao foi possivel carregar o historico.</div>';
+                    }
+                })
+                .catch(() => {
+                    lista.innerHTML = '<div class="lexia-history-empty">Nao foi possivel carregar o historico.</div>';
+                });
+        }
+
+        function renderizarHistoricoLexIA(itens) {
+            const lista = document.getElementById('lexia-history-list');
+            historicoLexIA = itens || [];
+
+            if (!historicoLexIA.length) {
+                lista.innerHTML = '<div class="lexia-history-empty">Nenhuma conversa salva ainda.</div>';
+                return;
+            }
+
+            lista.innerHTML = historicoLexIA.map(item => {
+                const titulo = `#${item.chamado_id} - ${item.chamado_titulo}`;
+                const tituloCurto = titulo.length > 78 ? `${titulo.slice(0, 78)}...` : titulo;
+                const totalMensagens = (item.mensagens || []).length;
+                return `
+                    <div class="lexia-history-item" id="lexia-history-${item.id}">
+                        <button class="lexia-history-main" onclick="abrirHistoricoLexIA(${item.id})" title="Abrir conversa salva">
+                            <div class="lexia-history-question">${escapeHtmlLexIA(tituloCurto)}</div>
+                            <div class="lexia-history-meta">${totalMensagens} mensagens - ${escapeHtmlLexIA(item.data)}</div>
+                        </button>
+                        <button class="lexia-history-delete" onclick="excluirHistoricoLexIA(event, ${item.id})" title="Apagar conversa">
+                            <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function abrirHistoricoLexIA(historicoId) {
+            const item = historicoLexIA.find(h => h.id === historicoId);
+            if (!item) return;
+
+            const chatArea = document.getElementById('lexia-chat-area');
+            chatArea.innerHTML = '';
+            const mensagens = item.mensagens && item.mensagens.length
+                ? item.mensagens
+                : [
+                    { role: 'user', content: item.pergunta },
+                    { role: 'assistant', content: item.resposta }
+                ];
+
+            mensagens.forEach(mensagem => {
+                adicionarMensagemLexIA(mensagem.content, mensagem.role === 'user');
+            });
+
+            const select = document.getElementById('lexia-chamado-select');
+            if (select) select.value = item.chamado_id;
+
+            const painelHistorico = document.getElementById('lexia-history-panel');
+            painelHistorico.style.display = 'none';
+            historicoAbertoLexIA = false;
+        }
+
+        function alertaLexIA(opcoes) {
+            if (window.Swal) {
+                return Swal.fire({
+                    confirmButtonColor: 'var(--primary)',
+                    cancelButtonColor: 'var(--secondary)',
+                    background: getComputedStyle(document.body).getPropertyValue('--bg-card').trim() || '#ffffff',
+                    color: getComputedStyle(document.body).getPropertyValue('--text-primary').trim() || '#111827',
+                    ...opcoes
+                });
+            }
+
+            return new Promise(resolve => {
+                const bgCard = getComputedStyle(document.body).getPropertyValue('--bg-card').trim() || '#ffffff';
+                const textPrimary = getComputedStyle(document.body).getPropertyValue('--text-primary').trim() || '#111827';
+                const textMuted = getComputedStyle(document.body).getPropertyValue('--text-muted').trim() || '#64748b';
+                const primary = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#003366';
+                const overlay = document.createElement('div');
+                overlay.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:10000;display:flex;align-items:center;justify-content:center;padding:1rem;';
+                overlay.innerHTML = `
+                    <div style="width:min(420px, 100%);background:${bgCard};color:${textPrimary};border-radius:14px;box-shadow:0 24px 70px rgba(15,23,42,.25);padding:1.25rem;">
+                        <h3 style="margin:0 0 .45rem;font-size:1.05rem;">${escapeHtmlLexIA(opcoes.title || '')}</h3>
+                        <p style="margin:0;color:${textMuted};font-size:.9rem;line-height:1.45;">${escapeHtmlLexIA(opcoes.text || '')}</p>
+                        <div style="display:flex;justify-content:flex-end;gap:.6rem;margin-top:1.2rem;">
+                            <button data-lexia-confirm style="border:0;background:${primary};color:#fff;border-radius:8px;padding:.55rem .95rem;cursor:pointer;">${escapeHtmlLexIA(opcoes.confirmButtonText || 'OK')}</button>
+                            ${opcoes.showCancelButton ? '<button data-lexia-cancel style="border:1px solid #cbd5e1;background:transparent;color:inherit;border-radius:8px;padding:.55rem .85rem;cursor:pointer;">Cancelar</button>' : ''}
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+                overlay.querySelector('[data-lexia-confirm]').onclick = () => {
+                    overlay.remove();
+                    resolve({ isConfirmed: true });
+                };
+                const cancelar = overlay.querySelector('[data-lexia-cancel]');
+                if (cancelar) {
+                    cancelar.onclick = () => {
+                        overlay.remove();
+                        resolve({ isConfirmed: false });
+                    };
+                }
+            });
+        }
+
+        async function excluirHistoricoLexIA(event, historicoId) {
+            event.stopPropagation();
+            const confirmacao = await alertaLexIA({
+                title: 'Apagar conversa?',
+                text: 'Esta conversa sera removida do historico da LexIA.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Apagar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: false,
+                focusCancel: true
+            });
+
+            if (!confirmacao.isConfirmed) return;
+
+            const itemEl = document.getElementById(`lexia-history-${historicoId}`);
+            const botao = event.currentTarget;
+            if (itemEl) itemEl.classList.add('is-deleting');
+            if (botao) {
+                botao.classList.add('is-busy');
+                botao.innerHTML = '<i data-lucide="loader-2" style="width: 15px; height: 15px;"></i>';
+                lucide.createIcons();
+            }
+
+            fetch(`/api/lexia/historico/${historicoId}/excluir/`, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': 'demo' }
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const removido = historicoLexIA.find(item => item.id === historicoId);
+                        historicoLexIA = historicoLexIA.filter(item => {
+                            return removido ? item.chamado_id !== removido.chamado_id : item.id !== historicoId;
+                        });
+                        if (itemEl) {
+                            itemEl.classList.add('is-removed');
+                            setTimeout(() => renderizarHistoricoLexIA(historicoLexIA), 280);
+                        } else {
+                            renderizarHistoricoLexIA(historicoLexIA);
+                        }
+                    } else {
+                        if (itemEl) itemEl.classList.remove('is-deleting');
+                        if (botao) {
+                            botao.classList.remove('is-busy');
+                            botao.innerHTML = '<i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>';
+                            lucide.createIcons();
+                        }
+                        alertaLexIA({
+                            title: 'Nao foi possivel apagar',
+                            text: 'Tente novamente em alguns instantes.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(() => {
+                    if (itemEl) itemEl.classList.remove('is-deleting');
+                    if (botao) {
+                        botao.classList.remove('is-busy');
+                        botao.innerHTML = '<i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>';
+                        lucide.createIcons();
+                    }
+                    alertaLexIA({
+                        title: 'Erro de conexao',
+                        text: 'Nao foi possivel falar com o servidor para apagar o historico.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        }
+
+        function escapeHtmlLexIA(valor) {
+            return String(valor || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatarInlineLexIA(texto) {
+            return escapeHtmlLexIA(texto)
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>');
+        }
+
+        function limparTituloLexIA(texto) {
+            return texto
+                .replace(/^\s*#+\s*/, '')
+                .replace(/^\*\*(.+)\*\*$/, '$1')
+                .replace(/\*\*/g, '')
+                .trim();
+        }
+
+        function formatarRespostaLexIA(texto) {
+            const linhas = String(texto || '').replace(/\r\n/g, '\n').split('\n');
+            let html = '';
+            let listaAberta = false;
+
+            function fecharLista() {
+                if (listaAberta) {
+                    html += '</ul>';
+                    listaAberta = false;
+                }
+            }
+
+            linhas.forEach(linhaOriginal => {
+                const linha = linhaOriginal.trim();
+
+                if (!linha) {
+                    fecharLista();
+                    return;
+                }
+
+                if (/^-{3,}$/.test(linha)) {
+                    fecharLista();
+                    return;
+                }
+
+                const titulo = linha.match(/^#{1,6}\s+(.+)$/);
+                if (titulo) {
+                    fecharLista();
+                    html += `<h4>${formatarInlineLexIA(limparTituloLexIA(titulo[1]))}</h4>`;
+                    return;
+                }
+
+                const itemLista = linha.match(/^[-*]\s+(.+)$/);
+                if (itemLista) {
+                    if (!listaAberta) {
+                        html += '<ul>';
+                        listaAberta = true;
+                    }
+                    html += `<li>${formatarInlineLexIA(itemLista[1])}</li>`;
+                    return;
+                }
+
+                fecharLista();
+                html += `<p>${formatarInlineLexIA(linha)}</p>`;
+            });
+
+            fecharLista();
+            return html || '<p>Sem resposta.</p>';
+        }
+
+        function adicionarMensagemLexIA(texto, isUser) {
+            const chatArea = document.getElementById('lexia-chat-area');
+            const conteudo = isUser ? escapeHtmlLexIA(texto) : formatarRespostaLexIA(texto);
+
+            const html = `
+                <div class="lexia-message${isUser ? ' user' : ''}">
+                    ${conteudo}
+                </div>
+            `;
+            chatArea.insertAdjacentHTML('beforeend', html);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function enviarPerguntaLexIA() {
+            const select = document.getElementById('lexia-chamado-select');
+            const input = document.getElementById('lexia-prompt');
+            const chamadoId = select.value;
+            const promptTexto = input.value.trim();
+
+            if (!chamadoId) {
+                alertaLexIA({
+                    title: 'Selecione um chamado',
+                    text: 'Escolha um contrato/chamado antes de enviar a pergunta.',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+            if (!promptTexto) return;
+
+            adicionarMensagemLexIA(promptTexto, true);
+            input.value = '';
+
+            const chatArea = document.getElementById('lexia-chat-area');
+            const loadingHtml = `<div id="lexia-loading" class="lexia-loading"><i data-lucide="loader" class="lucide-spin" style="width: 16px; height: 16px;"></i> LexIA está analisando...</div>`;
+            chatArea.insertAdjacentHTML('beforeend', loadingHtml);
+            lucide.createIcons();
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            fetch('/api/lexia/perguntar/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': 'demo'
+                },
+                body: JSON.stringify({
+                    chamado_id: chamadoId,
+                    pergunta: promptTexto
+                })
+            })
+                .then(r => r.json())
+                .then(data => {
+                    const loader = document.getElementById('lexia-loading');
+                    if (loader) loader.remove();
+
+                    if (data.status === 'success') {
+                        adicionarMensagemLexIA(data.resposta, false);
+                        if (data.historico) {
+                            historicoLexIA = [data.historico, ...historicoLexIA.filter(item => item.chamado_id !== data.historico.chamado_id)].slice(0, 30);
+                            renderizarHistoricoLexIA(historicoLexIA);
+                        }
+                    } else {
+                        adicionarMensagemLexIA(`⚠️ Erro: ${data.msg}`, false);
+                    }
+                })
+                .catch(err => {
+                    const loader = document.getElementById('lexia-loading');
+                    if (loader) loader.remove();
+                    adicionarMensagemLexIA("⚠️ Erro de conexão ao falar com a IA.", false);
+                });
+        }
+    </script>
+
+    
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function salvarUsuario(id) {
+    const role = document.getElementById(`role-${id}`).value;
+    const areas = Array.from(document.querySelectorAll(`.area-cb-${id}:checked`)).map(cb => cb.value);
+
+    fetch('/api/admin/salvar-usuario/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': 'demo'
+        },
+        body: JSON.stringify({ id: id, role: role, areas: areas })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if(data.status === 'success') {
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Permissões atualizadas com sucesso.',
+                icon: 'success',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        } else {
+            Swal.fire('Erro', 'Ocorreu um erro ao salvar.', 'error');
+        }
+    })
+    .catch(() => Swal.fire('Erro', 'Erro de conexão.', 'error'));
+}
+</script>
+
+<style>#__demoRibbon{position:fixed;bottom:12px;left:12px;z-index:99999;background:#0b2e5c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div></body>
+
+</html>

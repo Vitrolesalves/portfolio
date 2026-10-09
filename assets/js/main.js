@@ -166,28 +166,30 @@
     },
     {
       id:'conecta', cat:'web', title:'Conecta Jurídico', company:'Jurídico corporativo',
-      tag:'Governança + IA', year:'2026', metric:'Plataforma interna',
-      cover:{ type:'shots', shots:['assets/img/conecta-feed.png','assets/img/conecta-relatorios.png','assets/img/conecta-regulatorio.png'] },
+      tag:'Governança + IA', year:'2026', metric:'Plataforma interna · front remodelado',
+      cover:{ type:'shots', shots:['assets/img/conecta-feed.png','assets/img/conecta-lexia.png','assets/img/conecta-chamados.png'] },
       sub:['Sistemas Web','Jurídico corporativo','IA'],
       tagline:'Governança de contratos com uma IA que lê e resume as tratativas.',
-      problem:'A área jurídica se afogava em e-mails desestruturados, prazos perdidos e documentos espalhados — sem rastreabilidade para auditoria e compliance.',
-      solution:'Uma plataforma de governança contratual com chamados inteligentes: campos, anexos e aprovadores mudam conforme a norma e a criticidade. Timeline colaborativa por demanda, gestão de SLA e uma IA — a Lexia — que lê contratos em PDF/DOCX e resume as tratativas.',
-      result:'Um único ambiente para solicitações, aprovações, evidências e histórico — do início ao encerramento de cada demanda, pronto para auditoria.',
+      problem:'A área jurídica se afogava em e-mails desestruturados, prazos perdidos e documentos espalhados — sem rastreabilidade para auditoria e compliance. Além disso, a primeira versão da plataforma, ainda em beta, tinha um visual de protótipo.',
+      solution:'Uma plataforma de governança contratual com chamados inteligentes: campos, anexos e aprovadores mudam conforme a norma e a criticidade. Cada card do feed mostra a etapa, o risco e o SLA do chamado, junto com o Ok de cada área e a timeline de comentários. A LexIA lê contratos em PDF/DOCX e resume as tratativas. Em 2026 o front-end foi remodelado do zero, com autorização da supervisão: novo design system, modo claro/escuro e layout responsivo — sem mexer nas regras de negócio.',
+      result:'Um único ambiente para solicitações, aprovações, evidências e histórico — do início ao encerramento de cada demanda, pronto para auditoria. Com a remodelagem, o sistema ganhou uma interface no nível de um produto, e a LexIA ficou a um clique em qualquer tela.',
       feats:[
         {i:'puzzle',t:'Chamados que se adaptam',d:'formulário muda conforme norma e criticidade'},
-        {i:'bolt',t:'Timeline colaborativa',d:'histórico, anexos e aprovações por demanda'},
-        {i:'doc',t:'IA Lexia',d:'lê PDF/DOCX e resume contratos e tratativas'},
-        {i:'chart',t:'Gestão de SLA',d:'prazos e responsáveis rastreáveis'}
+        {i:'bolt',t:'Trilha e Ok das áreas',d:'etapa do chamado, quem já deu Ok e quem falta'},
+        {i:'robot',t:'LexIA, a IA jurídica',d:'lê PDF/DOCX e resume contratos e tratativas'},
+        {i:'chart',t:'SLA e risco à vista',d:'prazo, criticidade e responsáveis rastreáveis'}
       ],
-      stack:['Django','PostgreSQL','Ollama (LLM)','python-docx','pypdf'],
-      liveDemo:{ url:'assets/demos/conecta/dashboard.html', name:'Conecta Jurídico', note:'O frontend real da plataforma, com dados de exemplo. Navegue pelo feed e abra "Novo Chamado" para ver o formulário que se adapta à norma.' },
+      stack:['Django','PostgreSQL','Ollama (LLM)','python-docx','pypdf','CSS (design system próprio)'],
+      liveDemo:{ url:'assets/demos/conecta/dashboard.html', name:'Conecta Jurídico', note:'O novo front-end da plataforma, com dados de exemplo. Dê um Ok num card, abra a LexIA (botão dourado) ou abra "Novo Chamado" para ver o formulário que se adapta à norma.' },
       tour:[
-        {i:'window',t:'Feed Jurídico',d:'Mural das demandas com busca, filtro por norma e resumo da fila (processos, SLA, concluídos).',p:'assets/demos/conecta/dashboard.html'},
+        {i:'window',t:'Feed Jurídico',d:'Mural das demandas com trilha de etapas, risco e SLA por card, Ok das áreas e comentários — e o resumo da fila ao lado.',p:'assets/demos/conecta/dashboard.html'},
         {i:'puzzle',t:'Novo Chamado',d:'Formulário inteligente: campos, anexos e aprovadores mudam conforme a norma e a criticidade.',p:'assets/demos/conecta/novo-chamado.html'},
-        {i:'bolt',t:'Meus Chamados',d:'Lista e acompanhamento das demandas com status, prioridade e timeline por chamado.',p:'assets/demos/conecta/chamados.html'},
-        {i:'chart',t:'Relatórios de Risco',d:'Visão de risco e conformidade das tratativas para auditoria e compliance.',p:'assets/demos/conecta/relatorios.html'},
+        {i:'bolt',t:'Meus Chamados',d:'Rastreabilidade de tudo que você abriu, com status, risco e prazo de cada chamado.',p:'assets/demos/conecta/chamados.html'},
+        {i:'chart',t:'Relatórios de Risco',d:'Exceções ativas, contratos críticos e cumprimento de SLA, mais os relatórios publicados pelo jurídico.',p:'assets/demos/conecta/relatorios.html'},
         {i:'doc',t:'Base de Conhecimento',d:'Documentos, modelos e materiais de referência centralizados.',p:'assets/demos/conecta/conhecimento.html'},
-        {i:'shield',t:'Regulatório',d:'Informações e acompanhamento regulatório da área jurídica.',p:'assets/demos/conecta/regulatorio.html'}
+        {i:'shield',t:'Regulatório',d:'Informações e acompanhamento regulatório da área jurídica.',p:'assets/demos/conecta/regulatorio.html'},
+        {i:'star',t:'Como Funciona',d:'A jornada de um chamado, do pedido à assinatura, explicada passo a passo.',p:'assets/demos/conecta/como-funciona.html'},
+        {i:'lock',t:'Usuários e Aprovações',d:'Visão do administrador: perfis, áreas de acesso e liberação de cadastros.',p:'assets/demos/conecta/admin-panel.html'}
       ],
       links:[]
     },

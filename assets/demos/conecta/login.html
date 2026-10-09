@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<script>(function(){
+try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}
+var D={"chamados":[{"id":9,"titulo":"Norma 02 - Clientes — Construtora Pedra Azul"},{"id":3,"titulo":"Norma 01 - Notificações — Indústria Vale Verde"},{"id":6,"titulo":"Norma 01 - Notificações — Cooperativa Cerrado"},{"id":1,"titulo":"Norma 02 - Clientes — Mercantil Aurora"},{"id":4,"titulo":"Norma 02 - Clientes — Transportes Planalto"},{"id":2,"titulo":"Norma 04 - Fornecedores — Grupo Horizonte"},{"id":5,"titulo":"Norma 04 - Fornecedores — Rede Saúde Vida"},{"id":12,"titulo":"Norma 02 - Clientes — Grupo Horizonte"},{"id":11,"titulo":"Norma 04 - Fornecedores — Mercantil Aurora"},{"id":10,"titulo":"Norma 01 - Notificações — Têxtil Nova Era"},{"id":8,"titulo":"Norma 04 - Fornecedores — Logística Atlântica"},{"id":7,"titulo":"Norma 02 - Clientes — Agro Boa Safra"}],"areas":[{"id":1,"nome":"Jurídico"},{"id":2,"nome":"Comercial"},{"id":3,"nome":"Operacional"},{"id":4,"nome":"RH"},{"id":5,"nome":"Financeiro"},{"id":6,"nome":"Diretoria"}],"clientes":[{"id":1,"nome":"Mercantil Aurora"},{"id":2,"nome":"Grupo Horizonte"},{"id":3,"nome":"Indústria Vale Verde"},{"id":4,"nome":"Transportes Planalto"},{"id":5,"nome":"Rede Saúde Vida"},{"id":6,"nome":"Cooperativa Cerrado"},{"id":7,"nome":"Agro Boa Safra"},{"id":8,"nome":"Logística Atlântica"},{"id":9,"nome":"Construtora Pedra Azul"},{"id":10,"nome":"Têxtil Nova Era"}],"usuarios":[{"id":1,"username":"admin","nome":"Administrador Demo"},{"id":2,"username":"ana.souza","nome":"Ana Souza"},{"id":3,"username":"carlos.lima","nome":"Carlos Lima"},{"id":4,"username":"juliana.costa","nome":"Juliana Costa"},{"id":5,"username":"roberto.santos","nome":"Roberto Santos"},{"id":6,"username":"marina.alves","nome":"Marina Alves"}],"oks":{"1":{"oks":[],"pendentes":[],"total":0},"2":{"oks":[],"pendentes":[{"nome":"Administrador D.","area":"Jurídico"},{"nome":"Roberto S.","area":"Jurídico"},{"nome":"Ana S.","area":"Comercial"}],"total":0},"3":{"oks":[{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false}],"pendentes":[],"total":1},"4":{"oks":[{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false}],"pendentes":[{"nome":"Juliana C.","area":"Financeiro"}],"total":1},"5":{"oks":[{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false},{"id":6,"nome":"Marina A.","area":"RH","inicial":"M","tem_foto":false}],"pendentes":[{"nome":"Administrador D.","area":"Jurídico"},{"nome":"Ana S.","area":"Comercial"},{"nome":"Carlos L.","area":"Operacional"}],"total":2},"6":{"oks":[{"id":1,"nome":"Administrador D.","area":"Jurídico","inicial":"A","tem_foto":false},{"id":4,"nome":"Juliana C.","area":"Financeiro","inicial":"J","tem_foto":false},{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false}],"pendentes":[],"total":3},"7":{"oks":[{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false}],"pendentes":[{"nome":"Carlos L.","area":"Operacional"},{"nome":"Juliana C.","area":"Financeiro"}],"total":1},"8":{"oks":[{"id":1,"nome":"Administrador D.","area":"Jurídico","inicial":"A","tem_foto":false},{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false},{"id":6,"nome":"Marina A.","area":"RH","inicial":"M","tem_foto":false}],"pendentes":[{"nome":"Carlos L.","area":"Operacional"}],"total":3},"9":{"oks":[],"pendentes":[{"nome":"Administrador D.","area":"Jurídico"},{"nome":"Roberto S.","area":"Jurídico"},{"nome":"Carlos L.","area":"Operacional"},{"nome":"Marina A.","area":"RH"}],"total":0},"10":{"oks":[{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false}],"pendentes":[{"nome":"Ana S.","area":"Comercial"},{"nome":"Carlos L.","area":"Operacional"}],"total":1},"11":{"oks":[{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false}],"pendentes":[{"nome":"Carlos L.","area":"Operacional"},{"nome":"Juliana C.","area":"Financeiro"}],"total":1},"12":{"oks":[{"id":1,"nome":"Administrador D.","area":"Jurídico","inicial":"A","tem_foto":false},{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false},{"id":6,"nome":"Marina A.","area":"RH","inicial":"M","tem_foto":false}],"pendentes":[],"total":3}},"eu":{"id":0,"nome":"Administrador D.","area":"Jurídico","tem_foto":false,"inicial":"A"},"proximoId":13};
+var M={"/":"dashboard.html","/meus-chamados/":"chamados.html","/novo-chamado/":"novo-chamado.html","/relatorios-risco/":"relatorios.html","/base-conhecimento/":"conhecimento.html","/informacoes-regulatorio/":"regulatorio.html","/como-funciona/":"como-funciona.html","/admin-panel/":"admin-panel.html","/login/":"login.html","/logout/":"login.html","/cadastro/":"cadastro.html"};
+var oks={};
+function json(o,ms){return new Promise(function(r){setTimeout(function(){r(new Response(JSON.stringify(o),{status:200,headers:{"Content-Type":"application/json"}}));},ms==null?120:ms);});}
+function titulo(id){var c=D.chamados.filter(function(x){return String(x.id)===String(id);})[0];return c?c.titulo:("Chamado #"+id);}
+function resposta(id,perg){
+  var t=titulo(id);
+  return "## Resumo do chamado #"+id+"\n"+t+"\n\n"
+   +"- **Situação:** em andamento, com os Oks das áreas marcadas sendo coletados.\n"
+   +"- **Ponto de atenção:** confira cláusulas de reajuste, multa e prazo de vigência antes de seguir para assinatura.\n"
+   +"- **Próximo passo sugerido:** alinhar com o comercial e registrar o parecer jurídico nos comentários.\n\n"
+   +"---\n"
+   +"Resposta de exemplo do preview. No sistema real, a LexIA lê o PDF/DOCX anexado ao chamado e responde com base no conteúdo do contrato.";
+}
+var of=window.fetch;
+window.fetch=function(u,o){
+  try{
+    var s=(typeof u==="string")?u:((u&&u.url)||"");
+    if(/^https?:\/\//i.test(s))return of.apply(this,arguments);
+    var m=((o&&o.method)||"GET").toUpperCase();
+    var p=s.split("?")[0], q=s.indexOf("?")>-1?s.slice(s.indexOf("?")+1):"";
+    var mt;
+    if(p==="/api/lexia/chamados/")return json({status:"success",chamados:D.chamados});
+    if(p==="/api/lexia/historico/")return json({status:"success",historico:[]});
+    if(/^\/api\/lexia\/historico\/\d+\/excluir\/$/.test(p))return json({status:"success"});
+    if(p==="/api/lexia/perguntar/"){
+      var b={};try{b=JSON.parse(o.body);}catch(e){}
+      return json({status:"success",resposta:resposta(b.chamado_id,b.pergunta)},1100);
+    }
+    if(p==="/api/areas/")return json(D.areas);
+    if(p==="/api/clientes/"){
+      var mq=/[?&]q=([^&]*)/.exec(q);var term=mq?decodeURIComponent(mq[1]).toLowerCase():"";
+      return json(D.clientes.filter(function(c){return !term||c.nome.toLowerCase().indexOf(term)>-1;}));
+    }
+    if(p==="/api/usuarios/"){
+      var mu=/[?&]q=([^&]*)/.exec(q);var tu=mu?decodeURIComponent(mu[1]).toLowerCase():"";
+      return json(D.usuarios.filter(function(x){return !tu||x.nome.toLowerCase().indexOf(tu)>-1;}));
+    }
+    if((mt=/^\/api\/chamado\/(\d+)\/detalhes-ok\/$/.exec(p))){
+      var d=oks[mt[1]]||D.oks[mt[1]]||{oks:[],pendentes:[],total:0};
+      return json(Object.assign({status:"success"},d));
+    }
+    if((mt=/^\/api\/chamado\/(\d+)\/ok\/$/.exec(p))){
+      var base=D.oks[mt[1]]||{oks:[],pendentes:[],total:0};
+      var cur=oks[mt[1]]||JSON.parse(JSON.stringify(base));
+      var eu=D.eu, tem=cur.oks.some(function(x){return x.nome===eu.nome;});
+      if(tem){cur.oks=cur.oks.filter(function(x){return x.nome!==eu.nome;});}
+      else{cur.oks.push(eu);cur.pendentes=cur.pendentes.filter(function(x){return x.nome!==eu.nome;});}
+      cur.total=cur.oks.length;oks[mt[1]]=cur;
+      return json({status:"success",acao:tem?"removido":"adicionado"});
+    }
+    if(/^\/api\/comentario\/\d+\/$/.test(p)){
+      var agora=new Date();var pad=function(n){return n<10?"0"+n:n;};
+      return json({status:"success",comentario:{documentos:[],data_criacao:pad(agora.getDate())+"/"+pad(agora.getMonth()+1)+"/"+agora.getFullYear()+" "+pad(agora.getHours())+":"+pad(agora.getMinutes())}});
+    }
+    if(p==="/api/salvar-chamado/")return json({status:"success",id:D.proximoId,titulo:"Chamado de exemplo (preview)"},900);
+    if(m!=="GET")return json({status:"success",msg:"Ação simulada no preview."},300);
+    return json([]);
+  }catch(e){return of.apply(this,arguments);}
+};
+var dir=location.pathname.replace(/[^\/]*$/,"");
+function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}
+try{var dsc=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(dsc&&dsc.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return dsc.get.call(this);},set:function(v){dsc.set.call(this,res(v));}});}}catch(e){}
+try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}
+document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);
+})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - Conecta Jurídico</title>
+    <link rel="stylesheet" href="static/css/global.css?v=20261008">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="auth">
+    <script>
+        if (localStorage.getItem('globalDark') === '1' || localStorage.getItem('feedDark') === '1') {
+            document.body.classList.add('dark');
+        }
+    </script>
+
+    <div class="auth-shell">
+        <section class="auth-hero">
+            <a class="brand" href="login.html">
+                <span class="brand-mark"><i data-lucide="scale"></i></span>
+                <span class="brand-text"><b>Conecta</b><small>Jurídico</small></span>
+            </a>
+
+            <div>
+                <h1>Contratos sob controle, do pedido à <em>assinatura</em>.</h1>
+                <p class="lead">Um só lugar para abrir chamados, acompanhar o andamento, reunir o Ok de cada área e
+                    consultar tudo com a ajuda da IA.</p>
+
+                <div class="auth-points">
+                    <div class="auth-point">
+                        <span class="ico"><i data-lucide="route"></i></span>
+                        <div><b>Fluxo por norma, com SLA</b><span>Cada tipo de solicitação segue o caminho certo e o prazo é acompanhado.</span></div>
+                    </div>
+                    <div class="auth-point">
+                        <span class="ico"><i data-lucide="sparkles"></i></span>
+                        <div><b>LexIA, a assistente jurídica</b><span>Lê contratos em PDF/DOCX e resume as tratativas de cada chamado.</span></div>
+                    </div>
+                    <div class="auth-point">
+                        <span class="ico"><i data-lucide="users"></i></span>
+                        <div><b>Ok de cada área, com histórico</b><span>Saiba quem já deu ciência e quem ainda falta — tudo registrado.</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="auth-foot">Grupo GPS · Regional Centro-Oeste</div>
+        </section>
+
+        <section class="auth-panel">
+            <div class="auth-card">
+                <h2>Bem-vindo de volta</h2>
+                <p class="sub">Acesse sua conta para continuar.</p>
+
+                
+
+                <form method="POST">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="username">Login</label>
+                        <div class="input-icon">
+                            <i data-lucide="user"></i>
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Digite seu login" autocomplete="username" required autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Senha</label>
+                        <div class="input-icon">
+                            <i data-lucide="lock"></i>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Digite sua senha" autocomplete="current-password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" style="padding:13px 18px;margin-top:6px;">Entrar</button>
+                </form>
+
+                <p class="auth-link">Ainda não tem acesso? <a href="cadastro.html">Solicite seu cadastro</a></p>
+            </div>
+        </section>
+    </div>
+
+    <script>lucide.createIcons();</script>
+<style>#__demoRibbon{position:fixed;bottom:12px;left:12px;z-index:99999;background:#0b2e5c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script>document.querySelector("form").addEventListener("submit",function(e){e.preventDefault();location.href="dashboard.html";});</script></body>
+
+</html>

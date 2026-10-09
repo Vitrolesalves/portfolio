@@ -1,227 +1,227 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<head><script>(function(){try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}try{var of=window.fetch;if(of){window.fetch=function(u){try{var s=(typeof u==="string")?u:((u&&u.url)||"");if(/^https?:\/\//i.test(s))return of.apply(this,arguments);return Promise.resolve(new Response("[]",{status:200,headers:{"Content-Type":"application/json"}}));}catch(e){return of.apply(this,arguments);}};}}catch(e){}var M={"/": "dashboard.html", "/meus-chamados/": "chamados.html", "/novo-chamado/": "novo-chamado.html", "/relatorios-risco/": "relatorios.html", "/base-conhecimento/": "conhecimento.html", "/informacoes-regulatorio/": "regulatorio.html"};var dir=location.pathname.replace(/[^\/]*$/,"");function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}try{var d=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(d&&d.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return d.get.call(this);},set:function(v){d.set.call(this,res(v));}});}}catch(e){}try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);})();</script>
+<head>
+<script>(function(){
+try{window.alert=function(){};window.confirm=function(){return true;};window.print=function(){};}catch(e){}
+var D={"chamados":[{"id":9,"titulo":"Norma 02 - Clientes — Construtora Pedra Azul"},{"id":3,"titulo":"Norma 01 - Notificações — Indústria Vale Verde"},{"id":6,"titulo":"Norma 01 - Notificações — Cooperativa Cerrado"},{"id":1,"titulo":"Norma 02 - Clientes — Mercantil Aurora"},{"id":4,"titulo":"Norma 02 - Clientes — Transportes Planalto"},{"id":2,"titulo":"Norma 04 - Fornecedores — Grupo Horizonte"},{"id":5,"titulo":"Norma 04 - Fornecedores — Rede Saúde Vida"},{"id":12,"titulo":"Norma 02 - Clientes — Grupo Horizonte"},{"id":11,"titulo":"Norma 04 - Fornecedores — Mercantil Aurora"},{"id":10,"titulo":"Norma 01 - Notificações — Têxtil Nova Era"},{"id":8,"titulo":"Norma 04 - Fornecedores — Logística Atlântica"},{"id":7,"titulo":"Norma 02 - Clientes — Agro Boa Safra"}],"areas":[{"id":1,"nome":"Jurídico"},{"id":2,"nome":"Comercial"},{"id":3,"nome":"Operacional"},{"id":4,"nome":"RH"},{"id":5,"nome":"Financeiro"},{"id":6,"nome":"Diretoria"}],"clientes":[{"id":1,"nome":"Mercantil Aurora"},{"id":2,"nome":"Grupo Horizonte"},{"id":3,"nome":"Indústria Vale Verde"},{"id":4,"nome":"Transportes Planalto"},{"id":5,"nome":"Rede Saúde Vida"},{"id":6,"nome":"Cooperativa Cerrado"},{"id":7,"nome":"Agro Boa Safra"},{"id":8,"nome":"Logística Atlântica"},{"id":9,"nome":"Construtora Pedra Azul"},{"id":10,"nome":"Têxtil Nova Era"}],"usuarios":[{"id":1,"username":"admin","nome":"Administrador Demo"},{"id":2,"username":"ana.souza","nome":"Ana Souza"},{"id":3,"username":"carlos.lima","nome":"Carlos Lima"},{"id":4,"username":"juliana.costa","nome":"Juliana Costa"},{"id":5,"username":"roberto.santos","nome":"Roberto Santos"},{"id":6,"username":"marina.alves","nome":"Marina Alves"}],"oks":{"1":{"oks":[],"pendentes":[],"total":0},"2":{"oks":[],"pendentes":[{"nome":"Administrador D.","area":"Jurídico"},{"nome":"Roberto S.","area":"Jurídico"},{"nome":"Ana S.","area":"Comercial"}],"total":0},"3":{"oks":[{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false}],"pendentes":[],"total":1},"4":{"oks":[{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false}],"pendentes":[{"nome":"Juliana C.","area":"Financeiro"}],"total":1},"5":{"oks":[{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false},{"id":6,"nome":"Marina A.","area":"RH","inicial":"M","tem_foto":false}],"pendentes":[{"nome":"Administrador D.","area":"Jurídico"},{"nome":"Ana S.","area":"Comercial"},{"nome":"Carlos L.","area":"Operacional"}],"total":2},"6":{"oks":[{"id":1,"nome":"Administrador D.","area":"Jurídico","inicial":"A","tem_foto":false},{"id":4,"nome":"Juliana C.","area":"Financeiro","inicial":"J","tem_foto":false},{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false}],"pendentes":[],"total":3},"7":{"oks":[{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false}],"pendentes":[{"nome":"Carlos L.","area":"Operacional"},{"nome":"Juliana C.","area":"Financeiro"}],"total":1},"8":{"oks":[{"id":1,"nome":"Administrador D.","area":"Jurídico","inicial":"A","tem_foto":false},{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false},{"id":6,"nome":"Marina A.","area":"RH","inicial":"M","tem_foto":false}],"pendentes":[{"nome":"Carlos L.","area":"Operacional"}],"total":3},"9":{"oks":[],"pendentes":[{"nome":"Administrador D.","area":"Jurídico"},{"nome":"Roberto S.","area":"Jurídico"},{"nome":"Carlos L.","area":"Operacional"},{"nome":"Marina A.","area":"RH"}],"total":0},"10":{"oks":[{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false}],"pendentes":[{"nome":"Ana S.","area":"Comercial"},{"nome":"Carlos L.","area":"Operacional"}],"total":1},"11":{"oks":[{"id":2,"nome":"Ana S.","area":"Comercial","inicial":"A","tem_foto":false}],"pendentes":[{"nome":"Carlos L.","area":"Operacional"},{"nome":"Juliana C.","area":"Financeiro"}],"total":1},"12":{"oks":[{"id":1,"nome":"Administrador D.","area":"Jurídico","inicial":"A","tem_foto":false},{"id":5,"nome":"Roberto S.","area":"Jurídico","inicial":"R","tem_foto":false},{"id":6,"nome":"Marina A.","area":"RH","inicial":"M","tem_foto":false}],"pendentes":[],"total":3}},"eu":{"id":0,"nome":"Administrador D.","area":"Jurídico","tem_foto":false,"inicial":"A"},"proximoId":13};
+var M={"/":"dashboard.html","/meus-chamados/":"chamados.html","/novo-chamado/":"novo-chamado.html","/relatorios-risco/":"relatorios.html","/base-conhecimento/":"conhecimento.html","/informacoes-regulatorio/":"regulatorio.html","/como-funciona/":"como-funciona.html","/admin-panel/":"admin-panel.html","/login/":"login.html","/logout/":"login.html","/cadastro/":"cadastro.html"};
+var oks={};
+function json(o,ms){return new Promise(function(r){setTimeout(function(){r(new Response(JSON.stringify(o),{status:200,headers:{"Content-Type":"application/json"}}));},ms==null?120:ms);});}
+function titulo(id){var c=D.chamados.filter(function(x){return String(x.id)===String(id);})[0];return c?c.titulo:("Chamado #"+id);}
+function resposta(id,perg){
+  var t=titulo(id);
+  return "## Resumo do chamado #"+id+"\n"+t+"\n\n"
+   +"- **Situação:** em andamento, com os Oks das áreas marcadas sendo coletados.\n"
+   +"- **Ponto de atenção:** confira cláusulas de reajuste, multa e prazo de vigência antes de seguir para assinatura.\n"
+   +"- **Próximo passo sugerido:** alinhar com o comercial e registrar o parecer jurídico nos comentários.\n\n"
+   +"---\n"
+   +"Resposta de exemplo do preview. No sistema real, a LexIA lê o PDF/DOCX anexado ao chamado e responde com base no conteúdo do contrato.";
+}
+var of=window.fetch;
+window.fetch=function(u,o){
+  try{
+    var s=(typeof u==="string")?u:((u&&u.url)||"");
+    if(/^https?:\/\//i.test(s))return of.apply(this,arguments);
+    var m=((o&&o.method)||"GET").toUpperCase();
+    var p=s.split("?")[0], q=s.indexOf("?")>-1?s.slice(s.indexOf("?")+1):"";
+    var mt;
+    if(p==="/api/lexia/chamados/")return json({status:"success",chamados:D.chamados});
+    if(p==="/api/lexia/historico/")return json({status:"success",historico:[]});
+    if(/^\/api\/lexia\/historico\/\d+\/excluir\/$/.test(p))return json({status:"success"});
+    if(p==="/api/lexia/perguntar/"){
+      var b={};try{b=JSON.parse(o.body);}catch(e){}
+      return json({status:"success",resposta:resposta(b.chamado_id,b.pergunta)},1100);
+    }
+    if(p==="/api/areas/")return json(D.areas);
+    if(p==="/api/clientes/"){
+      var mq=/[?&]q=([^&]*)/.exec(q);var term=mq?decodeURIComponent(mq[1]).toLowerCase():"";
+      return json(D.clientes.filter(function(c){return !term||c.nome.toLowerCase().indexOf(term)>-1;}));
+    }
+    if(p==="/api/usuarios/"){
+      var mu=/[?&]q=([^&]*)/.exec(q);var tu=mu?decodeURIComponent(mu[1]).toLowerCase():"";
+      return json(D.usuarios.filter(function(x){return !tu||x.nome.toLowerCase().indexOf(tu)>-1;}));
+    }
+    if((mt=/^\/api\/chamado\/(\d+)\/detalhes-ok\/$/.exec(p))){
+      var d=oks[mt[1]]||D.oks[mt[1]]||{oks:[],pendentes:[],total:0};
+      return json(Object.assign({status:"success"},d));
+    }
+    if((mt=/^\/api\/chamado\/(\d+)\/ok\/$/.exec(p))){
+      var base=D.oks[mt[1]]||{oks:[],pendentes:[],total:0};
+      var cur=oks[mt[1]]||JSON.parse(JSON.stringify(base));
+      var eu=D.eu, tem=cur.oks.some(function(x){return x.nome===eu.nome;});
+      if(tem){cur.oks=cur.oks.filter(function(x){return x.nome!==eu.nome;});}
+      else{cur.oks.push(eu);cur.pendentes=cur.pendentes.filter(function(x){return x.nome!==eu.nome;});}
+      cur.total=cur.oks.length;oks[mt[1]]=cur;
+      return json({status:"success",acao:tem?"removido":"adicionado"});
+    }
+    if(/^\/api\/comentario\/\d+\/$/.test(p)){
+      var agora=new Date();var pad=function(n){return n<10?"0"+n:n;};
+      return json({status:"success",comentario:{documentos:[],data_criacao:pad(agora.getDate())+"/"+pad(agora.getMonth()+1)+"/"+agora.getFullYear()+" "+pad(agora.getHours())+":"+pad(agora.getMinutes())}});
+    }
+    if(p==="/api/salvar-chamado/")return json({status:"success",id:D.proximoId,titulo:"Chamado de exemplo (preview)"},900);
+    if(m!=="GET")return json({status:"success",msg:"Ação simulada no preview."},300);
+    return json([]);
+  }catch(e){return of.apply(this,arguments);}
+};
+var dir=location.pathname.replace(/[^\/]*$/,"");
+function res(u){try{if(u==null)return u;var s=String(u);if(!s||s[0]==="#"||/^(data:|blob:|about:|mailto:|tel:|javascript:)/i.test(s))return u;var url=new URL(s,location.href);if(url.origin!==location.origin)return u;var p=url.pathname;if(p.indexOf(dir)===0)return u;var k=p.charAt(p.length-1)==="/"?p:p+"/";return dir+(M[k]||"_preview-info.html")+url.search+url.hash;}catch(e){return u;}}
+try{var dsc=Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype,"src");if(dsc&&dsc.set){Object.defineProperty(HTMLIFrameElement.prototype,"src",{configurable:true,get:function(){return dsc.get.call(this);},set:function(v){dsc.set.call(this,res(v));}});}}catch(e){}
+try{var sa=HTMLIFrameElement.prototype.setAttribute;HTMLIFrameElement.prototype.setAttribute=function(n,v){if((n+"").toLowerCase()==="src")v=res(v);return sa.call(this,n,v);};}catch(e){}
+document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(!a)return;var h=a.getAttribute("href");if(!h)return;if(/^(mailto:|tel:|javascript:)/i.test(h))return;if(h.charAt(0)==="#")return;var r=res(h);if(r&&r!==h){e.preventDefault();e.stopPropagation();if(a.target==="_blank")window.open(r,"_blank");else location.href=r;}},true);
+})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feed Jurídico - Gestão à Vista</title>
+    <title>Feed Jurídico - Conecta Jurídico</title>
     
-    <link rel="stylesheet" href="static/css/global.css">
+    <link rel="stylesheet" href="static/css/global.css?v=20261008">
     <!-- Ícones Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- SISTEMA GLOBAL DE CORES E TEMAS -->
-    <style>
-        :root {
-            /* MODO CLARO: Azul Marinho, Branco e Cinza Claro */
-            --bg-main: #f3f4f6;
-            --bg-card: #ffffff;
-            --bg-input: #f8fafc;
-            --bg-ficha: #f8fafc;
-            --bg-comments: #f5f7fa;
-
-            --primary: #003366;
-            --primary-hover: #002244;
-            --secondary: #6b7280;
-
-            --text-primary: #111827;
-            --text-main: #111827;
-            --text-secondary: #374151;
-            --text-muted: #6b7280;
-
-            --border-color: #d1d5db;
-            --border-light: #e5e7eb;
-
-            --danger: #dc2626;
-            --danger-light: #fee2e2;
-            --success: #10b981;
-            --success-light: #d1fae5;
-            --warning: #f59e0b;
-            --warning-light: #fef3c7;
-            --info: #3b82f6;
-            --info-light: #dbeafe;
-
-            --status-aberto: #fef9c3;
-            --text-warning: #854d0e;
-            --status-analise: #dbeafe;
-            --text-info: #1e40af;
-            --status-assinatura: #fce7f3;
-            --text-danger: #9d174d;
-            --status-concluido: #d1fae5;
-            --text-success: #065f46;
-
-            --btn-hover-bg: #e8edf4;
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        body.dark {
-            /* MODO ESCURO: Vermelho Pastel e Cinza Escuro */
-            --bg-main: #121212;
-            --bg-card: #1e1e1e;
-            --bg-input: #2a2a2a;
-            --bg-ficha: #252525;
-            --bg-comments: #1a1a1a;
-
-            --primary: #e08888;
-            --primary-hover: #c96b6b;
-            --secondary: #a1a1aa;
-
-            --text-primary: #f3f4f6;
-            --text-main: #f3f4f6;
-            --text-secondary: #d1d5db;
-            --text-muted: #9ca3af;
-
-            --border-color: #404040;
-            --border-light: #333333;
-
-            --danger: #ef4444;
-            --danger-light: #451a1a;
-            --success: #10b981;
-            --success-light: #064e3b;
-            --warning: #f59e0b;
-            --warning-light: #453113;
-            --info: #3b82f6;
-            --info-light: #1e3a8a;
-
-            --status-aberto: #453514;
-            --text-warning: #fde047;
-            --status-analise: #1e3a8a;
-            --text-info: #93c5fd;
-            --status-assinatura: #501835;
-            --text-danger: #f9a8d4;
-            --status-concluido: #064e3b;
-            --text-success: #6ee7b7;
-
-            --btn-hover-bg: #3a3a3a;
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Garante que o fundo e o texto globais mudem sempre */
-        body {
-            background-color: var(--bg-main) !important;
-            color: var(--text-primary) !important;
-            transition: background-color 0.35s ease, color 0.35s ease;
-        }
-    </style>
 </head>
 
 <body>
+    <script>
+        // aplica o tema salvo antes do primeiro paint (evita "piscar" claro->escuro)
+        if (localStorage.getItem('globalDark') === '1' || localStorage.getItem('feedDark') === '1') {
+            document.body.classList.add('dark');
+        }
+    </script>
+
     <div class="app-container">
         <!-- Sidebar -->
-        <aside class="sidebar">
+        
+<aside class="sidebar">
     <div class="sidebar-header">
-        <h2><i data-lucide="scale"></i> Conecta Jurídico</h2>
+        <a href="dashboard.html" class="brand" aria-label="Conecta Jurídico">
+            <span class="brand-mark"><i data-lucide="scale"></i></span>
+            <span class="brand-text"><b>Conecta</b><small>Jurídico</small></span>
+        </a>
     </div>
+
     <nav class="sidebar-nav">
+        <div class="side-group">Operação</div>
         <a href="dashboard.html" class="nav-item active">
-            <i data-lucide="layout-dashboard"></i> Feed
+            <i data-lucide="layout-dashboard"></i><span>Feed</span>
         </a>
-        <a href="novo-chamado.html"
-            class="nav-item ">
-            <i data-lucide="plus-circle"></i> Novo Chamado
+        <a href="novo-chamado.html" class="nav-item ">
+            <i data-lucide="plus-circle"></i><span>Novo Chamado</span>
         </a>
-        <a href="chamados.html"
-            class="nav-item ">
-            <i data-lucide="folder-open"></i> Meus Chamados
+        <a href="chamados.html" class="nav-item ">
+            <i data-lucide="folder-open"></i><span>Meus Chamados</span>
         </a>
-        <a href="relatorios.html"
-            class="nav-item ">
-            <i data-lucide="alert-triangle"></i> Relatórios de Risco
+        <a href="relatorios.html" class="nav-item ">
+            <i data-lucide="shield-alert"></i><span>Relatórios de Risco</span>
         </a>
-        <a href="conhecimento.html"
-            class="nav-item ">
-            <i data-lucide="book-open"></i> Base de Conhecimento
+
+        <div class="side-group">Conhecimento</div>
+        <a href="conhecimento.html" class="nav-item ">
+            <i data-lucide="library"></i><span>Base de Conhecimento</span>
         </a>
-        <a href="_preview-info.html"
-            class="nav-item ">
-            <i data-lucide="lightbulb"></i> Como Funciona
+        <a href="regulatorio.html" class="nav-item ">
+            <i data-lucide="landmark"></i><span>Regulatório</span>
         </a>
-        <a href="regulatorio.html"
-            class="nav-item ">
-            <i data-lucide="scale"></i> Regulatório
+        <a href="como-funciona.html" class="nav-item ">
+            <i data-lucide="lightbulb"></i><span>Como Funciona</span>
+        </a>
+
+        
+        <div class="side-group">Administração</div>
+        <a href="/admin-criar-usuario/" class="nav-item ">
+            <i data-lucide="user-plus"></i><span>Usuários e Aprovações</span>
+        </a>
+        <a href="/admin-cadastros/" class="nav-item ">
+            <i data-lucide="database"></i><span>Dados do Sistema</span>
         </a>
         
     </nav>
+
+    <div class="side-foot">
+        <button type="button" class="lexia-cta" onclick="toggleLexIA()">
+            <span class="spark"><i data-lucide="sparkles"></i></span>
+            <span><b>Pergunte à LexIA</b><small>Assistente jurídica com IA</small></span>
+        </button>
+        <div class="side-meta">Grupo GPS · Regional Centro-Oeste</div>
+    </div>
 </aside>
+
+
 
         <!-- Main Content -->
         <div class="main-content">
             <!-- Header -->
-            <header class="top-header">
+            
+<header class="top-header">
     <div class="header-title">
-        
-        Feed Jurídico
-        
-        
+        <h1>
+            Feed Jurídico
+            
+        </h1>
+        <p>
+            Acompanhe todos os processos e dê o seu Ok
+            
+        </p>
     </div>
+
     <div class="header-actions">
 
         <!-- Modo Noturno -->
-        <div style="position:relative; cursor:pointer; width:36px; height:36px; border-radius:50%; background:var(--bg-card); display:flex; align-items:center; justify-content:center; transition:background 0.35s ease;"
-            onclick="toggleGlobalDarkMode()" title="Alternar Modo Noturno">
-            <i data-lucide="moon" id="globalDarkIcon"
-                style="color:var(--text-primary); width:18px; height:18px; transition:opacity 0.18s ease;"></i>
+        <div class="icon-btn" onclick="toggleGlobalDarkMode()" title="Alternar tema claro/escuro" role="button" tabindex="0">
+            <i data-lucide="moon" id="globalDarkIcon" style="transition:opacity .18s ease;"></i>
         </div>
 
         <!-- Notificações -->
-        <div style="position:relative; cursor:pointer;" id="notif-btn"
+        <div class="icon-btn" id="notif-btn" title="Notificações" role="button" tabindex="0"
             onclick="document.getElementById('notif-menu').style.display = document.getElementById('notif-menu').style.display === 'none' ? 'block' : 'none'">
-            <i data-lucide="bell" style="color: var(--text-muted);"></i>
-            
+            <i data-lucide="bell"></i>
+            <span class="dot">3</span>
 
-            <!-- Menu Notificacoes -->
-            <div id="notif-menu"
-                style="display:none; position:absolute; top:30px; right:0; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--shadow-md); width:300px; z-index:9999; overflow:hidden;">
-                <div
-                    style="padding:0.75rem 1rem; border-bottom:1px solid var(--border-color); font-weight:600; font-size:0.9rem; background:var(--bg-ficha); color:var(--text-primary);">
-                    Notificações</div>
-                <div style="max-height:300px; overflow-y:auto;">
+            <div id="notif-menu" class="menu" style="display:none;" onclick="event.stopPropagation()">
+                <div class="menu-head">Notificações</div>
+                <div class="menu-scroll">
                     
-                    <div style="padding:1rem; text-align:center; color:var(--text-muted); font-size:0.85rem;">Nenhuma
-                        notificação nova.</div>
+                    <a href="dashboard.html#post-5" class="menu-notif">
+                        <div>Administrador D. marcou o seu setor em um processo.</div>
+                        <small>08/10/2026 21:19</small>
+                    </a>
+                    
+                    <a href="dashboard.html" class="menu-notif">
+                        <div>Novo chamado aguardando sua análise.</div>
+                        <small>08/10/2026 21:09</small>
+                    </a>
+                    
+                    <a href="dashboard.html" class="menu-notif">
+                        <div>Ana Souza comentou em Norma 02 - Clientes — Mercantil Aurora</div>
+                        <small>08/10/2026 21:09</small>
+                    </a>
                     
                 </div>
             </div>
         </div>
 
         <!-- Perfil -->
-        <div class="user-profile" style="position:relative; cursor:pointer;"
+        <div class="user-profile"
             onclick="document.getElementById('profile-menu').style.display = document.getElementById('profile-menu').style.display === 'none' ? 'block' : 'none'">
-            <div class="avatar" style="overflow:hidden;">
+            <div class="avatar">
                 
                 A
                 
             </div>
-            <span>Admin D.</span>
-            <i data-lucide="chevron-down" style="width: 16px; height: 16px; color: var(--secondary);"></i>
+            <span>Administrador D.</span>
+            <i data-lucide="chevron-down"></i>
 
-            <!-- Menu Perfil -->
-            <div id="profile-menu"
-                style="display:none; position:absolute; top:40px; right:0; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--shadow-md); width:220px; z-index:9999; overflow:hidden; text-align:left;">
-                <div style="padding:1rem; border-bottom:1px solid var(--border-color); background:var(--bg-ficha);">
-                    <div style="font-weight:700; font-size:0.95rem; color:var(--text-primary);">Admin Demo</div>
-                    <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">@admin
-                    </div>
-                    <div style="font-size:0.75rem; color:var(--primary); margin-top:4px; font-weight:600;">Administrador</div>
+            <div id="profile-menu" class="menu menu-narrow" style="display:none;" onclick="event.stopPropagation()">
+                <div class="menu-head">
+                    <div style="font-size:.95rem;">Administrador D.</div>
+                    <div style="font-size:.78rem;color:var(--ink-3);font-weight:500;margin-top:2px;">@admin</div>
+                    <div style="margin-top:8px;"><span class="pill pill-norma">Admin</span></div>
                 </div>
-
-                <div style="padding:0.5rem 0;">
-                    <label
-                        style="display:block; padding:0.5rem 1rem; font-size:0.85rem; color:var(--text-main); cursor:pointer; transition:background 0.2s;"
-                        onmouseover="this.style.background='var(--btn-hover-bg)'"
-                        onmouseout="this.style.background='transparent'" onclick="abrirModalFoto(); return false;">
-                        <i data-lucide="camera"
-                            style="width:14px; height:14px; display:inline-block; margin-right:6px; vertical-align:middle;"></i>
-                        Mudar Foto
-                    </label>
-                    <a href="_preview-info.html"
-                        style="display:block; padding:0.5rem 1rem; font-size:0.85rem; color:var(--danger); text-decoration:none; transition:background 0.2s;"
-                        onmouseover="this.style.background='var(--danger-light)'"
-                        onmouseout="this.style.background='transparent'">
-                        <i data-lucide="log-out"
-                            style="width:14px; height:14px; display:inline-block; margin-right:6px; vertical-align:middle;"></i>
-                        Sair
+                <div style="padding:6px 0;">
+                    <div class="menu-item" onclick="abrirModalFoto(); return false;">
+                        <i data-lucide="camera"></i> Mudar foto
+                    </div>
+                    <a href="login.html" class="menu-item danger">
+                        <i data-lucide="log-out"></i> Sair
                     </a>
                 </div>
             </div>
@@ -229,139 +229,41 @@
     </div>
 </header>
 
-<!-- Modal Premium de Foto de Perfil -->
-<div id="modal-foto-perfil" style="
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 99999;
-    backdrop-filter: blur(4px);
-    justify-content: center;
-    align-items: center;
-">
-    <div style="
-        background: var(--bg-card);
-        border-radius: 20px;
-        width: 380px;
-        max-width: 95vw;
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        animation: slideUp 0.3s ease;
-    ">
-        <!-- Header do Modal -->
-        <div style="
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            padding: 1.25rem 1.5rem;
-            display: flex; align-items: center; justify-content: space-between;
-        ">
-            <div style="color:white; font-weight:700; font-size:1rem;">📷 Atualizar Foto de Perfil</div>
-            <button onclick="fecharModalFoto()"
-                style="background:rgba(255,255,255,0.15); border:none; color:white; width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;">✕</button>
+
+<!-- Modal de Foto de Perfil -->
+<div id="modal-foto-perfil" class="modal-backdrop" style="display:none;">
+    <div class="modal" style="width:380px;text-align:center;">
+        <div class="modal-head">
+            <h3>Foto de perfil</h3>
+            <button class="modal-close" onclick="fecharModalFoto()" aria-label="Fechar"><i data-lucide="x"></i></button>
         </div>
 
-        <!-- Área de Preview -->
-        <div style="padding: 2rem; text-align: center;">
-            <!-- Preview circular -->
-            <div style="position:relative; display:inline-block; margin-bottom: 1.5rem;">
-                <div id="foto-preview-circle" style="
-                    width: 140px; height: 140px;
-                    border-radius: 50%;
-                    overflow: hidden;
-                    border: 4px solid var(--primary);
-                    box-shadow: var(--shadow-md);
-                    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-                    display: flex; align-items: center; justify-content: center;
-                    margin: 0 auto;
-                    cursor: pointer;
-                    position: relative;
-                ">
-                    
-                    <div id="foto-placeholder" style="color:white; font-size:2.5rem; font-weight:700;">A</div>
-                    <img id="img-preview" style="width:100%; height:100%; object-fit:cover; display:none;">
-                    
-
-                    <!-- Overlay ao hover -->
-                    <div id="foto-overlay" style="
-                        position:absolute; top:0; left:0;
-                        width:100%; height:100%;
-                        background: var(--bg-card); opacity: 0.8;
-                        display:flex; flex-direction:column; align-items:center; justify-content:center;
-                        opacity:0; transition: opacity 0.2s;
-                        border-radius:50%;
-                    ">
-                        <div style="font-size:1.5rem;">📷</div>
-                        <div style="color:var(--text-main); font-size:0.7rem; font-weight:600; margin-top:4px;">Escolher
-                            foto</div>
-                    </div>
-                </div>
-                <div style="font-size:0.78rem; color:var(--text-muted); margin-top: 0.75rem;">Clique no círculo para
-                    escolher</div>
-            </div>
-
-            <!-- Input oculto -->
-            <input type="file" id="input-foto-oculto" accept="image/*" style="display:none;"
-                onchange="previewFoto(this)">
-
-            <!-- Botões de ação -->
-            <div id="foto-acoes" style="display:none; flex-direction:column; gap:0.75rem; margin-top:0.5rem;">
-                <button id="btn-confirmar-foto" onclick="confirmarUploadFoto()" style="
-                    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-                    color: white; border: none;
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 10px; font-weight: 700;
-                    cursor: pointer; width: 100%; font-size: 0.9rem;
-                    box-shadow: var(--shadow-md);
-                    transition: all 0.2s;
-                " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">
-                    ✓ Salvar Foto de Perfil
-                </button>
-                <button onclick="document.getElementById('input-foto-oculto').click()" style="
-                    background: var(--btn-hover-bg); color: var(--text-main);
-                    border: 1px solid var(--border-color);
-                    padding: 0.6rem 1.5rem;
-                    border-radius: 10px; font-weight: 600;
-                    cursor: pointer; width: 100%; font-size: 0.85rem;
-                    transition: background 0.2s;
-                " onmouseover="this.style.background='var(--border-color)'"
-                    onmouseout="this.style.background='var(--btn-hover-bg)'">
-                    🔄 Escolher outra foto
-                </button>
-            </div>
-
-            <div id="foto-cta" style="margin-top:0.5rem;">
-                <button onclick="document.getElementById('input-foto-oculto').click()" style="
-                    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-                    color: white; border: none;
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 10px; font-weight: 700;
-                    cursor: pointer; width: 100%; font-size: 0.9rem;
-                    box-shadow: var(--shadow-md);
-                    transition: all 0.2s;
-                " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">
-                    📁 Escolher Foto
-                </button>
-                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.75rem;">Suporta JPG, PNG e WebP
+        <div style="position:relative;display:inline-block;margin:6px 0 18px;">
+            <div id="foto-preview-circle" style="width:140px;height:140px;border-radius:50%;overflow:hidden;border:4px solid var(--surface);box-shadow:0 0 0 2px var(--brand-2),var(--sh-2);background:linear-gradient(135deg,var(--brand),var(--brand-2));display:flex;align-items:center;justify-content:center;margin:0 auto;cursor:pointer;position:relative;">
+                
+                <div id="foto-placeholder" style="color:#fff;font-size:2.5rem;font-weight:800;">A</div>
+                <img id="img-preview" style="width:100%;height:100%;object-fit:cover;display:none;" alt="">
+                
+                <div id="foto-overlay" style="position:absolute;inset:0;border-radius:50%;background:rgba(6,12,26,.62);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:.72rem;font-weight:600;gap:4px;">
+                    <i data-lucide="camera" style="width:22px;height:22px;"></i> Escolher foto
                 </div>
             </div>
+            <div class="form-hint" style="margin-top:12px;">Clique no círculo para escolher</div>
+        </div>
+
+        <input type="file" id="input-foto-oculto" accept="image/*" style="display:none;" onchange="previewFoto(this)">
+
+        <div id="foto-acoes" style="display:none;flex-direction:column;gap:10px;">
+            <button id="btn-confirmar-foto" class="btn btn-primary btn-block" onclick="confirmarUploadFoto()">Salvar foto de perfil</button>
+            <button class="btn btn-outline btn-block" onclick="document.getElementById('input-foto-oculto').click()">Escolher outra foto</button>
+        </div>
+
+        <div id="foto-cta">
+            <button class="btn btn-primary btn-block" onclick="document.getElementById('input-foto-oculto').click()">Escolher foto</button>
+            <div class="form-hint" style="margin-top:12px;">Suporta JPG, PNG e WebP</div>
         </div>
     </div>
 </div>
-
-<style>
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-</style>
 
 <script>
     // Lógicas de UI
@@ -430,7 +332,7 @@
 
         fetch('/api/upload-foto/', {
             method: 'POST',
-            headers: { 'X-CSRFToken': '8GDgTbv96UbDOnn4qYkWHfKpTWsMgvqF9ShPo34FNW8fjiauf3pUShTySOTtMHtf' },
+            headers: { 'X-CSRFToken': 'demo' },
             body: formData
         })
             .then(r => r.json())
@@ -456,839 +358,16 @@
             <!-- Dynamic Content -->
             <div class="content-area">
                 
-<style>
-  /* ══════════════════════════════════════════════
-     VARIÁVEIS DE TEMA HERDADAS DIRETAMENTE DA BASE
-     ══════════════════════════════════════════════ */
-  :root {
-    --navy: var(--primary);
-    --navy-deep: var(--primary-hover);
-    --navy-darker: var(--primary-hover);
-    --navy-mid: var(--primary-hover);
-    --navy-light: var(--primary);
-
-    --bg-page: var(--bg-main);
-    --bg-ficha-hd: var(--bg-input);
-
-    --border: var(--border-color);
-    --border-ficha: var(--border-color);
-
-    --text-faint: var(--text-muted);
-
-    --btn-bg: transparent;
-    --btn-color: var(--text-muted);
-    --btn-hover-col: var(--text-primary);
-
-    --primary-btn: var(--primary);
-    --primary-btn-hover: var(--primary-hover);
-    --primary-btn-text: #ffffff;
-
-    --avatar-from: var(--primary);
-    --avatar-to: var(--primary-hover);
-
-    --dot-inactive: var(--border-color);
-    --dot-active: var(--primary);
-
-    --stat-val: var(--primary);
-
-    --ok-bar-bg: var(--bg-card);
-    --ok-bar-hover: var(--btn-hover-bg);
-
-    --slide-default-a: var(--bg-ficha);
-    --slide-default-b: var(--bg-input);
-
-    --transition: background-color .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease;
-  }
-
-  /* ══════════════════════════════════════════════
-     WRAPPER E ANIMAÇÃO DE TRANSIÇÃO
-     ══════════════════════════════════════════════ */
-  .feed-root {
-    background: transparent;
-    transition: var(--transition);
-    min-height: 100vh;
-    padding: 0;
-    border-radius: 0;
-  }
-
-  .feed-root * {
-    transition: background-color .35s ease, color .35s ease,
-      border-color .35s ease, box-shadow .35s ease,
-      fill .35s ease;
-  }
-
-  /* ══════════════════════════════════════════════
-     LAYOUT GERAL
-     ══════════════════════════════════════════════ */
-  .feed-wrap {
-    display: flex;
-    gap: 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    align-items: flex-start;
-  }
-
-  .feed-col {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .sidebar-col {
-    width: 300px;
-    flex-shrink: 0;
-    position: sticky;
-    top: 0;
-  }
-
-  /* ══════════════════════════════════════════════
-     BARRA DE BUSCA / FILTROS
-     ══════════════════════════════════════════════ */
-  .search-bar {
-    display: flex;
-    gap: .75rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .search-bar input,
-  .search-bar select {
-    flex: 1;
-    padding: .65rem 1rem;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-size: .875rem;
-    font-family: inherit;
-    background: var(--bg-card);
-    color: var(--text-primary);
-    outline: none;
-    transition: var(--transition), border-color .2s;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
-  }
-
-  .search-bar input::placeholder {
-    color: var(--text-faint);
-  }
-
-  .search-bar input:focus,
-  .search-bar select:focus {
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(30, 58, 95, .12);
-  }
-
-  .search-bar select {
-    flex: 0 0 200px;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right .75rem center;
-    background-size: 1rem;
-    padding-right: 2.25rem;
-    cursor: pointer;
-  }
-
-  .search-bar select option {
-    background: var(--bg-card);
-    color: var(--text-primary);
-  }
-
-  /* ══════════════════════════════════════════════
-     CARD DO POST
-     ══════════════════════════════════════════════ */
-  .post-card {
-    background: var(--bg-card);
-    border: 1.5px solid var(--border);
-    border-radius: 18px;
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
-    transition: box-shadow .3s, transform .3s, opacity .3s,
-      background-color .35s ease, border-color .35s ease;
-  }
-
-  .post-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-3px);
-  }
-
-  .post-card.resolved {
-    opacity: .7;
-    border-color: var(--success);
-  }
-
-  .post-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--border-light);
-  }
-
-  .post-author {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-  }
-
-  .post-avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--avatar-from), var(--avatar-to));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: .85rem;
-    color: #fff;
-    flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
-  }
-
-  .post-author-name {
-    font-weight: 700;
-    font-size: .9rem;
-    color: var(--text-primary);
-  }
-
-  .post-author-meta {
-    font-size: .75rem;
-    color: var(--text-muted);
-    margin-top: 1px;
-  }
-
-  /* ══════════════════════════════════════════════
-     PILLS / BADGES
-     ══════════════════════════════════════════════ */
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    padding: .28rem .8rem;
-    border-radius: 999px;
-    font-size: .68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-  }
-
-  .pill-norma {
-    background: var(--status-analise);
-    color: var(--text-info);
-  }
-
-  .pill-aberto {
-    background: var(--status-aberto);
-    color: var(--text-warning);
-  }
-
-  .pill-analise {
-    background: var(--status-analise);
-    color: var(--text-info);
-  }
-
-  .pill-assinar {
-    background: var(--status-assinatura);
-    color: var(--text-danger);
-  }
-
-  .pill-done {
-    background: var(--status-concluido);
-    color: var(--text-success);
-  }
-
-  .pill-sla {
-    background: var(--danger-light);
-    color: var(--danger);
-  }
-
-  /* ══════════════════════════════════════════════
-     COVER / CARROSSEL
-     ══════════════════════════════════════════════ */
-  .post-cover {
-    position: relative;
-    border-bottom: 1px solid var(--border-light);
-  }
-
-  .cover-carousel {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    aspect-ratio: 16 / 7;
-  }
-
-  .cover-carousel::-webkit-scrollbar {
-    display: none;
-  }
-
-  .cover-slide {
-    min-width: 100%;
-    scroll-snap-align: start;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, var(--slide-default-a) 0%, var(--slide-default-b) 100%);
-  }
-
-  /* Usando variáveis para cor de background para o gradiente de acordo com as normas */
-  .cover-slide.slide-norma01 {
-    background: linear-gradient(135deg, var(--status-assinatura) 0%, var(--bg-card) 100%);
-  }
-
-  .cover-slide.slide-norma02 {
-    background: linear-gradient(135deg, var(--status-concluido) 0%, var(--bg-card) 100%);
-  }
-
-  .cover-slide.slide-norma03 {
-    background: linear-gradient(135deg, var(--status-aberto) 0%, var(--bg-card) 100%);
-  }
-
-  .cover-slide.slide-norma04 {
-    background: linear-gradient(135deg, var(--status-analise) 0%, var(--bg-card) 100%);
-  }
-
-  .cover-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    background: var(--bg-card);
-    opacity: 0.9;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
-  }
-
-  .cover-icon i {
-    width: 36px;
-    height: 36px;
-    color: var(--navy);
-  }
-
-  .cover-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .cover-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: .35rem;
-  }
-
-  .cover-sub {
-    font-size: .82rem;
-    color: var(--text-muted);
-  }
-
-  .cover-tags {
-    display: flex;
-    gap: .5rem;
-    margin-top: .75rem;
-    flex-wrap: wrap;
-  }
-
-  .cover-doc-name {
-    font-size: .78rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    background: var(--bg-card);
-    opacity: 0.9;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: .2rem .6rem;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: var(--transition);
-  }
-
-  .carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    padding: .6rem 0;
-    background: var(--bg-card);
-    transition: var(--transition);
-  }
-
-  .cdot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--dot-inactive);
-    transition: all .25s ease, background-color .35s ease;
-    cursor: pointer;
-  }
-
-  .cdot.active {
-    background: var(--dot-active);
-    width: 18px;
-    border-radius: 3px;
-  }
-
-  /* ══════════════════════════════════════════════
-     CORPO DO POST
-     ══════════════════════════════════════════════ */
-  .post-body {
-    padding: 1rem 1.25rem;
-  }
-
-  .post-desc {
-    font-size: .9rem;
-    color: var(--text-secondary);
-    line-height: 1.65;
-  }
-
-  .post-desc strong {
-    color: var(--text-primary);
-  }
-
-  .ficha-wrapper {
-    margin-top: 1rem;
-    background: var(--bg-ficha);
-    border: 1px solid var(--border-ficha);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: var(--transition);
-  }
-
-  .ficha-header {
-    padding: .8rem 1.25rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--bg-ficha-hd);
-    transition: background .2s;
-  }
-
-  .ficha-header:hover {
-    filter: brightness(.97);
-  }
-
-  .ficha-title {
-    margin: 0;
-    font-size: .85rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-  }
-
-  .ficha-content {
-    display: none;
-    padding: 1.25rem;
-    border-top: 1px solid var(--border-ficha);
-  }
-
-  .ficha-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: .75rem;
-    font-size: .85rem;
-    color: var(--text-secondary);
-  }
-
-  .ficha-grid strong {
-    color: var(--text-primary);
-    text-transform: capitalize;
-  }
-
-  /* ══════════════════════════════════════════════
-     BARRA DE AÇÕES
-     ══════════════════════════════════════════════ */
-  .post-actions {
-    display: flex;
-    align-items: center;
-    gap: .25rem;
-    padding: .65rem 1rem;
-    border-top: 1px solid var(--border-light);
-  }
-
-  .act-btn {
-    display: flex;
-    align-items: center;
-    gap: .45rem;
-    padding: .5rem .8rem;
-    border-radius: 9px;
-    border: none;
-    background: var(--btn-bg);
-    cursor: pointer;
-    font-size: .82rem;
-    font-weight: 600;
-    color: var(--btn-color);
-    transition: background .18s, color .18s;
-  }
-
-  .act-btn i {
-    width: 17px;
-    height: 17px;
-  }
-
-  .act-btn:hover {
-    background: var(--btn-hover-bg);
-    color: var(--btn-hover-col);
-  }
-
-  .act-btn.danger:hover {
-    background: var(--danger-light);
-    color: var(--danger);
-  }
-
-  .act-btn.success-btn {
-    color: var(--success);
-  }
-
-  .act-btn.success-btn:hover {
-    background: var(--success-light);
-    color: var(--success);
-  }
-
-  .act-btn.active-resolve i {
-    fill: var(--danger);
-    color: var(--danger);
-  }
-
-  .spacer {
-    flex: 1;
-  }
-
-  /* ══════════════════════════════════════════════
-     COMENTÁRIOS E OK BAR
-     ══════════════════════════════════════════════ */
-  .post-comments {
-    background: var(--bg-comments);
-    border-top: 1px solid var(--border-light);
-    padding: .75rem 1.25rem 1rem;
-    transition: var(--transition);
-  }
-
-  .comment-list {
-    display: flex;
-    flex-direction: column;
-    gap: .6rem;
-    margin-bottom: .75rem;
-  }
-
-  .comment-row {
-    display: flex;
-    gap: .65rem;
-    align-items: flex-start;
-  }
-
-  .comment-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    font-size: .7rem;
-    font-weight: 700;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    background: linear-gradient(135deg, var(--avatar-from), var(--avatar-to));
-  }
-
-  .comment-bubble {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: .5rem .85rem;
-    flex: 1;
-    min-width: 0;
-    transition: var(--transition);
-  }
-
-  .comment-author {
-    font-size: .75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-
-  .comment-text {
-    font-size: .82rem;
-    color: var(--text-secondary);
-    margin-top: .1rem;
-    word-break: break-word;
-    white-space: pre-wrap;
-  }
-
-  .comment-time {
-    font-size: .68rem;
-    color: var(--text-faint);
-    margin-top: .2rem;
-  }
-
-  .comment-editor {
-    flex: 1;
-    min-width: 0;
-    min-height: 20px;
-    max-height: 150px;
-    overflow-y: auto;
-    border: 1.5px solid var(--border);
-    border-radius: 9px;
-    padding: 8px 12px;
-    outline: none;
-    font-size: .85rem;
-    color: var(--text-primary);
-    background: var(--bg-input);
-    cursor: text;
-    white-space: pre-wrap;
-    transition: var(--transition), border-color .2s;
-  }
-
-  .comment-editor:focus {
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(0, 51, 102, .1);
-  }
-
-  .new-comment-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: .75rem;
-    background: var(--bg-card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: .45rem .75rem .45rem 1rem;
-    margin-top: .5rem;
-    transition: var(--transition);
-  }
-
-  .send-btn {
-    border: none;
-    background: var(--primary-btn);
-    color: var(--primary-btn-text);
-    cursor: pointer;
-    font-weight: 700;
-    font-size: .78rem;
-    padding: .35rem .9rem;
-    border-radius: 7px;
-    opacity: .45;
-    transition: opacity .15s, background .35s ease;
-    white-space: nowrap;
-  }
-
-  .send-btn.enabled {
-    opacity: 1;
-  }
-
-  .send-btn.enabled:hover {
-    background: var(--primary-btn-hover);
-  }
-
-  .discord-mention {
-    display: inline-block;
-    background-color: var(--info-light);
-    color: var(--info);
-    border-radius: 4px;
-    padding: 2px 6px;
-    font-weight: 600;
-    font-size: .85rem;
-    margin: 0 2px;
-  }
-
-  .post-oks-bar {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    padding: .5rem 1.25rem;
-    border-top: 1px solid var(--border-light);
-    background: var(--ok-bar-bg);
-    cursor: pointer;
-    transition: var(--transition);
-  }
-
-  .post-oks-bar:hover {
-    background: var(--ok-bar-hover);
-  }
-
-  .ok-avatar-mini {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--success);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: .75rem;
-    font-weight: bold;
-    border: 2px solid var(--bg-card);
-    margin-left: -8px;
-    overflow: hidden;
-    transition: border-color .35s ease;
-  }
-
-  .ok-avatar-mini img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .ok-avatar-mini:first-child {
-    margin-left: 0;
-  }
-
-  .ok-text-info {
-    font-size: .75rem;
-    color: var(--text-muted);
-    margin-left: 4px;
-  }
-
-  /* ══════════════════════════════════════════════
-     SIDEBAR / WIDGETS
-     ══════════════════════════════════════════════ */
-  .widget {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.25rem;
-    margin-bottom: 1.25rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
-    transition: var(--transition);
-  }
-
-  .widget-title {
-    font-size: .75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .07em;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-  }
-
-  .stat-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: .5rem 0;
-    border-bottom: 1px dashed var(--border-light);
-  }
-
-  .stat-row:last-child {
-    border-bottom: none;
-  }
-
-  .stat-label {
-    font-size: .82rem;
-    color: var(--text-secondary);
-  }
-
-  .stat-val {
-    font-weight: 700;
-    font-size: .95rem;
-    color: var(--text-primary);
-  }
-
-  .stat-val.red {
-    color: var(--danger);
-  }
-
-  .stat-val.green {
-    color: var(--success);
-  }
-
-  .novo-chamado-btn {
-    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
-    border-radius: 16px;
-    padding: 1.25rem;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, .15);
-    transition: transform .2s, background .35s ease, box-shadow .35s ease;
-    display: block;
-    text-decoration: none;
-  }
-
-  .novo-chamado-btn:hover {
-    transform: translateY(-2px) scale(1.01);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, .25);
-  }
-
-  /* Animações e menções mantidas */
-  @keyframes cardIn {
-    from {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .post-card {
-    animation: cardIn .4s ease both;
-  }
-
-  .post-card:nth-child(1) {
-    animation-delay: .05s;
-  }
-
-  .post-card:nth-child(2) {
-    animation-delay: .1s;
-  }
-
-  .post-card:nth-child(3) {
-    animation-delay: .15s;
-  }
-
-  .mention-box {
-    display: none;
-    position: absolute;
-    bottom: 100%;
-    left: 40px;
-    background: var(--bg-card);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    box-shadow: 0 -6px 16px rgba(0, 0, 0, .12);
-    width: 210px;
-    max-height: 160px;
-    overflow-y: auto;
-    z-index: 999;
-    transition: var(--transition);
-  }
-
-  .mention-item {
-    padding: .55rem .85rem;
-    cursor: pointer;
-    border-bottom: 1px solid var(--border-light);
-    font-size: .85rem;
-    color: var(--text-primary);
-    transition: background .15s;
-  }
-
-  .mention-item:hover {
-    background: var(--btn-hover-bg);
-  }
-
-  .mention-item:last-child {
-    border-bottom: none;
-  }
-</style>
-
-<!-- Wrapper raiz para o tema -->
 <div class="feed-root" id="feedRoot">
-
   <div class="feed-wrap">
 
     <!-- ── Coluna do Feed ── -->
     <div class="feed-col">
 
-      <!-- Filtros -->
       <div class="search-bar">
-        <input type="text" id="filtroTexto" placeholder="🔍  Pesquisar processo..." onkeyup="filtrarFeed()">
+        <input type="text" id="filtroTexto" placeholder="Pesquisar por cliente, norma, conteúdo..." onkeyup="filtrarFeed()">
         <select id="filtroNorma" onchange="filtrarFeed()">
-          <option value="">Todas as Normas</option>
+          <option value="">Todas as normas</option>
           <option value="Norma 01">Norma 01 — Notificações</option>
           <option value="Norma 02">Norma 02 — Clientes</option>
           <option value="Norma 03">Norma 03 — Subcontratadas</option>
@@ -1298,53 +377,2313 @@
 
       <div id="feedList">
         
+
+        <article class="post-card" data-titulo="norma 04 - fornecedores — rede saúde vida" data-norma="norma 04 - fornecedores"
+          data-cliente="rede saúde vida"
+          data-conteudo="subcontratação de empresa terceirizada sem a documentação trabalhista exigida. risco de responsabilidade solidária. {&#x27;justificativa&#x27;: &#x27;Subcontratação de empresa terceirizada sem a documentação trabalhista exigida. Risco de responsabilidade solidária.&#x27;, &#x27;risco&#x27;: &#x27;Crítico&#x27;}" id="post-5">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                A
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Rede Saúde Vida</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Administrador D.</b></span>
+                  <span class="sep"></span>
+                  <span>01/10/2026 às 03:09</span>
+                  <span class="sep"></span>
+                  <span>#5</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-analise">Em análise</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 04 - Fornecedores</span>
+            
+            <span class="pill pill-risco risco-critico">Risco crítico</span>
+            
+            
+            <span class="pill pill-sla"><i data-lucide="clock"></i> SLA +5d</span>
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow ">
+            <div class="flow-step done">Aberto</div>
+            <div class="flow-step now">Em análise</div>
+            <div class="flow-step ">Assinatura</div>
+            <div class="flow-step ">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Subcontratação de empresa terceirizada sem a documentação trabalhista exigida. Risco de responsabilidade solidária.</p>
+
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-5', 'icon-5')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-5" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-5" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Subcontratação de empresa terceirizada sem a documentação trabalhista exigida. Risco de responsabilidade solidária.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Crítico</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn " id="btn-ok-5"
+              onclick="toggleOk(5)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-5"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(5)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar <span class="muted">(3)</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(5)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-5" onclick="abrirPainelOk(5)">
+            <div style="display:flex;" id="avatares-ok-5">
+              
+              <div class="ok-avatar-mini" title="Roberto S.">
+                
+                R
+                
+              </div>
+              
+              <div class="ok-avatar-mini" title="Marina A.">
+                
+                M
+                
+              </div>
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-5">
+              2 pessoa(s) deram Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-5" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-5">
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    RS
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">roberto.santos</div>
+                    <div class="comment-text"><p>Parecer concluído. Seguir para assinatura.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    JC
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">juliana.costa</div>
+                    <div class="comment-text"><p>De acordo com a análise preliminar, não vejo impedimento para seguir. Aguardo o OK do comercial.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    AD
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">admin</div>
+                    <div class="comment-text"><span class="discord-mention" data-type="area" data-id="1">@Jurídico</span>&nbsp;Parecer ok, podemos seguir para assinatura.</div>
+                    
+                    <div class="comment-time">08/10/2026 21:19</div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-5" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 5)"
+                    oninput="handleInput(event, 5)"></div>
+                  <div id="comment-files-preview-5" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-5').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-5" multiple style="display:none;" onchange="handleCommentFilesChange(5)">
+                  <button class="send-btn enabled" onclick="enviarComentario(5)">Publicar</button>
+                </div>
+
+                <div id="mention-box-5" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 04 - fornecedores — logística atlântica" data-norma="norma 04 - fornecedores"
+          data-cliente="logística atlântica"
+          data-conteudo="contrato de fornecimento de insumos com exceção de subcontratação autorizada pela diretoria. {&#x27;justificativa&#x27;: &#x27;Contrato de fornecimento de insumos com exceção de subcontratação autorizada pela diretoria.&#x27;, &#x27;risco&#x27;: &#x27;Alto&#x27;}" id="post-8">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                R
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Logística Atlântica</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Roberto S.</b></span>
+                  <span class="sep"></span>
+                  <span>27/09/2026 às 19:09</span>
+                  <span class="sep"></span>
+                  <span>#8</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-assinar">Pend. assinatura</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 04 - Fornecedores</span>
+            
+            <span class="pill pill-risco risco-alto">Risco alto</span>
+            
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow ">
+            <div class="flow-step done">Aberto</div>
+            <div class="flow-step done">Em análise</div>
+            <div class="flow-step now">Assinatura</div>
+            <div class="flow-step ">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Contrato de fornecimento de insumos com exceção de subcontratação autorizada pela diretoria.</p>
+
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-8', 'icon-8')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-8" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-8" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Contrato de fornecimento de insumos com exceção de subcontratação autorizada pela diretoria.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Alto</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn success-btn" id="btn-ok-8"
+              onclick="toggleOk(8)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-8"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(8)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar <span class="muted">(2)</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(8)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-8" onclick="abrirPainelOk(8)">
+            <div style="display:flex;" id="avatares-ok-8">
+              
+              <div class="ok-avatar-mini" title="Administrador D.">
+                
+                A
+                
+              </div>
+              
+              <div class="ok-avatar-mini" title="Ana S.">
+                
+                A
+                
+              </div>
+              
+              <div class="ok-avatar-mini" title="Marina A.">
+                
+                M
+                
+              </div>
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-8">
+              3 pessoa(s) deram Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-8" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-8">
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    AD
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">admin</div>
+                    <div class="comment-text"><p>Parecer concluído. Seguir para assinatura.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    AD
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">admin</div>
+                    <div class="comment-text"><p>Parecer concluído. Seguir para assinatura.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-8" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 8)"
+                    oninput="handleInput(event, 8)"></div>
+                  <div id="comment-files-preview-8" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-8').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-8" multiple style="display:none;" onchange="handleCommentFilesChange(8)">
+                  <button class="send-btn enabled" onclick="enviarComentario(8)">Publicar</button>
+                </div>
+
+                <div id="mention-box-8" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 02 - clientes — grupo horizonte" data-norma="norma 02 - clientes"
+          data-cliente="grupo horizonte"
+          data-conteudo="contrato de grande volume com cláusula de multa por descumprimento de sla operacional. {&#x27;justificativa&#x27;: &#x27;Contrato de grande volume com cláusula de multa por descumprimento de SLA operacional.&#x27;, &#x27;risco&#x27;: &#x27;Alto&#x27;}" id="post-12">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                M
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Grupo Horizonte</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Marina A.</b></span>
+                  <span class="sep"></span>
+                  <span>30/09/2026 às 17:09</span>
+                  <span class="sep"></span>
+                  <span>#12</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-aberto">Aberto</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 02 - Clientes</span>
+            
+            <span class="pill pill-risco risco-alto">Risco alto</span>
+            
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow ">
+            <div class="flow-step now">Aberto</div>
+            <div class="flow-step ">Em análise</div>
+            <div class="flow-step ">Assinatura</div>
+            <div class="flow-step ">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Contrato de grande volume com cláusula de multa por descumprimento de SLA operacional.</p>
+
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-12', 'icon-12')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-12" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-12" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Contrato de grande volume com cláusula de multa por descumprimento de SLA operacional.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Alto</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn success-btn" id="btn-ok-12"
+              onclick="toggleOk(12)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-12"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(12)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(12)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-12" onclick="abrirPainelOk(12)">
+            <div style="display:flex;" id="avatares-ok-12">
+              
+              <div class="ok-avatar-mini" title="Administrador D.">
+                
+                A
+                
+              </div>
+              
+              <div class="ok-avatar-mini" title="Roberto S.">
+                
+                R
+                
+              </div>
+              
+              <div class="ok-avatar-mini" title="Marina A.">
+                
+                M
+                
+              </div>
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-12">
+              3 pessoa(s) deram Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-12" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-12">
+                
+                <div class="comment-row" id="no-comments-12">
+                  <div class="comment-text" style="color:var(--ink-3);">Sem comentários ainda.</div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-12" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 12)"
+                    oninput="handleInput(event, 12)"></div>
+                  <div id="comment-files-preview-12" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-12').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-12" multiple style="display:none;" onchange="handleCommentFilesChange(12)">
+                  <button class="send-btn enabled" onclick="enviarComentario(12)">Publicar</button>
+                </div>
+
+                <div id="mention-box-12" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 04 - fornecedores — grupo horizonte" data-norma="norma 04 - fornecedores"
+          data-cliente="grupo horizonte"
+          data-conteudo="fornecedor com pendências fiscais identificadas na due diligence. necessário parecer antes da assinatura. {&#x27;justificativa&#x27;: &#x27;Fornecedor com pendências fiscais identificadas na due diligence. Necessário parecer antes da assinatura.&#x27;, &#x27;risco&#x27;: &#x27;Alto&#x27;}" id="post-2">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                J
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Grupo Horizonte</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Juliana C.</b></span>
+                  <span class="sep"></span>
+                  <span>03/10/2026 às 05:09</span>
+                  <span class="sep"></span>
+                  <span>#2</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-analise">Em análise</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 04 - Fornecedores</span>
+            
+            <span class="pill pill-risco risco-alto">Risco alto</span>
+            
+            
+            <span class="pill pill-sla"><i data-lucide="clock"></i> SLA +4d</span>
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow ">
+            <div class="flow-step done">Aberto</div>
+            <div class="flow-step now">Em análise</div>
+            <div class="flow-step ">Assinatura</div>
+            <div class="flow-step ">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Fornecedor com pendências fiscais identificadas na due diligence. Necessário parecer antes da assinatura.</p>
+
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-2', 'icon-2')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-2" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-2" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Fornecedor com pendências fiscais identificadas na due diligence. Necessário parecer antes da assinatura.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Alto</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn " id="btn-ok-2"
+              onclick="toggleOk(2)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-2"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(2)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar <span class="muted">(3)</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(2)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-2" onclick="abrirPainelOk(2)">
+            <div style="display:flex;" id="avatares-ok-2">
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-2">
+              Seja o primeiro a dar Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-2" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-2">
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    RS
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">roberto.santos</div>
+                    <div class="comment-text"><p>Anexei a minuta revisada. Podem conferir os pontos <b>destacados</b>?</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    AS
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">ana.souza</div>
+                    <div class="comment-text"><p>Parecer concluído. Seguir para assinatura.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    MA
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">marina.alves</div>
+                    <div class="comment-text"><p>Anexei a minuta revisada. Podem conferir os pontos <b>destacados</b>?</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-2" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 2)"
+                    oninput="handleInput(event, 2)"></div>
+                  <div id="comment-files-preview-2" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-2').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-2" multiple style="display:none;" onchange="handleCommentFilesChange(2)">
+                  <button class="send-btn enabled" onclick="enviarComentario(2)">Publicar</button>
+                </div>
+
+                <div id="mention-box-2" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 02 - clientes — construtora pedra azul" data-norma="norma 02 - clientes"
+          data-cliente="construtora pedra azul"
+          data-conteudo="proposta comercial com minuta padrão. cliente pediu prazo de pagamento diferenciado. {&#x27;justificativa&#x27;: &#x27;Proposta comercial com minuta padrão. Cliente pediu prazo de pagamento diferenciado.&#x27;, &#x27;risco&#x27;: &#x27;Baixo&#x27;}" id="post-9">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                J
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Construtora Pedra Azul</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Juliana C.</b></span>
+                  <span class="sep"></span>
+                  <span>06/10/2026 às 07:09</span>
+                  <span class="sep"></span>
+                  <span>#9</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-aberto">Aberto</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 02 - Clientes</span>
+            
+            <span class="pill pill-risco risco-baixo">Risco baixo</span>
+            
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow ">
+            <div class="flow-step now">Aberto</div>
+            <div class="flow-step ">Em análise</div>
+            <div class="flow-step ">Assinatura</div>
+            <div class="flow-step ">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Proposta comercial com minuta padrão. Cliente pediu prazo de pagamento diferenciado.</p>
+
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-9', 'icon-9')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-9" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-9" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Proposta comercial com minuta padrão. Cliente pediu prazo de pagamento diferenciado.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Baixo</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn " id="btn-ok-9"
+              onclick="toggleOk(9)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-9"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(9)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar <span class="muted">(3)</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(9)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-9" onclick="abrirPainelOk(9)">
+            <div style="display:flex;" id="avatares-ok-9">
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-9">
+              Seja o primeiro a dar Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-9" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-9">
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    AS
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">ana.souza</div>
+                    <div class="comment-text"><p>De acordo com a análise preliminar, não vejo impedimento para seguir. Aguardo o OK do comercial.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    CL
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">carlos.lima</div>
+                    <div class="comment-text"><p>De acordo com a análise preliminar, não vejo impedimento para seguir. Aguardo o OK do comercial.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    RS
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">roberto.santos</div>
+                    <div class="comment-text"><p>Parecer concluído. Seguir para assinatura.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-9" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 9)"
+                    oninput="handleInput(event, 9)"></div>
+                  <div id="comment-files-preview-9" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-9').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-9" multiple style="display:none;" onchange="handleCommentFilesChange(9)">
+                  <button class="send-btn enabled" onclick="enviarComentario(9)">Publicar</button>
+                </div>
+
+                <div id="mention-box-9" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 02 - clientes — agro boa safra" data-norma="norma 02 - clientes"
+          data-cliente="agro boa safra"
+          data-conteudo="contrato de parceria comercial revisado, com ajuste nas cláusulas de confidencialidade. {&#x27;justificativa&#x27;: &#x27;Contrato de parceria comercial revisado, com ajuste nas cláusulas de confidencialidade.&#x27;, &#x27;risco&#x27;: &#x27;Médio&#x27;}" id="post-7">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                A
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Agro Boa Safra</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Ana S.</b></span>
+                  <span class="sep"></span>
+                  <span>26/09/2026 às 08:09</span>
+                  <span class="sep"></span>
+                  <span>#7</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-done"><i data-lucide="check"></i> Concluído</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 02 - Clientes</span>
+            
+            <span class="pill pill-risco risco-medio">Risco médio</span>
+            
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow is-done">
+            <div class="flow-step done">Aberto</div>
+            <div class="flow-step done">Em análise</div>
+            <div class="flow-step done">Assinatura</div>
+            <div class="flow-step now">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Contrato de parceria comercial revisado, com ajuste nas cláusulas de confidencialidade.</p>
+
+            
+            <div class="post-docs">
+              
+              <span class="doc-chip" onclick="abrirDocumento(3)" title="Abrir documento">
+                <i data-lucide="file-text"></i>minuta_contrato.pdf
+              </span>
+              
+            </div>
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-7', 'icon-7')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-7" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-7" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Contrato de parceria comercial revisado, com ajuste nas cláusulas de confidencialidade.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Médio</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn " id="btn-ok-7"
+              onclick="toggleOk(7)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-7"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(7)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar <span class="muted">(3)</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(7)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-7" onclick="abrirPainelOk(7)">
+            <div style="display:flex;" id="avatares-ok-7">
+              
+              <div class="ok-avatar-mini" title="Roberto S.">
+                
+                R
+                
+              </div>
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-7">
+              1 pessoa(s) deram Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-7" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-7">
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    AS
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">ana.souza</div>
+                    <div class="comment-text"><p>Anexei a minuta revisada. Podem conferir os pontos <b>destacados</b>?</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    MA
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">marina.alves</div>
+                    <div class="comment-text"><p>Precisamos alinhar o prazo de vigência com o cliente antes de formalizar.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    AD
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">admin</div>
+                    <div class="comment-text"><p>Precisamos alinhar o prazo de vigência com o cliente antes de formalizar.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-7" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 7)"
+                    oninput="handleInput(event, 7)"></div>
+                  <div id="comment-files-preview-7" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-7').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-7" multiple style="display:none;" onchange="handleCommentFilesChange(7)">
+                  <button class="send-btn enabled" onclick="enviarComentario(7)">Publicar</button>
+                </div>
+
+                <div id="mention-box-7" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 01 - notificações — cooperativa cerrado" data-norma="norma 01 - notificações"
+          data-cliente="cooperativa cerrado"
+          data-conteudo="notificação recebida de órgão fiscalizador solicitando esclarecimentos em 10 dias. {&#x27;justificativa&#x27;: &#x27;Notificação recebida de órgão fiscalizador solicitando esclarecimentos em 10 dias.&#x27;, &#x27;risco&#x27;: &#x27;Médio&#x27;}" id="post-6">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                A
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Cooperativa Cerrado</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Administrador D.</b></span>
+                  <span class="sep"></span>
+                  <span>04/10/2026 às 19:09</span>
+                  <span class="sep"></span>
+                  <span>#6</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-aberto">Aberto</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 01 - Notificações</span>
+            
+            <span class="pill pill-risco risco-medio">Risco médio</span>
+            
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow ">
+            <div class="flow-step now">Aberto</div>
+            <div class="flow-step ">Em análise</div>
+            <div class="flow-step ">Assinatura</div>
+            <div class="flow-step ">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Notificação recebida de órgão fiscalizador solicitando esclarecimentos em 10 dias.</p>
+
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-6', 'icon-6')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-6" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-6" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Notificação recebida de órgão fiscalizador solicitando esclarecimentos em 10 dias.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Médio</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn success-btn" id="btn-ok-6"
+              onclick="toggleOk(6)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-6"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(6)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(6)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-6" onclick="abrirPainelOk(6)">
+            <div style="display:flex;" id="avatares-ok-6">
+              
+              <div class="ok-avatar-mini" title="Administrador D.">
+                
+                A
+                
+              </div>
+              
+              <div class="ok-avatar-mini" title="Juliana C.">
+                
+                J
+                
+              </div>
+              
+              <div class="ok-avatar-mini" title="Roberto S.">
+                
+                R
+                
+              </div>
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-6">
+              3 pessoa(s) deram Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-6" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-6">
+                
+                <div class="comment-row" id="no-comments-6">
+                  <div class="comment-text" style="color:var(--ink-3);">Sem comentários ainda.</div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-6" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 6)"
+                    oninput="handleInput(event, 6)"></div>
+                  <div id="comment-files-preview-6" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-6').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-6" multiple style="display:none;" onchange="handleCommentFilesChange(6)">
+                  <button class="send-btn enabled" onclick="enviarComentario(6)">Publicar</button>
+                </div>
+
+                <div id="mention-box-6" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 02 - clientes — mercantil aurora" data-norma="norma 02 - clientes"
+          data-cliente="mercantil aurora"
+          data-conteudo="solicitação de elaboração de contrato de prestação de serviços com cláusula de reajuste anual. {&#x27;justificativa&#x27;: &#x27;Solicitação de elaboração de contrato de prestação de serviços com cláusula de reajuste anual.&#x27;, &#x27;risco&#x27;: &#x27;Médio&#x27;}" id="post-1">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                J
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Mercantil Aurora</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Juliana C.</b></span>
+                  <span class="sep"></span>
+                  <span>04/10/2026 às 09:09</span>
+                  <span class="sep"></span>
+                  <span>#1</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-aberto">Aberto</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 02 - Clientes</span>
+            
+            <span class="pill pill-risco risco-medio">Risco médio</span>
+            
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow ">
+            <div class="flow-step now">Aberto</div>
+            <div class="flow-step ">Em análise</div>
+            <div class="flow-step ">Assinatura</div>
+            <div class="flow-step ">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Solicitação de elaboração de contrato de prestação de serviços com cláusula de reajuste anual.</p>
+
+            
+            <div class="post-docs">
+              
+              <span class="doc-chip" onclick="abrirDocumento(1)" title="Abrir documento">
+                <i data-lucide="file-text"></i>minuta_contrato.pdf
+              </span>
+              
+            </div>
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-1', 'icon-1')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-1" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-1" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Solicitação de elaboração de contrato de prestação de serviços com cláusula de reajuste anual.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Médio</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn " id="btn-ok-1"
+              onclick="toggleOk(1)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-1"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(1)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(1)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-1" onclick="abrirPainelOk(1)">
+            <div style="display:flex;" id="avatares-ok-1">
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-1">
+              Seja o primeiro a dar Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-1" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-1">
+                
+                <div class="comment-row" id="no-comments-1">
+                  <div class="comment-text" style="color:var(--ink-3);">Sem comentários ainda.</div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-1" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 1)"
+                    oninput="handleInput(event, 1)"></div>
+                  <div id="comment-files-preview-1" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-1').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-1" multiple style="display:none;" onchange="handleCommentFilesChange(1)">
+                  <button class="send-btn enabled" onclick="enviarComentario(1)">Publicar</button>
+                </div>
+
+                <div id="mention-box-1" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 04 - fornecedores — mercantil aurora" data-norma="norma 04 - fornecedores"
+          data-cliente="mercantil aurora"
+          data-conteudo="renovação de contrato com fornecedor de limpeza e conservação. revisão de índice de reajuste. {&#x27;justificativa&#x27;: &#x27;Renovação de contrato com fornecedor de limpeza e conservação. Revisão de índice de reajuste.&#x27;, &#x27;risco&#x27;: &#x27;Médio&#x27;}" id="post-11">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                C
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Mercantil Aurora</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Carlos L.</b></span>
+                  <span class="sep"></span>
+                  <span>30/09/2026 às 16:09</span>
+                  <span class="sep"></span>
+                  <span>#11</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-analise">Em análise</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 04 - Fornecedores</span>
+            
+            <span class="pill pill-risco risco-medio">Risco médio</span>
+            
+            
+            <span class="pill pill-sla"><i data-lucide="clock"></i> SLA +6d</span>
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow ">
+            <div class="flow-step done">Aberto</div>
+            <div class="flow-step now">Em análise</div>
+            <div class="flow-step ">Assinatura</div>
+            <div class="flow-step ">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Renovação de contrato com fornecedor de limpeza e conservação. Revisão de índice de reajuste.</p>
+
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-11', 'icon-11')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-11" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-11" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Renovação de contrato com fornecedor de limpeza e conservação. Revisão de índice de reajuste.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Médio</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn " id="btn-ok-11"
+              onclick="toggleOk(11)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-11"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(11)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar <span class="muted">(3)</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(11)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-11" onclick="abrirPainelOk(11)">
+            <div style="display:flex;" id="avatares-ok-11">
+              
+              <div class="ok-avatar-mini" title="Ana S.">
+                
+                A
+                
+              </div>
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-11">
+              1 pessoa(s) deram Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-11" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-11">
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    MA
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">marina.alves</div>
+                    <div class="comment-text"><p>De acordo com a análise preliminar, não vejo impedimento para seguir. Aguardo o OK do comercial.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    JC
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">juliana.costa</div>
+                    <div class="comment-text"><p>Anexei a minuta revisada. Podem conferir os pontos <b>destacados</b>?</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    RS
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">roberto.santos</div>
+                    <div class="comment-text"><p>Precisamos alinhar o prazo de vigência com o cliente antes de formalizar.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-11" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 11)"
+                    oninput="handleInput(event, 11)"></div>
+                  <div id="comment-files-preview-11" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-11').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-11" multiple style="display:none;" onchange="handleCommentFilesChange(11)">
+                  <button class="send-btn enabled" onclick="enviarComentario(11)">Publicar</button>
+                </div>
+
+                <div id="mention-box-11" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 01 - notificações — têxtil nova era" data-norma="norma 01 - notificações"
+          data-cliente="têxtil nova era"
+          data-conteudo="resposta formal a notificação de cobrança já enviada e protocolada. {&#x27;justificativa&#x27;: &#x27;Resposta formal a notificação de cobrança já enviada e protocolada.&#x27;, &#x27;risco&#x27;: &#x27;Baixo&#x27;}" id="post-10">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                C
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Têxtil Nova Era</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Carlos L.</b></span>
+                  <span class="sep"></span>
+                  <span>29/09/2026 às 09:09</span>
+                  <span class="sep"></span>
+                  <span>#10</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-done"><i data-lucide="check"></i> Concluído</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 01 - Notificações</span>
+            
+            <span class="pill pill-risco risco-baixo">Risco baixo</span>
+            
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow is-done">
+            <div class="flow-step done">Aberto</div>
+            <div class="flow-step done">Em análise</div>
+            <div class="flow-step done">Assinatura</div>
+            <div class="flow-step now">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Resposta formal a notificação de cobrança já enviada e protocolada.</p>
+
+            
+            <div class="post-docs">
+              
+              <span class="doc-chip" onclick="abrirDocumento(4)" title="Abrir documento">
+                <i data-lucide="file-text"></i>minuta_contrato.pdf
+              </span>
+              
+            </div>
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-10', 'icon-10')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-10" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-10" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Resposta formal a notificação de cobrança já enviada e protocolada.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Baixo</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn " id="btn-ok-10"
+              onclick="toggleOk(10)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-10"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(10)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar <span class="muted">(2)</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(10)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-10" onclick="abrirPainelOk(10)">
+            <div style="display:flex;" id="avatares-ok-10">
+              
+              <div class="ok-avatar-mini" title="Roberto S.">
+                
+                R
+                
+              </div>
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-10">
+              1 pessoa(s) deram Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-10" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-10">
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    AD
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">admin</div>
+                    <div class="comment-text"><p>Parecer concluído. Seguir para assinatura.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    AD
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">admin</div>
+                    <div class="comment-text"><p>Parecer concluído. Seguir para assinatura.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-10" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 10)"
+                    oninput="handleInput(event, 10)"></div>
+                  <div id="comment-files-preview-10" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-10').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-10" multiple style="display:none;" onchange="handleCommentFilesChange(10)">
+                  <button class="send-btn enabled" onclick="enviarComentario(10)">Publicar</button>
+                </div>
+
+                <div id="mention-box-10" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 02 - clientes — transportes planalto" data-norma="norma 02 - clientes"
+          data-cliente="transportes planalto"
+          data-conteudo="aditivo contratual de renovação por 12 meses aprovado e formalizado. {&#x27;justificativa&#x27;: &#x27;Aditivo contratual de renovação por 12 meses aprovado e formalizado.&#x27;, &#x27;risco&#x27;: &#x27;Baixo&#x27;}" id="post-4">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                M
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Transportes Planalto</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Marina A.</b></span>
+                  <span class="sep"></span>
+                  <span>04/10/2026 às 03:09</span>
+                  <span class="sep"></span>
+                  <span>#4</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-done"><i data-lucide="check"></i> Concluído</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 02 - Clientes</span>
+            
+            <span class="pill pill-risco risco-baixo">Risco baixo</span>
+            
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow is-done">
+            <div class="flow-step done">Aberto</div>
+            <div class="flow-step done">Em análise</div>
+            <div class="flow-step done">Assinatura</div>
+            <div class="flow-step now">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Aditivo contratual de renovação por 12 meses aprovado e formalizado.</p>
+
+            
+            <div class="post-docs">
+              
+              <span class="doc-chip" onclick="abrirDocumento(2)" title="Abrir documento">
+                <i data-lucide="file-text"></i>minuta_contrato.pdf
+              </span>
+              
+            </div>
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-4', 'icon-4')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-4" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-4" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Aditivo contratual de renovação por 12 meses aprovado e formalizado.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Baixo</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn " id="btn-ok-4"
+              onclick="toggleOk(4)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-4"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(4)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar <span class="muted">(1)</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(4)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-4" onclick="abrirPainelOk(4)">
+            <div style="display:flex;" id="avatares-ok-4">
+              
+              <div class="ok-avatar-mini" title="Ana S.">
+                
+                A
+                
+              </div>
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-4">
+              1 pessoa(s) deram Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-4" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-4">
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    JC
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">juliana.costa</div>
+                    <div class="comment-text"><p>Anexei a minuta revisada. Podem conferir os pontos <b>destacados</b>?</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-4" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 4)"
+                    oninput="handleInput(event, 4)"></div>
+                  <div id="comment-files-preview-4" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-4').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-4" multiple style="display:none;" onchange="handleCommentFilesChange(4)">
+                  <button class="send-btn enabled" onclick="enviarComentario(4)">Publicar</button>
+                </div>
+
+                <div id="mention-box-4" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
+
+        <article class="post-card" data-titulo="norma 01 - notificações — indústria vale verde" data-norma="norma 01 - notificações"
+          data-cliente="indústria vale verde"
+          data-conteudo="notificação extrajudicial de rescisão contratual por inadimplemento, aguardando assinatura da diretoria. {&#x27;justificativa&#x27;: &#x27;Notificação extrajudicial de rescisão contratual por inadimplemento, aguardando assinatura da diretoria.&#x27;, &#x27;risco&#x27;: &#x27;Baixo&#x27;}" id="post-3">
+
+          <!-- Cabeçalho -->
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">
+                
+                A
+                
+              </div>
+              <div style="min-width:0;">
+                <h3 class="post-title">Indústria Vale Verde</h3>
+                <div class="post-author-meta">
+                  <span>por <b>Administrador D.</b></span>
+                  <span class="sep"></span>
+                  <span>05/10/2026 às 03:09</span>
+                  <span class="sep"></span>
+                  <span>#3</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              <span class="pill pill-assinar">Pend. assinatura</span>
+              
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="post-chips">
+            <span class="pill pill-norma">Norma 01 - Notificações</span>
+            
+            <span class="pill pill-risco risco-baixo">Risco baixo</span>
+            
+            
+          </div>
+
+          <!-- Andamento -->
+          <div class="flow ">
+            <div class="flow-step done">Aberto</div>
+            <div class="flow-step done">Em análise</div>
+            <div class="flow-step now">Assinatura</div>
+            <div class="flow-step ">Concluído</div>
+          </div>
+
+          <!-- Corpo -->
+          <div class="post-body">
+            <p class="post-desc">Notificação extrajudicial de rescisão contratual por inadimplemento, aguardando assinatura da diretoria.</p>
+
+            
+
+            
+            <div class="ficha-wrapper">
+              <div class="ficha-header" onclick="toggleFicha('ficha-3', 'icon-3')">
+                <h4 class="ficha-title"><i data-lucide="file-check-2" style="width:16px;height:16px;"></i> Ficha de negociação</h4>
+                <i id="icon-3" data-lucide="chevron-down" style="width:18px;height:18px;color:var(--ink-3);transition:transform .3s;"></i>
+              </div>
+              <div id="ficha-3" class="ficha-content">
+                <div class="ficha-grid">
+                  
+                  
+                  <div style="grid-column:span 2;">
+                    <strong>Justificativa</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Notificação extrajudicial de rescisão contratual por inadimplemento, aguardando assinatura da diretoria.</span>
+                  </div>
+                  
+                  
+                  
+                  <div style="">
+                    <strong>Risco</strong>
+                    <span style="display:block;margin-top:.2rem;line-height:1.45;">Baixo</span>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Ações -->
+          <div class="post-actions">
+            <button class="act-btn " id="btn-ok-3"
+              onclick="toggleOk(3)" title="Dar Ok / Ciente">
+              <i data-lucide="check-circle" id="icon-ok-3"></i>
+              <span>Ciente / Ok</span>
+            </button>
+
+            <button class="act-btn" onclick="toggleComments(3)" title="Comentar">
+              <i data-lucide="message-circle"></i> Comentar <span class="muted">(1)</span>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="act-btn danger" onclick="excluirPost(3)" title="Excluir">
+              <i data-lucide="trash-2"></i> Excluir
+            </button>
+          </div>
+
+          <!-- Barra de Oks -->
+          <div class="post-oks-bar" id="bar-ok-3" onclick="abrirPainelOk(3)">
+            <div style="display:flex;" id="avatares-ok-3">
+              
+              <div class="ok-avatar-mini" title="Ana S.">
+                
+                A
+                
+              </div>
+              
+            </div>
+            <span class="ok-text-info" id="text-ok-3">
+              1 pessoa(s) deram Ok
+            </span>
+          </div>
+
+          <!-- Comentários -->
+          <div id="comments-section-3" style="display:none;">
+            <div class="post-comments">
+              <div class="comment-list" id="comment-list-3">
+                
+                <div class="comment-row">
+                  <div class="comment-avatar">
+                    
+                    
+                    JC
+                    
+                    
+                  </div>
+                  <div class="comment-bubble">
+                    <div class="comment-author">juliana.costa</div>
+                    <div class="comment-text"><p>Parecer concluído. Seguir para assinatura.</p></div>
+                    
+                    <div class="comment-time">08/10/2026 21:09</div>
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- Novo comentário -->
+              <div class="new-comment-row" style="position:relative;">
+                <div class="comment-avatar" style="align-self:flex-start;margin-top:2px;">
+                  
+                  
+                  AD
+                  
+                  
+                </div>
+                <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                  <div id="editor-3" class="comment-editor" contenteditable="true"
+                    placeholder="Escreva um comentário — digite @ para marcar setores ou pessoas…" onkeydown="handleKeydown(event, 3)"
+                    oninput="handleInput(event, 3)"></div>
+                  <div id="comment-files-preview-3" style="display:none;flex-wrap:wrap;gap:6px;margin-top:4px;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="act-btn" style="padding:7px;" onclick="document.getElementById('comment-files-3').click()" title="Anexar documentos">
+                    <i data-lucide="paperclip" style="width:18px;height:18px;"></i>
+                  </button>
+                  <input type="file" id="comment-files-3" multiple style="display:none;" onchange="handleCommentFilesChange(3)">
+                  <button class="send-btn enabled" onclick="enviarComentario(3)">Publicar</button>
+                </div>
+
+                <div id="mention-box-3" class="mention-box"></div>
+              </div>
+            </div>
+          </div>
+
+        </article>
+        
       </div><!-- /feedList -->
 
     </div><!-- /feed-col -->
 
-    <!-- ── Sidebar ── -->
-    <div class="sidebar-col">
+    <!-- ── Coluna lateral ── -->
+    <aside class="sidebar-col">
 
-      <!-- Perfil -->
-      <div class="widget" style="text-align:center;">
-        <div class="post-avatar" style="width:64px;height:64px;font-size:1.3rem;margin:0 auto .75rem;">
-          
-          A
-          
+      <div class="widget hello">
+        <div class="hello-row">
+          <div class="post-avatar">
+            
+            A
+            
+          </div>
+          <div>
+            <small>Bem-vindo(a) de volta</small>
+            <b>Administrador D.</b>
+          </div>
         </div>
-        <div style="font-weight:700;font-size:1rem;color:var(--text-primary);">Admin D.</div>
-        <div style="font-size:.82rem;color:var(--text-secondary);opacity:0.7;margin-top:.2rem;">@admin</div>
       </div>
 
-      <!-- Resumo da Fila -->
       <div class="widget">
-        <div class="widget-title">Resumo da Fila</div>
-        <div class="stat-row">
-          <span class="stat-label">Total de Processos</span>
-          <span class="stat-val" id="count-total">0</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">SLA Violado</span>
-          <span class="stat-val red" id="count-sla">0</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Concluídos</span>
-          <span class="stat-val green" id="count-concluidos">0</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Pendente Assinatura</span>
-          <span class="stat-val" id="count-pendentes">0</span>
+        <div class="widget-title">Resumo da fila</div>
+        <div class="stat-grid">
+          <div class="stat-tile"><span class="stat-label">Processos</span><span class="stat-val" id="count-total">12</span></div>
+          <div class="stat-tile"><span class="stat-label">SLA violado</span><span class="stat-val red" id="count-sla">3</span></div>
+          <div class="stat-tile"><span class="stat-label">Concluídos</span><span class="stat-val green" id="count-concluidos">3</span></div>
+          <div class="stat-tile"><span class="stat-label">Pend. assinatura</span><span class="stat-val violet" id="count-pendentes">2</span></div>
         </div>
       </div>
 
-      <!-- Novo Chamado -->
       <a href="novo-chamado.html" class="novo-chamado-btn">
-        <i data-lucide="plus-circle" style="width:28px;height:28px;color:#fff;"></i>
-        <div style="color:#fff;font-weight:700;font-size:.95rem;margin-top:.5rem;">Novo Chamado</div>
-        <div style="color:rgba(255,255,255,.72);font-size:.75rem;margin-top:.2rem;">Normas 01 · 02 · 03 · 04</div>
+        <span class="plus"><i data-lucide="plus"></i></span>
+        <span><b>Novo chamado</b><small>Normas 01 · 02 · 03 · 04</small></span>
       </a>
 
-    </div><!-- /sidebar-col -->
+    </aside>
 
   </div><!-- /feed-wrap -->
 </div><!-- /feed-root -->
@@ -1355,240 +2694,74 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- ASSISTENTE VIRTUAL LEXIA (NOTION AI STYLE) -->
+    <!-- ASSISTENTE VIRTUAL LEXIA                    -->
     <!-- ========================================== -->
 
     <!-- Botão Flutuante -->
-    <button id="btn-lexia" onclick="toggleLexIA()" style="
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-        border: none;
-        color: white;
-        box-shadow: var(--shadow-md);
-        cursor: pointer;
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    " onmouseover="this.style.transform='scale(1.1) rotate(5deg)'"
-        onmouseout="this.style.transform='scale(1) rotate(0)'">
-        <i data-lucide="sparkles" style="width: 24px; height: 24px;"></i>
+    <button id="btn-lexia" class="lexia-fab" onclick="toggleLexIA()" title="LexIA — assistente jurídica" aria-label="Abrir a LexIA">
+        <i data-lucide="sparkles"></i>
     </button>
 
-    <!-- Painel da LexIA -->
-    <div id="painel-lexia" style="
-        display: none;
-        position: fixed;
-        bottom: 5rem;
-        right: 2rem;
-        width: 380px;
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: 16px;
-        box-shadow: var(--shadow-md);
-        z-index: 9998;
-        overflow: hidden;
-        flex-direction: column;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.3s, transform 0.3s, background-color 0.35s ease, border-color 0.35s ease;
-        pointer-events: none;
-    ">
-        <!-- Header -->
-        <div
-            style="background: var(--bg-ficha); padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
-            <div style="color: var(--primary);">
-                <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+    <!-- Painel da LexIA (display/opacity/transform são controlados pelo JS) -->
+    <div id="painel-lexia" class="lexia-panel" style="display:none; opacity:0; transform:translateY(20px); pointer-events:none;">
+        <div class="lexia-head">
+            <span class="spark"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></span>
+            <div class="grow">
+                <h4>LexIA</h4>
+                <p>Sua assistente jurídica inteligente</p>
             </div>
-            <div style="flex: 1;">
-                <h4 style="margin: 0; font-size: 1rem; color: var(--text-primary); font-weight: 700;">LexIA</h4>
-                <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">Sua assistente jurídica inteligente
-                </p>
-            </div>
-            <button onclick="toggleHistoricoLexIA()" title="Historico de conversas"
-                style="background: none; border: none; cursor: pointer; color: var(--text-muted); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                <i data-lucide="history" style="width: 18px; height: 18px;"></i>
-            </button>
-            <button onclick="toggleLexIA()"
-                style="background: none; border: none; cursor: pointer; color: var(--text-muted);">
-                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
-            </button>
+            <button class="lexia-icon-btn" onclick="toggleHistoricoLexIA()" title="Histórico de conversas"><i data-lucide="history"></i></button>
+            <button class="lexia-icon-btn" onclick="toggleLexIA()" aria-label="Fechar"><i data-lucide="x"></i></button>
         </div>
 
-        <!-- Historico da LexIA -->
-        <div id="lexia-history-panel" style="display: none; border-bottom: 1px solid var(--border-color); background: var(--bg-card);">
-            <div id="lexia-history-list" style="max-height: 190px; overflow-y: auto; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.35rem;">
+        <!-- Histórico -->
+        <div id="lexia-history-panel" class="lexia-history-wrap">
+            <div id="lexia-history-list" class="lexia-history-list">
                 <div class="lexia-history-empty">Nenhuma conversa salva ainda.</div>
             </div>
         </div>
 
-        <!-- Body / Chat Area -->
-        <div id="lexia-chat-area"
-            style="padding: 1.25rem; max-height: 400px; overflow-y: auto; flex: 1; font-size: 0.85rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 1rem;">
-            <div
-                style="background: var(--bg-ficha); border: 1px solid var(--border-color); padding: 0.75rem; border-radius: 8px 8px 8px 0;">
-                Olá, <strong>Admin D.</strong>! Selecione um chamado e me diga o que você
-                precisa saber sobre ele.
+        <!-- Conversa -->
+        <div id="lexia-chat-area" class="lexia-chat">
+            <div class="lexia-message">
+                Olá, <strong>Administrador D.</strong>! Selecione um chamado e me diga o que você precisa saber sobre ele.
             </div>
         </div>
 
-        <!-- Input Area -->
-        <div style="padding: 1rem; border-top: 1px solid var(--border-color); background: var(--bg-card);">
-            <div style="margin-bottom: 0.75rem;">
-                <select id="lexia-chamado-select" onchange="trocarChamadoLexIA()"
-                    style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background: var(--bg-input); color: var(--text-primary);">
-                    <option value="">Selecione um contrato/chamado...</option>
-                </select>
-            </div>
-            <div style="position: relative;">
+        <!-- Entrada -->
+        <div class="lexia-foot">
+            <select id="lexia-chamado-select" onchange="trocarChamadoLexIA()">
+                <option value="">Selecione um contrato/chamado...</option>
+            </select>
+            <div class="lexia-input-wrap">
                 <input type="text" id="lexia-prompt" placeholder="Ex: Quem falta dar Ok?"
-                    style="width: 100%; padding: 0.6rem 2.5rem 0.6rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; background: var(--bg-input); color: var(--text-primary); transition: border-color 0.2s;"
-                    onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor=''"
                     onkeypress="if(event.key === 'Enter') enviarPerguntaLexIA()">
-                <button onclick="enviarPerguntaLexIA()"
-                    style="position: absolute; right: 0.25rem; top: 0.25rem; background: var(--primary); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                    <i data-lucide="arrow-up" style="width: 16px; height: 16px;"></i>
-                </button>
+                <button class="lexia-send" onclick="enviarPerguntaLexIA()" aria-label="Enviar"><i data-lucide="arrow-up"></i></button>
             </div>
         </div>
     </div>
 
-    <!-- Efeito de giro para o ícone de loading -->
     <style>
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+        .lexia-message h4 { margin: .35rem 0 .45rem; font-size: .9rem; color: var(--ink); line-height: 1.25; }
+        .lexia-message p { margin: .35rem 0; line-height: 1.55; }
+        .lexia-message ul { margin: .35rem 0 .55rem 1rem; padding: 0; }
+        .lexia-message li { margin: .3rem 0; line-height: 1.45; }
+        .lexia-message strong { color: var(--ink); font-weight: 700; }
 
-        .lucide-spin {
-            animation: spin 1s linear infinite;
-        }
-
-        .lexia-message h4 {
-            margin: 0.35rem 0 0.45rem;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            line-height: 1.25;
-        }
-
-        .lexia-message p {
-            margin: 0.35rem 0;
-            line-height: 1.55;
-        }
-
-        .lexia-message ul {
-            margin: 0.35rem 0 0.55rem 1rem;
-            padding: 0;
-        }
-
-        .lexia-message li {
-            margin: 0.3rem 0;
-            line-height: 1.45;
-        }
-
-        .lexia-message strong {
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .lexia-history-item {
-            display: flex;
-            align-items: stretch;
-            gap: 0.35rem;
-            max-height: 58px;
-            opacity: 1;
-            transform: translateX(0) scale(1);
-            overflow: hidden;
-            transition: opacity 0.22s ease, transform 0.22s ease, max-height 0.28s ease, margin 0.28s ease;
-        }
-
-        .lexia-history-item.is-deleting {
-            opacity: 0.55;
-            transform: translateX(8px) scale(0.985);
-        }
-
-        .lexia-history-item.is-removed {
-            opacity: 0;
-            max-height: 0;
-            margin: 0;
-            transform: translateX(18px) scale(0.96);
-        }
-
-        .lexia-history-main {
-            flex: 1;
-            min-width: 0;
-            border: 1px solid var(--border-color);
-            background: var(--bg-ficha);
-            border-radius: 7px;
-            padding: 0.5rem 0.65rem;
-            text-align: left;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .lexia-history-main:hover {
-            background: var(--btn-hover-bg);
-        }
-
-        .lexia-history-question {
-            color: var(--text-primary);
-            font-size: 0.8rem;
-            font-weight: 600;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .lexia-history-meta {
-            margin-top: 0.15rem;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .lexia-history-delete {
-            border: 1px solid var(--danger-light);
-            background: var(--bg-card);
-            color: var(--danger);
-            border-radius: 7px;
-            width: 34px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-        }
-
-        .lexia-history-delete:hover {
-            background: var(--danger-light);
-            transform: translateY(-1px);
-        }
-
-        .lexia-history-delete.is-busy {
-            background: var(--danger-light);
-            border-color: var(--danger);
-            pointer-events: none;
-        }
-
-        .lexia-history-delete.is-busy svg {
-            animation: spin 0.85s linear infinite;
-        }
-
-        .lexia-history-empty {
-            color: var(--text-muted);
-            font-size: 0.78rem;
-            padding: 0.5rem;
-            text-align: center;
-        }
+        .lexia-history-list { max-height: 190px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+        .lexia-history-item { display: flex; align-items: stretch; gap: 6px; max-height: 60px; opacity: 1; transform: translateX(0) scale(1); overflow: hidden;
+            transition: opacity .22s ease, transform .22s ease, max-height .28s ease, margin .28s ease; }
+        .lexia-history-item.is-deleting { opacity: .55; transform: translateX(8px) scale(.985); }
+        .lexia-history-item.is-removed { opacity: 0; max-height: 0; margin: 0; transform: translateX(18px) scale(.96); }
+        .lexia-history-main { flex: 1; min-width: 0; border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 8px 12px; text-align: left; cursor: pointer; font-family: inherit; transition: background .15s, border-color .15s; }
+        .lexia-history-main:hover { background: var(--surface-3); border-color: var(--line-strong); }
+        .lexia-history-question { color: var(--ink); font-size: .8rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lexia-history-meta { margin-top: 2px; color: var(--ink-3); font-size: .7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lexia-history-delete { border: 1px solid var(--bad-soft); background: var(--surface); color: var(--bad); border-radius: 10px; width: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s, transform .2s; }
+        .lexia-history-delete:hover { background: var(--bad-soft); transform: translateY(-1px); }
+        .lexia-history-delete.is-busy { background: var(--bad-soft); border-color: var(--bad); pointer-events: none; }
+        .lexia-history-delete.is-busy svg { animation: spin .85s linear infinite; }
+        .lexia-history-empty { color: var(--ink-3); font-size: .78rem; padding: 8px; text-align: center; }
     </style>
 
     <script>
@@ -1673,8 +2846,8 @@
 
         function mensagemInicialLexIA() {
             return `
-                <div style="background: var(--bg-ficha); border: 1px solid var(--border-color); padding: 0.75rem; border-radius: 8px 8px 8px 0;">
-                    Ola, <strong>Admin D.</strong>! Selecione um chamado e me diga o que voce precisa saber sobre ele.
+                <div class="lexia-message">
+                    Olá, <strong>Administrador D.</strong>! Selecione um chamado e me diga o que você precisa saber sobre ele.
                 </div>
             `;
         }
@@ -1845,7 +3018,7 @@
 
             fetch(`/api/lexia/historico/${historicoId}/excluir/`, {
                 method: 'POST',
-                headers: { 'X-CSRFToken': '8GDgTbv96UbDOnn4qYkWHfKpTWsMgvqF9ShPo34FNW8fjiauf3pUShTySOTtMHtf' }
+                headers: { 'X-CSRFToken': 'demo' }
             })
                 .then(r => r.json())
                 .then(data => {
@@ -1966,14 +3139,10 @@
 
         function adicionarMensagemLexIA(texto, isUser) {
             const chatArea = document.getElementById('lexia-chat-area');
-            const bgColor = isUser ? 'var(--bg-input)' : 'var(--bg-ficha)';
-            const borderColor = isUser ? 'var(--primary)' : 'var(--border-color)';
-            const borderRadius = isUser ? '8px 8px 0 8px' : '8px 8px 8px 0';
-            const alignSelf = isUser ? 'flex-end' : 'flex-start';
             const conteudo = isUser ? escapeHtmlLexIA(texto) : formatarRespostaLexIA(texto);
 
             const html = `
-                <div class="lexia-message" style="background: ${bgColor}; border: 1px solid ${borderColor}; padding: 0.75rem; border-radius: ${borderRadius}; align-self: ${alignSelf}; max-width: 85%; word-wrap: break-word;">
+                <div class="lexia-message${isUser ? ' user' : ''}">
                     ${conteudo}
                 </div>
             `;
@@ -2002,7 +3171,7 @@
             input.value = '';
 
             const chatArea = document.getElementById('lexia-chat-area');
-            const loadingHtml = `<div id="lexia-loading" style="align-self: flex-start; color: var(--primary); display: flex; gap: 0.5rem; align-items: center;"><i data-lucide="loader" class="lucide-spin" style="width: 16px; height: 16px;"></i> LexIA está analisando...</div>`;
+            const loadingHtml = `<div id="lexia-loading" class="lexia-loading"><i data-lucide="loader" class="lucide-spin" style="width: 16px; height: 16px;"></i> LexIA está analisando...</div>`;
             chatArea.insertAdjacentHTML('beforeend', loadingHtml);
             lucide.createIcons();
             chatArea.scrollTop = chatArea.scrollHeight;
@@ -2011,7 +3180,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': '8GDgTbv96UbDOnn4qYkWHfKpTWsMgvqF9ShPo34FNW8fjiauf3pUShTySOTtMHtf'
+                    'X-CSRFToken': 'demo'
                 },
                 body: JSON.stringify({
                     chamado_id: chamadoId,
@@ -2070,16 +3239,12 @@
       html: `
         <div style="height:80vh;display:flex;flex-direction:column;">
           <div style="text-align:right;margin-bottom:10px;">
-            <a href="_preview-info.html"
+            <a href="/documento/${docId}/?download=1"
               style="display:inline-block;text-decoration:none;color:#fff;background:var(--primary);padding:8px 16px;border-radius:8px;font-weight:600;">
               📥 Baixar
             </a>
           </div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:#5a6b86;text-align:center;padding:24px;background:#f5f7fb;border-radius:8px;">
-            <div style="font-size:2.4rem;line-height:1">📄</div>
-            <div style="font-weight:700;color:#2b3a52;">Pré-visualização não incluída neste preview</div>
-            <div style="max-width:420px;font-size:.9rem;">No sistema real, este espaço mostra o documento anexado. Ocultado aqui por conter dados reais.</div>
-          </div>
+          <iframe src="_preview-info.html" style="width:100%;height:100%;border:none;border-radius:8px;"></iframe>
         </div>`,
       showConfirmButton: false,
       showCloseButton: true,
@@ -2101,7 +3266,7 @@
       if (result.isConfirmed) {
         fetch(`/api/excluir-chamado/${id}/`, {
           method: 'POST',
-          headers: { 'X-CSRFToken': '8GDgTbv96UbDOnn4qYkWHfKpTWsMgvqF9ShPo34FNW8fjiauf3pUShTySOTtMHtf' }
+          headers: { 'X-CSRFToken': 'demo' }
         })
           .then(r => r.json())
           .then(data => {
@@ -2136,43 +3301,6 @@
       card.style.display = matchTxt && matchNorm ? '' : 'none';
     });
   }
-
-  /* ─── CARROSSEL ───────────────────────────────── */
-  function goToSlide(id, index) {
-    const car = document.getElementById(`carousel-${id}`);
-    car.scrollTo({ left: car.clientWidth * index, behavior: 'smooth' });
-  }
-
-  function updateDots(id, numAnexos) {
-    const car = document.getElementById(`carousel-${id}`);
-    const idx = Math.round(car.scrollLeft / car.clientWidth);
-    const total = numAnexos + 1;
-    for (let i = 0; i < total; i++) {
-      const d = document.getElementById(`dot-${id}-${i}`);
-      if (d) d.classList.toggle('active', i === idx);
-    }
-  }
-
-  document.querySelectorAll('.cover-carousel').forEach(carousel => {
-    carousel.querySelectorAll('img, i, span').forEach(el =>
-      el.addEventListener('dragstart', e => e.preventDefault()));
-    let isDown = false, startX, scrollLeft;
-    carousel.addEventListener('mousedown', e => {
-      isDown = true;
-      carousel.style.cursor = 'grabbing';
-      carousel.style.userSelect = 'none';
-      startX = e.pageX - carousel.offsetLeft;
-      scrollLeft = carousel.scrollLeft;
-    });
-    carousel.addEventListener('mouseleave', () => { isDown = false; carousel.style.cursor = 'pointer'; carousel.style.userSelect = 'auto'; });
-    carousel.addEventListener('mouseup', () => { isDown = false; carousel.style.cursor = 'pointer'; carousel.style.userSelect = 'auto'; });
-    carousel.addEventListener('mousemove', e => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - carousel.offsetLeft;
-      carousel.scrollLeft = scrollLeft - (x - startX) * 2;
-    });
-  });
 
   /* ─── MENÇÕES ESTILO DISCORD ──────────────────── */
   let currentFocus = -1;
@@ -2324,16 +3452,12 @@
       html: `
         <div style="height:80vh;display:flex;flex-direction:column;">
           <div style="text-align:right;margin-bottom:10px;">
-            <a href="_preview-info.html"
+            <a href="/documento-comentario/${docId}/?download=1"
               style="display:inline-block;text-decoration:none;color:#fff;background:var(--primary);padding:8px 16px;border-radius:8px;font-weight:600;">
               📥 Baixar
             </a>
           </div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:#5a6b86;text-align:center;padding:24px;background:#f5f7fb;border-radius:8px;">
-            <div style="font-size:2.4rem;line-height:1">📄</div>
-            <div style="font-weight:700;color:#2b3a52;">Pré-visualização não incluída neste preview</div>
-            <div style="max-width:420px;font-size:.9rem;">No sistema real, este espaço mostra o documento anexado ao comentário. Ocultado aqui por conter dados reais.</div>
-          </div>
+          <iframe src="_preview-info.html" style="width:100%;height:100%;border:none;border-radius:8px;"></iframe>
         </div>`,
       showConfirmButton: false,
       showCloseButton: true,
@@ -2361,7 +3485,7 @@
 
     fetch(`/api/comentario/${id}/`, {
       method: 'POST',
-      headers: { 'X-CSRFToken': '8GDgTbv96UbDOnn4qYkWHfKpTWsMgvqF9ShPo34FNW8fjiauf3pUShTySOTtMHtf' },
+      headers: { 'X-CSRFToken': 'demo' },
       body: formData
     })
       .then(r => r.json())
@@ -2423,7 +3547,7 @@
   function toggleOk(id) {
     fetch(`/api/chamado/${id}/ok/`, {
       method: 'POST',
-      headers: { 'X-CSRFToken': '8GDgTbv96UbDOnn4qYkWHfKpTWsMgvqF9ShPo34FNW8fjiauf3pUShTySOTtMHtf' }
+      headers: { 'X-CSRFToken': 'demo' }
     })
       .then(r => r.json())
       .then(d => {
@@ -2488,6 +3612,6 @@
   }
 </script>
 
-<style>#__demoRibbon{position:fixed;bottom:12px;right:12px;z-index:99999;background:#ff385c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div><script src="static/demo-fill.js"></script></body>
+<style>#__demoRibbon{position:fixed;bottom:12px;left:12px;z-index:99999;background:#0b2e5c;color:#fff;font:600 12px/1 system-ui,sans-serif;padding:9px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.28);pointer-events:none}</style><div id="__demoRibbon">Preview real · dados de exemplo</div></body>
 
 </html>
